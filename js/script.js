@@ -13,7 +13,7 @@ let marker;
 // Init-funktion
 function init() {
     initMap("mapViewer");
-    document.querySelector("#test").addEventListener("click", getUserGeo);
+    document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
 
 }
 window.addEventListener("load", init);

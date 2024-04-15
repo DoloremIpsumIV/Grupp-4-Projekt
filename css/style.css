@@ -15,7 +15,7 @@ footer {
 }
 
 body {
-    background-color:aliceblue;
+    background-color: aliceblue;
     color: black;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
@@ -133,7 +133,7 @@ footer {
 }
 
 /* Button for geo-location */
-#test {
+#shareLocation {
     width: fit-content;
     cursor: pointer;
     text-decoration: underline;
@@ -146,6 +146,6 @@ footer {
     padding: 8px;
 }
 
-#test img {
+#shareLocation img {
     width: 15%;
 }
