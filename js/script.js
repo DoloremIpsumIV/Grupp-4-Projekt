@@ -1,20 +1,15 @@
-// Start position for the map, probably need to add the users long. and lat. in to this
 const place = {
     name: "Växjö",
     lat: 56.8795,
     lng: 14.8055,
     zoom: 16
-}
-
-let map; // Variable for the map
-let markers; // Potential variable for different markers
-let marker;
+}                   // Start position for the map
+let map;            // Variable for the map
 
 // Init function
 function init() {
     initMap("mapViewer");
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
-
 }
 window.addEventListener("load", init);
 
