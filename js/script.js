@@ -1,4 +1,4 @@
-// Startpositionen för kartan, får väl lägga in användarens longitude och latitude här
+// Start position for the map, probably need to add the users long. and lat. in to this
 const place = {
     name: "Växjö",
     lat: 56.8795,
@@ -6,11 +6,11 @@ const place = {
     zoom: 16
 }
 
-let map; // Variabel för kartan
-let markers; // Potentiell variabel för markörer
+let map; // Variable for the map
+let markers; // Potential variable for different markers
 let marker;
 
-// Init-funktion
+// Init function
 function init() {
     initMap("mapViewer");
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
@@ -18,7 +18,7 @@ function init() {
 }
 window.addEventListener("load", init);
 
-// Funktion för att initiera kartan
+// Function for initiation of the map
 function initMap(id) {
     map = L.map(id).setView([place.lat, place.lng], place.zoom);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -27,7 +27,7 @@ function initMap(id) {
     }).addTo(map);
 }
 
-// Funktion för att hämta data för användarens position
+// Function for gathering data regarding users position
 function getUserGeo() {
     navigator.geolocation.getCurrentPosition(function (position) {
         const latitude = position.coords.latitude;
@@ -36,7 +36,7 @@ function getUserGeo() {
     });
 }
 
-// Funktion som uppdaterar kartans position med användarens geo-data
+// Function that updates the position of the map with the geo-data
 function updateMapLoc(latitude, longitude) {
     console.log(latitude, longitude)
     map.setView([latitude, longitude], 16);
