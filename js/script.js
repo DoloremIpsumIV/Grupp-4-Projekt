@@ -8,7 +8,6 @@ let map;                    // Variable for the map
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
-let listArray;              // Array with list elements
 
 // Init function
 function init() {
@@ -49,7 +48,6 @@ async function fetchData() {
     if (response.ok) {
         let dataResponse = await response.json();
         showData(dataResponse);
-        //console.log(dataResponse.payload);
     }
     else console.log = "Error during fetch: " + response.status;
 }
@@ -57,19 +55,19 @@ async function fetchData() {
 // Function that displays data using a list 
 function showData(json) {
     const Footer = document.querySelector("#footer");
-    let jsonArray = json.payload;
+    const jsonArray = json.payload;
     const olElement = document.createElement("ol");
 
     for (let i = 0; i < jsonArray.length; i++) {
         const listItem = document.createElement("li");
-        listItem.appendChild(pElementConstructor(jsonArray[i])); 
+        listItem.appendChild(createParagraphElement(jsonArray[i])); 
         olElement.appendChild(listItem);
     }
-    //listArray = document.querySelector(".list");
     Footer.appendChild(olElement);
 }
 
-function pElementConstructor(data) {
+// Function that creates p elements, can easily be expanded upon
+function createParagraphElement(data) {
     const listItem = document.createElement("p");
     listItem.innerText = data.name;
     return listItem;
