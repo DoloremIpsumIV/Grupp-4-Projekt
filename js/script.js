@@ -1,13 +1,14 @@
-const linne = {
+const linne = {             // Start position for the map
     name: "LinnéUniversitetet",
     lat: 56.85462,
     lng: 14.83038,
     zoom: 16
-}                           // Start position for the map
+}
 let map;                    // Variable for the map
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
+let listArray;              // Array with list elements
 
 // Init function
 function init() {
@@ -47,7 +48,23 @@ async function fetchData() {
     let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=1")
     if (response.ok) {
         let dataResponse = await response.json();
-        console.log(dataResponse.payload);
+        showData(dataResponse);
+        //console.log(dataResponse.payload);
     }
     else console.log = "Error during fetch: " + response.status;
+}
+
+function showData(json) {
+    let Footer = document.querySelector("#footer");
+    const jsonArray = json.payload;
+    const list = document.createElement("ol");
+    list.id = "list";
+    Footer.appendChild(list);
+    listArray = document.querySelector("#list");
+
+    for (let i = 0; i < jsonArray.length; i++) {
+        const listItem = document.createElement("li");
+        listItem.innerText = jsonArray[i].name;
+        listArray.appendChild(listItem);
+    }
 }
