@@ -9,6 +9,8 @@ const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
 let listArray;              // Array with list elements
+const fragment = new DocumentFragment();
+let jsonArray;
 
 // Init function
 function init() {
@@ -54,17 +56,38 @@ async function fetchData() {
     else console.log = "Error during fetch: " + response.status;
 }
 
+// Function that displays data using a list 
 function showData(json) {
-    let Footer = document.querySelector("#footer");
-    const jsonArray = json.payload;
-    const list = document.createElement("ol");
-    list.id = "list";
-    Footer.appendChild(list);
+    const Footer = document.querySelector("#footer");
+    jsonArray = json.payload;
+    fragment.appendChild(document.createElement("ol"))
+    for (let i = 0; i < jsonArray.length; i++) {
+
+    const list = fragment.appendChild(document.createElement("li")).appendChild(test(i));
+    }
+    //list.id = "list";
+    //Footer.appendChild(list);
+
     listArray = document.querySelector("#list");
 
-    for (let i = 0; i < jsonArray.length; i++) {
-        const listItem = document.createElement("li");
-        listItem.innerText = jsonArray[i].name;
-        listArray.appendChild(listItem);
-    }
+    //for (let i = 0; i < jsonArray.length; i++) {
+    //    const listItem = fragment.appendChild(document.createElement("li"));
+    //    listItem.innerText = jsonArray[i].name;
+    //    //listArray.appendChild(listItem);
+    //}
+
+    Footer.appendChild(fragment);
+
+    //const li = fragment.appendChild(document.createElement("section"))
+    //    .appendChild(document.createElement("ul"))
+    //    .appendChild(document.createElement("li"));
+    //li.textContent = "hello world";
+}
+
+function test (num) {
+    let listItem;
+        listItem = (document.createElement("p"));
+        listItem.innerText = jsonArray[num].name;
+    return listItem;    
+
 }
