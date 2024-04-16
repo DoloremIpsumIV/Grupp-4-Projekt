@@ -60,10 +60,11 @@ async function fetchData() {
 function showData(json) {
     const Footer = document.querySelector("#footer");
     jsonArray = json.payload;
-    fragment.appendChild(document.createElement("ol"))
-    for (let i = 0; i < jsonArray.length; i++) {
 
-    const list = fragment.appendChild(document.createElement("li")).appendChild(test(i));
+    fragment.appendChild(document.createElement("ol"));
+
+    for (let i = 0; i < jsonArray.length; i++) {
+        const list = fragment.appendChild(document.createElement("li")).appendChild(test(i));
     }
     //list.id = "list";
     //Footer.appendChild(list);
@@ -77,17 +78,11 @@ function showData(json) {
     //}
 
     Footer.appendChild(fragment);
-
-    //const li = fragment.appendChild(document.createElement("section"))
-    //    .appendChild(document.createElement("ul"))
-    //    .appendChild(document.createElement("li"));
-    //li.textContent = "hello world";
 }
 
-function test (num) {
+function test(num) {
     let listItem;
-        listItem = (document.createElement("p"));
-        listItem.innerText = jsonArray[num].name;
-    return listItem;    
-
+    listItem = (document.createElement("p"));
+    listItem.innerText = jsonArray[num].name;
+    return listItem;
 }
