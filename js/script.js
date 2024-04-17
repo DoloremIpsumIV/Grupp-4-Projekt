@@ -49,7 +49,7 @@ async function fetchData() {
         let dataResponse = await response.json();
         showData(dataResponse);
     }
-    else console.log = "Error during fetch: " + response.status;
+    else console.log("Error during fetch: " + response.status);
 }
 
 // Function that displays data using a list 
@@ -57,11 +57,11 @@ function showData(json) {
     const Footer = document.querySelector("#footer");
     const jsonArray = json.payload;
     const olElement = document.createElement("ol");
-    const elementCreator = new CreateElements(jsonArray);
-    for (let i = 0; i < jsonArray.length; i++) {
+    const elementCreator = new CreateElements(jsonArray);           // Object that is used to construct elements on website
+
+    for (let i = 0; i < jsonArray.length; i++) {                    // Loop that constructs elements on page
         const listElements = document.createElement("li");
         listElements.appendChild(elementCreator.createParagraphElement(i));
-        olElement.appendChild(listElements);
         listElements.appendChild(elementCreator.createTitleElement(i));
         olElement.appendChild(listElements);
     }
