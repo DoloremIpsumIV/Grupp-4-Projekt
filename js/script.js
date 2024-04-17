@@ -60,7 +60,7 @@ function showData(json) {
 
     for (let i = 0; i < jsonArray.length; i++) {
         const listItem = document.createElement("li");
-        listItem.appendChild(createParagraphElement(jsonArray[i])); 
+        listItem.appendChild(createParagraphElement(jsonArray[i]));
         olElement.appendChild(listItem);
     }
     Footer.appendChild(olElement);

@@ -39,6 +39,8 @@ header {
     text-align: center;
     background-image: url("../images/640ecf23a93664001d8e2bbc.jpg");
     height: 120%;
+    margin-left: -20px;
+    margin-right: -20px;
 }
 
 /* Centering map and border-decoration */
@@ -138,14 +140,28 @@ footer {
     cursor: pointer;
     text-decoration: underline;
     display: block;
-    margin-left: 100px;
-    margin-top: 75px;
 
-    color: rgb(0, 0, 0);
+    color: rgb(245, 23, 23);
     font-size: 30px;
     padding: 8px;
 }
 
 #shareLocation img {
-    width: 15%;
+    position: absolute;
+    width: 2%;
+    top: 40%;
+    left: 58%;
+    transform: translate(-50%, -50%);
+}
+
+#adressTextBox {
+    height: 50px;
+    width: 350px;
+
+
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
 }
