@@ -57,18 +57,33 @@ function showData(json) {
     const Footer = document.querySelector("#footer");
     const jsonArray = json.payload;
     const olElement = document.createElement("ol");
-
+    const elementCreator = new CreateElements(jsonArray);
     for (let i = 0; i < jsonArray.length; i++) {
-        const listItem = document.createElement("li");
-        listItem.appendChild(createParagraphElement(jsonArray[i]));
-        olElement.appendChild(listItem);
+        const listElements = document.createElement("li");
+        listElements.appendChild(elementCreator.createParagraphElement(i));
+        olElement.appendChild(listElements);
+        listElements.appendChild(elementCreator.createTitleElement(i));
+        olElement.appendChild(listElements);
     }
     Footer.appendChild(olElement);
 }
 
-// Function that creates p elements, can easily be expanded upon
-function createParagraphElement(data) {
-    const listItem = document.createElement("p");
-    listItem.innerText = data.name;
-    return listItem;
+// Class that constructs any element based on method used
+class CreateElements {
+
+    constructor(data) {
+        this.data = data;                                           // Uses the array that contains all json data
+    }
+
+    createParagraphElement(index) {
+        const paragraphElement = document.createElement("h1");
+        paragraphElement.innerText = this.data[index].name;         // Changing the output of data can be done by changing what comes after the this.data[index] statement
+        return paragraphElement;
+    }
+
+    createTitleElement(index) {
+        const titleElement = document.createElement("p");
+        titleElement.innerText = this.data[index].description;      // Changing the output of data can be done by changing what comes after the this.data[index] statement
+        return titleElement;
+    }
 }
