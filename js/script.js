@@ -61,8 +61,8 @@ function showData(json) {
 
     for (let i = 0; i < jsonArray.length; i++) {                    // Loop that constructs elements on page
         const listElements = document.createElement("li");
-        listElements.appendChild(elementCreator.createParagraphElement(i));
         listElements.appendChild(elementCreator.createTitleElement(i));
+        listElements.appendChild(elementCreator.createParagraphElement(i));
         olElement.appendChild(listElements);
     }
     Footer.appendChild(olElement);
@@ -72,18 +72,26 @@ function showData(json) {
 class CreateElements {
 
     constructor(data) {
-        this.data = data;                                           // Uses the array that contains all json data
+        this.data = data;                                            // Uses the array that contains all json data
+        console.log(this.data)
     }
 
     createParagraphElement(index) {
-        const paragraphElement = document.createElement("h1");
-        paragraphElement.innerText = this.data[index].name;         // Changing the output of data can be done by changing what comes after the this.data[index] statement
+        const paragraphElement = document.createElement("p");
+        paragraphElement.innerText = this.data[index].description;  // Changing the output of data can be done by changing what comes after the this.data[index] statement
+        for (let i = 0; i < Object.keys(this.data[index]).length; i++) {
+            const objectData = Object.keys(this.data[index])[i];    // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
+            console.log(Object.keys(this.data[index])[i] + ": " + (this.data[index][objectData]));  
+            //paragraphElement.innerText = Object.keys(this.data[index])[i] + ": " + (this.data[index][objectData]);        // Early testing of printing all json data in one simple loop
+        }
+        //const objectData = Object.keys(this.data[index])[index];
         return paragraphElement;
     }
 
     createTitleElement(index) {
-        const titleElement = document.createElement("p");
-        titleElement.innerText = this.data[index].description;      // Changing the output of data can be done by changing what comes after the this.data[index] statement
+        const titleElement = document.createElement("h1");
+        titleElement.innerText = this.data[index].name;               // Changing the output of data can be done by changing what comes after the this.data[index] statement
         return titleElement;
     }
+
 }
