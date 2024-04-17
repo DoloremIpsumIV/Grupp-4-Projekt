@@ -81,8 +81,8 @@ class CreateElements {
         paragraphElement.innerText = this.data[index].description;  // Changing the output of data can be done by changing what comes after the this.data[index] statement
         for (let i = 0; i < Object.keys(this.data[index]).length; i++) {
             const objectData = Object.keys(this.data[index])[i];    // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
-            console.log(Object.keys(this.data[index])[i] + ": " + (this.data[index][objectData]));  
-            //paragraphElement.innerText = Object.keys(this.data[index])[i] + ": " + (this.data[index][objectData]);        // Early testing of printing all json data in one simple loop
+            console.log(Object.keys(this.data[index])[i] + ": " + (this.data[index][objectData]));                          // Displays all data along with tags in console 
+            //paragraphElement.innerText = Object.keys(this.data[index])[i] + ": " + (this.data[index][objectData]);        // Early testing of creating all json data in one simple loop
         }
         //const objectData = Object.keys(this.data[index])[index];
         return paragraphElement;
