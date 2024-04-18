@@ -54,21 +54,22 @@ async function fetchData() {
 
 // Function that displays data using a list 
 function showData(json) {
-    const Footer = document.querySelector("#footer");
     const jsonArray = json.payload;
-    const olElement = document.createElement("ol");
 
+    let htmlCode = " ";
     for (let i = 0; i < jsonArray.length; i++) {
-        const listItem = document.createElement("li");
-        listItem.appendChild(createParagraphElement(jsonArray[i]));
-        olElement.appendChild(listItem);
-    }
-    Footer.appendChild(olElement);
-}
+        let restaurant = jsonArray[i];
 
-// Function that creates p elements, can easily be expanded upon
-function createParagraphElement(data) {
-    const listItem = document.createElement("p");
-    listItem.innerText = data.name;
-    return listItem;
+        const rating = parseFloat(restaurant.rating);
+
+        htmlCode +=
+            "<h4>" + restaurant.name + "</h4>" +
+            "<p>" + restaurant.description + "</p>" +
+            "<p>" + rating.toFixed(1) + " Stjärnor</p>" +
+            "<p>" + restaurant.avg_lunch_pricing + " kr</p>";
+
+    }
+
+    document.querySelector("#restaurantInfo").innerHTML = htmlCode;
+
 }

@@ -65,7 +65,7 @@ footer {
 }
 
 /* Centering restaurant information and text-decoration */
-#restaurantInfo h3,
+#restaurantInfo h4,
 #restaurantInfo p {
     text-align: center;
     font-size: 30px;
