@@ -63,10 +63,11 @@ function showData(json) {
         const rating = parseFloat(restaurant.rating);
 
         htmlCode +=
+            "<div>" +
             "<h4>" + restaurant.name + "</h4>" +
             "<p>" + restaurant.description + "</p>" +
             "<p>" + rating.toFixed(1) + " Stjärnor</p>" +
-            "<p>" + restaurant.avg_lunch_pricing + " kr</p>";
+            "<p>" + restaurant.avg_lunch_pricing + " kr</p>" + "</div>";
 
     }
 
