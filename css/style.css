@@ -58,6 +58,10 @@ header {
 
 #restaurantInfo {
     grid-area: restaurantInfo;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 footer {
@@ -172,6 +176,7 @@ footer {
     border-radius: 15px;
     margin: 20px;
     background-color: rgba(255, 255, 255, 0.836);
+    width: 40%;
 }
 
 #restaurantInfo div h4 {
