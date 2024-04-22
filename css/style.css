@@ -58,6 +58,10 @@ header {
 
 #restaurantInfo {
     grid-area: restaurantInfo;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 footer {
@@ -65,7 +69,7 @@ footer {
 }
 
 /* Centering restaurant information and text-decoration */
-#restaurantInfo h3,
+#restaurantInfo h4,
 #restaurantInfo p {
     text-align: center;
     font-size: 30px;
@@ -138,7 +142,6 @@ footer {
 #shareLocation {
     width: fit-content;
     cursor: pointer;
-    text-decoration: underline;
     display: block;
 
     color: rgb(245, 23, 23);
@@ -164,4 +167,113 @@ footer {
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 10px;
+}
+
+#restaurantInfo div {
+    padding: 18px;
+    border: solid 3px black;
+    border-radius: 15px;
+    margin: 20px;
+    background-color: rgba(255, 255, 255, 0.836);
+    width: 40%;
+}
+
+#restaurantInfo div h4 {
+    background-color: rgb(20, 116, 0);
+}
+
+#restaurantInfo div p:nth-child(even) {
+    background-color: rgba(128, 128, 128, 0.301);
+}
+
+#menuIcon,
+#menuCheckBox {
+    display: none;
+}
+
+@media screen and (max-width: 950px) {
+    .dropDownBtn {
+        width: fit-content;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    #restaurantInfo div {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #restaurantInfo div h4 {
+        font-size: 20px;
+    }
+
+    #filters button {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    body {
+        grid-template-columns: auto;
+        grid-template-areas:
+            "header"
+            "filters"
+            "mapViewer"
+            "restaurantInfo"
+            "footer";
+    }
+
+    #menuIcon {
+        background-image: url(../images/menu-bar.png);
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        cursor: pointer;
+
+        position: absolute;
+        left: 5px;
+    }
+
+    #menuCheckBox~div {
+        display: none;
+    }
+
+    #menuCheckBox:checked~div {
+        display: flex;
+    }
+
+    .dropDownContent {
+        flex-direction: column;
+    }
+
+    .dropDownBtn {
+        margin-top: 10px;
+    }
+
+    #filters {
+        background-image: none;
+    }
+
+    #adressTextBox {
+        position: relative;
+        margin-top: 30px;
+        width: 200px;
+    }
+
+    #typeOfRestaurant,
+    #distance,
+    #priceRange {
+        margin-left: 10px;
+        margin-bottom: 30px;
+    }
+
+    #mapViewer {
+        height: 350px;
+    }
+
+    #restaurantInfo div {
+    width: 230px;
+    }
 }

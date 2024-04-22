@@ -54,7 +54,6 @@ async function fetchData() {
 
 // Function that displays data using a list 
 function showData(json) {
-    const Footer = document.querySelector("#footer");
     const jsonArray = json.payload;
     const olElement = document.createElement("ol");
     const elementCreator = new CreateElements(jsonArray);           // Object that is used to construct elements on website
@@ -93,5 +92,23 @@ class CreateElements {
         titleElement.innerText = this.data[index].name;               // Changing the output of data can be done by changing what comes after the this.data[index] statement
         return titleElement;
     }
+
+
+    //let htmlCode = " ";
+    //for (let i = 0; i < jsonArray.length; i++) {
+    //    let restaurant = jsonArray[i];
+    //
+    //    const rating = parseFloat(restaurant.rating);
+    //
+    //    htmlCode +=
+    //        "<div>" +
+    //        "<h4>" + restaurant.name + "</h4>" +
+    //        "<p>" + restaurant.description + "</p>" +
+    //        "<p>" + rating.toFixed(1) + " Stjärnor</p>" +
+    //        "<p>" + restaurant.avg_lunch_pricing + " kr</p>" + "</div>";
+    //
+    //}
+    //
+    //document.querySelector("#restaurantInfo").innerHTML = htmlCode;
 
 }
