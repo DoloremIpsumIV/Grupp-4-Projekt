@@ -11,8 +11,6 @@ let longitude = linne.lng;  // Longitude of user
 
 // Init function
 function init() {
-    console.log("56.8655872 14.8307968")
-    console.log("56.852552 14.817572")
     getUserGeo();
     initMap("mapViewer");
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
@@ -27,8 +25,6 @@ function initMap(id) {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-    console.log(latitude, longitude)
-
 }
 
 // Function for gathering data regarding users position
@@ -37,8 +33,6 @@ function getUserGeo() {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         updateMapLoc(latitude, longitude);
-        console.log(latitude, longitude)
-
     });
 }
 
@@ -60,7 +54,7 @@ async function fetchData() {
 
 // Function that displays data using a list 
 function showData(json) {
-    const footer = document.querySelector("#footer");
+    const restaurantContainer = document.querySelector("#restaurantContainer");
     const jsonArray = json.payload;
     const divElement = document.createElement("div");
     divElement.id = "restaurantInfo";
@@ -72,7 +66,7 @@ function showData(json) {
         listElements.appendChild(elementCreator.createParagraphElement(i));
         divElement.appendChild(listElements);
     }
-    footer.appendChild(divElement);
+    restaurantContainer.appendChild(divElement);
 }
 
 // Class that constructs any element based on method used
@@ -102,9 +96,8 @@ class CreateElements {
             //    paragraphElement.innerText = data[i] + ": " + (this.data[index][key]);
             //    fragment.appendChild(paragraphElement);
             //
-            //    //paragraphElement.innerText = this.data[index].description;  // Changing the output of data can be done by changing what comes after the this.data[index] statement
+            //    paragraphElement.innerText = this.data[index].description;  // Changing the output of data can be done by changing what comes after the this.data[index] statement
         }
-
         return fragment;
     }
 
@@ -114,5 +107,4 @@ class CreateElements {
 
         return titleElement;
     }
-
 }
