@@ -259,6 +259,7 @@ footer {
     #adressTextBox {
         position: relative;
         margin-top: 30px;
+        width: 200px;
     }
 
     #typeOfRestaurant,
@@ -270,5 +271,9 @@ footer {
 
     #mapViewer {
         height: 350px;
+    }
+
+    #restaurantInfo div {
+    width: 230px;
     }
 }
