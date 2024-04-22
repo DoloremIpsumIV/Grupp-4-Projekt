@@ -58,9 +58,9 @@ function showData(json) {
     const jsonArray = json.payload;
     const divElement = document.createElement("div");
     divElement.id = "restaurantInfo";
-    const elementCreator = new CreateElements(jsonArray);           // Object that is used to construct elements on website
+    const elementCreator = new CreateElements(jsonArray);                  // Object that is used to construct elements on website
 
-    for (let i = 0; i < jsonArray.length; i++) {                    // Loop that constructs elements on page
+    for (let i = 0; i < jsonArray.length; i++) {                           // Loop that constructs elements on page
         const listElements = document.createElement("div");
         listElements.appendChild(elementCreator.createTitleElement(i));
         listElements.appendChild(elementCreator.createParagraphElement(i));
@@ -73,45 +73,34 @@ function showData(json) {
 class CreateElements {
 
     constructor(data) {
-        this.data = data;                                            // Uses the array that contains all json data
+        this.data = data;                                                   // Uses the array that contains all json data
     }
 
     createParagraphElement(index) {
         const fragment = new DocumentFragment();
-        for (let i = 0; i < Object.keys(this.data[index]).length; i++) {
+        //const data = Object.keys(this.data[index]);
+        const propertyToShow = ['id', 'name', 'rating', 'type'];            // Data that will be displayed
+        //for (let i = 0; i < data.length; i++) {                           // Loop that will display all data   
+        //    const paragraphElement = document.createElement("p");
+        //    const key = data[i];                                          // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
+        //    paragraphElement.innerText = data[i] + ": " + (this.data[index][key]);
+        //    fragment.appendChild(paragraphElement);
+        //
+        //    //paragraphElement.innerText = this.data[index].description;   // Changing the output of data can be done by changing what comes after the this.data[index] statement
+        //}
+        for (let i = 0; i < propertyToShow.length; i++) {
+            const property = propertyToShow[i];
             const paragraphElement = document.createElement("p");
-            const objectData = Object.keys(this.data[index])[i];    // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
-            paragraphElement.innerText = Object.keys(this.data[index])[i] + ": " + (this.data[index][objectData]);
+            paragraphElement.innerText = this.data[index][property];
             fragment.appendChild(paragraphElement);
-
-            //paragraphElement.innerText = this.data[index].description;  // Changing the output of data can be done by changing what comes after the this.data[index] statement
-            //console.log(Object.keys(this.data[index])[i] + ": " + (this.data[index][objectData]));                          // Displays all data along with tags in console 
-            //paragraphElement.innerText = Object.keys(this.data[index])[i] + ": " + (this.data[index][objectData]);        // Early testing of creating all json data in one simple loop
         }
-        //const objectData = Object.keys(this.data[index])[index];
         return fragment;
     }
 
     createTitleElement(index) {
         const titleElement = document.createElement("h4");
-        titleElement.innerText = this.data[index].name;               // Changing the output of data can be done by changing what comes after the this.data[index] statement
+        titleElement.innerText = this.data[index].name;                    // Changing the output of data can be done by changing what comes after the this.data[index] statement
         return titleElement;
     }
 
 }
-//let htmlCode = " ";
-//for (let i = 0; i < jsonArray.length; i++) {
-//    let restaurant = jsonArray[i];
-//
-//    const rating = parseFloat(restaurant.rating);
-//
-//    htmlCode +=
-//        "<div>" +
-//        "<h4>" + restaurant.name + "</h4>" +
-//        "<p>" + restaurant.description + "</p>" +
-//        "<p>" + rating.toFixed(1) + " Stjärnor</p>" +
-//        "<p>" + restaurant.avg_lunch_pricing + " kr</p>" + "</div>";
-//
-//}
-//
-//document.querySelector("#Footer").innerHTML = htmlCode;
