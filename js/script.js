@@ -11,8 +11,8 @@ let longitude = linne.lng;  // Longitude of user
 
 // Init function
 function init() {
-    initMap("mapViewer");
     getUserGeo();
+    initMap("mapViewer");
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
 }
@@ -54,6 +54,7 @@ async function fetchData() {
 
 // Function that displays data using a list 
 function showData(json) {
+    const Footer = document.querySelector("#footer");
     const jsonArray = json.payload;
     const olElement = document.createElement("ol");
     const elementCreator = new CreateElements(jsonArray);           // Object that is used to construct elements on website
@@ -93,7 +94,7 @@ class CreateElements {
         return titleElement;
     }
 
-
+}
     //let htmlCode = " ";
     //for (let i = 0; i < jsonArray.length; i++) {
     //    let restaurant = jsonArray[i];
@@ -110,5 +111,3 @@ class CreateElements {
     //}
     //
     //document.querySelector("#restaurantInfo").innerHTML = htmlCode;
-
-}
