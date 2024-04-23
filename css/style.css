@@ -191,6 +191,10 @@ restaurantInfo {
     display: none;
 }
 
+#logo {
+    width: 200px;
+}
+
 @media screen and (max-width: 950px) {
     .dropDownBtn {
         width: fit-content;
