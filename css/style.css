@@ -10,7 +10,7 @@ html,
 body,
 nav,
 header,
-restaurantInfo {
+footer {
     margin: 10px;
 }
 
@@ -25,7 +25,7 @@ body {
         "filters"
         "mapViewer"
         "restaurantInfo"
-        "restaurantInfo";
+        "footer";
 }
 
 /* Declaring grid-areas */
@@ -34,6 +34,7 @@ header {
     text-align: center;
 }
 
+/* Class for the sticky header */
 .stickyHeader {
     position: fixed;
     top: 0;
@@ -47,6 +48,7 @@ header {
     padding-bottom: 10px;
 }
 
+/* Id for the container of the different buttons */
 #filters {
     grid-area: filters;
     text-align: center;
@@ -70,16 +72,12 @@ header {
     z-index: 100;
 }
 
+/* Id for where the dynamic data will be displayed */
 #restaurantInfo {
     grid-area: restaurantInfo;
-
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-restaurantInfo {
-    grid-area: restaurantInfo;
 }
 
 /* Centering restaurant information and text-decoration */
@@ -229,7 +227,7 @@ restaurantInfo {
     }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 460px) {
     body {
         grid-template-columns: auto;
         grid-template-areas:
