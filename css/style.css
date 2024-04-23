@@ -15,7 +15,7 @@ restaurantInfo {
 }
 
 body {
-    background-color: aliceblue;
+    background-color: #2d324fe1;
     color: black;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
@@ -37,8 +37,9 @@ header {
 #filters {
     grid-area: filters;
     text-align: center;
-    background-image: url("../images/640ecf23a93664001d8e2bbc.jpg");
-    height: 120%;
+    background-image: url("../images/background.png");
+    background-size: 1300px;
+    height: 400px;
     margin-left: -20px;
     margin-right: -20px;
 }
@@ -143,28 +144,31 @@ restaurantInfo {
     width: fit-content;
     cursor: pointer;
     display: block;
+    
 
-    color: rgb(245, 23, 23);
+    color: rgb(231, 44, 44);
     font-size: 30px;
     padding: 8px;
 }
 
+
 #shareLocation img {
+
     position: absolute;
     width: 2%;
-    top: 40%;
-    left: 58%;
+    top: 50%;
+    left: 31.5%;
+
     transform: translate(-50%, -50%);
 }
 
+/* text ruta*/ 
 #adressTextBox {
     height: 50px;
     width: 350px;
-
-
     position: absolute;
-    top: 40%;
-    left: 50%;
+    top: 50%;
+    left: 20%;
     transform: translate(-50%, -50%);
     border-radius: 10px;
 }
