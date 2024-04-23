@@ -42,10 +42,14 @@ header {
     margin: 0;
     margin-left: -20px;
     z-index: 200;
-    background: aliceblue;
+    padding-top: 7px;
+    
+}
 
-    padding-top: 20px;
-    padding-bottom: 10px;
+#headerContainer {
+    position: fixed;
+    margin-bottom: 20px;
+    background-color:  #2d324fe1;
 }
 
 /* Id for the container of the different buttons */
@@ -57,7 +61,7 @@ header {
     height: 400px;
     margin-left: -20px;
     margin-right: -20px;
-    margin-top: 25px;
+    margin-top: 70px;
 }
 
 /* Centering map and border-decoration */
@@ -211,6 +215,7 @@ header {
 
 #logo {
     width: 200px;
+    margin-top: -15px;
 }
 
 @media screen and (max-width: 950px) {
