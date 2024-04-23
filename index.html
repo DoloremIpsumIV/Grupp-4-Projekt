@@ -12,17 +12,19 @@
 </head>
 
 <body>
-    <header>"SnabbKäk"</header>
+    <div id="headerContainer">
+        <header class="stickyHeader" id="headerId">"SnabbKäk"</header>
+    </div>
     <div id="filters">
         <label for="menuCheckBox" id="menuIcon"></label>
         <input type="checkbox" id="menuCheckBox">
         <div id="typeOfRestaurant">
             <button class="dropDownBtn">Restaurangtyp</button>
-            <div class="dropDownContent">
+            <span class="dropDownContent">
                 <a>Pizzeria</a>
                 <a>Thaimat</a>
                 <a>A la carté</a>
-            </div>
+            </span>
         </div>
         <div id="distance">
             <button class="dropDownBtn">Avstånd &#40;km&#41;</button>
@@ -58,5 +60,6 @@
     </main>
     <footer id="footer">Sidfot</footer>
 </body>
+
 
 </html>

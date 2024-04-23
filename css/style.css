@@ -17,7 +17,7 @@ footer {
 body {
     background-color: aliceblue;
     color: black;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 
     display: grid;
     grid-template-areas:
@@ -32,6 +32,19 @@ body {
 header {
     grid-area: header;
     text-align: center;
+}
+
+.stickyHeader {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    margin-left: -20px;
+    z-index: 200;
+    background: aliceblue;
+
+    padding-top: 20px;
+    padding-bottom: 10px;
 }
 
 #filters {
@@ -54,6 +67,7 @@ header {
     margin-right: auto;
     margin-top: 50px;
     border: 3px solid black;
+    z-index: 100;
 }
 
 #restaurantInfo {
@@ -77,14 +91,15 @@ footer {
 
 /* Code for decoration of drop-down menus */
 .dropDownBtn {
-    background-color: rgba(255, 255, 255, 0.836);
-    color: rgb(0, 0, 0);
+    background-color: #000;
+    color: #fff;
     font-size: 20px;
-    padding: 18px;
-    border: solid 3px black;
-    border-radius: 15px;
+    padding: 0px;
     cursor: pointer;
     width: 300px;
+
+    position: relative;
+    display: block;
 }
 
 .dropDownContent {
@@ -274,6 +289,6 @@ footer {
     }
 
     #restaurantInfo div {
-    width: 230px;
+        width: 230px;
     }
 }
