@@ -15,14 +15,22 @@ const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
 
+var header;
+var position;
+
 // Init function
 function init() {
     initMap("mapViewer");
     getUserGeo();
+
+    header = document.getElementById("headerId");
+    position = header.offsetTop;
+
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
 }
 window.addEventListener("load", init);
+window.addEventListener("scroll", stickyHeader);
 
 // Function for initiation of the map
 function initMap(id) {
@@ -79,4 +87,12 @@ function showData(json) {
 
     document.querySelector("#restaurantInfo").innerHTML = htmlCode;
 
+}
+
+function stickyHeader() {
+    if (window.pageYOffset > position) {
+        header.classList.add("stickyHeader");
+    } else {
+        header.classList.remove("stickyHeader");
+    }
 }

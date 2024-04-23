@@ -10,14 +10,14 @@ html,
 body,
 nav,
 header,
-restaurantInfo {
+footer {
     margin: 10px;
 }
 
 body {
     background-color: aliceblue;
     color: black;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 
     display: grid;
     grid-template-areas:
@@ -25,7 +25,7 @@ body {
         "filters"
         "mapViewer"
         "restaurantInfo"
-        "restaurantInfo";
+        "footer";
 }
 
 /* Declaring grid-areas */
@@ -34,6 +34,21 @@ header {
     text-align: center;
 }
 
+/* Class for the sticky header */
+.stickyHeader {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    margin-left: -20px;
+    z-index: 200;
+    background: aliceblue;
+
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+/* Id for the container of the different buttons */
 #filters {
     grid-area: filters;
     text-align: center;
@@ -41,6 +56,7 @@ header {
     height: 120%;
     margin-left: -20px;
     margin-right: -20px;
+    margin-top: 25px;
 }
 
 /* Centering map and border-decoration */
@@ -52,20 +68,17 @@ header {
     max-width: 70%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 50px;
+    margin-top: 90px;
     border: 3px solid black;
+    z-index: 100;
 }
 
+/* Id for where the dynamic data will be displayed */
 #restaurantInfo {
     grid-area: restaurantInfo;
-
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-restaurantInfo {
-    grid-area: restaurantInfo;
 }
 
 /* Centering restaurant information and text-decoration */
@@ -77,14 +90,15 @@ restaurantInfo {
 
 /* Code for decoration of drop-down menus */
 .dropDownBtn {
-    background-color: rgba(255, 255, 255, 0.836);
-    color: rgb(0, 0, 0);
+    background-color: #000;
+    color: #fff;
     font-size: 20px;
-    padding: 18px;
-    border: solid 3px black;
-    border-radius: 15px;
+    padding: 0px;
     cursor: pointer;
     width: 300px;
+
+    position: relative;
+    display: block;
 }
 
 .dropDownContent {
@@ -218,7 +232,7 @@ restaurantInfo {
     }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 460px) {
     body {
         grid-template-columns: auto;
         grid-template-areas:
@@ -278,6 +292,6 @@ restaurantInfo {
     }
 
     #restaurantInfo div {
-    width: 230px;
+        width: 230px;
     }
 }
