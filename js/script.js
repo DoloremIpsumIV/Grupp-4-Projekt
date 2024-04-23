@@ -4,6 +4,12 @@ const linne = {             // Start position for the map
     lng: 14.83038,
     zoom: 16
 }
+const marker = L.icon({    // Definition of a marker with an image
+    iconUrl: '/images/Marker.png',
+
+    iconSize: [38, 45],
+    iconAnchor: [45, 36]
+});
 let map;                    // Variable for the map
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 let latitude = linne.lat;   // Latitude of user
@@ -39,7 +45,7 @@ function getUserGeo() {
 // Function that updates the position of the map with the geo-data
 function updateMapLoc(latitude, longitude) {
     map.setView([latitude, longitude], 16);
-    L.marker([latitude, longitude]).addTo(map);
+    L.marker([latitude, longitude], { icon: marker }).addTo(map);
 }
 
 // Async function that collects restaurant data
