@@ -10,7 +10,7 @@ html,
 body,
 nav,
 header,
-footer {
+restaurantInfo {
     margin: 10px;
 }
 
@@ -25,7 +25,7 @@ body {
         "filters"
         "mapViewer"
         "restaurantInfo"
-        "footer";
+        "restaurantInfo";
 }
 
 /* Declaring grid-areas */
@@ -78,8 +78,8 @@ header {
     justify-content: center;
 }
 
-footer {
-    grid-area: footer;
+restaurantInfo {
+    grid-area: restaurantInfo;
 }
 
 /* Centering restaurant information and text-decoration */
@@ -237,7 +237,7 @@ footer {
             "filters"
             "mapViewer"
             "restaurantInfo"
-            "footer";
+            "restaurantInfo";
     }
 
     #menuIcon {
