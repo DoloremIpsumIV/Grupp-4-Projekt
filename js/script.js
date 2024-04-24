@@ -23,7 +23,7 @@ function init() {
     initMap("mapViewer");
     getUserGeo();
 
-    header = document.getElementById("headerId");
+    header = document.getElementById("headerContainer");
     position = header.offsetTop;
 
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
