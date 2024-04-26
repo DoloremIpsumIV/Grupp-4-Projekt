@@ -28,12 +28,6 @@ body {
         "footer";
 }
 
-/* Declaring grid-areas */
-header {
-    grid-area: header;
-    text-align: center;
-}
-
 /* Class for the sticky header */
 .stickyHeader {
     position: fixed;
@@ -43,13 +37,15 @@ header {
     margin-left: -20px;
     z-index: 200;
     padding-top: 7px;
-    
 }
 
+/* Declaring grid-areas */
 #headerContainer {
+    grid-area: header;
+
     position: fixed;
     margin-bottom: 20px;
-    background-color:  #2d324fe1;
+    background-color: #2d324fe1;
 }
 
 /* Id for the container of the different buttons */
@@ -165,7 +161,7 @@ header {
     width: fit-content;
     cursor: pointer;
     display: block;
-    
+
 
     color: rgb(231, 44, 44);
     font-size: 30px;
@@ -174,7 +170,6 @@ header {
 
 
 #shareLocation img {
-
     position: absolute;
     width: 2%;
     top: 50%;
@@ -183,7 +178,7 @@ header {
     transform: translate(-50%, -50%);
 }
 
-/* text ruta*/ 
+/* Textruta */
 #adressTextBox {
     height: 50px;
     width: 350px;
@@ -216,7 +211,7 @@ header {
     display: none;
 }
 
-#logo {
+#headerContainer img {
     width: 200px;
     margin-top: -15px;
 }
@@ -226,7 +221,7 @@ header {
     margin-left: -20px;
     width: 103%;
     height: 360px;
-    background-color: #fdfdfc ;
+    background-color: #fdfdfc;
 }
 
 #footerLogo {

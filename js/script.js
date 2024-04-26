@@ -16,6 +16,7 @@ let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
 
 var header;
+var headerImg;
 var position;
 
 // Init function
@@ -23,14 +24,17 @@ function init() {
     initMap("mapViewer");
     getUserGeo();
 
-    header = document.getElementById("headerContainer");
+    header = document.querySelector("#headerContainer");
+    headerImg = document.querySelector("#headerContainer img");
+
     position = header.offsetTop;
+    position = headerImg.offsetTop;
+    stickyHeader();
 
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
 }
 window.addEventListener("load", init);
-window.addEventListener("scroll", stickyHeader);
 
 // Function for initiation of the map
 function initMap(id) {
