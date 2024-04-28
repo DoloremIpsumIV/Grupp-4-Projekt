@@ -1,3 +1,4 @@
+// Global variables
 const linne = {             // Start position for the map
     name: "LinnéUniversitetet",
     lat: 56.85462,
@@ -14,17 +15,18 @@ let map;                    // Variable for the map
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
-
-var header;
-var position;
+var header;                 // Variable for header element
+var position;               // Position data of user
+let flag = false;           // Flag for checking stickyHeader
 
 // Init function
 function init() {
     initMap("mapViewer");
     getUserGeo();
 
-    header = document.getElementById("headerContainer");
+    header = document.querySelector("#headerContainer");
     position = header.offsetTop;
+    console.log(position)
 
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
@@ -47,6 +49,7 @@ function getUserGeo() {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         updateMapLoc(latitude, longitude);
+        console.log(position)
     });
 }
 
@@ -63,7 +66,7 @@ async function fetchData() {
         let dataResponse = await response.json();
         showData(dataResponse);
     }
-    else console.log = "Error during fetch: " + response.status;
+    else console.log("Error during fetch: " + response.status);
 }
 
 // Function that displays data using a list 
@@ -86,13 +89,17 @@ function showData(json) {
     }
 
     document.querySelector("#restaurantInfo").innerHTML = htmlCode;
-
+    console.log(position)
 }
 
+// Function for changing sticky header
 function stickyHeader() {
-    if (window.pageYOffset > position) {
+    if (window.scrollY > position && !flag) {
         header.classList.add("stickyHeader");
-    } else {
+        flag = true;
+    }
+    else if (window.scrollY == position) {
         header.classList.remove("stickyHeader");
+        flag = false;
     }
 }
