@@ -92,17 +92,17 @@ function stickyHeader() {
 function showData(json) {
     const restaurantContainer = document.querySelector("#restaurantInfo");
     const jsonArray = json.payload;
-    const elementCreator = new CreateElements(jsonArray);                  // Object that is used to construct elements on website
+    const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
 
-    for (let i = 0; i < jsonArray.length; i++) {                           // Loop that constructs elements on page
+    for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
         const listElements = document.createElement("div");
-        listElements.appendChild(elementCreator.createElements(i));
+        listElements.appendChild(elementBuilder.renderElement(i));
         restaurantContainer.appendChild(listElements);
     }
 }
 
 // Class that constructs any element based on method used
-class CreateElements {
+class ElementConstructor {
 
     constructor(data) {
         this.data = data;                                                    // Uses the array that contains all JSON data
@@ -110,7 +110,7 @@ class CreateElements {
         this.sortedDistances = this.distances.slice().sort((a, b) => a - b); // Distance array sortend in ascending order
     }
 
-    createElements(index) {
+    renderElement(index) {
         const fragment = new DocumentFragment();
         const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km'];  // Data that will be displayed
         const data = Object.keys(this.data[index]);
