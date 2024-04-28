@@ -26,7 +26,6 @@ function init() {
 
     header = document.querySelector("#headerContainer");
     position = header.offsetTop;
-    console.log(position)
 
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
@@ -49,7 +48,6 @@ function getUserGeo() {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         updateMapLoc(latitude, longitude);
-        console.log(position)
     });
 }
 
@@ -89,7 +87,6 @@ function showData(json) {
     }
 
     document.querySelector("#restaurantInfo").innerHTML = htmlCode;
-    console.log(position)
 }
 
 // Function for changing sticky header
