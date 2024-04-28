@@ -15,7 +15,7 @@ let map;                    // Variable for the map
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
-let radius = 1;
+let radius = 1;             // Radius for search fetch
 var header;                 // Variable for header element
 var position;               // Position data of user
 let flag = false;           // Flag for checking stickyHeader
