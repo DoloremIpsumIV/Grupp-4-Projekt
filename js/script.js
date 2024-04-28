@@ -97,7 +97,11 @@ function showData(json) {
 class CreateElements {
 
     constructor(data) {
-        this.data = data;                                                   // Uses the array that contains all json data
+        this.data = data;                                                // Uses the array that contains all JSON data
+        const distances = this.data.map(item => item.distance_in_km);
+        const sortedDistances = distances.slice().sort((a, b) => a - b); // For ascending order
+        console.log(sortedDistances)
+
     }
 
     createParagraphElement(index) {
@@ -107,16 +111,15 @@ class CreateElements {
 
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = propertyToShow[i];
-            console.log(this.data[index][propertyToShow[4]])
             const paragraphElement = document.createElement("p");
             paragraphElement.innerText = property + ": " + this.data[index][property];
+            fragment.appendChild(paragraphElement);
         }
 
         for (let i = 0; i < data.length; i++) {                           // Loop that will display all data   
             const key = data[i];                                          // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
             //console.log(data[i] + ": " + (this.data[index][key]))
         }
-        console.log(array);
         return fragment;
     }
 
@@ -129,11 +132,8 @@ class CreateElements {
 }
 
 // Function that returns the bigger number
-function compare(a, b) {
-    if (a > b) {
-        return a;
-    }
-    else {
-        return b;
-    }
+function sortArray(arr) {
+    return arr.slice().sort(function (a, b) {
+        return a - b;       // For ascending order
+    });
 }
