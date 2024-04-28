@@ -105,20 +105,20 @@ class CreateElements {
     createParagraphElement(index) {
         const fragment = new DocumentFragment();
         const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km'];  // Data that will be displayed
-        const data = Object.keys(this.data[index]);
+        //const data = Object.keys(this.data[index]);
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
 
         for (let i = 0; i < propertyToShow.length; i++) {
-            const property = propertyToShow[i];
+            const property = String(propertyToShow[i]);
             const paragraphElement = document.createElement("p");
-            paragraphElement.innerText = property + ": " + this.data[distanceIndex][property];
+            paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property];
             fragment.appendChild(paragraphElement);
         }
 
-        for (let i = 0; i < data.length; i++) {                           // Loop that will display all data   
-            const key = data[i];                                          // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
-            //console.log(data[i] + ": " + (this.data[index][key]))
-        }
+        //for (let i = 0; i < data.length; i++) {                           // Loop that will display all data   
+        //    const key = data[i];                                          // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
+        //    //console.log(data[i] + ": " + (this.data[index][key]))
+        //}
         return fragment;
     }
 
