@@ -15,6 +15,7 @@ let map;                    // Variable for the map
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
+let radius = 1;
 var header;                 // Variable for header element
 var position;               // Position data of user
 let flag = false;           // Flag for checking stickyHeader
@@ -27,12 +28,20 @@ function init() {
     header = document.querySelector("#headerContainer");
     position = header.offsetTop;
 
+    let radiusDropdownElem = document.querySelector("#radius");
+    for (let i = 0; i < radiusDropdownElem.children.length; i++) {
+        radiusDropdownElem.children[i].addEventListener("click", () => setRadius(radiusDropdownElem.children[i].innerHTML));
+    }
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
 }
 window.addEventListener("load", init);
 window.addEventListener("scroll", stickyHeader);
 
+
+function setRadius(value) {
+    radius = value;
+}
 // Function for initiation of the map
 function initMap(id) {
     map = L.map(id).setView([linne.lat, linne.lng], linne.zoom);
@@ -59,7 +68,7 @@ function updateMapLoc(latitude, longitude) {
 
 // Async function that collects restaurant data
 async function fetchData() {
-    let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=1")
+    let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius);
     if (response.ok) {
         let dataResponse = await response.json();
         showData(dataResponse);
@@ -87,8 +96,7 @@ function showData(json) {
 
     for (let i = 0; i < jsonArray.length; i++) {                           // Loop that constructs elements on page
         const listElements = document.createElement("div");
-        listElements.appendChild(elementCreator.createTitleElement(i));
-        listElements.appendChild(elementCreator.createParagraphElement(i));
+        listElements.appendChild(elementCreator.createElements(i));
         restaurantContainer.appendChild(listElements);
     }
 }
@@ -102,11 +110,15 @@ class CreateElements {
         this.sortedDistances = this.distances.slice().sort((a, b) => a - b); // Distance array sortend in ascending order
     }
 
-    createParagraphElement(index) {
+    createElements(index) {
         const fragment = new DocumentFragment();
         const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km'];  // Data that will be displayed
-        //const data = Object.keys(this.data[index]);
+        const data = Object.keys(this.data[index]);
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
+
+        const titleElement = document.createElement("h4");
+        titleElement.innerText = this.data[distanceIndex].name;
+        fragment.appendChild(titleElement);
 
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = String(propertyToShow[i]);
@@ -115,17 +127,11 @@ class CreateElements {
             fragment.appendChild(paragraphElement);
         }
 
-        //for (let i = 0; i < data.length; i++) {                           // Loop that will display all data   
-        //    const key = data[i];                                          // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
-        //    //console.log(data[i] + ": " + (this.data[index][key]))
-        //}
+        for (let i = 0; i < data.length; i++) {                           // Loop that will display all data   
+            const key = data[i];                                          // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
+            console.log(data[i] + ": " + (this.data[index][key]))
+        }
         return fragment;
     }
 
-    createTitleElement(index) {
-        const titleElement = document.createElement("h4");
-        titleElement.innerText = this.data[index].name;                     // Changing the output of data can be done by changing what comes after the this.data[index] statement
-
-        return titleElement;
-    }
 }
