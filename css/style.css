@@ -10,14 +10,14 @@ html,
 body,
 nav,
 header,
-restaurantInfo {
+footer {
     margin: 10px;
 }
 
 body {
-    background-color: aliceblue;
+    background-color: #2d324fe1;
     color: black;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 
     display: grid;
     grid-template-areas:
@@ -25,7 +25,7 @@ body {
         "filters"
         "mapViewer"
         "restaurantInfo"
-        "restaurantInfo";
+        "footer";
 }
 
 /* Declaring grid-areas */
@@ -34,13 +34,34 @@ header {
     text-align: center;
 }
 
+/* Class for the sticky header */
+.stickyHeader {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    margin-left: -20px;
+    z-index: 200;
+    padding-top: 7px;
+    
+}
+
+#headerContainer {
+    position: fixed;
+    margin-bottom: 20px;
+    background-color:  #2d324fe1;
+}
+
+/* Id for the container of the different buttons */
 #filters {
     grid-area: filters;
     text-align: center;
-    background-image: url("../images/640ecf23a93664001d8e2bbc.jpg");
-    height: 120%;
+    background-image: url(../images/bakgrundPhoto.jpg);
+    background-size: 1300px;
+    height: 400px;
     margin-left: -20px;
     margin-right: -20px;
+    margin-top: 70px;
 }
 
 /* Centering map and border-decoration */
@@ -52,20 +73,17 @@ header {
     max-width: 70%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 50px;
+    margin-top: 90px;
     border: 3px solid black;
+    z-index: 100;
 }
 
+/* Id for where the dynamic data will be displayed */
 #restaurantInfo {
     grid-area: restaurantInfo;
-
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-restaurantInfo {
-    grid-area: restaurantInfo;
 }
 
 /* Centering restaurant information and text-decoration */
@@ -77,14 +95,18 @@ restaurantInfo {
 
 /* Code for decoration of drop-down menus */
 .dropDownBtn {
-    background-color: rgba(255, 255, 255, 0.836);
-    color: rgb(0, 0, 0);
+    background-color: #cdc4b570;
+    color: #2d324fe1;
     font-size: 20px;
-    padding: 18px;
-    border: solid 3px black;
-    border-radius: 15px;
+    padding: 10px;
     cursor: pointer;
     width: 300px;
+    border: solid #2d324fe1 1.5px;
+    border-radius: 2px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+    position: relative;
+    display: block;
 }
 
 .dropDownContent {
@@ -143,28 +165,31 @@ restaurantInfo {
     width: fit-content;
     cursor: pointer;
     display: block;
+    
 
-    color: rgb(245, 23, 23);
+    color: rgb(231, 44, 44);
     font-size: 30px;
     padding: 8px;
 }
 
+
 #shareLocation img {
+
     position: absolute;
     width: 2%;
-    top: 40%;
-    left: 58%;
+    top: 53%;
+    left: 30%;
+
     transform: translate(-50%, -50%);
 }
 
+/* text ruta*/ 
 #adressTextBox {
     height: 50px;
     width: 350px;
-
-
     position: absolute;
-    top: 40%;
-    left: 50%;
+    top: 53%;
+    left: 18.5%;
     transform: translate(-50%, -50%);
     border-radius: 10px;
 }
@@ -191,6 +216,25 @@ restaurantInfo {
     display: none;
 }
 
+#logo {
+    width: 200px;
+    margin-top: -15px;
+}
+
+#footer {
+    margin-top: 270px;
+    margin-left: -20px;
+    width: 103%;
+    height: 360px;
+    background-color: #fdfdfc ;
+}
+
+#footerLogo {
+    width: 300px;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
 @media screen and (max-width: 950px) {
     .dropDownBtn {
         width: fit-content;
@@ -214,7 +258,7 @@ restaurantInfo {
     }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 460px) {
     body {
         grid-template-columns: auto;
         grid-template-areas:
@@ -274,6 +318,6 @@ restaurantInfo {
     }
 
     #restaurantInfo div {
-    width: 230px;
+        width: 230px;
     }
 }
