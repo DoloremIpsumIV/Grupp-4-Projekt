@@ -83,17 +83,14 @@ function stickyHeader() {
 function showData(json) {
     const restaurantContainer = document.querySelector("#restaurantInfo");
     const jsonArray = json.payload;
-    const divElement = document.createElement("div");
-    divElement.id = "restaurantInfo";
     const elementCreator = new CreateElements(jsonArray);                  // Object that is used to construct elements on website
 
     for (let i = 0; i < jsonArray.length; i++) {                           // Loop that constructs elements on page
         const listElements = document.createElement("div");
         listElements.appendChild(elementCreator.createTitleElement(i));
         listElements.appendChild(elementCreator.createParagraphElement(i));
-        divElement.appendChild(listElements);
+        restaurantContainer.appendChild(listElements);
     }
-    restaurantContainer.appendChild(divElement);
 }
 
 // Class that constructs any element based on method used
@@ -110,21 +107,16 @@ class CreateElements {
 
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = propertyToShow[i];
+            console.log(this.data[index][propertyToShow[4]])
             const paragraphElement = document.createElement("p");
             paragraphElement.innerText = property + ": " + this.data[index][property];
-            fragment.appendChild(paragraphElement);
         }
 
         for (let i = 0; i < data.length; i++) {                           // Loop that will display all data   
             const key = data[i];                                          // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
-            console.log(data[i] + ": " + (this.data[index][key]))
-
-            //    const paragraphElement = document.createElement("p");
-            //    paragraphElement.innerText = data[i] + ": " + (this.data[index][key]);
-            //    fragment.appendChild(paragraphElement);
-            //
-            //    paragraphElement.innerText = this.data[index].description;  // Changing the output of data can be done by changing what comes after the this.data[index] statement
+            //console.log(data[i] + ": " + (this.data[index][key]))
         }
+        console.log(array);
         return fragment;
     }
 
@@ -133,5 +125,15 @@ class CreateElements {
         titleElement.innerText = this.data[index].name;                     // Changing the output of data can be done by changing what comes after the this.data[index] statement
 
         return titleElement;
+    }
+}
+
+// Function that returns the bigger number
+function compare(a, b) {
+    if (a > b) {
+        return a;
+    }
+    else {
+        return b;
     }
 }
