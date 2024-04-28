@@ -97,22 +97,21 @@ function showData(json) {
 class CreateElements {
 
     constructor(data) {
-        this.data = data;                                                // Uses the array that contains all JSON data
-        const distances = this.data.map(item => item.distance_in_km);
-        const sortedDistances = distances.slice().sort((a, b) => a - b); // For ascending order
-        console.log(sortedDistances)
-
+        this.data = data;                                                    // Uses the array that contains all JSON data
+        this.distances = this.data.map(item => item.distance_in_km);         // Array with all distance values
+        this.sortedDistances = this.distances.slice().sort((a, b) => a - b); // Distance array sortend in ascending order
     }
 
     createParagraphElement(index) {
         const fragment = new DocumentFragment();
-        const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km'];            // Data that will be displayed
+        const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km'];  // Data that will be displayed
         const data = Object.keys(this.data[index]);
+        const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
 
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = propertyToShow[i];
             const paragraphElement = document.createElement("p");
-            paragraphElement.innerText = property + ": " + this.data[index][property];
+            paragraphElement.innerText = property + ": " + this.data[distanceIndex][property];
             fragment.appendChild(paragraphElement);
         }
 
@@ -129,11 +128,4 @@ class CreateElements {
 
         return titleElement;
     }
-}
-
-// Function that returns the bigger number
-function sortArray(arr) {
-    return arr.slice().sort(function (a, b) {
-        return a - b;       // For ascending order
-    });
 }
