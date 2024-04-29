@@ -29,17 +29,17 @@ function init() {
 
     header = document.querySelector("#headerContainer");
     headerImg = document.querySelector("#headerContainer img");
+    loader = document.querySelector("#loaderId");
 
     position = header.offsetTop;
     position = headerImg.offsetTop;
     stickyHeader();
 
-    loader = document.querySelector("#loaderId");
-
     let radiusDropdownElem = document.querySelector("#radius");
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
         radiusDropdownElem.children[i].addEventListener("click", () => setRadius(radiusDropdownElem.children[i].innerHTML));
     }
+
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
 }
@@ -71,7 +71,6 @@ function newUserMarker(e) {
     latitude = e.latlng.lat;
     longitude = e.latlng.lng;
 }
-
 
 // Function for gathering data regarding users position
 function getUserGeo() {
@@ -109,6 +108,16 @@ function stickyHeader() {
         header.classList.remove("stickyHeader");
         flag = false;
     }
+}
+
+// Function that adds CSS-class in order to show loader
+function initLoader() {
+    loader.classList.add("show");
+}
+
+// Function that removes CSS-class in order to hide loader
+function stopLoader() {
+    loader.classList.remove("show");
 }
 
 // Function that displays data using a list 
@@ -154,18 +163,8 @@ class ElementConstructor {
 
         //for (let i = 0; i < data.length; i++) {                           // Loop that will display all data   
         //    const key = data[i];                                          // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
-        //    console.log(data[i] + ": " + (this.data[index][key]))
+        //    console.log(data[i] + ": " + (this.data[index][key]))         // Usefull to see what options we have for displayed data
         //}
         return fragment;
     }
-}
-
-// Function that adds CSS-class in order to show loader
-function initLoader() {
-    loader.classList.add("show");
-}
-
-// Function that removes CSS-class in order to hide loader
-function stopLoader() {
-    loader.classList.remove("show");
 }
