@@ -28,12 +28,6 @@ body {
         "footer";
 }
 
-/* Declaring grid-areas */
-header {
-    grid-area: header;
-    text-align: center;
-}
-
 /* Class for the sticky header */
 .stickyHeader {
     position: fixed;
@@ -43,13 +37,15 @@ header {
     margin-left: -20px;
     z-index: 200;
     padding-top: 7px;
-    
 }
 
+/* Declaring grid-areas */
 #headerContainer {
+    grid-area: header;
+
     position: fixed;
     margin-bottom: 20px;
-    background-color:  #2d324fe1;
+    background-color: #2d324fe1;
 }
 
 /* Id for the container of the different buttons */
@@ -165,7 +161,7 @@ header {
     width: fit-content;
     cursor: pointer;
     display: block;
-    
+
 
     color: rgb(231, 44, 44);
     font-size: 30px;
@@ -174,7 +170,6 @@ header {
 
 
 #shareLocation img {
-
     position: absolute;
     width: 2%;
     top: 53%;
@@ -183,7 +178,7 @@ header {
     transform: translate(-50%, -50%);
 }
 
-/* text ruta*/ 
+/* Textbox */
 #adressTextBox {
     height: 50px;
     width: 350px;
@@ -216,7 +211,7 @@ header {
     display: none;
 }
 
-#logo {
+#headerContainer img {
     width: 200px;
     margin-top: -15px;
 }
@@ -226,13 +221,67 @@ header {
     margin-left: -20px;
     width: 103%;
     height: 360px;
-    background-color: #fdfdfc ;
+    background-color: #fdfdfc;
 }
 
 #footerLogo {
     width: 300px;
     margin-top: 20px;
     margin-left: 10px;
+}
+
+/* Code for loader */
+.loaderClass {
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(128, 128, 128, 0.767);
+    z-index: 1000;
+    transition: opacity 2.5s;
+    pointer-events: none;
+}
+
+.loaderClass h1 {
+    font-size: 20px;
+}
+
+.loaderClass .loaderContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loaderClass.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.loadingRing {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+.loadingRing {
+    margin: 8px;
+    border-radius: 70%;
+    border: 8px solid #000;
+    border-color: #000 #000 transparent;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media screen and (max-width: 950px) {
@@ -298,12 +347,6 @@ header {
 
     #filters {
         background-image: none;
-    }
-
-    #adressTextBox {
-        position: relative;
-        margin-top: 30px;
-        width: 200px;
     }
 
     #typeOfRestaurant,

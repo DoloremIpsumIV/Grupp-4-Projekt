@@ -15,9 +15,15 @@ let map;                    // Variable for the map
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
+
 var header;                 // Variable for header element
-var position;               // Position data of user
 let flag = false;           // Flag for checking stickyHeader
+
+var header; // The div container for the header
+var headerImg; // The image inside the div header container
+var position; // The position of the header
+
+var loader; // Declaring variabel for the div containing loader
 
 // Init function
 function init() {
@@ -25,13 +31,18 @@ function init() {
     getUserGeo();
 
     header = document.querySelector("#headerContainer");
+    headerImg = document.querySelector("#headerContainer img");
+
     position = header.offsetTop;
+    position = headerImg.offsetTop;
+    stickyHeader();
+
+    loader = document.querySelector("#loaderId");
 
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
 }
 window.addEventListener("load", init);
-window.addEventListener("scroll", stickyHeader);
 
 // Function for initiation of the map
 function initMap(id) {
@@ -59,6 +70,7 @@ function updateMapLoc(latitude, longitude) {
 
 // Async function that collects restaurant data
 async function fetchData() {
+    initLoader();
     let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=1")
     if (response.ok) {
         let dataResponse = await response.json();
@@ -85,11 +97,11 @@ function showData(json) {
             "<p>" + restaurant.avg_lunch_pricing + " kr</p>" + "</div>";
 
     }
-
+    window.location.hash = "#restaurantInfo";
     document.querySelector("#restaurantInfo").innerHTML = htmlCode;
 }
 
-// Function for changing sticky header
+// Function that adds and removes the class for stickyheader 
 function stickyHeader() {
     if (window.scrollY > position && !flag) {
         header.classList.add("stickyHeader");
@@ -99,4 +111,18 @@ function stickyHeader() {
         header.classList.remove("stickyHeader");
         flag = false;
     }
+}
+
+// Function that adds CSS-class in order to show loader
+function initLoader() {
+    loader.classList.add("show");
+
+    setTimeout(function () {
+        stopLoader();
+    }, 3000);
+}
+
+// Function that removes CSS-class in order to hide loader
+function stopLoader() {
+    loader.classList.remove("show");
 }
