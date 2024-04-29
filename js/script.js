@@ -11,14 +11,16 @@ const marker = L.icon({    // Definition of a marker with an image
     iconSize: [38, 45],
     iconAnchor: [45, 36]
 });
-let map;                    // Variable for the map
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
+
+let map;                    // Variable for the map
 let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
 let radius = 1;             // Radius for search fetch
-var header;                 // Variable for header element
 let flag = false;           // Flag for checking stickyHeader
-var headerImg;              // The image inside the div header container
+
+var header;                 // Variable for header element
+//var headerImg;            // The image inside the div header container    // Används inte till något
 var position;               // The position of the header
 var loader;                 // Declaring variabel for the div containing loader
 
@@ -28,12 +30,10 @@ function init() {
     getUserGeo();
 
     header = document.querySelector("#headerContainer");
-    headerImg = document.querySelector("#headerContainer img");
+    //headerImg = document.querySelector("#headerContainer img");           // Används inte till något
     loader = document.querySelector("#loaderId");
 
     position = header.offsetTop;
-    position = headerImg.offsetTop;
-    stickyHeader();
 
     let radiusDropdownElem = document.querySelector("#radius");
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
@@ -42,6 +42,7 @@ function init() {
 
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
+    window.addEventListener("scroll", stickyHeader);
 }
 window.addEventListener("load", init);
 
@@ -70,6 +71,10 @@ function newUserMarker(e) {
 
     latitude = e.latlng.lat;
     longitude = e.latlng.lng;
+}
+
+function newRestaurantMarker(e) {
+
 }
 
 // Function for gathering data regarding users position
@@ -101,6 +106,7 @@ async function fetchData() {
 // Function for changing sticky header
 function stickyHeader() {
     if (window.scrollY > position && !flag) {
+        console.log("bruh")
         header.classList.add("stickyHeader");
         flag = true;
     }
