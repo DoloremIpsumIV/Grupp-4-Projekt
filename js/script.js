@@ -51,7 +51,20 @@ function initMap(id) {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+
+    userMarker = L.marker();
+    map.on("click", newUserMarker);
 }
+
+function newUserMarker(e) {
+    userMarker.setLatLng(e.latlng);
+    userMarker.addTo(map);
+    console.log(e.latlng)
+
+    latitude = e.latlng.lat;
+    longitude = e.latlng.lng;
+}
+
 
 // Function for gathering data regarding users position
 function getUserGeo() {
