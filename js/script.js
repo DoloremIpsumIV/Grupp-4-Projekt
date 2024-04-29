@@ -18,6 +18,7 @@ let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
 let radius = 1;             // Radius for search fetch
 let flag = false;           // Flag for checking stickyHeader
+let userMarker;             // Marker that places where the user clicks
 
 var header;                 // Variable for header element
 //var headerImg;            // The image inside the div header container    // Används inte till något
@@ -67,14 +68,14 @@ function initMap(id) {
 function newUserMarker(e) {
     userMarker.setLatLng(e.latlng);
     userMarker.addTo(map);
-    console.log(e.latlng)
 
     latitude = e.latlng.lat;
     longitude = e.latlng.lng;
 }
 
-function newRestaurantMarker(e) {
-
+// Function that adds markers to the map of all restaurants
+function newRestaurantMarker(lat, lng) {
+    L.marker([lat, lng]).addTo(map);
 }
 
 // Function for gathering data regarding users position
@@ -106,7 +107,6 @@ async function fetchData() {
 // Function for changing sticky header
 function stickyHeader() {
     if (window.scrollY > position && !flag) {
-        console.log("bruh")
         header.classList.add("stickyHeader");
         flag = true;
     }
@@ -133,11 +133,13 @@ function showData(json) {
     const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
 
     for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
+        newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng);
         const listElements = document.createElement("div");
         listElements.appendChild(elementBuilder.renderElement(i));
         restaurantContainer.appendChild(listElements);
     }
     stopLoader();
+    
     window.location.hash = "#restaurantInfo";
 }
 
