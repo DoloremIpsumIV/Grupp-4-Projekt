@@ -138,7 +138,7 @@ function showData(json) {
         listElements.appendChild(elementBuilder.renderElement(i));
         restaurantContainer.appendChild(listElements);
     }
-    
+
     stopLoader();
     window.location.hash = "#restaurantInfo";
 }
@@ -154,7 +154,7 @@ class ElementConstructor {
 
     renderElement(index) {
         const fragment = new DocumentFragment();
-        const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km'];  // Data that will be displayed
+        const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km', 'search_tags', 'avg_lunch_pricing', 'buffet_option'];  // Data that will be displayed
         //const data = Object.keys(this.data[index]);                                            // Switch out porperty to show with data to display all data in div elements
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
 
@@ -165,14 +165,18 @@ class ElementConstructor {
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = String(propertyToShow[i]);
             const paragraphElement = document.createElement("p");
-            paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property];
+            const parsedNumber = parseFloat((this.data[distanceIndex][property]).toString());
+
+            if (parsedNumber) {
+                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100
+            }
+            else {
+                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property];
+            }
+
             fragment.appendChild(paragraphElement);
         }
 
-        //for (let i = 0; i < data.length; i++) {                           // Loop that will display all data   
-        //    const key = data[i];                                          // Takes the array of json data and produces all tags, example: id, name, rating, type, etc.
-        //    console.log(data[i] + ": " + (this.data[index][key]))         // Usefull to see what options we have for displayed data
-        //}
         return fragment;
     }
 }
