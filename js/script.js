@@ -9,7 +9,7 @@ const marker = L.icon({    // Definition of a marker with an image
     iconUrl: '/images/Marker.png',
 
     iconSize: [38, 45],
-    iconAnchor: [45, 36]
+    iconAnchor: [45, 36]    // The location of the anchor is based on the top left of the image, and changes with scale, needs tweeking for correct placement
 });
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 
@@ -75,7 +75,7 @@ function newUserMarker(e) {
 
 // Function that adds markers to the map of all restaurants
 function newRestaurantMarker(lat, lng) {
-    L.marker([lat, lng]).addTo(map);
+    L.marker([lat, lng], { icon: marker }).addTo(map);
 }
 
 // Function for gathering data regarding users position
@@ -90,7 +90,7 @@ function getUserGeo() {
 // Function that updates the position of the map with the geo-data
 function updateMapLoc(latitude, longitude) {
     map.setView([latitude, longitude], 16);
-    L.marker([latitude, longitude], { icon: marker }).addTo(map);
+    L.marker([latitude, longitude]).addTo(map);
 }
 
 // Async function that collects restaurant data
@@ -138,8 +138,8 @@ function showData(json) {
         listElements.appendChild(elementBuilder.renderElement(i));
         restaurantContainer.appendChild(listElements);
     }
-    stopLoader();
     
+    stopLoader();
     window.location.hash = "#restaurantInfo";
 }
 
@@ -155,7 +155,7 @@ class ElementConstructor {
     renderElement(index) {
         const fragment = new DocumentFragment();
         const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km'];  // Data that will be displayed
-        //const data = Object.keys(this.data[index]);
+        //const data = Object.keys(this.data[index]);                                            // Switch out porperty to show with data to display all data in div elements
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
 
         const titleElement = document.createElement("h4");
