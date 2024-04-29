@@ -17,8 +17,10 @@ let latitude = linne.lat;   // Latitude of user
 let longitude = linne.lng;  // Longitude of user
 let radius = 1;             // Radius for search fetch
 var header;                 // Variable for header element
-var position;               // Position data of user
 let flag = false;           // Flag for checking stickyHeader
+var headerImg;              // The image inside the div header container
+var position;               // The position of the header
+var loader;                 // Declaring variabel for the div containing loader
 
 // Init function
 function init() {
@@ -26,7 +28,13 @@ function init() {
     getUserGeo();
 
     header = document.querySelector("#headerContainer");
+    headerImg = document.querySelector("#headerContainer img");
+
     position = header.offsetTop;
+    position = headerImg.offsetTop;
+    stickyHeader();
+
+    loader = document.querySelector("#loaderId");
 
     let radiusDropdownElem = document.querySelector("#radius");
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
@@ -36,12 +44,12 @@ function init() {
     document.querySelector("#test").addEventListener("click", fetchData);
 }
 window.addEventListener("load", init);
-window.addEventListener("scroll", stickyHeader);
 
-
+// Function that defiens the value of the radius
 function setRadius(value) {
     radius = value;
 }
+
 // Function for initiation of the map
 function initMap(id) {
     map = L.map(id).setView([linne.lat, linne.lng], linne.zoom);
@@ -49,7 +57,21 @@ function initMap(id) {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+
+    userMarker = L.marker();
+    map.on("click", newUserMarker);
 }
+
+// Function that sets a new marker on the map 
+function newUserMarker(e) {
+    userMarker.setLatLng(e.latlng);
+    userMarker.addTo(map);
+    console.log(e.latlng)
+
+    latitude = e.latlng.lat;
+    longitude = e.latlng.lng;
+}
+
 
 // Function for gathering data regarding users position
 function getUserGeo() {
@@ -68,6 +90,7 @@ function updateMapLoc(latitude, longitude) {
 
 // Async function that collects restaurant data
 async function fetchData() {
+    initLoader();
     let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius);
     if (response.ok) {
         let dataResponse = await response.json();
@@ -99,6 +122,8 @@ function showData(json) {
         listElements.appendChild(elementBuilder.renderElement(i));
         restaurantContainer.appendChild(listElements);
     }
+    stopLoader();
+    window.location.hash = "#restaurantInfo";
 }
 
 // Class that constructs any element based on method used
@@ -133,5 +158,14 @@ class ElementConstructor {
         //}
         return fragment;
     }
+}
 
+// Function that adds CSS-class in order to show loader
+function initLoader() {
+    loader.classList.add("show");
+}
+
+// Function that removes CSS-class in order to hide loader
+function stopLoader() {
+    loader.classList.remove("show");
 }
