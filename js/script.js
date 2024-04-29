@@ -155,7 +155,7 @@ class ElementConstructor {
     renderElement(index) {
         const fragment = new DocumentFragment();
         const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km', 'search_tags', 'avg_lunch_pricing', 'buffet_option'];  // Data that will be displayed
-        //const data = Object.keys(this.data[index]);                                            // Switch out porperty to show with data to display all data in div elements
+        //const data = Object.keys(this.data[index]);                                            // Switch out property to show with data to display all data in div elements
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
 
         const titleElement = document.createElement("h4");
