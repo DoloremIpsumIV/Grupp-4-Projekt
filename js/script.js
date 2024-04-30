@@ -83,12 +83,15 @@ function getUserGeo() {
     navigator.geolocation.getCurrentPosition(function (position) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
-        updateMapLoc(latitude, longitude);
+        updateMapLoc();
+    }, function (error) {
+        console.log("Could not fetch user geolocation, Error: " + error)
+        updateMapLoc();
     });
 }
 
 // Function that updates the position of the map with the geo-data
-function updateMapLoc(latitude, longitude) {
+function updateMapLoc() {
     map.setView([latitude, longitude], 16);
     L.marker([latitude, longitude]).addTo(map);
 }
