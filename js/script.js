@@ -21,7 +21,6 @@ let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
 
 var header;                 // Variable for header element
-//var headerImg;            // The image inside the div header container    // Används inte till något
 var position;               // The position of the header
 var loader;                 // Declaring variabel for the div containing loader
 
@@ -31,7 +30,6 @@ function init() {
     getUserGeo();
 
     header = document.querySelector("#headerContainer");
-    //headerImg = document.querySelector("#headerContainer img");           // Används inte till något
     loader = document.querySelector("#loaderId");
 
     position = header.offsetTop;
@@ -107,7 +105,7 @@ async function fetchData() {
     else console.log("Error during fetch: " + response.status);
 }
 
-// Function for changing sticky header
+// Function for toggling sticky header
 function stickyHeader() {
     if (window.scrollY > position && !flag) {
         header.classList.add("stickyHeader");
