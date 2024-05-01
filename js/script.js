@@ -21,6 +21,7 @@ let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
 
 var header;                 // Variable for header element
+var headerImg;              // Variable for the image inside header
 var position;               // The position of the header
 var loader;                 // Declaring variabel for the div containing loader
 
@@ -30,9 +31,11 @@ function init() {
     getUserGeo();
 
     header = document.querySelector("#headerContainer");
+    headerImg = document.querySelector("#headerContainer img");
     loader = document.querySelector("#loaderId");
 
     position = header.offsetTop;
+    position = headerImg.offsetTop;
 
     let radiusDropdownElem = document.querySelector("#radius");
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
