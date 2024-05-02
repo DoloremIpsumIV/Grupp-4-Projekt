@@ -52,7 +52,7 @@ body {
 #filters {
     grid-area: filters;
     text-align: center;
-    background-image: url(../images/bakgrundPhoto.jpg);
+    background-image: url(../images/bakgrund.jpg);
     background-size: 1300px;
     height: 400px;
     margin-left: -20px;
@@ -91,15 +91,17 @@ body {
 
 /* Code for decoration of drop-down menus */
 .dropDownBtn {
-    background-color: #cdc4b570;
+    background-color: #d7cfc3c0;
     color: #2d324fe1;
-    font-size: 20px;
+    font-size: 22px;
     padding: 10px;
+    margin-top: 65px;
     cursor: pointer;
-    width: 300px;
-    border: solid #2d324fe1 1.5px;
+    width: 270px;
+    border: solid #2d324fe1 2px;
     border-radius: 2px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 6px;
 
     position: relative;
     display: block;
@@ -162,8 +164,6 @@ body {
     cursor: pointer;
     display: block;
 
-
-    color: rgb(231, 44, 44);
     font-size: 30px;
     padding: 8px;
 }
@@ -178,15 +178,25 @@ body {
     transform: translate(-50%, -50%);
 }
 
+
+#searchButton {
+    width: 100px;
+    position: absolute;
+    top: 80%;
+    left: 33%;
+}
+
+
 /* Textbox */
 #adressTextBox {
     height: 50px;
     width: 350px;
     position: absolute;
-    top: 53%;
+    top: 78.5%;
     left: 18.5%;
     transform: translate(-50%, -50%);
     border-radius: 10px;
+    
 }
 
 #restaurantInfo div {
