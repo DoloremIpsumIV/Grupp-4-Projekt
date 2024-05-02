@@ -166,6 +166,7 @@ body {
 
     font-size: 30px;
     padding: 8px;
+
 }
 
 
@@ -180,10 +181,17 @@ body {
 
 
 #searchButton {
-    width: 100px;
+    width: 60px;
+    height: 50px;
     position: absolute;
-    top: 80%;
-    left: 33%;
+    top: 70.5%;
+    left: 33.5%;
+    background-color: #4a6700d7;
+    border: solid 1px #899E1D;
+    color: white;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 
@@ -192,11 +200,33 @@ body {
     height: 50px;
     width: 350px;
     position: absolute;
-    top: 78.5%;
+    top: 75%;
     left: 18.5%;
     transform: translate(-50%, -50%);
     border-radius: 10px;
     
+}
+
+#sortButtons {
+   
+    display: flex;
+    margin-left: 880px;
+    margin-top: -65px;
+    font-size: 20px;
+    color: white;
+
+}
+
+#sortButtons button {
+    
+    height: 50px;
+    font-size: 20px;
+    width: 100px;
+    background-color:#c78e33;
+    color: white;
+    border: solid 2px #976d2a;
+    border-radius: 5px;
+    margin-left: 10px;
 }
 
 #restaurantInfo div {
