@@ -303,12 +303,18 @@ body {
     width: 103%;
     height: 360px;
     background-color: #fdfdfc;
+    background-image: url(../images/footer.jpg);
 }
 
 #footerLogo {
     width: 300px;
     margin-top: 20px;
     margin-left: 10px;
+}
+
+hr {
+    width: 500px;
+    margin-left: 0px;
 }
 
 /* Code for loader */
