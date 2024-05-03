@@ -19,13 +19,14 @@ body {
     color: black;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 
-    display: grid;
+   display: grid;
     grid-template-areas:
         "header"
         "filters"
         "mapViewer"
         "restaurantInfo"
         "footer";
+        
 }
 
 /* Class for the sticky header */
@@ -60,18 +61,28 @@ body {
     margin-top: 70px;
 }
 
+#mapDivBox {
+    display: flex;
+}
+
 /* Centering map and border-decoration */
 #mapViewer {
     grid-area: mapViewer;
-    height: 70vh;
-    width: 70%;
-    display: block;
+    height: 90vh;
+    width: 60%;
+    
     max-width: 70%;
-    margin-left: auto;
+    margin-left: 10px;
     margin-right: auto;
-    margin-top: 90px;
+    margin-top: 80px;
     border: 3px solid black;
     z-index: 100;
+}
+
+#resturantPlaceHolder {
+    background-color: aqua;
+    width: 40%;
+    
 }
 
 /* Id for where the dynamic data will be displayed */
@@ -80,6 +91,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    
 }
 
 /* Centering restaurant information and text-decoration */
@@ -97,7 +109,7 @@ body {
     padding: 10px;
     margin-top: 65px;
     cursor: pointer;
-    width: 270px;
+    width: 240px;
     border: solid #2d324fe1 2px;
     border-radius: 2px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -105,6 +117,13 @@ body {
 
     position: relative;
     display: block;
+}
+
+.arrow {
+    width: 20px;
+    margin-left: 10px;
+    margin-bottom: -1.5px;
+    transition: transform 0.5s;
 }
 
 .dropDownContent {
@@ -116,11 +135,11 @@ body {
     font-size: 15px;
     border: solid 2px black;
     border-radius: 5px;
-    left: 25%;
     height: 110px;
-    width: 100px;
+    width: 240px;
     overflow: auto;
 }
+
 
 .dropDownContent a {
     color: black;
@@ -136,19 +155,19 @@ body {
 #typeOfRestaurant:hover .dropDownContent {
     display: block;
     cursor: pointer;
-    width: 150px;
+    width: 236px;
 }
 
 #distance:hover .dropDownContent {
     display: block;
     cursor: pointer;
-    width: 150px;
+    width: 236px;
 }
 
 #priceRange:hover .dropDownContent {
     display: block;
     cursor: pointer;
-    width: 150px;
+    width: 236px;
 }
 
 #typeOfRestaurant,
@@ -160,6 +179,8 @@ body {
     margin-bottom: 300px;
     margin-top: 15px;
 }
+
+
 
 /* Button for geo-location */
 #shareLocation {
@@ -250,12 +271,12 @@ body {
 }
 
 #restaurantInfo div {
-    padding: 18px;
+    padding: px;
     border: solid 3px black;
     border-radius: 15px;
-    margin: 20px;
+    
     background-color: rgba(255, 255, 255, 0.836);
-    width: 40%;
+    width: 200px;
 }
 
 #restaurantInfo div h4 {

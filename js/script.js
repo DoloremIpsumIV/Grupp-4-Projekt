@@ -45,6 +45,8 @@ function init() {
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
     window.addEventListener("scroll", stickyHeader);
+
+  
 }
 window.addEventListener("load", init);
 
