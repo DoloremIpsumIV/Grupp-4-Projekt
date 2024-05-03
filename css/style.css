@@ -110,13 +110,16 @@ body {
 .dropDownContent {
     display: none;
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.836);
+    background-color: rgba(255, 255, 255, 0.902);
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 100;
-    font-size: 17px;
-    border: solid 3px black;
-    border-radius: 10px;
+    font-size: 15px;
+    border: solid 2px black;
+    border-radius: 5px;
     left: 25%;
+    height: 110px;
+    width: 100px;
+    overflow: auto;
 }
 
 .dropDownContent a {
@@ -173,8 +176,8 @@ body {
 #shareLocation img {
     position: absolute;
     width: 2%;
-    top: 53%;
-    left: 30%;
+    top: 75%;
+    left: 28.5%;
 
     transform: translate(-50%, -50%);
 }
@@ -185,26 +188,39 @@ body {
     height: 50px;
     position: absolute;
     top: 70.5%;
-    left: 33.5%;
+    left: 38.5%;
     background-color: #4a6700d7;
     border: solid 1px #899E1D;
     color: white;
     border-radius: 5px;
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease;
+}
+
+#searchButton:hover {
+    transform: scale(1.1);
 }
 
 
 /* Textbox */
 #adressTextBox {
     height: 50px;
-    width: 350px;
+    width: 440px;
     position: absolute;
     top: 75%;
-    left: 18.5%;
+    left: 20%;
     transform: translate(-50%, -50%);
     border-radius: 10px;
     
+}
+
+#findAdress {
+    font-size: 10px;
+    margin-top: 385px;
+   position: absolute;
+  
+    margin-left: 355px;
 }
 
 #sortButtons {
@@ -227,6 +243,10 @@ body {
     border: solid 2px #976d2a;
     border-radius: 5px;
     margin-left: 10px;
+}
+
+#sortButtons button:hover {
+    background-color: #d69122c0;
 }
 
 #restaurantInfo div {
