@@ -50,7 +50,7 @@ function init() {
         }
     }
 
-    let radiusDropdownElem = document.querySelector("#radius");
+    const radiusDropdownElem = document.querySelector("#radius");
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
         radiusDropdownElem.children[i].addEventListener("click", () => setRadius(radiusDropdownElem.children[i].innerHTML));
     }
@@ -63,9 +63,8 @@ window.addEventListener("load", init);
 
 // Function that updates the dropdown menu options
 function handleClick() {
-    let dropDownButtonImg = document.querySelector("#distance button img");
-    let buttonClicked = this.parentElement.previousElementSibling;
-
+    const dropDownButtonImg = document.querySelector("#distance button img");
+    const buttonClicked = this.parentElement.previousElementSibling;
     switch (buttonClicked.parentElement.id) {
         case "distance":
             selectedDropdownContent.forEach(option => {
