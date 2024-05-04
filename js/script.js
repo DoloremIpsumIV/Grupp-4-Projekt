@@ -37,6 +37,17 @@ function init() {
     position = header.offsetTop;
     position = headerImg.offsetTop;
 
+    // Updates the contents of the drop-down menus with the selected option
+    let dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
+    for (let i = 0; i < dropDownContentOptions.length; i++) {
+        let selectedOption = dropDownContentOptions[i];
+        selectedOption.addEventListener("click", function () {
+            let buttonClicked = this.parentElement.previousElementSibling;
+            buttonClicked.innerText = selectedOption.innerHTML;
+
+        });
+    }
+
     let radiusDropdownElem = document.querySelector("#radius");
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
         radiusDropdownElem.children[i].addEventListener("click", () => setRadius(radiusDropdownElem.children[i].innerHTML));
@@ -46,7 +57,7 @@ function init() {
     document.querySelector("#test").addEventListener("click", fetchData);
     window.addEventListener("scroll", stickyHeader);
 
-  
+
 }
 window.addEventListener("load", init);
 
