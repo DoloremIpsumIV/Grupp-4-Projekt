@@ -14,12 +14,19 @@
 <body>
     <div id="headerContainer" class="stickyHeader">
         <img src="images/logovit.png" alt="GetFood">
+        <div id="sortButtons">
+            <p>Jag vill söka i:</p>
+            <button>Småland</button>
+            <button>Öland</button>
+        </div>
     </div>
+
+
     <div id="filters">
         <label for="menuCheckBox" id="menuIcon"></label>
         <input type="checkbox" id="menuCheckBox">
         <div id="typeOfRestaurant">
-            <button class="dropDownBtn">Restaurangtyp</button>
+            <button class="dropDownBtn">Restaurangtyp<img src="images/arrow.png" class="arrow"></button>
             <span class="dropDownContent">
                 <a>Pizzeria</a>
                 <a>Thaimat</a>
@@ -27,7 +34,7 @@
             </span>
         </div>
         <div id="distance">
-            <button class="dropDownBtn">Avstånd &#40;km&#41;</button>
+            <button class="dropDownBtn">Avstånd &#40;km&#41;<img src="images/arrow.png" class="arrow"></button>
             <div class="dropDownContent" id="radius">
                 <a>1</a>
                 <a>3</a>
@@ -36,7 +43,7 @@
             </div>
         </div>
         <div id="priceRange">
-            <button class="dropDownBtn">Prisklass &#40;sek&#41;</button>
+            <button class="dropDownBtn">Prisklass &#40;sek&#41;<img src="images/arrow.png" class="arrow"></button>
             <div class="dropDownContent">
                 <a>50-100</a>
                 <a>100-120</a>
@@ -44,6 +51,8 @@
                 <a>140-200</a>
             </div>
         </div>
+
+    
     </div>
 
     <div id="loaderId" class="loaderClass">
@@ -54,14 +63,33 @@
         </div>
     </div>
 
+
     <!-- Input textbox where user can enter adress or press icon for sharing location -->
-    <div id="shareLocation"><input placeholder="Din adress (t.ex. Stallvägen 12)" type="text" name="userAdress" id="adressTextBox"><img src="images/loc.png" alt=""></div>
+    <div id="shareLocation">
+        <input placeholder="Din adress (t.ex. Stallvägen 12)" type="text" name="userAdress" id="adressTextBox">
+        
+        <p id="findAdress">Hitta min adress</p>
+        
+        <img src="images/loc.png" alt="">
+        
+        <button id="searchButton">SÖK</button>
+    
+    </div>
+     
+
 
     <main>
 
         <button id="test">Test</button>
+    
         <div id="mapViewer">
+         
         </div>
+   <div id="resturantPlaceHolder">
+
+            <p>slay</p>
+        </div>    
+
         <div id="restaurantInfo">
             <!-- Container for displaying dynamic data regarding restaurants -->
         </div>
@@ -71,6 +99,7 @@
     <footer id="footer">
 
         <img id="footerLogo" src="images/logo.png" alt="GetFood">
+        <hr>
     </footer>
 </body>
 
