@@ -19,6 +19,7 @@ let longitude = linne.lng;  // Longitude of user
 let radius = 1;             // Radius for search fetch
 let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
+let selectedDropdownContent;// The selected element that the user clicked on
 
 var header;                 // Variable for header element
 var headerImg;              // Variable for the image inside header
@@ -39,13 +40,14 @@ function init() {
 
     // Updates the contents of the drop-down menus with the selected option
     let dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
-    for (let i = 0; i < dropDownContentOptions.length; i++) {
-        let selectedOption = dropDownContentOptions[i];
-        selectedOption.addEventListener("click", function () {
-            let buttonClicked = this.parentElement.previousElementSibling;
-            buttonClicked.innerText = selectedOption.innerHTML;
+    selectedDropdownContent = document.querySelectorAll(".dropDownContent :first-child");
 
-        });
+    for (let i = 0; i < dropDownContentOptions.length; i++) {
+        dropDownContentOptions[i].addEventListener("click", handleClick);
+        for (let j = 0; j < selectedDropdownContent.length; j++) {
+            selectedDropdownContent[j].removeEventListener("click", handleClick);
+            selectedDropdownContent[j].style.opacity = "0.5";
+        }
     }
 
     let radiusDropdownElem = document.querySelector("#radius");
@@ -56,10 +58,61 @@ function init() {
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
     window.addEventListener("scroll", stickyHeader);
-
-
 }
 window.addEventListener("load", init);
+
+// Function that updates the dropdown menu options
+function handleClick() {
+    let dropDownButtonImg = document.querySelector("#distance button img");
+    let buttonClicked = this.parentElement.previousElementSibling;
+
+    switch (buttonClicked.parentElement.id) {
+        case "distance":
+            selectedDropdownContent.forEach(option => {
+                if (option.parentElement.parentElement.id.indexOf("distance") === 0) {
+                    this.removeEventListener("click", handleClick);
+                    this.style.opacity = "0.5";
+
+                    option.addEventListener("click", handleClick);
+                    option.style.opacity = "1";
+                    selectedDropdownContent = Array.from(selectedDropdownContent);
+                    selectedDropdownContent.splice(1, 1, this);
+                }
+            });
+            buttonClicked.innerHTML = "Avstånd (km): " + this.innerHTML + dropDownButtonImg.outerHTML;
+
+            break;
+        case "priceRange":
+            selectedDropdownContent.forEach(option => {
+                if (option.parentElement.parentElement.id.indexOf("priceRange") === 0) {
+                    this.removeEventListener("click", handleClick);
+                    this.style.opacity = "0.5";
+
+                    option.addEventListener("click", handleClick);
+                    option.style.opacity = "1";
+                    selectedDropdownContent = Array.from(selectedDropdownContent);
+                    selectedDropdownContent.splice(2, 1, this);
+                }
+            });
+            buttonClicked.innerHTML = "Prisklass (sek): " + this.innerHTML + dropDownButtonImg.outerHTML;
+            break;
+
+        default:
+            selectedDropdownContent.forEach(option => {
+                if (option.parentElement.parentElement.id.indexOf("typeOfRestaurant") === 0) {
+                    this.removeEventListener("click", handleClick);
+                    this.style.opacity = "0.5";
+
+                    option.addEventListener("click", handleClick);
+                    option.style.opacity = "1";
+                    selectedDropdownContent = Array.from(selectedDropdownContent);
+                    selectedDropdownContent.splice(0, 1, this);
+                }
+            });
+            buttonClicked.innerHTML = "Restaurangtyp: " + this.innerHTML + dropDownButtonImg.outerHTML;
+            break;
+    }
+};
 
 // Function that defiens the value of the radius
 function setRadius(value) {
