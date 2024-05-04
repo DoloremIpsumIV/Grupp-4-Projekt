@@ -47,6 +47,9 @@ function init() {
         for (let j = 0; j < selectedDropdownContent.length; j++) {
             selectedDropdownContent[j].removeEventListener("click", handleClick);
             selectedDropdownContent[j].style.opacity = "0.5";
+            selectedDropdownContent[j].style.backgroundColor = "DimGray";
+            selectedDropdownContent[j].style.cursor = "default";
+
         }
     }
 
@@ -65,53 +68,44 @@ window.addEventListener("load", init);
 function handleClick() {
     const dropDownButtonImg = document.querySelector("#distance button img");
     const buttonClicked = this.parentElement.previousElementSibling;
+    const thisElem = this;
     switch (buttonClicked.parentElement.id) {
         case "distance":
-            selectedDropdownContent.forEach(option => {
-                if (option.parentElement.parentElement.id.indexOf("distance") === 0) {
-                    this.removeEventListener("click", handleClick);
-                    this.style.opacity = "0.5";
-
-                    option.addEventListener("click", handleClick);
-                    option.style.opacity = "1";
-                    selectedDropdownContent = Array.from(selectedDropdownContent);
-                    selectedDropdownContent.splice(1, 1, this);
-                }
-            });
+            updateDropdownOptions("distance", thisElem);
             buttonClicked.innerHTML = "Avstånd (km): " + this.innerHTML + dropDownButtonImg.outerHTML;
-
+            selectedDropdownContent.splice(1, 1, thisElem);
             break;
         case "priceRange":
-            selectedDropdownContent.forEach(option => {
-                if (option.parentElement.parentElement.id.indexOf("priceRange") === 0) {
-                    this.removeEventListener("click", handleClick);
-                    this.style.opacity = "0.5";
-
-                    option.addEventListener("click", handleClick);
-                    option.style.opacity = "1";
-                    selectedDropdownContent = Array.from(selectedDropdownContent);
-                    selectedDropdownContent.splice(2, 1, this);
-                }
-            });
+            updateDropdownOptions("priceRange", thisElem);
             buttonClicked.innerHTML = "Prisklass (sek): " + this.innerHTML + dropDownButtonImg.outerHTML;
+            selectedDropdownContent.splice(2, 1, thisElem);
             break;
 
         default:
-            selectedDropdownContent.forEach(option => {
-                if (option.parentElement.parentElement.id.indexOf("typeOfRestaurant") === 0) {
-                    this.removeEventListener("click", handleClick);
-                    this.style.opacity = "0.5";
-
-                    option.addEventListener("click", handleClick);
-                    option.style.opacity = "1";
-                    selectedDropdownContent = Array.from(selectedDropdownContent);
-                    selectedDropdownContent.splice(0, 1, this);
-                }
-            });
+            updateDropdownOptions("typeOfRestaurant", thisElem);
             buttonClicked.innerHTML = "Restaurangtyp: " + this.innerHTML + dropDownButtonImg.outerHTML;
+            selectedDropdownContent.splice(0, 1, thisElem);
             break;
     }
 };
+
+// Updates the dropdown menu and it's CSS
+function updateDropdownOptions(dropdownIdentifier, selectedElement) {
+    selectedDropdownContent.forEach(option => {
+        if (option.parentElement.parentElement.id.indexOf(dropdownIdentifier) === 0) {
+            selectedElement.removeEventListener("click", handleClick);
+            selectedElement.style.opacity = "0.5";
+            selectedElement.style.backgroundColor = "DimGray";
+            selectedElement.style.cursor = "default";
+
+            option.addEventListener("click", handleClick);
+            option.style.backgroundColor = "";
+            option.style.cursor = "pointer";
+            option.style.opacity = "1";
+            selectedDropdownContent = Array.from(selectedDropdownContent);
+        }
+    });
+}
 
 // Function that defiens the value of the radius
 function setRadius(value) {
