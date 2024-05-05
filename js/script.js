@@ -19,6 +19,7 @@ let longitude = linne.lng;  // Longitude of user
 let radius = 1;             // Radius for search fetch
 let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
+let selectedDropdownContent;// The selected element that the user clicked on
 
 var header;                 // Variable for header element
 var headerImg;              // Variable for the image inside header
@@ -39,16 +40,20 @@ function init() {
 
     // Updates the contents of the drop-down menus with the selected option
     let dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
-    for (let i = 0; i < dropDownContentOptions.length; i++) {
-        let selectedOption = dropDownContentOptions[i];
-        selectedOption.addEventListener("click", function () {
-            let buttonClicked = this.parentElement.previousElementSibling;
-            buttonClicked.innerText = selectedOption.innerHTML;
+    selectedDropdownContent = document.querySelectorAll(".dropDownContent :first-child");
 
-        });
+    for (let i = 0; i < dropDownContentOptions.length; i++) {
+        dropDownContentOptions[i].addEventListener("click", handleClick);
+        for (let j = 0; j < selectedDropdownContent.length; j++) {
+            selectedDropdownContent[j].removeEventListener("click", handleClick);
+            selectedDropdownContent[j].style.opacity = "0.5";
+            selectedDropdownContent[j].style.backgroundColor = "DimGray";
+            selectedDropdownContent[j].style.cursor = "default";
+
+        }
     }
 
-    let radiusDropdownElem = document.querySelector("#radius");
+    const radiusDropdownElem = document.querySelector("#radius");
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
         radiusDropdownElem.children[i].addEventListener("click", () => setRadius(radiusDropdownElem.children[i].innerHTML));
     }
@@ -56,10 +61,51 @@ function init() {
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
     window.addEventListener("scroll", stickyHeader);
-
-
 }
 window.addEventListener("load", init);
+
+// Function that updates the dropdown menu options
+function handleClick() {
+    const dropDownButtonImg = document.querySelector("#distance button img");
+    const buttonClicked = this.parentElement.previousElementSibling;
+    const thisElem = this;
+    switch (buttonClicked.parentElement.id) {
+        case "distance":
+            updateDropdownOptions("distance", thisElem);
+            buttonClicked.innerHTML = "Avstånd (km): " + this.innerHTML + dropDownButtonImg.outerHTML;
+            selectedDropdownContent.splice(1, 1, thisElem);
+            break;
+        case "priceRange":
+            updateDropdownOptions("priceRange", thisElem);
+            buttonClicked.innerHTML = "Prisklass (sek): " + this.innerHTML + dropDownButtonImg.outerHTML;
+            selectedDropdownContent.splice(2, 1, thisElem);
+            break;
+
+        default:
+            updateDropdownOptions("typeOfRestaurant", thisElem);
+            buttonClicked.innerHTML = "Restaurangtyp: " + this.innerHTML + dropDownButtonImg.outerHTML;
+            selectedDropdownContent.splice(0, 1, thisElem);
+            break;
+    }
+};
+
+// Updates the dropdown menu and it's CSS
+function updateDropdownOptions(dropdownIdentifier, selectedElement) {
+    selectedDropdownContent.forEach(option => {
+        if (option.parentElement.parentElement.id.indexOf(dropdownIdentifier) === 0) {
+            selectedElement.removeEventListener("click", handleClick);
+            selectedElement.style.opacity = "0.5";
+            selectedElement.style.backgroundColor = "DimGray";
+            selectedElement.style.cursor = "default";
+
+            option.addEventListener("click", handleClick);
+            option.style.backgroundColor = "";
+            option.style.cursor = "pointer";
+            option.style.opacity = "1";
+            selectedDropdownContent = Array.from(selectedDropdownContent);
+        }
+    });
+}
 
 // Function that defiens the value of the radius
 function setRadius(value) {
