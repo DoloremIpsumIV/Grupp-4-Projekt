@@ -298,6 +298,7 @@ body {
 }
 
 #footer {
+    grid-area: footer;
     margin-top: 270px;
     margin-left: -20px;
     width: 103%;
