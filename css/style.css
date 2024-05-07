@@ -18,17 +18,6 @@ body {
     background-color: #2d324fe1;
     color: black;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-
-    /*
-   display: grid;
-    grid-template-areas:
-        "header"
-        "filters"
-        "mapViewer"
-        "restaurantInfo"
-        "footer";
-        */
-        
 }
 
 /* Class for the sticky header */
@@ -87,7 +76,7 @@ body {
 
 }
 
-#resturantPlaceHolder {
+#restaurantPlaceHolder {
     background-color: #f6f4f1;
     width: 35%;
     height: 400px;
@@ -99,17 +88,15 @@ body {
 }
 
 /* Id for where the dynamic data will be displayed */
-#restaurantInfo {
-    grid-area: restaurantInfo;
+#restaurantPlaceHolder {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     
 }
 
 /* Centering restaurant information and text-decoration */
-#restaurantInfo h4,
-#restaurantInfo p {
+#restaurantPlaceHolder h4,
+#restaurantPlaceHolder p {
     text-align: center;
     font-size: 30px;
 }
@@ -283,7 +270,7 @@ body {
     background-color: #d69122c0;
 }
 
-#restaurantInfo div {
+#restaurantPlaceHolder div {
     padding: px;
     border: solid 3px black;
     border-radius: 15px;
@@ -292,11 +279,11 @@ body {
     width: 200px;
 }
 
-#restaurantInfo div h4 {
+#restaurantPlaceHolder div h4 {
     background-color: rgb(20, 116, 0);
 }
 
-#restaurantInfo div p:nth-child(even) {
+#restaurantPlaceHolder div p:nth-child(even) {
     background-color: rgba(128, 128, 128, 0.301);
 }
 
@@ -317,6 +304,7 @@ body {
     height: 360px;
     background-color: #fdfdfc;
     background-image: url(../images/footer.jpg);
+    
 }
 
 #footerLogo {
