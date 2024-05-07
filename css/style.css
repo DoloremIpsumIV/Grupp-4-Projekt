@@ -187,6 +187,34 @@ body {
 
 }
 
+#searchButtons {
+
+    margin-top: -150px;
+    margin-left: -580px;
+    
+}
+
+#mapBtn {
+    height: 50px;
+    font-size: 20px;
+    width: 300px;
+    background-color:#33c771;
+    color: white;
+    border: solid 2px #976d2a;
+    border-radius: 5px;
+
+}
+
+#findBtn {
+    height: 50px;
+    font-size: 20px;
+    width: 300px;
+    background-color:#3333c7;
+    color: white;
+    border: solid 2px #976d2a;
+    border-radius: 5px;
+}
+
 #searchButton:hover {
     transform: scale(1.1);
 }
@@ -217,13 +245,14 @@ body {
     background-color: #d69122c0;
 }
 
-#restaurantInfo div {
-    margin: 15px;
-    border: solid 3px black;
-    border-radius: 15px;
-    
-    background-color: rgba(255, 255, 255, 0.836);
-    width: 200px;
+#restaurantInfo {
+    background-color: #f6f4f1;
+    width: 35%;
+    height: 400px;
+    margin-right: 10px;
+    margin-top: 80px;
+    border: 4px solid black;
+    border-radius: 10px;
 }
 
 #restaurantInfo div h4 {
