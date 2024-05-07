@@ -133,6 +133,8 @@ body {
     padding: 12px;
 }
 
+
+
 .dropDownContent a:hover {
     background-color: rgb(100, 97, 97);
 }
@@ -226,11 +228,18 @@ body {
     border: solid 2px #976d2a;
     border-radius: 5px;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 #sortButtons button:hover {
     background-color: #d69122c0;
 }
+
+.sortButtonsToggle{
+    opacity: 0.5;
+    background-color: #c78e33 !important;
+    cursor: default !important;
+} 
 
 #restaurantInfo {
     background-color: #f7f5f2;

@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/script.js"></script>
     <link rel="icon" href="images/logovit.png">
     <title>GetFood</title>
@@ -17,8 +19,8 @@
         <img src="images/logovit.png" alt="GetFood">
         <div id="sortButtons">
             <p>Jag vill söka i:</p>
-            <button>Småland</button>
-            <button>Öland</button>
+            <button id="smaland" class="sortButtonsToggle">Småland</button>
+            <button id="oland" class="sortButtonsToggle">Öland</button>
         </div>
     </div>
 
@@ -54,11 +56,11 @@
                 <a>140-200</a>
             </div>
         </div>
-    
+
         <div id="searchButtons">
-<button id="mapBtn">Välj placering på karta</button>
-<button id="findBtn">Hitta min plats</button>
-</div>
+            <button id="mapBtn">Välj placering på karta</button>
+            <button id="findBtn">Hitta min plats</button>
+        </div>
     </div>
 
     <div id="loaderId" class="loaderClass">
@@ -70,7 +72,7 @@
     </div>
 
     <button id="shareLocation">button</button>
-    
+
     <main>
 
         <button id="test">Test</button>

@@ -1,11 +1,17 @@
 // Global variables
-const linne = {             // Start position for the map
-    name: "LinnéUniversitetet",
-    lat: 56.85462,
-    lng: 14.83038,
-    zoom: 16
+const smaland = {            // Start position for the map
+    name: "Småland",
+    lat: 56.87767,
+    lng: 14.80906,
+    zoom: 9
 }
-const marker = L.icon({    // Definition of a marker with an image
+const oland = {
+    name: "Öland",
+    lat: 56.6499,
+    lng: 16.46859,
+    zoom: 9
+}
+const marker = L.icon({     // Definition of a marker with an image
     iconUrl: '/images/Marker.png',
 
     iconSize: [38, 45],
@@ -13,9 +19,12 @@ const marker = L.icon({    // Definition of a marker with an image
 });
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 
+let locationMarker;
+let smalandButton;          // Button for småland
+let olandButton;            // Button for Öland
 let map;                    // Variable for the map
-let latitude = linne.lat;   // Latitude of user
-let longitude = linne.lng;  // Longitude of user
+let latitude = smaland.lat;// Latitude of Småland
+let longitude = smaland.lng;// Longitude of Småland
 let radius = 1;             // Radius for search fetch
 let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
@@ -30,10 +39,11 @@ function init() {
     initMap("mapViewer");
     getUserGeo();
 
+    smalandButton = document.querySelector("#smaland");
+    olandButton = document.querySelector("#oland");
     header = document.querySelector("#headerContainer");
     headerImg = document.querySelector("#headerContainer img");
     loader = document.querySelector("#loaderId");
-
 
     // Updates the contents of the drop-down menus with the selected option
     let dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
@@ -46,7 +56,6 @@ function init() {
             selectedDropdownContent[j].style.opacity = "0.5";
             selectedDropdownContent[j].style.backgroundColor = "DimGray";
             selectedDropdownContent[j].style.cursor = "default";
-
         }
     }
 
@@ -54,15 +63,39 @@ function init() {
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
         radiusDropdownElem.children[i].addEventListener("click", () => setRadius(radiusDropdownElem.children[i].innerHTML));
     }
+
     const dropDownContentElem = document.querySelectorAll(".dropDownBtn");
     for (let i = 0; i < dropDownContentElem.length; i++) {
         dropDownContentElem[i].addEventListener("click", toggleDropdownMenu);
     }
 
-    document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
+    olandButton.classList.toggle("sortButtonsToggle");
+    olandButton.addEventListener("click", toggleSortButtons);
+    document.querySelector("#shareLocation").addEventListener("click", () => updateMapLoc(Boolean = false));
     document.querySelector("#test").addEventListener("click", fetchData);
 }
 window.addEventListener("load", init);
+
+// Function that toggles the two buttons
+function toggleSortButtons() {
+    olandButton.classList.toggle("sortButtonsToggle");
+    smalandButton.classList.toggle("sortButtonsToggle");
+
+    if (!olandButton.classList.value) {
+        latitude = smaland.lat;
+        longitude = smaland.lng;
+        smalandButton.removeEventListener("click", toggleSortButtons);
+        olandButton.addEventListener("click", toggleSortButtons);
+        updateMapLoc(Boolean = false)
+    }
+    else {
+        latitude = oland.lat;
+        longitude = oland.lng;
+        olandButton.removeEventListener("click", toggleSortButtons);
+        smalandButton.addEventListener("click", toggleSortButtons);
+        updateMapLoc(Boolean = false)
+    }
+}
 
 // Function that toggles the dropdown menu
 function toggleDropdownMenu() {
@@ -95,7 +128,7 @@ function handleClick() {
     }
 };
 
-// Updates the dropdown menu and it's CSS
+// Function that updates the dropdown menu and it's CSS
 function updateDropdownOptions(dropdownIdentifier, selectedElement) {
     selectedDropdownContent.forEach(option => {
         if (option.parentElement.parentElement.id.indexOf(dropdownIdentifier) === 0) {
@@ -120,11 +153,13 @@ function setRadius(value) {
 
 // Function for initiation of the map
 function initMap(id) {
-    map = L.map(id).setView([linne.lat, linne.lng], linne.zoom);
+    map = L.map(id).setView([smaland.lat, smaland.lng], smaland.zoom);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+        minZoom: 9,
+        maxZoom: 18,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+
 
     userMarker = L.marker();
     map.on("click", newUserMarker);
@@ -146,20 +181,33 @@ function newRestaurantMarker(lat, lng) {
 
 // Function for gathering data regarding users position
 function getUserGeo() {
+    let successFlag = true;
     navigator.geolocation.getCurrentPosition(function (position) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
-        updateMapLoc();
+        updateMapLoc(successFlag);
     }, function (error) {
         console.log("Could not fetch user geolocation, Error: " + error)
-        updateMapLoc();
+        successFlag = false;
+        updateMapLoc(successFlag);
     });
 }
-
 // Function that updates the position of the map with the geo-data
-function updateMapLoc() {
-    map.setView([latitude, longitude], 16);
-    L.marker([latitude, longitude]).addTo(map);
+function updateMapLoc(success) {
+    map.removeLayer(userMarker);
+    if (success) {
+        map.setView([latitude, longitude], zoom = 16);
+    }
+    else {
+        if (!olandButton.classList.value) {
+            map.setView([latitude, longitude], smaland.zoom);
+        }
+        else {
+            map.setView([latitude, longitude], oland.zoom);
+        }
+    }
+
+    userMarker = new L.marker([latitude, longitude]).addTo(map);
 }
 
 // Async function that collects restaurant data
@@ -198,7 +246,6 @@ function showData(json) {
         listElements.id = "restaurantCard";
         restaurantContainer.appendChild(listElements);
     }
-
     stopLoader();
     window.location.hash = "#restaurantInfo";
 }
