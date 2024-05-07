@@ -23,7 +23,6 @@ let selectedDropdownContent;// The selected element that the user clicked on
 
 var header;                 // Variable for header element
 var headerImg;              // Variable for the image inside header
-var position;               // The position of the header
 var loader;                 // Declaring variabel for the div containing loader
 
 // Init function
@@ -35,8 +34,6 @@ function init() {
     headerImg = document.querySelector("#headerContainer img");
     loader = document.querySelector("#loaderId");
 
-    position = header.offsetTop;
-    position = headerImg.offsetTop;
 
     // Updates the contents of the drop-down menus with the selected option
     let dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
@@ -60,7 +57,6 @@ function init() {
 
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
-    window.addEventListener("scroll", stickyHeader);
 }
 window.addEventListener("load", init);
 
@@ -72,18 +68,18 @@ function handleClick() {
     switch (buttonClicked.parentElement.id) {
         case "distance":
             updateDropdownOptions("distance", thisElem);
-            buttonClicked.innerHTML = "Avstånd (km): " + this.innerHTML + dropDownButtonImg.outerHTML;
+            buttonClicked.innerHTML = this.innerHTML + dropDownButtonImg.outerHTML;
             selectedDropdownContent.splice(1, 1, thisElem);
             break;
         case "priceRange":
             updateDropdownOptions("priceRange", thisElem);
-            buttonClicked.innerHTML = "Prisklass (sek): " + this.innerHTML + dropDownButtonImg.outerHTML;
+            buttonClicked.innerHTML = this.innerHTML + dropDownButtonImg.outerHTML;
             selectedDropdownContent.splice(2, 1, thisElem);
             break;
 
         default:
             updateDropdownOptions("typeOfRestaurant", thisElem);
-            buttonClicked.innerHTML = "Restaurangtyp: " + this.innerHTML + dropDownButtonImg.outerHTML;
+            buttonClicked.innerHTML = this.innerHTML + dropDownButtonImg.outerHTML;
             selectedDropdownContent.splice(0, 1, thisElem);
             break;
     }
@@ -167,18 +163,6 @@ async function fetchData() {
     else console.log("Error during fetch: " + response.status);
 }
 
-// Function for toggling sticky header
-function stickyHeader() {
-    if (window.scrollY > position && !flag) {
-        header.classList.add("stickyHeader");
-        flag = true;
-    }
-    else if (window.scrollY == position) {
-        header.classList.remove("stickyHeader");
-        flag = false;
-    }
-}
-
 // Function that adds CSS-class in order to show loader
 function initLoader() {
     loader.classList.add("show");
@@ -192,6 +176,8 @@ function stopLoader() {
 // Function that displays data using a list 
 function showData(json) {
     const restaurantContainer = document.querySelector("#restaurantInfo");
+    restaurantContainer.removeChild(restaurantContainer.firstChild);
+    restaurantContainer.innerHTML = "";
     const jsonArray = json.payload;
     const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
 
@@ -199,6 +185,7 @@ function showData(json) {
         newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng);
         const listElements = document.createElement("div");
         listElements.appendChild(elementBuilder.renderElement(i));
+        listElements.id = "restaurantCard";
         restaurantContainer.appendChild(listElements);
     }
 
@@ -221,10 +208,23 @@ class ElementConstructor {
         //const data = Object.keys(this.data[index]);                                            // Switch out property to show with data to display all data in div elements
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
 
-        const titleElement = document.createElement("h4");
-        titleElement.innerText = this.data[distanceIndex].name;
-        fragment.appendChild(titleElement);
+        const divElement = document.createElement("div");
+        divElement.classList.add("restaurantCardFlex");
 
+        const imgElement = document.createElement("img");
+        imgElement.id = "picture";
+
+        const titleElement = document.createElement("h2");
+        titleElement.id = "restaurantName";
+        titleElement.innerText = this.data[distanceIndex].name;
+
+        divElement.appendChild(imgElement);
+        divElement.appendChild(titleElement);
+        fragment.appendChild(divElement);
+
+        const secondDivElement = document.createElement("div");
+        secondDivElement.classList.add("restaurantCardFlex");
+        secondDivElement.style.display = "block";
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = String(propertyToShow[i]);
             const paragraphElement = document.createElement("p");
@@ -237,8 +237,9 @@ class ElementConstructor {
                 paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property];
             }
 
-            fragment.appendChild(paragraphElement);
+            secondDivElement.appendChild(paragraphElement);
         }
+        fragment.appendChild(secondDivElement);
 
         return fragment;
     }
