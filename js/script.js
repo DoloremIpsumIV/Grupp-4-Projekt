@@ -9,13 +9,13 @@ const oland = {              // Öland coordinates
     name: "Öland",
     lat: 56.6499,
     lng: 16.46859,
-    zoom: 9
+    zoom: 8
 }
 const boundries = {          // Const with min and max boundries for the map
-    maxLatCorner: 56.218610,
-    maxLngCorner: 17.172606,
+    maxLatCorner: 56.018610,
+    maxLngCorner: 17.472606,
     minLatCorner: 58.122646,
-    minLngCorner: 13.261037
+    minLngCorner: 13.061037
 }
 const marker = L.icon({     // Definition of a marker with an image
     iconUrl: '/images/Marker.png',
@@ -172,10 +172,10 @@ function initMap(id) {
     bounds = L.latLngBounds(L.latLng(boundries.maxLatCorner, boundries.maxLngCorner),
         L.latLng(boundries.minLatCorner, boundries.minLngCorner));
     map.setMaxBounds(bounds);
-    var rect = L.rectangle(bounds, {
-        color: 'blue',
-        weight: 1
-    }).addTo(map);
+    //var rect = L.rectangle(bounds, {          //shows boundries with a box
+    //    color: 'blue',
+    //    weight: 1
+    //}).addTo(map);
 
     userMarker = L.marker();
     map.on("click", newUserMarker);
