@@ -137,20 +137,13 @@ body {
     background-color: rgb(100, 97, 97);
 }
 
-/* Code for displaying dropDownContent */
-#typeOfRestaurant:hover .dropDownContent {
-    display: block;
-    cursor: pointer;
-    width: 236px;
+.dropDownContent {
+    display: none;
+    cursor: none;
+    width: 0;
 }
 
-#distance:hover .dropDownContent {
-    display: block;
-    cursor: pointer;
-    width: 236px;
-}
-
-#priceRange:hover .dropDownContent {
+.dropDownContent.show {
     display: block;
     cursor: pointer;
     width: 236px;
@@ -162,8 +155,9 @@ body {
     position: relative;
     display: inline-block;
     margin-right: 10px;
-    margin-bottom: 300px;
+    margin-bottom: 450px;
     margin-top: 15px;
+    height: 0px;
 }
 
 
@@ -180,7 +174,8 @@ body {
 }
 
 #searchButtons {
-
+    position: absolute;
+    left: 620px;
     margin-top: -150px;
     margin-left: -580px;
 

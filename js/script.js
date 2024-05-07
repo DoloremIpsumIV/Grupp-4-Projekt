@@ -54,11 +54,21 @@ function init() {
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
         radiusDropdownElem.children[i].addEventListener("click", () => setRadius(radiusDropdownElem.children[i].innerHTML));
     }
+    const dropDownContentElem = document.querySelectorAll(".dropDownBtn");
+    for (let i = 0; i < dropDownContentElem.length; i++) {
+        dropDownContentElem[i].addEventListener("click", toggleDropdownMenu);
+    }
 
     document.querySelector("#shareLocation").addEventListener("click", getUserGeo);
     document.querySelector("#test").addEventListener("click", fetchData);
 }
 window.addEventListener("load", init);
+
+// Function that toggles the dropdown menu
+function toggleDropdownMenu() {
+    const dropdown = this.nextElementSibling;
+    dropdown.classList.toggle("show");
+}
 
 // Function that updates the dropdown menu options
 function handleClick() {
