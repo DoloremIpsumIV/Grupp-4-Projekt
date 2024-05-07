@@ -3,13 +3,19 @@ const smaland = {            // Start position for the map
     name: "Småland",
     lat: 56.87767,
     lng: 14.80906,
-    zoom: 9
+    zoom: 8
 }
-const oland = {
+const oland = {              // Öland coordinates
     name: "Öland",
     lat: 56.6499,
     lng: 16.46859,
     zoom: 9
+}
+const boundries = {          // Const with min and max boundries for the map
+    maxLatCorner: 56.218610,
+    maxLngCorner: 17.172606,
+    minLatCorner: 58.122646,
+    minLngCorner: 13.261037
 }
 const marker = L.icon({     // Definition of a marker with an image
     iconUrl: '/images/Marker.png',
@@ -86,14 +92,14 @@ function toggleSortButtons() {
         longitude = smaland.lng;
         smalandButton.removeEventListener("click", toggleSortButtons);
         olandButton.addEventListener("click", toggleSortButtons);
-        updateMapLoc(Boolean = false)
+        updateMapLoc(Boolean = false);
     }
     else {
         latitude = oland.lat;
         longitude = oland.lng;
         olandButton.removeEventListener("click", toggleSortButtons);
         smalandButton.addEventListener("click", toggleSortButtons);
-        updateMapLoc(Boolean = false)
+        updateMapLoc(Boolean = false);
     }
 }
 
@@ -155,11 +161,21 @@ function setRadius(value) {
 function initMap(id) {
     map = L.map(id).setView([smaland.lat, smaland.lng], smaland.zoom);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        minZoom: 9,
+        minZoom: 8,
         maxZoom: 18,
+        maxBoundsViscosity: 1,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
+    console.log(map.maxBoundsViscosity);
+
+    bounds = L.latLngBounds(L.latLng(boundries.maxLatCorner, boundries.maxLngCorner),
+        L.latLng(boundries.minLatCorner, boundries.minLngCorner));
+    map.setMaxBounds(bounds);
+    var rect = L.rectangle(bounds, {
+        color: 'blue',
+        weight: 1
+    }).addTo(map);
 
     userMarker = L.marker();
     map.on("click", newUserMarker);
