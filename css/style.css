@@ -6,18 +6,11 @@ body {
     height: 100%;
 }
 
-html,
-body,
-nav,
-header,
-footer {
-    margin: 10px;
-}
-
 body {
     background-color: #2d324fe1;
     color: black;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
 }
 
 /* Class for the sticky header */
@@ -25,8 +18,8 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    margin: 0;
-    margin-left: -20px;
+   margin-top: -10px;
+    
     z-index: 200;
     padding-top: 7px;
 }
@@ -45,10 +38,9 @@ body {
     grid-area: filters;
     text-align: center;
     background-image: url(../images/bakgrund.jpg);
-    background-size: 1300px;
+    background-size: cover;
     height: 400px;
-    margin-left: -20px;
-    margin-right: -20px;
+    
     margin-top: 94px;
 }
 
@@ -63,7 +55,7 @@ body {
     width: 60%;
     
     max-width: 70%;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-right: auto;
     margin-top: 80px;
     border: 3px solid black;
@@ -101,7 +93,7 @@ body {
     color: #2d324fe1;
     font-size: 22px;
     padding: 10px;
-    margin-top: 65px;
+    margin-top: 75px;
     cursor: pointer;
     width: 240px;
     border: solid #2d324fe1 2px;
@@ -247,12 +239,13 @@ body {
 #footer {
     grid-area: footer;
     margin-top: 270px;
-    margin-left: -20px;
-    width: 103%;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
     height: 360px;
     background-color: #fdfdfc;
     background-image: url(../images/footer.jpg);
-    
+    background-size: cover;
 }
 
 #footerLogo {
