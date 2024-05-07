@@ -18,17 +18,6 @@ body {
     background-color: #2d324fe1;
     color: black;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-
-    /*
-   display: grid;
-    grid-template-areas:
-        "header"
-        "filters"
-        "mapViewer"
-        "restaurantInfo"
-        "footer";
-        */
-        
 }
 
 /* Class for the sticky header */
@@ -80,6 +69,7 @@ body {
     border: 3px solid black;
     z-index: 100;
     display: flex;
+
 }
 
 #flexBox {
@@ -87,24 +77,15 @@ body {
 
 }
 
-#resturantPlaceHolder {
-    background-color: #f6f4f1;
-    width: 35%;
-    height: 400px;
-    margin-right: 10px;
-    margin-top: 80px;
-    border: 4px solid black;
-    border-radius: 10px;
-    
-}
+
 
 /* Id for where the dynamic data will be displayed */
 #restaurantInfo {
-    grid-area: restaurantInfo;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    
+
+    margin-left: 20px;
+    float: right;
 }
 
 /* Centering restaurant information and text-decoration */
@@ -206,55 +187,8 @@ body {
 
 }
 
-
-#shareLocation img {
-    position: absolute;
-    width: 2%;
-    top: 75%;
-    left: 28.5%;
-
-    transform: translate(-50%, -50%);
-}
-
-
-#searchButton {
-    width: 60px;
-    height: 50px;
-    position: absolute;
-    top: 70.5%;
-    left: 38.5%;
-    background-color: #4a6700d7;
-    border: solid 1px #899E1D;
-    color: white;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: transform 0.3s ease;
-}
-
 #searchButton:hover {
     transform: scale(1.1);
-}
-
-
-/* Textbox */
-#adressTextBox {
-    height: 50px;
-    width: 440px;
-    position: absolute;
-    top: 75%;
-    left: 20%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
-    
-}
-
-#findAdress {
-    font-size: 10px;
-    margin-top: -99px;
-   position: relative;
-  z-index: 100;
-    margin-left: 357px;
 }
 
 #sortButtons {
@@ -284,7 +218,7 @@ body {
 }
 
 #restaurantInfo div {
-    padding: px;
+    margin: 15px;
     border: solid 3px black;
     border-radius: 15px;
     
@@ -318,6 +252,7 @@ body {
     height: 360px;
     background-color: #fdfdfc;
     background-image: url(../images/footer.jpg);
+    
 }
 
 #footerLogo {
@@ -384,6 +319,7 @@ hr {
         transform: rotate(360deg);
     }
 }
+/* End of code for loader */
 
 @media screen and (max-width: 950px) {
     .dropDownBtn {
