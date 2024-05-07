@@ -191,7 +191,7 @@ function stopLoader() {
 
 // Function that displays data using a list 
 function showData(json) {
-    const restaurantContainer = document.querySelector("#restaurantPlaceHolder");
+    const restaurantContainer = document.querySelector("#restaurantInfo");
     const jsonArray = json.payload;
     const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
 
@@ -203,7 +203,7 @@ function showData(json) {
     }
 
     stopLoader();
-    window.location.hash = "#restaurantPlaceHolder";
+    window.location.hash = "#restaurantInfo";
 }
 
 // Class that constructs any element based on method used
