@@ -35,8 +35,6 @@ let radius = 1;             // Radius for search fetch
 let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
 let selectedDropdownContent;// The selected element that the user clicked on
-let header;                 // Variable for header element
-let headerImg;              // Variable for the image inside header
 let loader;                 // Declaring variabel for the div containing loader
 
 // Init function
