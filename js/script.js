@@ -29,16 +29,15 @@ let locationMarker;
 let smalandButton;          // Button for småland
 let olandButton;            // Button for Öland
 let map;                    // Variable for the map
-let latitude = smaland.lat;// Latitude of Småland
+let latitude = smaland.lat; // Latitude of Småland
 let longitude = smaland.lng;// Longitude of Småland
 let radius = 1;             // Radius for search fetch
 let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
 let selectedDropdownContent;// The selected element that the user clicked on
-
-var header;                 // Variable for header element
-var headerImg;              // Variable for the image inside header
-var loader;                 // Declaring variabel for the div containing loader
+let header;                 // Variable for header element
+let headerImg;              // Variable for the image inside header
+let loader;                 // Declaring variabel for the div containing loader
 
 // Init function
 function init() {
@@ -57,6 +56,7 @@ function init() {
 
     for (let i = 0; i < dropDownContentOptions.length; i++) {
         dropDownContentOptions[i].addEventListener("click", handleClick);
+        
         for (let j = 0; j < selectedDropdownContent.length; j++) {
             selectedDropdownContent[j].removeEventListener("click", handleClick);
             selectedDropdownContent[j].style.opacity = "0.5";
@@ -90,6 +90,7 @@ function toggleSortButtons() {
     if (!olandButton.classList.value) {
         latitude = smaland.lat;
         longitude = smaland.lng;
+
         smalandButton.removeEventListener("click", toggleSortButtons);
         olandButton.addEventListener("click", toggleSortButtons);
         updateMapLoc(Boolean = false);
@@ -97,6 +98,7 @@ function toggleSortButtons() {
     else {
         latitude = oland.lat;
         longitude = oland.lng;
+
         olandButton.removeEventListener("click", toggleSortButtons);
         smalandButton.addEventListener("click", toggleSortButtons);
         updateMapLoc(Boolean = false);
@@ -114,6 +116,7 @@ function handleClick() {
     const dropDownButtonImg = document.querySelector("#distance button img");
     const buttonClicked = this.parentElement.previousElementSibling;
     const thisElem = this;
+
     switch (buttonClicked.parentElement.id) {
         case "distance":
             updateDropdownOptions("distance", thisElem);
@@ -167,12 +170,10 @@ function initMap(id) {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    console.log(map.maxBoundsViscosity);
-
     bounds = L.latLngBounds(L.latLng(boundries.maxLatCorner, boundries.maxLngCorner),
         L.latLng(boundries.minLatCorner, boundries.minLngCorner));
     map.setMaxBounds(bounds);
-    //var rect = L.rectangle(bounds, {          //shows boundries with a box
+    //let rect = L.rectangle(bounds, {          //shows boundries with a box
     //    color: 'blue',
     //    weight: 1
     //}).addTo(map);
@@ -198,6 +199,7 @@ function newRestaurantMarker(lat, lng) {
 // Function for gathering data regarding users position
 function getUserGeo() {
     let successFlag = true;
+
     navigator.geolocation.getCurrentPosition(function (position) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
@@ -211,6 +213,7 @@ function getUserGeo() {
 // Function that updates the position of the map with the geo-data
 function updateMapLoc(success) {
     map.removeLayer(userMarker);
+
     if (success) {
         map.setView([latitude, longitude], zoom = 16);
     }
@@ -222,13 +225,13 @@ function updateMapLoc(success) {
             map.setView([latitude, longitude], oland.zoom);
         }
     }
-
     userMarker = new L.marker([latitude, longitude]).addTo(map);
 }
 
 // Async function that collects restaurant data
 async function fetchData() {
     initLoader();
+
     let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius);
     if (response.ok) {
         let dataResponse = await response.json();
@@ -298,6 +301,7 @@ class ElementConstructor {
         const secondDivElement = document.createElement("div");
         secondDivElement.classList.add("restaurantCardFlex");
         secondDivElement.style.display = "block";
+
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = String(propertyToShow[i]);
             const paragraphElement = document.createElement("p");
