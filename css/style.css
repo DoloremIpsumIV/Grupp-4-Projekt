@@ -180,8 +180,14 @@ body {
     left: 620px;
     margin-top: -180px;
     margin-left: -580px;
-    
-
+    /*
+    background-color: #d7cfc32c;
+    padding: 10px;
+    padding-top: 50px;
+    border: 3px solid #2d324fe1;
+    border-radius: 5px;
+    box-shadow: 2px 2px #0000006f;
+*/
 }
 
 #mapBtn {
@@ -259,9 +265,10 @@ body {
 }
 
 .sortButtonsToggle{
-    opacity: 0.5;
-    background-color: #c78e33 !important;
+    opacity: 1;
+    background-color: #aa916953 !important;
     cursor: default !important;
+    border-color: #976d2a !important;
 } 
 
 #restaurantInfo {
