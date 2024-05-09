@@ -77,6 +77,19 @@ function init() {
     olandButton.addEventListener("click", toggleSortButtons);
     document.querySelector("#shareLocation").addEventListener("click", () => updateMapLoc(Boolean = false));
     document.querySelector("#test").addEventListener("click", fetchData);
+
+
+    //Gör så att när man trycker på gaffeln och kniven tas man upp till sökrutan
+    let forkNknife = document.querySelector("#forknknife");
+
+    forkNknife.addEventListener("click", function() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+
 }
 window.addEventListener("load", init);
 
