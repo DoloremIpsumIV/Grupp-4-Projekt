@@ -77,6 +77,19 @@ function init() {
     olandButton.addEventListener("click", toggleSortButtons);
     document.querySelector("#shareLocation").addEventListener("click", () => updateMapLoc(Boolean = false));
     document.querySelector("#test").addEventListener("click", fetchData);
+
+
+    //Gör så att när man trycker på gaffeln och kniven tas man upp till sökrutan
+    let forkNknife = document.querySelector("#forknknife");
+
+    forkNknife.addEventListener("click", function() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+
 }
 window.addEventListener("load", init);
 
@@ -107,6 +120,12 @@ function toggleSortButtons() {
 function toggleDropdownMenu() {
     const dropdown = this.nextElementSibling;
     dropdown.classList.toggle("show");
+    dropdown.classList.toggle("hide");
+
+    const arrow = this.querySelector(".arrow");
+    arrow.classList.toggle("rotate");
+
+    closeOtherDropdowns(this);
 }
 
 // Function that updates the dropdown menu options
@@ -152,6 +171,56 @@ function updateDropdownOptions(dropdownIdentifier, selectedElement) {
         }
     });
 }
+
+
+//If you click anywhere outside the dropdown menu it will check and close the menu
+document.addEventListener("click", function(event) {
+
+    let dropdownButtons = document.querySelectorAll(".dropDownBtn");
+    let targetElement = event.target;
+    let clickedInsideDropdown = false;
+
+    dropdownButtons.forEach(button => {
+        if (button.contains(targetElement)) {
+            clickedInsideDropdown = true;
+        }
+    });
+
+    if (!clickedInsideDropdown) {
+        closeDropdownMenu();
+    }
+}); 
+
+//Function for closing the dropdown menu
+function closeDropdownMenu() {
+    
+    let dropdowns = document.querySelectorAll(".dropDownContent");
+    dropdowns.forEach(dropdown => {
+        dropdown.classList.remove("show");
+        dropdown.classList.remove("hide");
+    });
+
+    let arrows = document.querySelectorAll(".arrow");
+    arrows.forEach(arrow => {
+        arrow.classList.remove("rotate");
+    });
+
+}
+
+//Stänger dropdown menu när man trycker på en annan dropdown menu
+function closeOtherDropdowns(clickedButton) {
+    const dropdowns = document.querySelectorAll(".dropDownContent");
+    dropdowns.forEach(dropdown => {
+        if (dropdown.previousElementSibling !== clickedButton) {
+            dropdown.classList.remove("show");
+            dropdown.classList.add("hide");
+
+            const arrow = dropdown.previousElementSibling.querySelector(".arrow");
+            arrow.classList.remove("rotate");
+        }
+    });
+}
+
 
 // Function that defiens the value of the radius
 function setRadius(value) {

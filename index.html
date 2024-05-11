@@ -16,7 +16,7 @@
 
 <body>
     <div id="headerContainer" class="stickyHeader">
-        <img src="images/logovit.png" alt="GetFood">
+        <img src="images/logovit.png" alt="GetFood" id="logoWhite">
         <div id="sortButtons">
             <p>Jag vill söka i:</p>
             <button id="smaland" class="sortButtonsToggle">Småland</button>
@@ -29,7 +29,7 @@
         <label for="menuCheckBox" id="menuIcon"></label>
         <input type="checkbox" id="menuCheckBox">
         <div id="typeOfRestaurant">
-            <button class="dropDownBtn">Restaurangtyp: Alla<img src="images/arrow.png" class="arrow"></button>
+            <button class="dropDownBtn">Restaurangtyp<img src="images/arrow.png" class="arrow"></button>
             <div class="dropDownContent" id="restaurantType">
                 <a>Alla</a>
                 <a>Pizzeria</a>
@@ -38,22 +38,22 @@
             </div>
         </div>
         <div id="distance">
-            <button class="dropDownBtn">Avstånd &#40;km&#41;: 1<img src="images/arrow.png" class="arrow"></button>
+            <button class="dropDownBtn">Avstånd &#40;km&#41;<img src="images/arrow.png" class="arrow"></button>
             <div class="dropDownContent" id="radius">
-                <a>1</a>
-                <a>3</a>
-                <a>5</a>
-                <a>10</a>
+                <a>1 KM</a>
+                <a>3 KM</a>
+                <a>5 KM</a>
+                <a>10 KM</a>
             </div>
         </div>
         <div id="priceRange">
-            <button class="dropDownBtn">Prisklass &#40;sek&#41;: Alla<img src="images/arrow.png" class="arrow"></button>
+            <button class="dropDownBtn">Prisklass &#40;sek&#41;<img src="images/arrow.png" class="arrow"></button>
             <div class="dropDownContent" id="price">
                 <a>Alla</a>
-                <a>50-100</a>
-                <a>100-120</a>
-                <a>120-140</a>
-                <a>140-200</a>
+                <a>50-100 SEK</a>
+                <a>100-120 SEK</a>
+                <a>120-140 SEK</a>
+                <a>140-200 SEK</a>
             </div>
         </div>
 
@@ -82,6 +82,7 @@
             </div>
             <div id="restaurantInfo">
                 <p id="infoText">Här var det tomt <br>testa att söka</p>
+                <img src="images/forknknife.png" alt="fork and knife" id="forknknife">
             </div>
         </div>
 
@@ -90,6 +91,12 @@
     <footer id="footer">
         <img id="footerLogo" src="images/logo.png" alt="GetFood">
         <hr>
+        
+        <a class="footLink" href="FAQ.html">FAQ</a>
+       
+        <a class="footLink" href="omOss.html">Om oss</a>
+      
+        <p id="copyRight">© GetFood AB</p>
     </footer>
 </body>
 
