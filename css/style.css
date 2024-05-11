@@ -19,7 +19,7 @@ body {
     top: 0%;
     width: 100%;
     z-index: 200;
-   padding-top: 10px;
+    padding-top: 10px;
 }
 
 
@@ -62,7 +62,6 @@ body {
 
 #flexBox {
     display: flex;
-
 }
 
 
@@ -77,10 +76,11 @@ body {
 }
 
 /* Centering restaurant information and text-decoration */
-#restaurantInfo h4,
+#restaurantInfo h2,
 #restaurantInfo p {
     text-align: center;
-    font-size: 30px;
+    font-size: 20px;
+    margin-left: 10px;
 }
 
 /* Code for decoration of drop-down menus */
@@ -103,18 +103,15 @@ body {
 
 .arrow {
     width: 20px;
-    right: 12px;
-    
-    top: 50%;
-    position: absolute;
- transition: transform 0.4s ease;
+    position: relative;
+    float: right;
+    top: 15px;
+    transition: transform 0.4s ease;
     transform: translateY(-50%) rotate(0deg);
-   
 }
 
 .arrow.rotate {
- 
-    transform:translateY(-50%) rotate(180deg); 
+    transform: translateY(-50%) rotate(180deg);
 }
 
 
@@ -127,11 +124,11 @@ body {
     font-size: 15px;
     border: solid 2px black;
     border-radius: 5px;
-    
+
     height: 110px;
     width: 236px;
     overflow: auto;
-    
+
 }
 
 
@@ -286,12 +283,13 @@ body {
     height: 400px;
     overflow: scroll;
     display: block;
+    padding-left: 10px;
 }
 
 #forknknife {
     height: 150px;
-    margin-left:36%;
-    
+    margin-left: 36%;
+
 }
 
 #forknknife:hover {
@@ -378,7 +376,7 @@ hr {
 .footLink {
     margin-left: 30px;
     margin-top: 20px;
-    color:#2d324fe1 ;
+    color: #2d324fe1;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-decoration: none;
     display: block;
@@ -386,7 +384,7 @@ hr {
 }
 
 .footLink:hover {
-    color:#242a4a;
+    color: #242a4a;
     cursor: pointer;
     text-decoration: underline;
 }
@@ -397,6 +395,16 @@ hr {
     margin-left: 20px;
     margin-top: 50px;
     color: rgb(148, 148, 148);
+}
+
+#search {
+    width: 120px;
+    height: 60px;
+    margin-top: 120px;
+    margin-left: 50px;
+    background-color: white;
+    color: red;
+    border: solid 2px black;
 }
 
 /* Code for loader */
@@ -455,11 +463,53 @@ hr {
 
 /* End of code for loader */
 
+@media screen and (max-width: 940px) {
+    #restaurantInfo h2 {
+        margin-left: 10px;
+    }
+}
+
 @media screen and (max-width: 780px) {
     .dropDownBtn {
         font-size: 17px;
         width: fit-content;
     }
+
+    .arrow {
+        position: relative;
+        float: right;
+        top: 10px;
+        left: 5px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    #flexBox {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #mapViewer {
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+        height: 300px;
+    }
+
+    #restaurantInfo {
+        width: 100%;
+    }
+
+    #footer {
+        margin-top: 40px;
+    }
+
+    hr {
+        width: auto;
+    }
+
 }
 
 @media screen and (max-width: 620px) {
@@ -474,25 +524,78 @@ hr {
         left: 5px;
     }
 
-    #typeOfRestaurant {
-        display: none;
-    }
-    #distance {
-        display: none;
-    }
+    #typeOfRestaurant,
+    #distance,
     #priceRange {
         display: none;
     }
+
 
     #menuCheckBox:checked~#typeOfRestaurant {
         display: block;
     }
 
-    #menuCheckBox:checked~#distance  {
+    #menuCheckBox:checked~#distance {
+        display: block;
+
+    }
+
+    #menuCheckBox:checked~#priceRange {
         display: block;
     }
 
-    #menuCheckBox:checked~#priceRange  {
-        display: block;
+    /* The typeOfRestaurant button does not completely work, it is only clickable on the very right edge of the border */
+    #typeOfRestaurant {
+        position: absolute;
+        top: 100px;
+        left: 20px;
+    }
+
+    #distance {
+        position: absolute;
+        left: 20px;
+        padding-top: 50px;
+    }
+
+    #priceRange {
+        position: absolute;
+        left: 20px;
+        padding-top: 110px;
+    }
+
+    #filters {
+        height: 270px;
+    }
+
+    #searchButtons {
+        margin-top: 300px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    /* Need to fix the design/decoration of these buttons as they are barely visible in their new position */
+    #mapBtn {
+        background-color: white;
+    }
+
+    #findBtn {
+        background-color: white;
+    }
+}
+
+@media screen and (max-width: 569px) {
+    #findBtn {
+        margin-top: 10px;
+        margin-left: 5px;
+    }
+
+    #search {
+        margin-top: 170px;
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+        padding: 20px;
     }
 }
