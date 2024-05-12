@@ -35,13 +35,18 @@ let radius = 1;             // Radius for search fetch
 let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
 let selectedDropdownContent;// The selected element that the user clicked on
-let loader;                 // Declaring variabel for the div containing loader
+let loader;                 // Declaring variable for the div containing loader
+let provinceDialog;         // Declaring variable for the province dialog
 
 // Init function
 function init() {
     initMap("mapViewer");
     getUserGeo();
 
+    okBtn = document.querySelector("#confirmBtn");
+    okBtn.addEventListener("click", closeProvinceDialog);
+
+    provinceDialog = document.querySelector("#chooseProvince");
     smalandButton = document.querySelector("#smaland");
     olandButton = document.querySelector("#oland");
     header = document.querySelector("#headerContainer");
@@ -54,7 +59,7 @@ function init() {
 
     for (let i = 0; i < dropDownContentOptions.length; i++) {
         dropDownContentOptions[i].addEventListener("click", handleClick);
-        
+
         for (let j = 0; j < selectedDropdownContent.length; j++) {
             selectedDropdownContent[j].removeEventListener("click", handleClick);
             selectedDropdownContent[j].style.opacity = "0.5";
@@ -75,14 +80,14 @@ function init() {
 
     olandButton.classList.toggle("sortButtonsToggle");
     olandButton.addEventListener("click", toggleSortButtons);
-    document.querySelector("#shareLocation").addEventListener("click", () => updateMapLoc(Boolean = false));
-    document.querySelector("#test").addEventListener("click", fetchData);
+    // document.querySelector("#shareLocation").addEventListener("click", () => updateMapLoc(Boolean = false));
+    // document.querySelector("#test").addEventListener("click", fetchData);
 
 
     //Gör så att när man trycker på gaffeln och kniven tas man upp till sökrutan
     let forkNknife = document.querySelector("#forknknife");
 
-    forkNknife.addEventListener("click", function() {
+    forkNknife.addEventListener("click", function () {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
@@ -90,8 +95,21 @@ function init() {
     });
 
 
+    showProvinceDialog();
 }
 window.addEventListener("load", init);
+
+function showProvinceDialog() {
+    if (window.innerWidth <= 569) {
+        provinceDialog.style.display = "flex";
+        provinceDialog.showModal();
+    }
+}
+
+function closeProvinceDialog() {
+    provinceDialog.close();
+    provinceDialog.style.display = "none";
+}
 
 // Function that toggles the two buttons
 function toggleSortButtons() {
@@ -174,7 +192,7 @@ function updateDropdownOptions(dropdownIdentifier, selectedElement) {
 
 
 //If you click anywhere outside the dropdown menu it will check and close the menu
-document.addEventListener("click", function(event) {
+document.addEventListener("click", function (event) {
 
     let dropdownButtons = document.querySelectorAll(".dropDownBtn");
     let targetElement = event.target;
@@ -189,11 +207,11 @@ document.addEventListener("click", function(event) {
     if (!clickedInsideDropdown) {
         closeDropdownMenu();
     }
-}); 
+});
 
 //Function for closing the dropdown menu
 function closeDropdownMenu() {
-    
+
     let dropdowns = document.querySelectorAll(".dropDownContent");
     dropdowns.forEach(dropdown => {
         dropdown.classList.remove("show");
