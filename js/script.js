@@ -47,8 +47,32 @@ function init() {
     okBtn.addEventListener("click", closeProvinceDialog);
 
     provinceDialog = document.querySelector("#chooseProvince");
+
+
     smalandButton = document.querySelector("#smaland");
     olandButton = document.querySelector("#oland");
+
+    smalandButton.checked = true;
+
+    smalandCheckbox.addEventListener("change", function() {
+        if (this.checked) {
+            olandCheckbox.checked = false;
+            toggleSortButtons();
+        }
+    });
+
+    olandCheckbox.addEventListener("change", function() {
+        if (this.checked) {
+            smalandCheckbox.checked = false;
+            toggleSortButtons();
+        }
+    });
+
+    document.getElementById("mapBtn").addEventListener("click", openMapDialog);
+
+    document.getElementById("closeButton").addEventListener("click", closeMapDialog);
+
+
     header = document.querySelector("#headerContainer");
     headerImg = document.querySelector("#headerContainer img");
     loader = document.querySelector("#loaderId");
@@ -422,5 +446,35 @@ class ElementConstructor {
 
         return fragment;
     }
+}
+
+
+function openMapDialog() {
+
+    let mapBox = document.querySelector("#map");
+    let overlay = document.querySelector("#overlay");
+
+    mapBox.style.display = "block";
+    overlay.style.display = "block";
+
+    if (document.querySelector("#smalandCheckbox").checked) {
+        selectedProvince = smaland;
+    } else if (document.querySelector("#olandCheckbox").checked) {
+        selectedProvince = oland;
+    }
+
+    // Skapa en karta med Leaflet för det valda landskapet
+    let map = L.map('map').setView([selectedProvince.lat, selectedProvince.lng], selectedProvince.zoom);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    
+}
+
+function closeMapDialog() {
+    let mapBox = document.querySelector("#map");
+    let overlay = document.querySelector("#overlay");
+
+    mapBox.style.display = "none";
+    overlay.style.display = "none";
 }
 
