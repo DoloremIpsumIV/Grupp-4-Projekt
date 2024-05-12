@@ -551,6 +551,33 @@ hr {
 
 /* End of code for loader */
 
+/* Code for modal */
+
+#chooseProvince {
+    display: none;
+    background-color: white;
+    box-shadow: 0px 0px 15px 6px #2d324fe1;
+    border-color: #2d324fe1;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#chooseProvince form {
+    display: flex;
+    flex-wrap: nowrap;
+    grid-template-columns: max-content auto;
+    gap: 0.75em;
+}
+
+#chooseProvince button {
+    display: block;
+    margin-left: auto;
+    padding: 0.5em;
+    height: 45px;
+
+}
+
 @media screen and (max-width: 940px) {
     #restaurantInfo h2 {
         margin-left: 10px;
@@ -685,5 +712,20 @@ hr {
         margin-right: auto;
         justify-content: center;
         padding: 20px;
+    }
+
+    #sortButtons {
+        display: none;
+    }
+
+    #chooseProvince {
+        display: inline-flex;
+    }
+
+}
+
+@media screen and (max-width: 390px) {
+    #chooseProvince {
+        font-size: 14px;
     }
 }
