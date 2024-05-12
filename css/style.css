@@ -125,28 +125,19 @@ body {
     border: solid 2px black;
     border-radius: 5px;
 
-    height: 110px;
+    height: 105px;
     width: 236px;
     overflow: auto;
 
 }
 
-#shareLocation img {
-    position: absolute;
-    width: 2%;
-    top: 75%;
-    left: 28.5%;
-
-    transform: translate(-50%, -50%);
-}
-
 
 #searchButton {
-    width: 60px;
-    height: 50px;
+    width: 537px;
+    margin-left: 40px;
+    height: 35px;
     position: absolute;
-    top: 70.5%;
-    left: 38.5%;
+    margin-top: -122px;
     background-color: #4a6700d7;
     border: solid 1px #899E1D;
     color: white;
@@ -154,6 +145,10 @@ body {
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: transform 0.3s ease;
+}
+
+#searchButton:hover {
+    background-color: #4a670086;
 }
 
 /* Textbox */
@@ -164,8 +159,7 @@ body {
     top: 75%;
     left: 20%;
     transform: translate(-50%, -50%);
-    border-radius: 10px;
-    
+    border-radius: 10px;  
 }
 
 #findAdress {
@@ -238,11 +232,11 @@ body {
     height: 50px;
     font-size: 20px;
     width: 260px;
-    background-color: #899e1d3d;
+    background-color: #899e1d20;
     color: #4A6700;
     border: solid 2px #4a6700;
     border-radius: 5px;
-    transition: 1s;
+    transition: 0.5s;
 }
 
 #mapBtn:hover {
@@ -257,16 +251,16 @@ body {
     height: 50px;
     font-size: 20px;
     width: 260px;
-    background-color: #e885c954;
-    color: #a3528a;
-    border: solid 2px #a3528a;
+    background-color:#d2963562 ;
+    color: #745523;
+    border: solid 2px #745523;
     border-radius: 5px;
     margin-left: 10px;
-    transition: 1s;
+    transition: 0.5s;
 }
 
 #findBtn:hover {
-    background-color: #e794cc;
+    background-color: #d1922ed3;
     color: white;
     transform: scale(1.1);
 }
@@ -274,12 +268,8 @@ body {
 .buttonImg {
     height: 25px;
     margin-left: 7px;
-
 }
 
-#searchButton:hover {
-    transform: scale(1.1);
-}
 
 #sortButtons {
     display: flex;
@@ -326,49 +316,53 @@ body {
 
 
 #sortButtons {
-    position: relative;
- margin-top: -300px;
+position: relative;
+ margin-top: -220px;
+ color: #242a4a;
+ margin-left: 40px;
+ font-size: 25px;
+ font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+
 
 }
 
-#sortButtons input[type="checkbox"] {
-    display: none;
-
-}
-
-
-sortCheckboxToggle label {
-    position: relative;
-    padding-left: 25px; /* Bredden på checkboxen */
+.sortCheckboxToggle {
+    
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    float: right;
+    width: 25px;
+    height: 25px;
+    margin-right: 22px;
+    
+    /* Anpassa bakgrundsfärg och ram på checkboxen */
+    background-color: #ffffff28;
+    border: 2px solid #242a4a;
+    border-radius: 3px;
+    /* Lägg till en pekare när man hovrar över checkboxen */
     cursor: pointer;
-    display: inline-block;
-   
+
+    transition: transform 0.1s ease;
 }
 
-/* Skapa det anpassade kryssmärket */
-.sortCheckBoxToggle::before {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 0;
-    width: 16px; /* Bredd på kryssmärket */
-    height: 16px; /* Höjd på kryssmärket */
-    border: 2px solid #aaa; /* Färg på ramen */
-    border-radius: 3px; /* Rundade hörn */
+.sortCheckboxToggle:checked {
+
+  background-color: #242a4a36;
+    
+
+}
+.sortCheckboxToggle:checked::before {
+    content: "\2713"; 
+
+    font-size: 18px;
+
 }
 
-/* Anpassa utseendet när checkboxen är markerad */
-#sortButtons input[type="checkbox"]:checked + label::before {
-    background-color: #2196F3; /* Färg på kryssmärket när markerat */
-    border-color: #2196F3; /* Färg på ramen när markerat */
+.sortCheckboxToggle:hover {
+    transform: rotate(10deg);
 }
-
-
-
-
-
-
-
 
 
 #restaurantInfo {
@@ -495,16 +489,6 @@ hr {
     margin-left: 20px;
     margin-top: 50px;
     color: rgb(148, 148, 148);
-}
-
-#search {
-    width: 120px;
-    height: 60px;
-    margin-top: 120px;
-    margin-left: 50px;
-    background-color: white;
-    color: red;
-    border: solid 2px black;
 }
 
 /* Code for loader */

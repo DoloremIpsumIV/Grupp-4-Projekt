@@ -42,8 +42,30 @@ function init() {
     initMap("mapViewer");
     getUserGeo();
 
-    smalandButton = document.querySelector("#smaland");
-    olandButton = document.querySelector("#oland");
+    smalandButton = document.querySelector("#smalandCheckbox");
+    olandButton = document.querySelector("#olandCheckbox");
+
+    smalandButton.checked = true;
+    
+    smalandCheckbox.addEventListener("change", function() {
+        if (this.checked) {
+            olandCheckbox.checked = false;
+            toggleSortButtons();
+        }
+    });
+
+    olandCheckbox.addEventListener("change", function() {
+        if (this.checked) {
+            smalandCheckbox.checked = false;
+            toggleSortButtons();
+        }
+    });
+
+
+    //smalandButton.addEventListener("change", toggleSortButtons);
+    //olandButton.addEventListener("change", toggleSortButtons);
+
+
     header = document.querySelector("#headerContainer");
     headerImg = document.querySelector("#headerContainer img");
     loader = document.querySelector("#loaderId");
@@ -75,7 +97,8 @@ function init() {
 
     olandButton.classList.toggle("sortButtonsToggle");
     olandButton.addEventListener("click", toggleSortButtons);
-    document.querySelector("#shareLocation").addEventListener("click", () => updateMapLoc(Boolean = false));
+
+    //document.querySelector("#shareLocation").addEventListener("click", () => updateMapLoc(Boolean = false));
     //document.querySelector("#test").addEventListener("click", fetchData);
 
 
@@ -99,8 +122,23 @@ window.addEventListener("load", init);
 
 // Function that toggles the two buttons
 function toggleSortButtons() {
+   
+
+    if (document.querySelector("#smalandCheckbox").checked) {
+        latitude = smaland.lat;
+        longitude = smaland.lng;
+    } else if (document.querySelector("#olandCheckbox").checked) {
+        latitude = oland.lat;
+        longitude = oland.lng;
+    }
+
+    updateMapLoc(false);
+
+
+    /*
     olandButton.classList.toggle("sortButtonsToggle");
     smalandButton.classList.toggle("sortButtonsToggle");
+
 
     if (!olandButton.classList.value) {
         latitude = smaland.lat;
@@ -118,6 +156,8 @@ function toggleSortButtons() {
         smalandButton.addEventListener("click", toggleSortButtons);
         updateMapLoc(Boolean = false);
     }
+    */
+    
 }
 
 // Function that toggles the dropdown menu
