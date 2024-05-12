@@ -131,6 +131,51 @@ body {
 
 }
 
+#shareLocation img {
+    position: absolute;
+    width: 2%;
+    top: 75%;
+    left: 28.5%;
+
+    transform: translate(-50%, -50%);
+}
+
+
+#searchButton {
+    width: 60px;
+    height: 50px;
+    position: absolute;
+    top: 70.5%;
+    left: 38.5%;
+    background-color: #4a6700d7;
+    border: solid 1px #899E1D;
+    color: white;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease;
+}
+
+/* Textbox */
+#adressTextBox {
+    height: 50px;
+    width: 440px;
+    position: absolute;
+    top: 75%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    
+}
+
+#findAdress {
+    font-size: 10px;
+    margin-top: -99px;
+   position: relative;
+  z-index: 100;
+    margin-left: 357px;
+}
+
 
 .dropDownContent a {
     color: black;
@@ -247,6 +292,7 @@ body {
     justify-content: flex-end;
 }
 
+/*
 #sortButtons button {
 
     height: 50px;
@@ -270,6 +316,60 @@ body {
     cursor: default !important;
     border-color: #976d2a !important;
 }
+*/
+
+#flexContainer {
+
+    display: flex;
+
+}
+
+
+#sortButtons {
+    position: relative;
+ margin-top: -300px;
+
+}
+
+#sortButtons input[type="checkbox"] {
+    display: none;
+
+}
+
+
+sortCheckboxToggle label {
+    position: relative;
+    padding-left: 25px; /* Bredden på checkboxen */
+    cursor: pointer;
+    display: inline-block;
+   
+}
+
+/* Skapa det anpassade kryssmärket */
+.sortCheckBoxToggle::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 16px; /* Bredd på kryssmärket */
+    height: 16px; /* Höjd på kryssmärket */
+    border: 2px solid #aaa; /* Färg på ramen */
+    border-radius: 3px; /* Rundade hörn */
+}
+
+/* Anpassa utseendet när checkboxen är markerad */
+#sortButtons input[type="checkbox"]:checked + label::before {
+    background-color: #2196F3; /* Färg på kryssmärket när markerat */
+    border-color: #2196F3; /* Färg på ramen när markerat */
+}
+
+
+
+
+
+
+
+
 
 #restaurantInfo {
     background-color: #f7f5f2;
@@ -449,6 +549,10 @@ hr {
     border: 8px solid #000;
     border-color: #000 #000 transparent;
     animation: spin 2s linear infinite;
+}
+
+#addressDropdown {
+    display: none;
 }
 
 @keyframes spin {

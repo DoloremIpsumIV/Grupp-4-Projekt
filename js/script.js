@@ -76,7 +76,7 @@ function init() {
     olandButton.classList.toggle("sortButtonsToggle");
     olandButton.addEventListener("click", toggleSortButtons);
     document.querySelector("#shareLocation").addEventListener("click", () => updateMapLoc(Boolean = false));
-    document.querySelector("#test").addEventListener("click", fetchData);
+    //document.querySelector("#test").addEventListener("click", fetchData);
 
 
     //Gör så att när man trycker på gaffeln och kniven tas man upp till sökrutan
@@ -90,8 +90,12 @@ function init() {
     });
 
 
+
 }
 window.addEventListener("load", init);
+
+
+
 
 // Function that toggles the two buttons
 function toggleSortButtons() {
@@ -388,3 +392,4 @@ class ElementConstructor {
         return fragment;
     }
 }
+

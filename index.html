@@ -15,11 +15,13 @@
 <body>
     <div id="headerContainer" class="stickyHeader">
         <img src="images/logovit.png" alt="GetFood" id="logoWhite">
+
+        <!--
         <div id="sortButtons">
             <p>Jag vill söka i:</p>
             <button id="smaland" class="sortButtonsToggle">Småland</button>
             <button id="oland" class="sortButtonsToggle">Öland</button>
-        </div>
+        </div>-->
     </div>
 
 
@@ -54,10 +56,18 @@
                 <a>140-200 SEK</a>
             </div>
         </div>
+    
+        <div id="flexContainer">
 
+        <div id="sortButtons">
+            <label for="smalandCheckbox"><input type="checkbox" id="smalandCheckbox" class="sortCheckboxToggle"> Småland</label>
+            <label for="olandCheckbox"><input type="checkbox" id="olandCheckbox" class="sortCheckboxToggle"> Öland</label>
+        </div>
         <div id="searchButtons">
             <button id="mapBtn">Välj placering på karta <img src="images/mapPointer.png" alt="map pointer" class="buttonImg"></button>
             <button id="findBtn">Hitta min plats</button>
+        </div>
+   
         </div>
     </div>
 
