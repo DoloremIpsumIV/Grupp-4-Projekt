@@ -672,12 +672,11 @@ hr {
 
 @media screen and (max-width: 620px) {
     #menuIcon {
-        background-image: url(../images/menu-bar.png);
-        width: 24px;
-        height: 24px;
+        background-image: url(../images/hamburgarMenu.png);
+        width: 70px;
+        height: 70px;
         display: block;
         cursor: pointer;
-
         position: absolute;
         left: 5px;
     }
