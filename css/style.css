@@ -672,13 +672,14 @@ hr {
 
 @media screen and (max-width: 620px) {
     #menuIcon {
-        background-image: url(../images/hamburgarMenu.png);
+        background-image: url(../images/hamburgerIcon.png);
         width: 70px;
-        height: 70px;
+        height: 56px;
         display: flex;
         cursor: pointer;
         position: absolute;
-        left: 5px;
+        left: 3px;
+        margin-top: 10px;
     }
 
     #typeOfRestaurant,
