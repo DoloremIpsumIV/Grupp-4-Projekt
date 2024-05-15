@@ -57,8 +57,10 @@ function init() {
     
     smalandButton.checked = true;
 
+    const searchButton = document.querySelector("#searchButton");
+    searchButton.addEventListener("click", fetchData);
 
-
+    
     smalandCheckbox.addEventListener("change", function() {
         if (this.checked) {
             olandCheckbox.checked = false;
