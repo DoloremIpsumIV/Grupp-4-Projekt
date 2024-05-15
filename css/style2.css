@@ -20,7 +20,6 @@ body {
     padding-top: 10px;
 }
 
-
 /* Declaring grid-areas */
 #headerContainer {
     background-color: #2d324fe1;
@@ -61,7 +60,6 @@ body {
     position: relative;
     z-index: 1;
 }
-
 
 #footer {
     grid-area: footer;
@@ -127,7 +125,6 @@ hr {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     border: 3px solid black;
     border-radius: 3px;
-
 }
 
 #divBox {

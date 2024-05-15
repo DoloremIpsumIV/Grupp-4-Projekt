@@ -22,12 +22,10 @@ body {
     padding-top: 10px;
 }
 
-
 /* Declaring grid-areas */
 #headerContainer {
     background-color: #2d324fe1;
 }
-
 
 /* Id for the container of the different buttons */
 #filters {
@@ -36,7 +34,6 @@ body {
     background-image: url(../images/bakgrund.jpg);
     background-size: cover;
     height: 400px;
-
     margin-top: 108px;
 }
 
@@ -49,7 +46,6 @@ body {
     grid-area: mapViewer;
     height: 90vh;
     width: 60%;
-
     max-width: 70%;
     margin-left: 20px;
     margin-right: auto;
@@ -57,14 +53,11 @@ body {
     border: 3px solid black;
     z-index: 100;
     display: flex;
-
 }
 
 #flexBox {
     display: flex;
 }
-
-
 
 /* Id for where the dynamic data will be displayed */
 #restaurantInfo {
@@ -96,7 +89,6 @@ body {
     border-radius: 2px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: 6px;
-
     position: relative;
     display: block;
 }
@@ -114,7 +106,6 @@ body {
     transform: translateY(-50%) rotate(180deg);
 }
 
-
 .dropDownContent {
     display: none;
     position: absolute;
@@ -124,13 +115,10 @@ body {
     font-size: 15px;
     border: solid 2px black;
     border-radius: 5px;
-
     height: 105px;
     width: 236px;
     overflow: auto;
-
 }
-
 
 #searchButton {
     width: 537px;
@@ -178,14 +166,11 @@ body {
     margin-left: 357px;
 }
 
-
 .dropDownContent a {
     color: black;
     display: block;
     padding: 12px;
 }
-
-
 
 .dropDownContent a:hover {
     background-color: rgb(100, 97, 97);
@@ -207,8 +192,6 @@ body {
     margin-top: 15px;
     height: 0px;
 }
-
-
 
 /* Button for geo-location */
 #shareLocation {
@@ -253,8 +236,6 @@ body {
     color: white;
 }
 
-
-
 #findBtn {
     height: 50px;
     font-size: 20px;
@@ -277,7 +258,6 @@ body {
     height: 25px;
     margin-left: 7px;
 }
-
 
 #sortButtons {
     display: flex;
@@ -322,16 +302,11 @@ body {
 */
 
 #flexContainer {
-
     display: flex;
     margin-top: 10px;
-
 }
 
-
-
 .sortCheckboxToggle {
-
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -346,28 +321,21 @@ body {
     border-radius: 3px;
     /* Lägg till en pekare när man hovrar över checkboxen */
     cursor: pointer;
-
     transition: transform 0.1s ease;
 }
 
 .sortCheckboxToggle:checked {
-
     background-color: #242a4a36;
-
-
 }
 
 .sortCheckboxToggle:checked::before {
     content: "\2713";
-
     font-size: 18px;
-
 }
 
 .sortCheckboxToggle:hover {
     transform: rotate(10deg);
 }
-
 
 #restaurantInfo {
     background-color: #f7f5f2;
@@ -392,7 +360,6 @@ body {
 #forknknife {
     width: 150px;
     max-width: 100%;
-
 }
 
 #forknknife:hover {
@@ -459,7 +426,6 @@ body {
     backdrop-filter: blur(8px);
     z-index: 999;
     display: none;
-
 }
 
 .crossAndCheck {
@@ -482,9 +448,6 @@ body {
 #closeButton:hover {
     cursor: pointer;
 }
-
-
-
 
 #menuIcon,
 #menuCheckBox {
@@ -534,7 +497,6 @@ hr {
     cursor: pointer;
     text-decoration: underline;
 }
-
 
 #copyRight {
     font-size: 12px;
@@ -591,8 +553,6 @@ hr {
     display: none;
 }
 
-
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -606,7 +566,6 @@ hr {
 /* End of code for loader */
 
 /* Code for modal */
-
 #chooseProvince {
     display: none;
     background-color: white;
@@ -636,7 +595,6 @@ hr {
     display: none;
 }
 
-
 @media screen and (max-width: 780px) {
     .dropDownBtn {
         font-size: 17px;
@@ -661,8 +619,6 @@ hr {
     .dropDownContent {
         width: 156px;
     }
-
-
 }
 
 @media screen and (max-width: 750px) {
@@ -712,7 +668,6 @@ hr {
 
     #searchButton {
         width: 357px;
-
     }
 
     #filters {
@@ -733,10 +688,9 @@ hr {
     }
 
 
-   .arrow {
+    .arrow {
         width: 15px;
         margin-top: -3px;
-
     }
 
     #map {
@@ -758,7 +712,6 @@ hr {
     #forknknife {
         width: 100px;
     }
-
 }
 
 @media screen and (max-width: 440px) {
@@ -771,11 +724,9 @@ hr {
         width: 116px;
     }
 
-
     .arrow {
         width: 15px;
         margin-top: -3px;
-
     }
 
     #map {
@@ -785,13 +736,9 @@ hr {
     #closeButton {
         margin-left: 340px;
     }
-
 }
 
 @media screen and (max-width: 410px) {
-
-
-
     #mapBtn {
         width: 98px;
         display: inline;
@@ -804,18 +751,15 @@ hr {
         display: inline;
         margin-left: -3px;
         margin-top: 3px;
-
     }
 
     .buttonImg {
         width: 12px;
         height: 12px;
-
     }
 
     #searchButton {
         width: 200px;
-
     }
 
     #sortButtons {
@@ -842,7 +786,6 @@ hr {
     #flexContainer {
         margin-top: -85px;
         margin-left: -30px;
-
     }
 
     #settings {
@@ -862,10 +805,9 @@ hr {
     }
 
 
-   .arrow {
+    .arrow {
         width: 10px;
         margin-top: -3px;
-
     }
 
 
@@ -897,13 +839,9 @@ hr {
     #closeButton {
         margin-left: 270px;
     }
-
-
 }
 
 @media screen and (max-width: 320px) {
-
-
     #logoWhite {
         width: 100px;
         margin-left: 20%;
@@ -922,10 +860,9 @@ hr {
         margin-left: 25%;
     }
 
-    
+
     #searchButton {
         width: 224px;
-
     }
 
     #mapBtn {
@@ -940,7 +877,6 @@ hr {
         display: inline;
         margin-left: -3px;
         margin-bottom: 30px;
-
     }
 
     .buttonImg {
@@ -955,7 +891,6 @@ hr {
     #flexContainer {
         margin-top: -85px;
         margin-left: 1px;
-
     }
 
     #distance {
@@ -980,7 +915,4 @@ hr {
     .footLink {
         font-size: 15px;
     }
-
-
-
 }

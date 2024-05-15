@@ -4,10 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
+    <meta name="description"
+        content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/script.js"></script>
     <link rel="icon" href="images/logovit.png">
     <title>GetFood</title>
@@ -16,7 +19,6 @@
 <body>
     <div id="headerContainer" class="stickyHeader">
         <img src="images/logovit.png" alt="GetFoods logotype" id="logoWhite">
-
     </div>
 
     <dialog id="chooseProvince">
@@ -34,66 +36,71 @@
         <label for="menuCheckBox" id="menuIcon"></label>
         <input type="checkbox" id="menuCheckBox">
 
-
-
         <div id="flexforResponsive">
-        <div id="typeOfRestaurant">
-            <button class="dropDownBtn">Restaurangtyp<img src="images/arrow.png" alt="dropDownMenu icon" class="arrow"></button>
-            <div class="dropDownContent" id="restaurantType">
-                <a>Alla</a>
-                <a>Pizzeria</a>
-                <a>Asiatisk</a>
-                <a>Etnisk</a>
-                <a>Casual</a>
-                <a>Snabb</a>
-                <a>Lyx mat</a>
-                <a>Burgare</a>
-                <a>Varmkorvar</a>
-                <a>Latin</a>
-                <a>Lokalägd</a>
-                <a>Medelhavs</a>
-                <a>Annat</a>
-                <a>Bakverk</a>
+            <div id="typeOfRestaurant">
+                <button class="dropDownBtn">Restaurangtyp<img src="images/arrow.png" alt="dropDownMenu icon"
+                        class="arrow"></button>
+                <div class="dropDownContent" id="restaurantType">
+                    <a>Alla</a>
+                    <a>Pizzeria</a>
+                    <a>Asiatisk</a>
+                    <a>Etnisk</a>
+                    <a>Casual</a>
+                    <a>Snabb</a>
+                    <a>Lyx mat</a>
+                    <a>Burgare</a>
+                    <a>Varmkorvar</a>
+                    <a>Latin</a>
+                    <a>Lokalägd</a>
+                    <a>Medelhavs</a>
+                    <a>Annat</a>
+                    <a>Bakverk</a>
+                </div>
             </div>
-        </div>
-        <div id="distance">
-            <button class="dropDownBtn">Avstånd &#40;km&#41;<img src="images/arrow.png" alt="dropDownMenu icon" class="arrow"></button>
-            <div class="dropDownContent" id="radius">
-                <a>1 KM</a>
-                <a>3 KM</a>
-                <a>5 KM</a>
-                <a>10 KM</a>
-            </div>
-        </div>
-        <div id="priceRange">
-            <button class="dropDownBtn">Prisklass &#40;sek&#41;<img src="images/arrow.png" alt="dropDownMenu icon" class="arrow"></button>
-            <div class="dropDownContent" id="price">
-                <a>Alla</a>
-                <a>&gt60 SEK</a>
-                <a>61-90 SEK</a>
-                <a>91-119 SEK</a>
-                <a>&lt120 SEK</a>
-            </div>
-        </div>
-        </div>
 
-        
-    
+            <div id="distance">
+                <button class="dropDownBtn">Avstånd &#40;km&#41;<img src="images/arrow.png" alt="dropDownMenu icon"
+                        class="arrow"></button>
+                <div class="dropDownContent" id="radius">
+                    <a>1 KM</a>
+                    <a>3 KM</a>
+                    <a>5 KM</a>
+                    <a>10 KM</a>
+                </div>
+            </div>
+
+            <div id="priceRange">
+                <button class="dropDownBtn">Prisklass &#40;sek&#41;<img src="images/arrow.png" alt="dropDownMenu icon"
+                        class="arrow"></button>
+                <div class="dropDownContent" id="price">
+                    <a>Alla</a>
+                    <a>&gt60 SEK</a>
+                    <a>61-90 SEK</a>
+                    <a>91-119 SEK</a>
+                    <a>&lt120 SEK</a>
+                </div>
+            </div>
+        </div>
 
         <div id="flexContainer">
-        <div id="sortButtons">
-            <label for="smalandCheckbox"><input type="checkbox" id="smalandCheckbox" class="sortCheckboxToggle" checked> Småland</label>
-            <label for="olandCheckbox"><input type="checkbox" id="olandCheckbox" class="sortCheckboxToggle"> Öland</label>
-        </div>
-        <div id="searchButtons">
-            <button id="mapBtn">Välj placering på karta <img src="images/mapPointer.png" alt="map pin" class="buttonImg"></button>
-  
-            <button id="findBtn">Hitta min plats <img src="images/findPic.png" alt="map pointer" class="buttonImg"></button>
-        </div>
-        <button id="searchButton">SÖK</button>
+            <div id="sortButtons">
+                <label for="smalandCheckbox"><input type="checkbox" id="smalandCheckbox" class="sortCheckboxToggle"
+                        checked> Småland</label>
+                <label for="olandCheckbox"><input type="checkbox" id="olandCheckbox" class="sortCheckboxToggle">
+                    Öland</label>
+            </div>
+
+            <div id="searchButtons">
+                <button id="mapBtn">Välj placering på karta <img src="images/mapPointer.png" alt="map pin"
+                        class="buttonImg"></button>
+
+                <button id="findBtn">Hitta min plats <img src="images/findPic.png" alt="map pointer"
+                        class="buttonImg"></button>
+            </div>
+            <button id="searchButton">SÖK</button>
+
         </div>
     </div>
-
 
     <div id="overlay">
         <button id="closeButton">X</button>
@@ -113,8 +120,6 @@
     </div>
 
     <main>
-
-
         <div id="flexBox">
             <div id="mapViewer">
 
@@ -124,20 +129,15 @@
                 <img src="images/forknknife.png" alt="fork and knife" id="forknknife">
             </div>
         </div>
-
-
     </main>
+
     <footer id="footer">
         <img id="footerLogo" src="images/logo.png" alt="GetFoods logotype">
         <hr>
-
         <a class="footLink" href="FAQ.html">FAQ</a>
-
         <a class="footLink" href="omOss.html">Om oss</a>
-
         <p id="copyRight">© GetFood AB</p>
     </footer>
 </body>
-
 
 </html>
