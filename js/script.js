@@ -37,8 +37,8 @@ let map;                    // Variable for the map
 let latitude = smaland.lat; // Latitude of Småland
 let longitude = smaland.lng;// Longitude of Småland
 let radius = 1;             // Radius for search fetch
-let restaurantType = "";    // type that will be searched for in SMAPI
-let priceRange = "";
+let restaurantType = "";    // Type that will be searched for in SMAPI
+let priceRange = "";        // Price range used for SMAPI fetch
 let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
 let selectedDropdownContent;// The selected element that the user clicked on
@@ -49,9 +49,6 @@ let provinceDialog;         // Declaring variable for the province dialog
 // Init function
 function init() {
     initMap("mapViewer");
-    //showProvinceDialog();
-    //okBtn = document.querySelector("#confirmBtn");
-    //okBtn.addEventListener("click", closeProvinceDialog);
 
     provinceDialog = document.querySelector("#chooseProvince");
     smalandButton = document.querySelector("#smaland");
@@ -61,13 +58,11 @@ function init() {
     smalandCheckbox.checked = true;
     olandCheckbox.checked = false;
 
-
     const searchButton = document.querySelector("#searchButton");
-    searchButton.addEventListener("click", fetchData);
-
     const findBtnElem = document.querySelector("#findBtn");
-    findBtnElem.addEventListener("click", getUserGeo);
 
+    searchButton.addEventListener("click", fetchData);
+    findBtnElem.addEventListener("click", getUserGeo);
 
     smalandCheckbox.addEventListener("change", function () {
         if (this.checked) {
@@ -86,7 +81,6 @@ function init() {
     document.getElementById("mapBtn").addEventListener("click", openMapDialog);
     document.getElementById("closeButton").addEventListener("click", closeMapDialog);
 
-
     header = document.querySelector("#headerContainer");
     headerImg = document.querySelector("#headerContainer img");
     loader = document.querySelector("#loaderId");
@@ -96,13 +90,6 @@ function init() {
     selectedDropdownContent = document.querySelectorAll(".dropDownContent a");
     for (let i = 0; i < dropDownContentOptions.length; i++) {
         dropDownContentOptions[i].addEventListener("click", handleClick);
-
-        //for (let j = 0; j < selectedDropdownContent.length; j++) {
-        //    selectedDropdownContent[j].removeEventListener("click", handleClick);
-        //    selectedDropdownContent[j].style.opacity = "0.5";
-        //    selectedDropdownContent[j].style.backgroundColor = "DimGray";
-        //    selectedDropdownContent[j].style.cursor = "default";
-        //}
     }
 
     const radiusDropdownElem = document.querySelector("#radius");
@@ -125,9 +112,6 @@ function init() {
 
     olandButton.classList.toggle("sortButtonsToggle");
     olandButton.addEventListener("click", toggleSortButtons);
-    // document.querySelector("#shareLocation").addEventListener("click", () => updateMapLoc(Boolean = false));
-    // document.querySelector("#test").addEventListener("click", fetchData);
-
 
     //Gör så att när man trycker på gaffeln och kniven tas man upp till sökrutan
     const forkNknife = document.querySelector("#forknknife");
@@ -140,36 +124,11 @@ function init() {
     });
 
     updateMapLoc(false);
-
 }
 window.addEventListener("load", init);
 
-
-/*
-function showProvinceDialog() {
-    if (window.innerWidth <= 569) {
-        provinceDialog.style.display = "flex";
-        provinceDialog.showModal();
-    }
-}
-
-function closeProvinceDialog() {
-    provinceDialog.close();
-    provinceDialog.style.display = "none";
-}
-*/
-
 // Function that toggles the two buttons
 function toggleSortButtons() {
-
-    //if (document.querySelector("#smalandCheckbox").checked) {
-    //    latitude = smaland.lat;
-    //    longitude = smaland.lng;
-    //} else if (document.querySelector("#olandCheckbox").checked) {
-    //    latitude = oland.lat;
-    //    longitude = oland.lng;
-    //}
-
     updateMapLoc(false);
 
     olandButton.classList.toggle("sortButtonsToggle");
@@ -191,8 +150,6 @@ function toggleSortButtons() {
         smalandButton.addEventListener("click", toggleSortButtons);
         updateMapLoc(Boolean = false);
     }
-
-
 }
 
 // Function that toggles the dropdown menu
@@ -251,9 +208,8 @@ function updateDropdownOptions(dropdownIdentifier, selectedElement) {
     });
 }
 
-//If you click anywhere outside the dropdown menu it will check and close the menu
+// If you click anywhere outside the dropdown menu it will check and close the menu
 document.addEventListener("click", function (event) {
-
     const dropdownButtons = document.querySelectorAll(".dropDownBtn");
     const targetElement = event.target;
     let clickedInsideDropdown = false;
@@ -271,7 +227,6 @@ document.addEventListener("click", function (event) {
 
 //Function for closing the dropdown menu
 function closeDropdownMenu() {
-
     const dropdowns = document.querySelectorAll(".dropDownContent");
     dropdowns.forEach(dropdown => {
         dropdown.classList.remove("show");
@@ -285,7 +240,7 @@ function closeDropdownMenu() {
 
 }
 
-//Stänger dropdown menu när man trycker på en annan dropdown menu
+// Function that closes the dropdown menu if you click outside of it
 function closeOtherDropdowns(clickedButton) {
     const dropdowns = document.querySelectorAll(".dropDownContent");
     dropdowns.forEach(dropdown => {
@@ -298,7 +253,6 @@ function closeOtherDropdowns(clickedButton) {
         }
     });
 }
-
 
 // Function that defiens the value of the radius
 function setRadius(value) {
@@ -388,10 +342,6 @@ function initMap(id) {
     bounds = L.latLngBounds(L.latLng(boundries.maxLatCorner, boundries.maxLngCorner),
         L.latLng(boundries.minLatCorner, boundries.minLngCorner));
     map.setMaxBounds(bounds);
-    //let rect = L.rectangle(bounds, {          //shows boundries with a box
-    //    color: 'blue',
-    //    weight: 1
-    //}).addTo(map);
 
     userMarker = L.marker();
     map.on("click", newUserMarker);
@@ -411,7 +361,7 @@ function newRestaurantMarker(lat, lng) {
     L.marker([lat, lng], { icon: marker }).addTo(map);
 }
 
-// Function for gathering data regarding users position
+// Function for gathering data regarding users position, it handles errors by displaying a warning for the user
 function getUserGeo() {
     let successFlag = true;
 
@@ -430,6 +380,7 @@ function getUserGeo() {
         updateMapLoc(successFlag);
     });
 }
+
 // Function that updates the position of the map with the geo-data
 function updateMapLoc(success) {
     map.removeLayer(userMarker);
@@ -448,7 +399,7 @@ function updateMapLoc(success) {
     userMarker = new L.marker([latitude, longitude]).addTo(map);
 }
 
-// Async function that collects restaurant data
+// Async function that collects restaurant data, it will handle errors by popping up a warning on the page
 async function fetchData() {
     initLoader();
 
@@ -486,13 +437,16 @@ function showData(json) {
 
         for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
             newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng);
+
             const listElements = document.createElement("div");
             listElements.appendChild(elementBuilder.renderElement(i));
             listElements.id = "restaurantCard";
+
             restaurantContainer.appendChild(listElements);
         }
     }
     stopLoader();
+
     restaurantContainer.classList.add("restaurantSize");
     window.location.hash = "#restaurantInfo";
 }
@@ -529,13 +483,13 @@ class ElementConstructor {
         secondDivElement.classList.add("restaurantCardFlex");
         secondDivElement.style.display = "block";
 
-        for (let i = 0; i < propertyToShow.length; i++) {
+        for (let i = 0; i < propertyToShow.length; i++) {                                        // This loop will display all the elements in the restuarant cards, it checks the raw data to display it differently
             const property = String(propertyToShow[i]);
             const paragraphElement = document.createElement("p");
             const secondImageElement = document.createElement("img");
             const parsedNumber = parseFloat((this.data[distanceIndex][property]).toString());
 
-            if (this.data[distanceIndex][property] == "N" || this.data[distanceIndex][property] == "Y") {
+            if (this.data[distanceIndex][property] == "N" || this.data[distanceIndex][property] == "Y") {   // This will check if the current data is "Y" or "N", which will make it into a cross or check
                 if (this.data[distanceIndex][property] == "N") {
                     secondImageElement.src = "/images/Cross.png";
                 }
@@ -546,7 +500,8 @@ class ElementConstructor {
                 paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": ";
                 paragraphElement.appendChild(secondImageElement);
             }
-            else if (property == "avg_lunch_pricing") {
+
+            else if (property == "avg_lunch_pricing") {   // This will check if the data is avgerage lunch pricing, it will compare the numbers and give it one to three dollars depening on set amounts
                 const dollar = document.createElement("p");
                 dollar.style.display = "inline";
                 dollar.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
@@ -567,7 +522,8 @@ class ElementConstructor {
                 }
                 paragraphElement.appendChild(dollar);
             }
-            else if (property == "rating") {
+
+            else if (property == "rating") {   // This will check if the data is a rating, it will then check the first number to loop the amount of stars needed, if the second number (decimal) is 5 or above it will display a half star on the end
                 paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": ";
                 const digit = Math.floor((this.data[distanceIndex][property]) * 10) / 10;
                 const secondDigit = Math.floor((this.data[distanceIndex][property] * 10) % 10);
@@ -582,22 +538,22 @@ class ElementConstructor {
                     paragraphElement.appendChild(this.#starBuilder(false));
                 }
             }
+
             else {
-                if (parsedNumber) {
+                if (parsedNumber) {   // If the data is just a number, like distance to target, it will display it in a readable format and with a max of three decimals
                     paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100
                 }
-                else {
+                else {   // This will simply display the raw text in a more readable format, it cleans it up basically
                     paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property].charAt(0).toUpperCase() + this.data[distanceIndex][property].slice(1).replace(/_/g, " ").toLowerCase();
                 }
             }
             secondDivElement.appendChild(paragraphElement);
             fragment.appendChild(secondDivElement);
         }
-
         return fragment;
     }
 
-    #compare(number) {
+    #compare(number) {                  // Method that compares a number to see if it's below 60, between 60 and 90, or above 90 for different price ranges
         this.numberArray = [60, 90];
         if (number <= this.numberArray[0]) {
             return 1;
@@ -610,7 +566,7 @@ class ElementConstructor {
         }
     }
 
-    #starBuilder(halfStarExists) {
+    #starBuilder(halfStarExists) {      // Method that creates a star image whenever called and if halfStarExists is false, if it's true it ads a half star
         const star = document.createElement("img");
         const halfStar = document.createElement("img");
 
@@ -629,11 +585,10 @@ class ElementConstructor {
 }
 
 
-//Öppnar liten karta
+// Opens the small popup map
 function openMapDialog() {
-
-    let mapBox = document.querySelector("#map");
-    let overlay = document.querySelector("#overlay");
+    const mapBox = document.querySelector("#map");
+    const overlay = document.querySelector("#overlay");
 
     mapBox.style.display = "block";
     overlay.style.display = "block";
@@ -644,17 +599,17 @@ function openMapDialog() {
         selectedProvince = oland;
     }
 
-    // Skapa en karta med Leaflet för det valda landskapet
+    // Creates a mini popup map for the chosen lat and lng
     if (miniMap === undefined) {
         miniMap = L.map('map').setView([selectedProvince.lat, selectedProvince.lng], selectedProvince.zoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
     }
 }
 
-//Stänger liten karta
+// Closes the small popup map
 function closeMapDialog() {
-    let mapBox = document.querySelector("#map");
-    let overlay = document.querySelector("#overlay");
+    const mapBox = document.querySelector("#map");
+    const overlay = document.querySelector("#overlay");
 
     mapBox.style.display = "none";
     overlay.style.display = "none";
