@@ -354,19 +354,19 @@ function setRestaurantType(value) {
 }
 
 // Function that sets the pricerange of SMAPI fetch
-function setPriceRange(value){
+function setPriceRange(value) {
     switch (value) {
         case "&gt;60 SEK":
             priceRange = "&max_avg_lunch_pricing=60";
             break;
-            case "61-90 SEK":
-                priceRange = "&max_avg_lunch_pricing=90&min_avg_lunch_pricing=61";
+        case "61-90 SEK":
+            priceRange = "&max_avg_lunch_pricing=90&min_avg_lunch_pricing=61";
             break;
-            case "91-119 SEK":
-                priceRange = "&max_avg_lunch_pricing=119&min_avg_lunch_pricing=91";
+        case "91-119 SEK":
+            priceRange = "&max_avg_lunch_pricing=119&min_avg_lunch_pricing=91";
             break;
-            case "&lt;120 SEK":
-                priceRange = "&min_avg_lunch_pricing=120";
+        case "&lt;120 SEK":
+            priceRange = "&min_avg_lunch_pricing=120";
             break;
         default:
             priceRange = "";
@@ -457,7 +457,7 @@ async function fetchData() {
         let dataResponse = await response.json();
         showData(dataResponse);
     }
-    else console.log("Error during fetch: " + response.status);
+    else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
 }
 
 // Function that adds CSS-class in order to show loader
@@ -474,7 +474,6 @@ function stopLoader() {
 function showData(json) {
     const restaurantContainer = document.querySelector("#restaurantInfo");
 
-    let array = [];
     if (json.payload.length == 0) {
         restaurantContainer.innerHTML = "Inga resturanger kunde hittas med dessa alternativ, testa att sök på något annat!";
         restaurantContainer.classList.remove("restaurantSize");
@@ -487,7 +486,6 @@ function showData(json) {
 
         for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
             newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng);
-            array[i] = parseInt(jsonArray[i].avg_lunch_pricing);
             const listElements = document.createElement("div");
             listElements.appendChild(elementBuilder.renderElement(i));
             listElements.id = "restaurantCard";
@@ -536,6 +534,7 @@ class ElementConstructor {
             const paragraphElement = document.createElement("p");
             const secondImageElement = document.createElement("img");
             const parsedNumber = parseFloat((this.data[distanceIndex][property]).toString());
+
             if (this.data[distanceIndex][property] == "N" || this.data[distanceIndex][property] == "Y") {
                 if (this.data[distanceIndex][property] == "N") {
                     secondImageElement.src = "/images/Cross.png";
@@ -544,7 +543,7 @@ class ElementConstructor {
                     secondImageElement.src = "/images/Check.png";
                 }
                 secondImageElement.classList = "crossAndCheck";
-                paragraphElement.innerHTML = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": ";
+                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": ";
                 paragraphElement.appendChild(secondImageElement);
             }
             else if (property == "avg_lunch_pricing") {
@@ -552,7 +551,7 @@ class ElementConstructor {
                 dollar.style.display = "inline";
                 dollar.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
                 paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + parsedNumber + " ";
-                switch (this.compare(this.data[distanceIndex][property])) {
+                switch (this.#compare(this.data[distanceIndex][property])) {
                     case 1:
                         dollar.style.color = "green";
                         dollar.innerText = " $";
@@ -567,6 +566,21 @@ class ElementConstructor {
                         break;
                 }
                 paragraphElement.appendChild(dollar);
+            }
+            else if (property == "rating") {
+                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": ";
+                const digit = Math.floor((this.data[distanceIndex][property]) * 10) / 10;
+                const secondDigit = Math.floor((this.data[distanceIndex][property] * 10) % 10);
+
+                for (let i = 1; i < digit; i++) {
+                    paragraphElement.appendChild(this.#starBuilder(false));
+                }
+                if (secondDigit >= 5) {
+                    paragraphElement.appendChild(this.#starBuilder(true));
+                }
+                else if (secondDigit == 0) {
+                    paragraphElement.appendChild(this.#starBuilder(false));
+                }
             }
             else {
                 if (parsedNumber) {
@@ -583,7 +597,7 @@ class ElementConstructor {
         return fragment;
     }
 
-    compare(number) {
+    #compare(number) {
         this.numberArray = [60, 90];
         if (number <= this.numberArray[0]) {
             return 1;
@@ -593,6 +607,23 @@ class ElementConstructor {
         }
         else if (number >= this.numberArray[1]) {
             return 3;
+        }
+    }
+
+    #starBuilder(halfStarExists) {
+        const star = document.createElement("img");
+        const halfStar = document.createElement("img");
+
+        star.src = "/images/wholeStar.png";
+        star.classList = "star";
+        halfStar.src = "/images/halfStar.png";
+        halfStar.classList = "star";
+
+        if (halfStarExists == true) {
+            return halfStar;
+        }
+        else {
+            return star;
         }
     }
 }

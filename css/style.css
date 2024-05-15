@@ -147,6 +147,14 @@ body {
     transition: transform 0.3s ease;
 }
 
+.star {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 4px;
+    margin-right: 2px;
+}
+
 #searchButton:hover {
     background-color: #4a670086;
 }
@@ -378,7 +386,7 @@ body {
 }
 
 .restaurantSize {
-    height: 800px !important; 
+    height: 800px !important;
 }
 
 #forknknife {
