@@ -159,14 +159,14 @@ body {
     top: 75%;
     left: 20%;
     transform: translate(-50%, -50%);
-    border-radius: 10px;  
+    border-radius: 10px;
 }
 
 #findAdress {
     font-size: 10px;
     margin-top: -99px;
-   position: relative;
-  z-index: 100;
+    position: relative;
+    z-index: 100;
     margin-left: 357px;
 }
 
@@ -251,7 +251,7 @@ body {
     height: 50px;
     font-size: 20px;
     width: 260px;
-    background-color:#d2963562 ;
+    background-color: #d2963562;
     color: #745523;
     border: solid 2px #745523;
     border-radius: 5px;
@@ -316,19 +316,19 @@ body {
 
 
 #sortButtons {
-position: relative;
- margin-top: -220px;
- color: #242a4a;
- margin-left: 40px;
- font-size: 25px;
- font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    position: relative;
+    margin-top: -220px;
+    color: #242a4a;
+    margin-left: 40px;
+    font-size: 25px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
 
 
 }
 
 .sortCheckboxToggle {
-    
+
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -336,7 +336,7 @@ position: relative;
     width: 25px;
     height: 25px;
     margin-right: 22px;
-    
+
     /* Anpassa bakgrundsfärg och ram på checkboxen */
     background-color: #ffffff28;
     border: 2px solid #242a4a;
@@ -349,12 +349,13 @@ position: relative;
 
 .sortCheckboxToggle:checked {
 
-  background-color: #242a4a36;
-    
+    background-color: #242a4a36;
+
 
 }
+
 .sortCheckboxToggle:checked::before {
-    content: "\2713"; 
+    content: "\2713";
 
     font-size: 18px;
 
@@ -431,7 +432,7 @@ position: relative;
     width: 700px;
     height: 400px;
     position: fixed;
-    top: 50%; 
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: black 3px solid;
@@ -445,11 +446,11 @@ position: relative;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    backdrop-filter: blur(8px); 
-    z-index: 999; 
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 999;
     display: none;
-   
+
 }
 
 #closeButton {
@@ -667,7 +668,6 @@ hr {
     hr {
         width: auto;
     }
-
 }
 
 @media screen and (max-width: 620px) {
@@ -675,7 +675,7 @@ hr {
         background-image: url(../images/hamburgarMenu.png);
         width: 70px;
         height: 70px;
-        display: block;
+        display: flex;
         cursor: pointer;
         position: absolute;
         left: 5px;
@@ -720,6 +720,18 @@ hr {
         padding-top: 110px;
     }
 
+    #typeOfRestaurant .dropDownBtn {
+        margin-top: 100px;
+    }
+    
+    #distance .dropDownBtn {
+        margin-top: 100px;
+    }
+    
+    #priceRange .dropDownBtn {
+        margin-top: 95px;
+    }
+
     #filters {
         height: 270px;
     }
@@ -738,6 +750,10 @@ hr {
 
     #findBtn {
         background-color: white;
+    }
+
+    #mapViewer {
+        margin-top: 100px;
     }
 }
 
@@ -758,6 +774,10 @@ hr {
 
     #sortButtons {
         display: none;
+    }
+
+    #mapViewer {
+        margin-top: 175px;
     }
 
     #chooseProvince {
