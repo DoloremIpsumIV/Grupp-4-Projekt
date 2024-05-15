@@ -651,7 +651,7 @@ hr {
     }
 
     .dropDownContent {
-        width: 160px;
+        width: 156px;
     }
 
 
@@ -711,99 +711,6 @@ hr {
         background-size: 800px 400px;
     }
 
-
-
-
-
-    /*
-    #menuIcon {
-        background-image: url(../images/hamburgerIcon.png);
-        width: 70px;
-        height: 56px;
-        display: flex;
-        cursor: pointer;
-        position: absolute;
-        left: 3px;
-        margin-top: 10px;
-    }
-    
-
-    #typeOfRestaurant,
-    #distance,
-    #priceRange {
-        display: none;
-    }
-
-
-    #menuCheckBox:checked~#typeOfRestaurant {
-        display: block;
-    }
-
-    #menuCheckBox:checked~#distance {
-        display: block;
-
-    }
-
-    #menuCheckBox:checked~#priceRange {
-        display: block;
-    }
-
-    /* The typeOfRestaurant button does not completely work, it is only clickable on the very right edge of the border */
-    /*
-    #typeOfRestaurant {
-        position: absolute;
-        top: 100px;
-        left: 20px;
-    }
-
-    #distance {
-        position: absolute;
-        left: 20px;
-        padding-top: 50px;
-    }
-
-    #priceRange {
-        position: absolute;
-        left: 20px;
-        padding-top: 110px;
-    }
-
-    #typeOfRestaurant .dropDownBtn {
-        margin-top: 100px;
-    }
-    
-    #distance .dropDownBtn {
-        margin-top: 100px;
-    }
-    
-    #priceRange .dropDownBtn {
-        margin-top: 95px;
-    }
-
-    #filters {
-        height: 270px;
-    }
-
-    #searchButtons {
-        margin-top: 300px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    /* Need to fix the design/decoration of these buttons as they are barely visible in their new position */
-    /*
-    #mapBtn {
-        background-color: white;
-    }
-
-    #findBtn {
-        background-color: white;
-    }
-
-    #mapViewer {
-        margin-top: 100px;
-    }
 }
 
 @media screen and (max-width: 569px) {
@@ -814,7 +721,7 @@ hr {
     }
 
     .dropDownContent {
-        width: 130px;
+        width: 126px;
     }
 
 
@@ -844,34 +751,6 @@ hr {
         width: 100px;
     }
 
-
-    /*
-    #findBtn {
-        margin-top: 10px;
-        margin-left: 5px;
-    }
-
-    #search {
-        margin-top: 170px;
-        display: flex;
-        margin-left: auto;
-        margin-right: auto;
-        justify-content: center;
-        padding: 20px;
-    }
-
-    #sortButtons {
-        display: none;
-    }
-
-    #mapViewer {
-        margin-top: 175px;
-    }
-
-    #chooseProvince {
-        display: inline-flex;
-    }
-*/
 }
 
 @media screen and (max-width: 440px) {
@@ -881,7 +760,7 @@ hr {
     }
 
     .dropDownContent {
-        width: 120px;
+        width: 116px;
     }
 
 
@@ -904,36 +783,19 @@ hr {
 @media screen and (max-width: 410px) {
 
 
-    /*
-    #typeOfRestaurant {
-        margin-top: -5px;
-    }
-
-    #distance {
-        margin-top: -400px;
-    }
-
-    #priceRange {
-        margin-top: -400px;
-    }
-
-    #flexforResponsive {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    */
 
     #mapBtn {
-        width: 106px;
+        width: 98px;
         display: inline;
-
+        margin-left: -30px;
+        margin-top: 3px;
     }
 
     #findBtn {
-        width: 106px;
+        width: 98px;
         display: inline;
+        margin-left: -3px;
+        margin-top: 3px;
 
     }
 
@@ -944,13 +806,14 @@ hr {
     }
 
     #searchButton {
-        width: 230px;
+        width: 200px;
 
     }
 
     #sortButtons {
-        font-size: 15px;
-        margin-bottom: -10px;
+        font-size: 13px;
+        padding-top: 20px;
+        margin-left: 42px;
     }
 
     .sortCheckboxToggle {
@@ -969,7 +832,8 @@ hr {
     }
 
     #flexContainer {
-        margin-top: -550px;
+        margin-top: -85px;
+        margin-left: -30px;
 
     }
 
@@ -977,14 +841,137 @@ hr {
         display: inline;
     }
 
+    .dropDownBtn {
+        font-size: 10px;
+        width: 98px;
+        margin-top: 45px;
+    }
+
+    .dropDownContent {
+        width: 94px;
+        height: 62px;
+        font-size: 12px;
+    }
 
 
+   .arrow {
+        width: 10px;
+        margin-top: -3px;
+
+    }
 
 
+    #distance {
+        margin-left: -10px;
+    }
+
+    #priceRange {
+        margin-left: -10px;
+    }
+
+    #logoWhite {
+        width: 160px;
+        margin-left: 25%;
+    }
+
+    #forknknife {
+        margin-right: 6%;
+    }
+
+    #footer {
+        background-size: 650px 400px;
+    }
+
+    #map {
+        width: 230px;
+    }
+
+    #closeButton {
+        margin-left: 270px;
+    }
 
 
+}
+
+@media screen and (max-width: 320px) {
 
 
+    #logoWhite {
+        width: 100px;
+        margin-left: 20%;
+    }
+
+    #distance {
+        margin-left: -10px;
+    }
+
+    #priceRange {
+        margin-left: -10px;
+    }
+
+    #logoWhite {
+        width: 160px;
+        margin-left: 25%;
+    }
+
+    
+    #searchButton {
+        width: 224px;
+
+    }
+
+    #mapBtn {
+        width: 110px;
+        display: inline;
+        margin-left: 1px;
+        margin-top: 3px;
+    }
+
+    #findBtn {
+        width: 110px;
+        display: inline;
+        margin-left: -3px;
+        margin-bottom: 30px;
+
+    }
+
+    .buttonImg {
+        margin-left: 2px;
+    }
+
+    #filters {
+        background-size: 500px 300px;
+        height: 300px;
+    }
+
+    #flexContainer {
+        margin-top: -85px;
+        margin-left: 1px;
+
+    }
+
+    #distance {
+        margin-left: -15px;
+    }
+
+    #priceRange {
+        margin-left: -15px;
+        margin-right: 0;
+        padding-left: 0;
+    }
+
+    #logoWhite {
+        width: 100px;
+        margin-left: 18%;
+    }
+
+    #footer {
+        background-size: 500px 400px;
+    }
+
+    .footLink {
+        font-size: 15px;
+    }
 
 
 
