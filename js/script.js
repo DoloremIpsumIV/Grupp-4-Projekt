@@ -47,8 +47,7 @@ let provinceDialog;         // Declaring variable for the province dialog
 // Init function
 function init() {
     initMap("mapViewer");
-    getUserGeo();
-
+    //showProvinceDialog();
     //okBtn = document.querySelector("#confirmBtn");
     //okBtn.addEventListener("click", closeProvinceDialog);
 
@@ -60,8 +59,12 @@ function init() {
     smalandCheckbox.checked = true;
     olandCheckbox.checked = false;
 
+
     const searchButton = document.querySelector("#searchButton");
     searchButton.addEventListener("click", fetchData);
+
+    const findBtnElem = document.querySelector("#findBtn");
+    findBtnElem.addEventListener("click", getUserGeo);
 
     
     smalandCheckbox.addEventListener("change", function() {
@@ -131,8 +134,8 @@ function init() {
         });
     });
 
-    showProvinceDialog();
     updateMapLoc(false);
+
 }
 window.addEventListener("load", init);
 
