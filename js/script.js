@@ -43,8 +43,8 @@ function init() {
     initMap("mapViewer");
     getUserGeo();
 
-    okBtn = document.querySelector("#confirmBtn");
-    okBtn.addEventListener("click", closeProvinceDialog);
+    //okBtn = document.querySelector("#confirmBtn");
+    //okBtn.addEventListener("click", closeProvinceDialog);
 
     provinceDialog = document.querySelector("#chooseProvince");
 
@@ -52,7 +52,10 @@ function init() {
     smalandButton = document.querySelector("#smaland");
     olandButton = document.querySelector("#oland");
 
+    
     smalandButton.checked = true;
+
+
 
     smalandCheckbox.addEventListener("change", function() {
         if (this.checked) {
@@ -119,10 +122,12 @@ function init() {
     });
 
 
-    showProvinceDialog();
+    //showProvinceDialog();
 }
 window.addEventListener("load", init);
 
+
+/*
 function showProvinceDialog() {
     if (window.innerWidth <= 569) {
         provinceDialog.style.display = "flex";
@@ -134,6 +139,7 @@ function closeProvinceDialog() {
     provinceDialog.close();
     provinceDialog.style.display = "none";
 }
+*/
 
 // Function that toggles the two buttons
 function toggleSortButtons() {
@@ -449,6 +455,7 @@ class ElementConstructor {
 }
 
 
+//Öppnar liten karta
 function openMapDialog() {
 
     let mapBox = document.querySelector("#map");
@@ -470,6 +477,7 @@ function openMapDialog() {
     
 }
 
+//Stänger liten karta
 function closeMapDialog() {
     let mapBox = document.querySelector("#map");
     let overlay = document.querySelector("#overlay");
