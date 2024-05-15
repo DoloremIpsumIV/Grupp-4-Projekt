@@ -3,13 +3,13 @@ const smaland = {            // Start position for the map
     name: "Småland",
     lat: 56.87767,
     lng: 14.80906,
-    zoom: 8
+    zoom: 9
 }
 const oland = {              // Öland coordinates
     name: "Öland",
     lat: 56.6499,
     lng: 16.46859,
-    zoom: 8
+    zoom: 10
 }
 const boundries = {          // Const with min and max boundries for the map
     maxLatCorner: 56.018610,
@@ -29,6 +29,8 @@ const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 
 let locationMarker;
 let smalandButton;          // Button for småland
+let smalandCheckbox;        // Checkbox element for småland
+let olandCheckbox;          // Checkbox element for öland
 let olandButton;            // Button for Öland
 let map;                    // Variable for the map
 let latitude = smaland.lat; // Latitude of Småland
@@ -50,8 +52,11 @@ function init() {
 
     provinceDialog = document.querySelector("#chooseProvince");
     smalandButton = document.querySelector("#smaland");
+    smalandCheckbox = document.querySelector("#smalandCheckbox");
+    olandCheckbox = document.querySelector("#olandCheckbox");
     olandButton = document.querySelector("#oland");
-    smalandButton.checked = true;
+    smalandCheckbox.checked = true;
+    olandCheckbox.checked = false;
 
     const searchButton = document.querySelector("#searchButton");
     searchButton.addEventListener("click", fetchData);
@@ -127,6 +132,7 @@ function init() {
     });
 
     showProvinceDialog();
+    updateMapLoc(false);
 }
 window.addEventListener("load", init);
 
@@ -145,19 +151,16 @@ function closeProvinceDialog() {
 // Function that toggles the two buttons
 function toggleSortButtons() {
 
-
-    if (document.querySelector("#smalandCheckbox").checked) {
-        latitude = smaland.lat;
-        longitude = smaland.lng;
-    } else if (document.querySelector("#olandCheckbox").checked) {
-        latitude = oland.lat;
-        longitude = oland.lng;
-    }
+    //if (document.querySelector("#smalandCheckbox").checked) {
+    //    latitude = smaland.lat;
+    //    longitude = smaland.lng;
+    //} else if (document.querySelector("#olandCheckbox").checked) {
+    //    latitude = oland.lat;
+    //    longitude = oland.lng;
+    //}
 
     updateMapLoc(false);
-
-
-    /*
+    
     olandButton.classList.toggle("sortButtonsToggle");
     smalandButton.classList.toggle("sortButtonsToggle");
 
@@ -178,7 +181,7 @@ function toggleSortButtons() {
         smalandButton.addEventListener("click", toggleSortButtons);
         updateMapLoc(Boolean = false);
     }
-    */
+    
 
 }
 
@@ -385,7 +388,12 @@ function getUserGeo() {
         longitude = position.coords.longitude;
         updateMapLoc(successFlag);
     }, function (error) {
-        console.log("Could not fetch user geolocation, Error: " + error)
+        if (error == "[object GeolocationPositionError]") {
+            window.alert("Du kan klicka på [Välj placering på karta], klicka på kartan eller välja mellan Småland/Öland för att välja vart du vill se de närmsta resturangerna! \n\nDu kan också tillåta platsdelning på webbsidan igen om du vill hitta din position automatiskt.");
+        }
+        else {
+            window.alert("Fel vid hämtning av geo position: " + error)
+        }
         successFlag = false;
         updateMapLoc(successFlag);
     });
