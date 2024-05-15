@@ -66,8 +66,8 @@ function init() {
     const findBtnElem = document.querySelector("#findBtn");
     findBtnElem.addEventListener("click", getUserGeo);
 
-    
-    smalandCheckbox.addEventListener("change", function() {
+
+    smalandCheckbox.addEventListener("change", function () {
         if (this.checked) {
             olandCheckbox.checked = false;
             toggleSortButtons();
@@ -166,7 +166,7 @@ function toggleSortButtons() {
     //}
 
     updateMapLoc(false);
-    
+
     olandButton.classList.toggle("sortButtonsToggle");
     smalandButton.classList.toggle("sortButtonsToggle");
 
@@ -187,7 +187,7 @@ function toggleSortButtons() {
         smalandButton.addEventListener("click", toggleSortButtons);
         updateMapLoc(Boolean = false);
     }
-    
+
 
 }
 
@@ -447,8 +447,11 @@ function stopLoader() {
 // Function that displays data using a list 
 function showData(json) {
     const restaurantContainer = document.querySelector("#restaurantInfo");
+
+    let array = [];
     if (json.payload.length == 0) {
         restaurantContainer.innerHTML = "Inga resturanger kunde hittas med dessa alternativ, testa att sök på något annat!";
+        restaurantContainer.classList.remove("restaurantSize");
     }
     else {
         restaurantContainer.removeChild(restaurantContainer.firstChild);
@@ -458,6 +461,7 @@ function showData(json) {
 
         for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
             newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng);
+            array[i] = parseInt(jsonArray[i].avg_lunch_pricing);
             const listElements = document.createElement("div");
             listElements.appendChild(elementBuilder.renderElement(i));
             listElements.id = "restaurantCard";
@@ -465,6 +469,7 @@ function showData(json) {
         }
     }
     stopLoader();
+    restaurantContainer.classList.add("restaurantSize");
     window.location.hash = "#restaurantInfo";
 }
 
@@ -482,7 +487,6 @@ class ElementConstructor {
         const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km', 'search_tags', 'avg_lunch_pricing', 'buffet_option'];  // Data that will be displayed
         //const data = Object.keys(this.data[index]);                                            // Switch out property to show with data to display all data in div elements
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
-
         const divElement = document.createElement("div");
         divElement.classList.add("restaurantCardFlex");
 
@@ -504,20 +508,65 @@ class ElementConstructor {
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = String(propertyToShow[i]);
             const paragraphElement = document.createElement("p");
+            const secondImageElement = document.createElement("img");
             const parsedNumber = parseFloat((this.data[distanceIndex][property]).toString());
-
-            if (parsedNumber) {
-                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100
+            if (this.data[distanceIndex][property] == "N" || this.data[distanceIndex][property] == "Y") {
+                if (this.data[distanceIndex][property] == "N") {
+                    secondImageElement.src = "/images/Cross.png";
+                }
+                else {
+                    secondImageElement.src = "/images/Check.png";
+                }
+                secondImageElement.classList = "crossAndCheck";
+                paragraphElement.innerHTML = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": ";
+                paragraphElement.appendChild(secondImageElement);
+            }
+            else if (property == "avg_lunch_pricing") {
+                const dollar = document.createElement("p");
+                dollar.style.display = "inline";
+                dollar.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
+                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + parsedNumber + " ";
+                switch (this.compare(this.data[distanceIndex][property])) {
+                    case 1:
+                        dollar.style.color = "green";
+                        dollar.innerText = " $";
+                        break;
+                    case 2:
+                        dollar.style.color = "yellow";
+                        dollar.innerText = " $$";
+                        break;
+                    case 3:
+                        dollar.style.color = "red";
+                        dollar.innerText = " $$$";
+                        break;
+                }
+                paragraphElement.appendChild(dollar);
             }
             else {
-                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property];
+                if (parsedNumber) {
+                    paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100
+                }
+                else {
+                    paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property].charAt(0).toUpperCase() + this.data[distanceIndex][property].slice(1).replace(/_/g, " ").toLowerCase();
+                }
             }
-
             secondDivElement.appendChild(paragraphElement);
+            fragment.appendChild(secondDivElement);
         }
-        fragment.appendChild(secondDivElement);
 
         return fragment;
+    }
+    compare(number) {
+        this.numberArray = [60, 90];
+        if (number <= this.numberArray[0]) {
+            return 0;
+        }
+        else if (number <= this.numberArray[1]) {
+            return 1;
+        }
+        else {
+            return 2;
+        }
     }
 }
 

@@ -377,6 +377,10 @@ body {
     text-align: center;
 }
 
+.restaurantSize {
+    height: 800px !important; 
+}
+
 #forknknife {
     width: 150px;
     max-width: 100%;
@@ -448,6 +452,13 @@ body {
     z-index: 999;
     display: none;
 
+}
+
+.crossAndCheck {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 5px;
 }
 
 #closeButton {
@@ -630,7 +641,7 @@ hr {
         top: 10px;
         left: 5px;
     }
-    
+
     #map {
         width: 500px;
     }
@@ -678,7 +689,7 @@ hr {
     #mapBtn {
         width: 170px;
         font-size: 13px;
-  
+
     }
 
     #findBtn {
@@ -737,7 +748,8 @@ hr {
         display: block;
     }
 
-    /* The typeOfRestaurant button does not completely work, it is only clickable on the very right edge of the border *//*
+    /* The typeOfRestaurant button does not completely work, it is only clickable on the very right edge of the border */
+    /*
     #typeOfRestaurant {
         position: absolute;
         top: 100px;
@@ -779,7 +791,8 @@ hr {
         justify-content: center;
     }
 
-    /* Need to fix the design/decoration of these buttons as they are barely visible in their new position *//*
+    /* Need to fix the design/decoration of these buttons as they are barely visible in their new position */
+    /*
     #mapBtn {
         background-color: white;
     }
@@ -872,7 +885,7 @@ hr {
     }
 
 
-   .arrow {
+    .arrow {
         width: 15px;
         margin-top: -3px;
 
@@ -915,24 +928,24 @@ hr {
     #mapBtn {
         width: 106px;
         display: inline;
-  
+
     }
 
     #findBtn {
         width: 106px;
         display: inline;
-        
+
     }
 
     .buttonImg {
         width: 12px;
         height: 12px;
-        
+
     }
 
     #searchButton {
         width: 230px;
-    
+
     }
 
     #sortButtons {
@@ -957,22 +970,22 @@ hr {
 
     #flexContainer {
         margin-top: -550px;
-        
+
     }
 
     #settings {
         display: inline;
     }
 
-     
-   
-    
-
-    
 
 
 
 
-   
-    
+
+
+
+
+
+
+
 }
