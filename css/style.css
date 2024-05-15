@@ -277,9 +277,14 @@ body {
     margin-right: 20px;
     margin-top: -65px;
     font-size: 20px;
-    color: white;
 
     justify-content: flex-end;
+    position: relative;
+    margin-top: -220px;
+    color: #242a4a;
+    margin-left: 40px;
+    font-size: 25px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 /*
@@ -311,21 +316,11 @@ body {
 #flexContainer {
 
     display: flex;
+    margin-top: 10px;
 
 }
 
 
-#sortButtons {
-    position: relative;
-    margin-top: -220px;
-    color: #242a4a;
-    margin-left: 40px;
-    font-size: 25px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
-
-
-}
 
 .sortCheckboxToggle {
 
@@ -379,11 +374,12 @@ body {
     overflow: scroll;
     display: block;
     padding-left: 10px;
+    text-align: center;
 }
 
 #forknknife {
-    height: 150px;
-    margin-left: 36%;
+    width: 150px;
+    max-width: 100%;
 
 }
 
@@ -393,10 +389,11 @@ body {
 
 #infoText {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 30px;
+    font-size: 50px;
     margin-right: 30px;
 
 }
+
 
 #restaurantCard {
     background-color: #f7f5f2;
@@ -468,13 +465,7 @@ body {
 }
 
 
-#restaurantInfo div h4 {
-    background-color: rgb(20, 116, 0);
-}
 
-#restaurantInfo div p:nth-child(even) {
-    background-color: rgba(128, 128, 128, 0.301);
-}
 
 #menuIcon,
 #menuCheckBox {
@@ -622,16 +613,15 @@ hr {
 
 }
 
-@media screen and (max-width: 940px) {
-    #restaurantInfo h2 {
-        margin-left: 10px;
-    }
+#settings {
+    display: none;
 }
+
 
 @media screen and (max-width: 780px) {
     .dropDownBtn {
         font-size: 17px;
-        width: fit-content;
+        width: 160px;
     }
 
     .arrow {
@@ -640,6 +630,20 @@ hr {
         top: 10px;
         left: 5px;
     }
+    
+    #map {
+        width: 500px;
+    }
+
+    #closeButton {
+        margin-left: 570px;
+    }
+
+    .dropDownContent {
+        width: 160px;
+    }
+
+
 }
 
 @media screen and (max-width: 750px) {
@@ -662,7 +666,7 @@ hr {
     }
 
     #footer {
-        margin-top: 40px;
+        margin-top: 80px;
     }
 
     hr {
@@ -670,7 +674,37 @@ hr {
     }
 }
 
-@media screen and (max-width: 620px) {
+@media screen and (max-width: 590px) {
+    #mapBtn {
+        width: 170px;
+        font-size: 13px;
+  
+    }
+
+    #findBtn {
+        width: 170px;
+        font-size: 13px;
+    }
+
+    .buttonImg {
+        width: 12px;
+        height: 12px;
+    }
+
+    #searchButton {
+        width: 357px;
+
+    }
+
+    #filters {
+        background-size: 800px 400px;
+    }
+
+
+
+
+
+    /*
     #menuIcon {
         background-image: url(../images/hamburgerIcon.png);
         width: 70px;
@@ -681,6 +715,7 @@ hr {
         left: 3px;
         margin-top: 10px;
     }
+    
 
     #typeOfRestaurant,
     #distance,
@@ -702,7 +737,7 @@ hr {
         display: block;
     }
 
-    /* The typeOfRestaurant button does not completely work, it is only clickable on the very right edge of the border */
+    /* The typeOfRestaurant button does not completely work, it is only clickable on the very right edge of the border *//*
     #typeOfRestaurant {
         position: absolute;
         top: 100px;
@@ -744,7 +779,7 @@ hr {
         justify-content: center;
     }
 
-    /* Need to fix the design/decoration of these buttons as they are barely visible in their new position */
+    /* Need to fix the design/decoration of these buttons as they are barely visible in their new position *//*
     #mapBtn {
         background-color: white;
     }
@@ -759,6 +794,45 @@ hr {
 }
 
 @media screen and (max-width: 569px) {
+
+    .dropDownBtn {
+        font-size: 14px;
+        width: 130px;
+    }
+
+    .dropDownContent {
+        width: 130px;
+    }
+
+
+   .arrow {
+        width: 15px;
+        margin-top: -3px;
+
+    }
+
+    #map {
+        width: 400px;
+    }
+
+    #closeButton {
+        margin-left: 460px;
+    }
+
+    #footer {
+        background-size: 800px 400px;
+    }
+
+    #footerLogo {
+        width: 150px;
+    }
+
+    #forknknife {
+        width: 100px;
+    }
+
+
+    /*
     #findBtn {
         margin-top: 10px;
         margin-left: 5px;
@@ -784,11 +858,121 @@ hr {
     #chooseProvince {
         display: inline-flex;
     }
+*/
+}
+
+@media screen and (max-width: 440px) {
+    .dropDownBtn {
+        font-size: 12px;
+        width: 120px;
+    }
+
+    .dropDownContent {
+        width: 120px;
+    }
+
+
+   .arrow {
+        width: 15px;
+        margin-top: -3px;
+
+    }
+
+    #map {
+        width: 300px;
+    }
+
+    #closeButton {
+        margin-left: 340px;
+    }
 
 }
 
-@media screen and (max-width: 390px) {
-    #chooseProvince {
-        font-size: 14px;
+@media screen and (max-width: 410px) {
+
+
+    /*
+    #typeOfRestaurant {
+        margin-top: -5px;
     }
+
+    #distance {
+        margin-top: -400px;
+    }
+
+    #priceRange {
+        margin-top: -400px;
+    }
+
+    #flexforResponsive {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    */
+
+    #mapBtn {
+        width: 106px;
+        display: inline;
+  
+    }
+
+    #findBtn {
+        width: 106px;
+        display: inline;
+        
+    }
+
+    .buttonImg {
+        width: 12px;
+        height: 12px;
+        
+    }
+
+    #searchButton {
+        width: 230px;
+    
+    }
+
+    #sortButtons {
+        font-size: 15px;
+        margin-bottom: -10px;
+    }
+
+    .sortCheckboxToggle {
+        width: 22px;
+        height: 22px;
+        margin-top: -6px;
+    }
+
+    .sortCheckboxToggle:checked::before {
+        font-size: 15px;
+    }
+
+    #filters {
+        background-size: 600px 300px;
+        height: 300px;
+    }
+
+    #flexContainer {
+        margin-top: -550px;
+        
+    }
+
+    #settings {
+        display: inline;
+    }
+
+     
+   
+    
+
+    
+
+
+
+
+   
+    
 }

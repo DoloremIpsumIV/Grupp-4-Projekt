@@ -47,8 +47,10 @@ let provinceDialog;         // Declaring variable for the province dialog
 // Init function
 function init() {
     initMap("mapViewer");
-    const okBtn = document.querySelector("#confirmBtn");
-    okBtn.addEventListener("click", closeProvinceDialog);
+    getUserGeo();
+
+    //okBtn = document.querySelector("#confirmBtn");
+    //okBtn.addEventListener("click", closeProvinceDialog);
 
     provinceDialog = document.querySelector("#chooseProvince");
     smalandButton = document.querySelector("#smaland");
@@ -61,10 +63,8 @@ function init() {
     const searchButton = document.querySelector("#searchButton");
     searchButton.addEventListener("click", fetchData);
 
-    const findBtnElem = document.querySelector("#findBtn");
-    findBtnElem.addEventListener("click", getUserGeo);
-
-    smalandCheckbox.addEventListener("change", function () {
+    
+    smalandCheckbox.addEventListener("change", function() {
         if (this.checked) {
             olandCheckbox.checked = false;
             toggleSortButtons();
@@ -136,6 +136,8 @@ function init() {
 }
 window.addEventListener("load", init);
 
+
+/*
 function showProvinceDialog() {
     if (window.innerWidth <= 569) {
         provinceDialog.style.display = "flex";
@@ -147,6 +149,7 @@ function closeProvinceDialog() {
     provinceDialog.close();
     provinceDialog.style.display = "none";
 }
+*/
 
 // Function that toggles the two buttons
 function toggleSortButtons() {
@@ -516,6 +519,7 @@ class ElementConstructor {
 }
 
 
+//Öppnar liten karta
 function openMapDialog() {
 
     let mapBox = document.querySelector("#map");
@@ -537,6 +541,7 @@ function openMapDialog() {
 
 }
 
+//Stänger liten karta
 function closeMapDialog() {
     let mapBox = document.querySelector("#map");
     let overlay = document.querySelector("#overlay");
