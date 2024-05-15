@@ -23,6 +23,8 @@ const marker = L.icon({     // Definition of a marker with an image
     iconSize: [38, 45],
     iconAnchor: [45, 36]    // The location of the anchor is based on the top left of the image, and changes with scale, needs tweeking for correct placement
 });
+let subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
+let types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                      // Array for all subTypes 
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 
 let locationMarker;
@@ -32,11 +34,13 @@ let map;                    // Variable for the map
 let latitude = smaland.lat; // Latitude of Småland
 let longitude = smaland.lng;// Longitude of Småland
 let radius = 1;             // Radius for search fetch
+let restaurantType = "";    // type that will be searched for in SMAPI
 let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
 let selectedDropdownContent;// The selected element that the user clicked on
 let loader;                 // Declaring variable for the div containing loader
 let provinceDialog;         // Declaring variable for the province dialog
+
 
 // Init function
 function init() {
@@ -47,8 +51,6 @@ function init() {
     //okBtn.addEventListener("click", closeProvinceDialog);
 
     provinceDialog = document.querySelector("#chooseProvince");
-
-
     smalandButton = document.querySelector("#smaland");
     olandButton = document.querySelector("#oland");
 
@@ -64,7 +66,7 @@ function init() {
         }
     });
 
-    olandCheckbox.addEventListener("change", function() {
+    olandCheckbox.addEventListener("change", function () {
         if (this.checked) {
             smalandCheckbox.checked = false;
             toggleSortButtons();
@@ -72,7 +74,6 @@ function init() {
     });
 
     document.getElementById("mapBtn").addEventListener("click", openMapDialog);
-
     document.getElementById("closeButton").addEventListener("click", closeMapDialog);
 
 
@@ -87,17 +88,21 @@ function init() {
     for (let i = 0; i < dropDownContentOptions.length; i++) {
         dropDownContentOptions[i].addEventListener("click", handleClick);
 
-        for (let j = 0; j < selectedDropdownContent.length; j++) {
-            selectedDropdownContent[j].removeEventListener("click", handleClick);
-            selectedDropdownContent[j].style.opacity = "0.5";
-            selectedDropdownContent[j].style.backgroundColor = "DimGray";
-            selectedDropdownContent[j].style.cursor = "default";
-        }
+        //for (let j = 0; j < selectedDropdownContent.length; j++) {
+        //    selectedDropdownContent[j].removeEventListener("click", handleClick);
+        //    selectedDropdownContent[j].style.opacity = "0.5";
+        //    selectedDropdownContent[j].style.backgroundColor = "DimGray";
+        //    selectedDropdownContent[j].style.cursor = "default";
+        //}
     }
 
     const radiusDropdownElem = document.querySelector("#radius");
     for (let i = 0; i < radiusDropdownElem.children.length; i++) {
         radiusDropdownElem.children[i].addEventListener("click", () => setRadius(radiusDropdownElem.children[i].innerHTML));
+    }
+    const restaurantDropdownElem = document.querySelector("#restaurantType");
+    for (let i = 0; i < restaurantDropdownElem.children.length; i++) {
+        restaurantDropdownElem.children[i].addEventListener("click", () => setRestaurantType(restaurantDropdownElem.children[i].innerHTML));
     }
 
     const dropDownContentElem = document.querySelectorAll(".dropDownBtn");
@@ -112,7 +117,7 @@ function init() {
 
 
     //Gör så att när man trycker på gaffeln och kniven tas man upp till sökrutan
-    let forkNknife = document.querySelector("#forknknife");
+    const forkNknife = document.querySelector("#forknknife");
 
     forkNknife.addEventListener("click", function () {
         window.scrollTo({
@@ -143,7 +148,7 @@ function closeProvinceDialog() {
 
 // Function that toggles the two buttons
 function toggleSortButtons() {
-   
+
 
     if (document.querySelector("#smalandCheckbox").checked) {
         latitude = smaland.lat;
@@ -178,7 +183,7 @@ function toggleSortButtons() {
         updateMapLoc(Boolean = false);
     }
     */
-    
+
 }
 
 // Function that toggles the dropdown menu
@@ -237,12 +242,11 @@ function updateDropdownOptions(dropdownIdentifier, selectedElement) {
     });
 }
 
-
 //If you click anywhere outside the dropdown menu it will check and close the menu
 document.addEventListener("click", function (event) {
 
-    let dropdownButtons = document.querySelectorAll(".dropDownBtn");
-    let targetElement = event.target;
+    const dropdownButtons = document.querySelectorAll(".dropDownBtn");
+    const targetElement = event.target;
     let clickedInsideDropdown = false;
 
     dropdownButtons.forEach(button => {
@@ -259,13 +263,13 @@ document.addEventListener("click", function (event) {
 //Function for closing the dropdown menu
 function closeDropdownMenu() {
 
-    let dropdowns = document.querySelectorAll(".dropDownContent");
+    const dropdowns = document.querySelectorAll(".dropDownContent");
     dropdowns.forEach(dropdown => {
         dropdown.classList.remove("show");
         dropdown.classList.remove("hide");
     });
 
-    let arrows = document.querySelectorAll(".arrow");
+    const arrows = document.querySelectorAll(".arrow");
     arrows.forEach(arrow => {
         arrow.classList.remove("rotate");
     });
@@ -290,6 +294,54 @@ function closeOtherDropdowns(clickedButton) {
 // Function that defiens the value of the radius
 function setRadius(value) {
     radius = value;
+}
+
+// Function that converts the input value of the dropdown to code that SMAPI understands
+function setRestaurantType(value) {
+    switch (value) {
+        case value = "Alla":
+            restaurantType = "";
+            break;
+        case value = "Pizzeria":
+            restaurantType = subTypes[0] + subTypes[8];
+            break;
+        case value = "Asiatisk":
+            restaurantType = subTypes[0] + subTypes[2];
+            break;
+        case value = "Etnisk":
+            restaurantType = types[0] + types[2];
+            break;
+        case value = "Casual":
+            restaurantType = types[0] + types[1];
+            break;
+        case value = "Snabb":
+            restaurantType = types[0] + types[3];
+            break;
+        case value = "Lyx mat":
+            restaurantType = types[0] + types[4];
+            break;
+        case value = "Burgare":
+            restaurantType = subTypes[0] + subTypes[3];
+            break;
+        case value = "Varmkorvar":
+            restaurantType = subTypes[0] + subTypes[4];
+            break;
+        case value = "Latin":
+            restaurantType = subTypes[0] + subTypes[5];
+            break;
+        case value = "Lokalägd":
+            restaurantType = subTypes[0] + subTypes[6];
+            break;
+        case value = "Medelhavs":
+            restaurantType = subTypes[0] + subTypes[7];
+            break;
+        case value = "Annat":
+            restaurantType = subTypes[0] + subTypes[9];
+            break;
+        case value = "Bakverk":
+            restaurantType = subTypes[0] + subTypes[10];
+            break;
+    }
 }
 
 // Function for initiation of the map
@@ -364,7 +416,7 @@ function updateMapLoc(success) {
 async function fetchData() {
     initLoader();
 
-    let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius);
+    let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType);
     if (response.ok) {
         let dataResponse = await response.json();
         showData(dataResponse);
@@ -385,17 +437,22 @@ function stopLoader() {
 // Function that displays data using a list 
 function showData(json) {
     const restaurantContainer = document.querySelector("#restaurantInfo");
-    restaurantContainer.removeChild(restaurantContainer.firstChild);
-    restaurantContainer.innerHTML = "";
-    const jsonArray = json.payload;
-    const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
+    if (json.payload.length == 0) {
+        restaurantContainer.innerHTML = "Inga resturanger kunde hittas med dessa alternativ, testa att sök på något annat!";
+    }
+    else {
+        restaurantContainer.removeChild(restaurantContainer.firstChild);
+        restaurantContainer.innerHTML = "";
+        const jsonArray = json.payload;
+        const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
 
-    for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
-        newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng);
-        const listElements = document.createElement("div");
-        listElements.appendChild(elementBuilder.renderElement(i));
-        listElements.id = "restaurantCard";
-        restaurantContainer.appendChild(listElements);
+        for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
+            newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng);
+            const listElements = document.createElement("div");
+            listElements.appendChild(elementBuilder.renderElement(i));
+            listElements.id = "restaurantCard";
+            restaurantContainer.appendChild(listElements);
+        }
     }
     stopLoader();
     window.location.hash = "#restaurantInfo";
@@ -474,7 +531,7 @@ function openMapDialog() {
     let map = L.map('map').setView([selectedProvince.lat, selectedProvince.lng], selectedProvince.zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    
+
 }
 
 //Stänger liten karta

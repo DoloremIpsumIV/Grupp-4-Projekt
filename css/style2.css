@@ -1,5 +1,3 @@
-
-
 html,
 body {
     font-size: 20px;
@@ -19,7 +17,7 @@ body {
     top: 0%;
     width: 100%;
     z-index: 200;
-   padding-top: 10px;
+    padding-top: 10px;
 }
 
 
@@ -42,17 +40,17 @@ body {
     height: 400px;
     margin-top: 108px;
     position: relative;
-    
+
 }
 
 #filters::before {
-    content: ""; 
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #name {
@@ -60,8 +58,8 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 50px;
     color: white;
-    position: relative; 
-    z-index: 1; 
+    position: relative;
+    z-index: 1;
 }
 
 
@@ -84,32 +82,32 @@ body {
 }
 
 hr {
-    width: 500px;
+    width: 700px;
     margin-left: 0px;
 }
 
 #footLinkFAQ {
     margin-left: 30px;
     margin-top: -20px;
-    color:#2d324fe1 ;
+    color: #2d324fe1;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 #footLinkFAQ:hover {
-    color:#242a4a;
+    color: #242a4a;
     cursor: pointer;
     text-decoration: underline;
 }
 
 #footLinkOss {
     margin-left: 30px;
-    color:#2d324fe1 ;
+    color: #2d324fe1;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     margin-top: -30px;
 }
 
 #footLinkOss:hover {
-    color:#242a4a;
+    color: #242a4a;
     cursor: pointer;
     text-decoration: underline;
 }
@@ -124,7 +122,7 @@ hr {
 .textBox {
     background-color: rgba(245, 245, 245, 0.589);
     margin-top: 50px;
-    width: 700px;
+    width: auto;
     padding: 10px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     border: 3px solid black;
@@ -148,7 +146,7 @@ hr {
 .footLink {
     margin-left: 30px;
     margin-top: 20px;
-    color:#2d324fe1 ;
+    color: #2d324fe1;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-decoration: none;
     display: block;
@@ -156,12 +154,12 @@ hr {
 }
 
 .footLink:hover {
-    color:#242a4a;
+    color: #242a4a;
     cursor: pointer;
     text-decoration: underline;
 }
 
-h3{
+h3 {
     margin-top: 50px;
     margin-bottom: -5px;
     color: rgb(209, 209, 209);
@@ -171,4 +169,25 @@ h3{
     color: white;
 }
 
+@media screen and (max-width: 1200px) {
+    .textBox hr {
+        width: auto;
+    }
+}
 
+@media screen and (max-width: 710px) {
+    footer hr {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .textBox {
+        font-size: 20px;
+    }
+
+    #divBox {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
