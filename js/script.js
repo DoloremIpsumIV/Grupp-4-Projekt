@@ -32,11 +32,13 @@ let smalandButton;          // Button for småland
 let smalandCheckbox;        // Checkbox element for småland
 let olandCheckbox;          // Checkbox element for öland
 let olandButton;            // Button for Öland
+let miniMap;                // Small map that pops up
 let map;                    // Variable for the map
 let latitude = smaland.lat; // Latitude of Småland
 let longitude = smaland.lng;// Longitude of Småland
 let radius = 1;             // Radius for search fetch
 let restaurantType = "";    // type that will be searched for in SMAPI
+let priceRange = "";
 let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
 let selectedDropdownContent;// The selected element that the user clicked on
@@ -91,8 +93,7 @@ function init() {
 
     // Updates the contents of the drop-down menus with the selected option
     let dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
-    selectedDropdownContent = document.querySelectorAll(".dropDownContent :first-child");
-
+    selectedDropdownContent = document.querySelectorAll(".dropDownContent a");
     for (let i = 0; i < dropDownContentOptions.length; i++) {
         dropDownContentOptions[i].addEventListener("click", handleClick);
 
@@ -111,6 +112,10 @@ function init() {
     const restaurantDropdownElem = document.querySelector("#restaurantType");
     for (let i = 0; i < restaurantDropdownElem.children.length; i++) {
         restaurantDropdownElem.children[i].addEventListener("click", () => setRestaurantType(restaurantDropdownElem.children[i].innerHTML));
+    }
+    const priceDropdownElem = document.querySelector("#price");
+    for (let i = 0; i < priceDropdownElem.children.length; i++) {
+        priceDropdownElem.children[i].addEventListener("click", () => setPriceRange(priceDropdownElem.children[i].innerHTML));
     }
 
     const dropDownContentElem = document.querySelectorAll(".dropDownBtn");
@@ -169,7 +174,6 @@ function toggleSortButtons() {
 
     olandButton.classList.toggle("sortButtonsToggle");
     smalandButton.classList.toggle("sortButtonsToggle");
-
 
     if (!olandButton.classList.value) {
         latitude = smaland.lat;
@@ -349,6 +353,28 @@ function setRestaurantType(value) {
     }
 }
 
+// Function that sets the pricerange of SMAPI fetch
+function setPriceRange(value){
+    switch (value) {
+        case "&gt;60 SEK":
+            priceRange = "&max_avg_lunch_pricing=60";
+            break;
+            case "61-90 SEK":
+                priceRange = "&max_avg_lunch_pricing=90&min_avg_lunch_pricing=61";
+            break;
+            case "91-119 SEK":
+                priceRange = "&max_avg_lunch_pricing=119&min_avg_lunch_pricing=91";
+            break;
+            case "&lt;120 SEK":
+                priceRange = "&min_avg_lunch_pricing=120";
+            break;
+        default:
+            priceRange = "";
+            break;
+    }
+
+}
+
 // Function for initiation of the map
 function initMap(id) {
     map = L.map(id).setView([smaland.lat, smaland.lng], smaland.zoom);
@@ -426,7 +452,7 @@ function updateMapLoc(success) {
 async function fetchData() {
     initLoader();
 
-    let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType);
+    let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange);
     if (response.ok) {
         let dataResponse = await response.json();
         showData(dataResponse);
@@ -556,16 +582,17 @@ class ElementConstructor {
 
         return fragment;
     }
+
     compare(number) {
         this.numberArray = [60, 90];
         if (number <= this.numberArray[0]) {
-            return 0;
-        }
-        else if (number <= this.numberArray[1]) {
             return 1;
         }
-        else {
+        else if (number <= this.numberArray[1]) {
             return 2;
+        }
+        else if (number >= this.numberArray[1]) {
+            return 3;
         }
     }
 }
@@ -587,10 +614,10 @@ function openMapDialog() {
     }
 
     // Skapa en karta med Leaflet för det valda landskapet
-    let map = L.map('map').setView([selectedProvince.lat, selectedProvince.lng], selectedProvince.zoom);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-
+    if (miniMap === undefined) {
+        miniMap = L.map('map').setView([selectedProvince.lat, selectedProvince.lng], selectedProvince.zoom);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
+    }
 }
 
 //Stänger liten karta
