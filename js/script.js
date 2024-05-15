@@ -24,14 +24,13 @@ const marker = L.icon({     // Definition of a marker with an image
     iconAnchor: [45, 36]    // The location of the anchor is based on the top left of the image, and changes with scale, needs tweeking for correct placement
 });
 let subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
-let types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                      // Array for all subTypes 
+let types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 
-let locationMarker;
-let smalandButton;          // Button for småland
-let smalandCheckbox;        // Checkbox element for småland
-let olandCheckbox;          // Checkbox element for öland
-let olandButton;            // Button for Öland
+let smalandButtonElem;      // Button elem for småland
+let smalandCheckbox;        // Checkbox element for Småland
+let olandButtonElem;        // Button elem for Öland
+let olandCheckbox;          // Checkbox element for Öland
 let miniMap;                // Small map that pops up
 let map;                    // Variable for the map
 let latitude = smaland.lat; // Latitude of Småland
@@ -43,26 +42,26 @@ let flag = false;           // Flag for checking stickyHeader
 let userMarker;             // Marker that places where the user clicks
 let selectedDropdownContent;// The selected element that the user clicked on
 let loader;                 // Declaring variable for the div containing loader
-let provinceDialog;         // Declaring variable for the province dialog
-
 
 // Init function
 function init() {
     initMap("mapViewer");
-
-    provinceDialog = document.querySelector("#chooseProvince");
-    smalandButton = document.querySelector("#smaland");
-    smalandCheckbox = document.querySelector("#smalandCheckbox");
-    olandCheckbox = document.querySelector("#olandCheckbox");
-    olandButton = document.querySelector("#oland");
-    smalandCheckbox.checked = true;
-    olandCheckbox.checked = false;
 
     const searchButton = document.querySelector("#searchButton");
     const findBtnElem = document.querySelector("#findBtn");
 
     searchButton.addEventListener("click", fetchData);
     findBtnElem.addEventListener("click", getUserGeo);
+
+    smalandButtonElem = document.querySelector("#smaland");
+    smalandCheckbox = document.querySelector("#smalandCheckbox");
+    smalandCheckbox.checked = true;
+
+    olandCheckbox = document.querySelector("#olandCheckbox");
+    olandButtonElem = document.querySelector("#oland");
+    olandCheckbox.checked = false;
+    olandButtonElem.classList.toggle("sortButtonsToggle");
+    olandButtonElem.addEventListener("click", toggleSortButtons);
 
     smalandCheckbox.addEventListener("change", function () {
         if (this.checked) {
@@ -110,12 +109,8 @@ function init() {
         dropDownContentElem[i].addEventListener("click", toggleDropdownMenu);
     }
 
-    olandButton.classList.toggle("sortButtonsToggle");
-    olandButton.addEventListener("click", toggleSortButtons);
-
-    //Gör så att när man trycker på gaffeln och kniven tas man upp till sökrutan
+    // When the fork and knife image is pressed it takes you to the search bar
     const forkNknife = document.querySelector("#forknknife");
-
     forkNknife.addEventListener("click", function () {
         window.scrollTo({
             top: 0,
@@ -131,23 +126,23 @@ window.addEventListener("load", init);
 function toggleSortButtons() {
     updateMapLoc(false);
 
-    olandButton.classList.toggle("sortButtonsToggle");
-    smalandButton.classList.toggle("sortButtonsToggle");
+    olandButtonElem.classList.toggle("sortButtonsToggle");
+    smalandButtonElem.classList.toggle("sortButtonsToggle");
 
-    if (!olandButton.classList.value) {
+    if (!olandButtonElem.classList.value) {
         latitude = smaland.lat;
         longitude = smaland.lng;
 
-        smalandButton.removeEventListener("click", toggleSortButtons);
-        olandButton.addEventListener("click", toggleSortButtons);
+        smalandButtonElem.removeEventListener("click", toggleSortButtons);
+        olandButtonElem.addEventListener("click", toggleSortButtons);
         updateMapLoc(Boolean = false);
     }
     else {
         latitude = oland.lat;
         longitude = oland.lng;
 
-        olandButton.removeEventListener("click", toggleSortButtons);
-        smalandButton.addEventListener("click", toggleSortButtons);
+        olandButtonElem.removeEventListener("click", toggleSortButtons);
+        smalandButtonElem.addEventListener("click", toggleSortButtons);
         updateMapLoc(Boolean = false);
     }
 }
@@ -389,7 +384,7 @@ function updateMapLoc(success) {
         map.setView([latitude, longitude], zoom = 16);
     }
     else {
-        if (!olandButton.classList.value) {
+        if (!olandButtonElem.classList.value) {
             map.setView([latitude, longitude], smaland.zoom);
         }
         else {
