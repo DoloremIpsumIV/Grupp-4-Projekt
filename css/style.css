@@ -674,6 +674,11 @@ hr {
         background-size: 800px 400px;
     }
 
+    #map {
+        width: 600px;
+    }
+
+
 }
 
 @media screen and (max-width: 569px) {
@@ -739,28 +744,26 @@ hr {
 }
 
 @media screen and (max-width: 410px) {
-    #mapBtn {
-        width: 98px;
-        display: inline;
-        margin-left: -30px;
-        margin-top: 3px;
-    }
+    
 
-    #findBtn {
-        width: 98px;
-        display: inline;
-        margin-left: -3px;
-        margin-top: 3px;
-    }
+#mapBtn {
+    width: 170px;
+    margin-left: -30px;
 
-    .buttonImg {
-        width: 12px;
-        height: 12px;
-    }
+}
 
-    #searchButton {
-        width: 200px;
-    }
+#findBtn {
+  width: 170px;
+    margin-top: 3px;
+    
+}
+
+
+.buttonImg {
+    width: 15px;
+    height: 15px;
+}
+
 
     #sortButtons {
         font-size: 13px;
@@ -833,19 +836,43 @@ hr {
     }
 
     #map {
-        width: 230px;
+        width: 300px;
     }
 
     #closeButton {
-        margin-left: 270px;
+        margin-left: 310px;
     }
+    
 }
 
-@media screen and (max-width: 320px) {
-    #logoWhite {
-        width: 100px;
-        margin-left: 20%;
+@media screen and (max-width: 390px) {
+    #searchButton {
+        width: 370px;
     }
+
+    #mapBtn {
+        width: 180px;
+        display: inline;
+
+        margin-top: 3px;
+    }
+
+    #findBtn {
+        width: 180px;
+        display: inline;
+        margin-left: 0px;
+       
+        margin-bottom: 30px;
+    }
+
+    #filters {
+        background-size: 680px 300px;
+    }
+
+}
+
+@media screen and (max-width: 380px) {
+   
 
     #distance {
         margin-left: -10px;
@@ -856,27 +883,70 @@ hr {
     }
 
     #logoWhite {
-        width: 160px;
-        margin-left: 25%;
+        width: 100px;
+        margin-left: 23%;
     }
 
 
     #searchButton {
-        width: 224px;
+        width: 230px;
     }
 
     #mapBtn {
-        width: 110px;
+        width: 111px;
         display: inline;
-        margin-left: 1px;
+        margin-left: 28px;
         margin-top: 3px;
     }
 
     #findBtn {
-        width: 110px;
+        width: 111px;
         display: inline;
-        margin-left: -3px;
+        margin-left: 0px;
+       
         margin-bottom: 30px;
+    }
+
+    .buttonImg {
+        margin-left: 2px;
+    }
+
+
+ #flexContainer {
+        margin-left: 8%;
+    }
+    
+
+
+}
+
+@media screen and (max-width: 350px) {
+
+    #distance {
+        margin-left: -10px;
+    }
+
+    #priceRange {
+        margin-left: -10px;
+    }
+
+   
+
+
+    #searchButton {
+        width: 230px;
+    }
+
+    #mapBtn {
+        width: 110px;
+        margin-top: 3px;
+        margin-left: 10px;
+    }
+
+    #findBtn {
+        width: 110px;
+        margin-left: 2px;
+        
     }
 
     .buttonImg {
@@ -890,7 +960,8 @@ hr {
 
     #flexContainer {
         margin-top: -85px;
-        margin-left: 1px;
+        margin-left: 10px;
+
     }
 
     #distance {
@@ -905,14 +976,22 @@ hr {
 
     #logoWhite {
         width: 100px;
-        margin-left: 18%;
+        margin-left: 20%;
     }
 
     #footer {
-        background-size: 500px 400px;
+        background-size: 600px 400px;
     }
 
     .footLink {
         font-size: 15px;
+    }
+
+    #map {
+        width: 250px;
+    }
+
+    #closeButton {
+        margin-left: 250px;
     }
 }
