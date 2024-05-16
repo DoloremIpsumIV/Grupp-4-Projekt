@@ -17,31 +17,33 @@ const boundries = {          // Const with min and max boundries for the map
     minLatCorner: 58.122646,
     minLngCorner: 13.061037
 }
-const marker = L.icon({     // Definition of a marker with an image
-    iconUrl: '/images/Marker.png',
-
-    iconSize: [38, 45],
-    iconAnchor: [45, 36]    // The location of the anchor is based on the top left of the image, and changes with scale, needs tweeking for correct placement
+const marker = L.Icon.extend({     // Definition of a marker with an image
+    options: {
+        iconSize: [30, 50],
+        iconAnchor: [15, 50]
+    }
 });
 const subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
 const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 
-let smalandButtonElem;      // Button elem for småland
-let smalandCheckbox;        // Checkbox element for Småland
-let olandButtonElem;        // Button elem for Öland
-let olandCheckbox;          // Checkbox element for Öland
-let miniMap;                // Small map that pops up
-let map;                    // Variable for the map
-let latitude = smaland.lat; // Latitude of Småland
-let longitude = smaland.lng;// Longitude of Småland
-let radius = 1;             // Radius for search fetch
-let restaurantType = "";    // Type that will be searched for in SMAPI
-let priceRange = "";        // Price range used for SMAPI fetch
-let flag = false;           // Flag for checking stickyHeader
-let userMarker;             // Marker that places where the user clicks
-let selectedDropdownContent;// The selected element that the user clicked on
-let loader;                 // Declaring variable for the div containing loader
+let restuarantMarkerArray = []; // Array that stores all restaurant markers so they can be removed
+let smalandButtonElem;            // Button elem for småland
+let smalandCheckbox;              // Checkbox element for Småland
+let olandButtonElem;              // Button elem for Öland
+let olandCheckbox;                // Checkbox element for Öland
+let miniMap;                      // Small map that pops up
+let map;                          // Variable for the map
+let latitude = smaland.lat;       // Latitude of Småland
+let longitude = smaland.lng;      // Longitude of Småland
+let radius = 1;                   // Radius for search fetch
+let restaurantType = "";          // Type that will be searched for in SMAPI
+let priceRange = "";              // Price range used for SMAPI fetch
+let flag = false;                 // Flag for checking stickyHeader
+let restaurantFlag = false;       // Flag that checks if there are restaurants or not
+let userMarker;                   // Marker that places where the user clicks
+let selectedDropdownContent;      // The selected element that the user clicked on
+let loader;                       // Declaring variable for the div containing loader
 
 // Init function
 function init() {
@@ -239,7 +241,6 @@ function closeDropdownMenu() {
     arrows.forEach(arrow => {
         arrow.classList.remove("rotate");
     });
-
 }
 
 // Function that closes the dropdown menu if you click outside of it
@@ -358,8 +359,19 @@ function newUserMarker(e) {
 }
 
 // Function that adds markers to the map of all restaurants
-function newRestaurantMarker(lat, lng) {
-    L.marker([lat, lng], { icon: marker }).addTo(map);
+function newRestaurantMarker(lat, lng, urlType) {
+    if (restaurantFlag == true) {
+        for (let i = 0; i < restuarantMarkerArray.length; i++) {
+            restuarantMarkerArray[i].remove();
+        }
+    }
+
+    let restaurantMarker = new marker({ iconUrl: "/mapIcons/map" + urlType + ".png" });
+    if (urlType == "OTHER" || urlType == "PASTRIES") {
+        restaurantMarker = new marker({ iconUrl: "/mapIcons/mapLOCAL.png" });
+    }
+    restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map));
+    restaurantFlag = false;
 }
 
 // Function for gathering data regarding users position, it handles errors by displaying a warning for the user
@@ -429,6 +441,9 @@ function showData(json) {
     if (json.payload.length == 0) {
         restaurantContainer.innerHTML = "Inga resturanger kunde hittas med dessa alternativ, testa att sök på något annat!";
         restaurantContainer.classList.remove("restaurantSize");
+        for (let i = 0; i < restuarantMarkerArray.length; i++) {
+            restuarantMarkerArray[i].remove();
+        }
     }
     else {
         restaurantContainer.removeChild(restaurantContainer.firstChild);
@@ -437,7 +452,7 @@ function showData(json) {
         const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
 
         for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
-            newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng);
+            newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng, jsonArray[i].sub_type);
 
             const listElements = document.createElement("div");
             listElements.appendChild(elementBuilder.renderElement(i));
@@ -445,6 +460,7 @@ function showData(json) {
 
             restaurantContainer.appendChild(listElements);
         }
+        restaurantFlag = true;
     }
     stopLoader();
 
