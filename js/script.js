@@ -409,7 +409,12 @@ function updateMapLoc(success) {
             map.setView([latitude, longitude], oland.zoom);
         }
     }
-    userMarker = new L.marker([latitude, longitude]).addTo(map);
+    const ownPositionMarker = L.icon({
+        iconUrl: "/mapIcons/mapOwnPosition.png",
+        iconSize: [20, 40],
+        iconAnchor: [10, 40]
+    })
+    userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker }).addTo(map);
 }
 
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page
