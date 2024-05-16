@@ -23,8 +23,8 @@ const marker = L.icon({     // Definition of a marker with an image
     iconSize: [38, 45],
     iconAnchor: [45, 36]    // The location of the anchor is based on the top left of the image, and changes with scale, needs tweeking for correct placement
 });
-let subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
-let types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
+const subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
+const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 
 let smalandButtonElem;      // Button elem for småland
@@ -199,6 +199,13 @@ function updateDropdownOptions(dropdownIdentifier, selectedElement) {
             option.style.cursor = "pointer";
             option.style.opacity = "1";
             selectedDropdownContent = Array.from(selectedDropdownContent);
+
+            if (selectedElement.parentElement.lastChild.previousElementSibling == selectedElement) { // Very bad fix for making sure the last dropdown element becomes selected. (I don't know why but only the last <a> element doesn't work without this check)
+                selectedElement.removeEventListener("click", handleClick);
+                selectedElement.style.opacity = "0.5";
+                selectedElement.style.backgroundColor = "DimGray";
+                selectedElement.style.cursor = "default";
+            }
         }
     });
 }
@@ -321,7 +328,6 @@ function setPriceRange(value) {
             priceRange = "";
             break;
     }
-
 }
 
 // Function for initiation of the map
@@ -469,6 +475,18 @@ class ElementConstructor {
         const titleElement = document.createElement("h2");
         titleElement.id = "restaurantName";
         titleElement.innerText = this.data[distanceIndex].name;
+
+        for (let i = 0; i < propertyToShow.length; i++) {
+            const property = String(propertyToShow[i]);
+            if (property == "sub_type") {
+                if (this.data[distanceIndex][property] == "OTHER") {
+                    imgElement.src = "/mapIcons/PASTRIES.png";
+                }
+                else {
+                    imgElement.src = "/mapIcons/" + this.data[distanceIndex][property] + ".png";
+                }
+            }
+        }
 
         divElement.appendChild(imgElement);
         divElement.appendChild(titleElement);
