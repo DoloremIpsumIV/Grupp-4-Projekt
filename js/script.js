@@ -367,9 +367,6 @@ function newRestaurantMarker(lat, lng, urlType) {
     }
 
     let restaurantMarker = new marker({ iconUrl: "/mapIcons/map" + urlType + ".png" });
-    if (urlType == "OTHER" || urlType == "PASTRIES") {
-        restaurantMarker = new marker({ iconUrl: "/mapIcons/mapLOCAL.png" });
-    }
     restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map));
     restaurantFlag = false;
 }
@@ -500,12 +497,7 @@ class ElementConstructor {
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = String(propertyToShow[i]);
             if (property == "sub_type") {
-                if (this.data[distanceIndex][property] == "OTHER") {
-                    imgElement.src = "/mapIcons/PASTRIES.png";
-                }
-                else {
-                    imgElement.src = "/mapIcons/" + this.data[distanceIndex][property] + ".png";
-                }
+                imgElement.src = "/mapIcons/" + this.data[distanceIndex][property] + ".png";
             }
         }
 
