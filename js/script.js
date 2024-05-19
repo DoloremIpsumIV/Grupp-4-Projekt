@@ -307,6 +307,9 @@ function setRestaurantType(value) {
         case value = "Bakverk":
             restaurantType = subTypes[0] + subTypes[10];
             break;
+        default:
+            restaurantType = "";
+            break;
     }
 }
 
@@ -356,6 +359,8 @@ function newUserMarker(e) {
 
     latitude = e.latlng.lat;
     longitude = e.latlng.lng;
+
+    closeMapDialog();
 }
 
 // Function that adds markers to the map of all restaurants
@@ -401,9 +406,16 @@ function updateMapLoc(success) {
     else {
         if (!olandButtonElem.classList.value) {
             map.setView([latitude, longitude], smaland.zoom);
+            if (miniMap) {
+                miniMap.setView([latitude, longitude], smaland.zoom);
+            }
         }
         else {
             map.setView([latitude, longitude], oland.zoom);
+            if (miniMap) {
+                miniMap.setView([latitude, longitude], oland.zoom);
+            }
+
         }
     }
     const ownPositionMarker = L.icon({
@@ -464,6 +476,7 @@ function showData(json) {
         }
         restaurantFlag = true;
     }
+    updateMapLoc();
     stopLoader();
 
     restaurantContainer.classList.add("restaurantSize");
@@ -614,21 +627,20 @@ class ElementConstructor {
 // Opens the small popup map
 function openMapDialog() {
     const mapBox = document.querySelector("#map");
+    const mapViewBox = document.querySelector("#mapViewer")
     const overlay = document.querySelector("#overlay");
 
     mapBox.style.display = "block";
+    mapBox.style.width = mapViewBox.offsetWidth + "px";
+    mapBox.style.height = mapViewBox.offsetHeight + "px";
     overlay.style.display = "block";
-
-    if (document.querySelector("#smalandCheckbox").checked) {
-        selectedProvince = smaland;
-    } else if (document.querySelector("#olandCheckbox").checked) {
-        selectedProvince = oland;
-    }
 
     // Creates a mini popup map for the chosen lat and lng
     if (miniMap === undefined) {
-        miniMap = L.map('map').setView([selectedProvince.lat, selectedProvince.lng], selectedProvince.zoom);
+        miniMap = L.map('map').setView([smaland.lat, smaland.lng], smaland.zoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
+
+        miniMap.on("click", newUserMarker);
     }
 }
 
