@@ -615,6 +615,8 @@ hr {
 
     #restaurantInfo {
         width: 100%;
+        margin-left: 55px;
+        margin-right: 55px;
     }
 
     #footer {
@@ -721,25 +723,29 @@ hr {
 }
 
 @media screen and (max-width: 410px) {
-    
 
-#mapBtn {
-    width: 170px;
-    margin-left: -30px;
+    #flexforResponsive {
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-}
+    #mapBtn {
+        width: 170px;
+        margin-left: -30px;
 
-#findBtn {
-  width: 170px;
-    margin-top: 3px;
-    
-}
+    }
+
+    #findBtn {
+        width: 170px;
+        margin-top: 3px;
+
+    }
 
 
-.buttonImg {
-    width: 15px;
-    height: 15px;
-}
+    .buttonImg {
+        width: 15px;
+        height: 15px;
+    }
 
 
     #sortButtons {
@@ -773,7 +779,7 @@ hr {
     }
 
     .dropDownBtn {
-        font-size: 10px;
+        font-size: 13px;
         width: 98px;
         margin-top: 45px;
     }
@@ -819,7 +825,12 @@ hr {
     #closeButton {
         margin-left: 310px;
     }
-    
+
+   
+    .dropDownBtn {
+        width: fit-content;
+    }
+
 }
 
 @media screen and (max-width: 390px) {
@@ -838,7 +849,7 @@ hr {
         width: 180px;
         display: inline;
         margin-left: 0px;
-       
+
         margin-bottom: 30px;
     }
 
@@ -849,7 +860,7 @@ hr {
 }
 
 @media screen and (max-width: 380px) {
-   
+
 
     #distance {
         margin-left: -10px;
@@ -880,7 +891,7 @@ hr {
         width: 111px;
         display: inline;
         margin-left: 0px;
-       
+
         margin-bottom: 30px;
     }
 
@@ -889,11 +900,15 @@ hr {
     }
 
 
- #flexContainer {
+    #flexContainer {
         margin-left: 8%;
     }
-    
 
+    .dropDownBtn {
+        font-size: 10px;
+        width: 98px;
+        margin-top: 45px;
+    }
 
 }
 
@@ -907,7 +922,7 @@ hr {
         margin-left: -10px;
     }
 
-   
+
 
 
     #searchButton {
@@ -923,7 +938,7 @@ hr {
     #findBtn {
         width: 110px;
         margin-left: 2px;
-        
+
     }
 
     .buttonImg {
