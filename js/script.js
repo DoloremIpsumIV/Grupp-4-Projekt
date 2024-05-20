@@ -307,6 +307,9 @@ function setRestaurantType(value) {
         case value = "Bakverk":
             restaurantType = subTypes[0] + subTypes[10];
             break;
+        default:
+            restaurantType = "";
+            break;
     }
 }
 
@@ -356,6 +359,8 @@ function newUserMarker(e) {
 
     latitude = e.latlng.lat;
     longitude = e.latlng.lng;
+
+    closeMapDialog();
 }
 
 // Function that adds markers to the map of all restaurants
@@ -401,9 +406,16 @@ function updateMapLoc(success) {
     else {
         if (!olandButtonElem.classList.value) {
             map.setView([latitude, longitude], smaland.zoom);
+            if (miniMap) {
+                miniMap.setView([latitude, longitude], smaland.zoom);
+            }
         }
         else {
             map.setView([latitude, longitude], oland.zoom);
+            if (miniMap) {
+                miniMap.setView([latitude, longitude], oland.zoom);
+            }
+
         }
     }
     const ownPositionMarker = L.icon({
@@ -464,6 +476,7 @@ function showData(json) {
         }
         restaurantFlag = true;
     }
+    updateMapLoc();
     stopLoader();
 
     restaurantContainer.classList.add("restaurantSize");
@@ -511,6 +524,7 @@ class ElementConstructor {
 
         for (let i = 0; i < propertyToShow.length; i++) {                                        // This loop will display all the elements in the restuarant cards, it checks the raw data to display it differently
             const property = String(propertyToShow[i]);
+            const translatedWord = this.#wordTranslator(property);
             const paragraphElement = document.createElement("p");
             const secondImageElement = document.createElement("img");
             const parsedNumber = parseFloat((this.data[distanceIndex][property]).toString());
@@ -523,7 +537,7 @@ class ElementConstructor {
                     secondImageElement.src = "/images/Check.png";
                 }
                 secondImageElement.classList = "crossAndCheck";
-                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": ";
+                paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": ";
                 paragraphElement.appendChild(secondImageElement);
             }
 
@@ -531,7 +545,7 @@ class ElementConstructor {
                 const dollar = document.createElement("p");
                 dollar.style.display = "inline";
                 dollar.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
-                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + parsedNumber + " ";
+                paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + parsedNumber + " ";
                 switch (this.#compare(this.data[distanceIndex][property])) {
                     case 1:
                         dollar.style.color = "green";
@@ -550,7 +564,7 @@ class ElementConstructor {
             }
 
             else if (property == "rating") {   // This will check if the data is a rating, it will then check the first number to loop the amount of stars needed, if the second number (decimal) is 5 or above it will display a half star on the end
-                paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": ";
+                paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": ";
                 const digit = Math.floor((this.data[distanceIndex][property]) * 10) / 10;
                 const secondDigit = Math.floor((this.data[distanceIndex][property] * 10) % 10);
 
@@ -567,16 +581,49 @@ class ElementConstructor {
 
             else {
                 if (parsedNumber) {   // If the data is just a number, like distance to target, it will display it in a readable format and with a max of three decimals
-                    paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100
+                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100
                 }
                 else {   // This will simply display the raw text in a more readable format, it cleans it up basically
-                    paragraphElement.innerText = property.charAt(0).toUpperCase() + property.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property].charAt(0).toUpperCase() + this.data[distanceIndex][property].slice(1).replace(/_/g, " ").toLowerCase();
+                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property].charAt(0).toUpperCase() + this.data[distanceIndex][property].slice(1).replace(/_/g, " ").toLowerCase();
                 }
             }
             secondDivElement.appendChild(paragraphElement);
             fragment.appendChild(secondDivElement);
         }
         return fragment;
+    }
+
+    #wordTranslator(word) {
+        const swedishNames = ['beskrivning', 'typ', 'betyg', 'under_typ', 'distans_i_km', 'sök_taggar', 'snitt_lunch_pris', 'buffé_alternativ'];
+        switch (word) {
+            case 'description':
+                word = swedishNames[0];
+                return word;
+            case 'type':
+                word = swedishNames[1];
+                return word;
+            case 'rating':
+                word = swedishNames[2];
+                return word;
+            case 'sub_type':
+                word = swedishNames[3];
+                return word;
+            case 'distance_in_km':
+                word = swedishNames[4];
+                return word;
+            case 'search_tags':
+                word = swedishNames[5];
+                return word;
+            case 'avg_lunch_pricing':
+                word = swedishNames[6];
+                return word;
+            case 'buffet_option':
+                word = swedishNames[7];
+                return word;
+            default:
+                return word;
+        }
+
     }
 
     #compare(number) {                  // Method that compares a number to see if it's below 60, between 60 and 90, or above 90 for different price ranges
@@ -614,21 +661,20 @@ class ElementConstructor {
 // Opens the small popup map
 function openMapDialog() {
     const mapBox = document.querySelector("#map");
+    const mapViewBox = document.querySelector("#mapViewer")
     const overlay = document.querySelector("#overlay");
 
     mapBox.style.display = "block";
+    mapBox.style.width = mapViewBox.offsetWidth + "px";
+    mapBox.style.height = mapViewBox.offsetHeight + "px";
     overlay.style.display = "block";
-
-    if (document.querySelector("#smalandCheckbox").checked) {
-        selectedProvince = smaland;
-    } else if (document.querySelector("#olandCheckbox").checked) {
-        selectedProvince = oland;
-    }
 
     // Creates a mini popup map for the chosen lat and lng
     if (miniMap === undefined) {
-        miniMap = L.map('map').setView([selectedProvince.lat, selectedProvince.lng], selectedProvince.zoom);
+        miniMap = L.map('map').setView([smaland.lat, smaland.lng], smaland.zoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
+
+        miniMap.on("click", newUserMarker);
     }
 }
 
