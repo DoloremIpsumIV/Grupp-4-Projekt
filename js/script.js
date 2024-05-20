@@ -381,7 +381,7 @@ function getUserGeo() {
         updateMapLoc(successFlag);
     }, function (error) {
         if (error == "[object GeolocationPositionError]") {
-            window.alert("Du kan klicka på [Välj placering på karta], klicka på kartan eller välja mellan Småland/Öland för att välja vart du vill se de närmsta resturangerna! \n\nDu kan också tillåta platsdelning på webbsidan igen om du vill hitta din position automatiskt.");
+            window.alert("Om du inte godkänner att sidan använder din platsinfomation kommer inte denna funktionen att fungera! Välj då istället plats via kartan \n\nDu kan också trycka på hitta min plats igen för att godkänna");
         }
         else {
             window.alert("Fel vid hämtning av geo position: " + error)

@@ -209,14 +209,7 @@ body {
     left: 620px;
     margin-top: -180px;
     margin-left: -580px;
-    /*
-    background-color: #d7cfc32c;
-    padding: 10px;
-    padding-top: 50px;
-    border: 3px solid #2d324fe1;
-    border-radius: 5px;
-    box-shadow: 2px 2px #0000006f;
-*/
+   
 }
 
 #mapBtn {
@@ -232,6 +225,11 @@ body {
 
 #mapBtn:hover {
     transform: scale(1.1);
+    background-color: #899e1dc5;
+    color: white;
+}
+
+#mapBtn:active {
     background-color: #899e1dc5;
     color: white;
 }
@@ -254,6 +252,11 @@ body {
     transform: scale(1.1);
 }
 
+#findBtn:active {
+    background-color: #d1922ed3;
+    color: white;
+}
+
 .buttonImg {
     height: 25px;
     margin-left: 7px;
@@ -274,32 +277,6 @@ body {
     font-size: 25px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-
-/*
-#sortButtons button {
-
-    height: 50px;
-    font-size: 20px;
-    width: 100px;
-    background-color: #c78e33;
-    color: white;
-    border: solid 2px #976d2a;
-    border-radius: 5px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-#sortButtons button:hover {
-    background-color: #d69122c0;
-}
-
-.sortButtonsToggle {
-    opacity: 1;
-    background-color: #aa916953 !important;
-    cursor: default !important;
-    border-color: #976d2a !important;
-}
-*/
 
 #flexContainer {
     display: flex;
@@ -375,7 +352,7 @@ body {
 
 
 #restaurantCard {
-    background-color: #f7f5f2;
+    background-color: rgb(253, 245, 235);
     width: 95%;
     border: 4px solid black;
     border-radius: 10px;
