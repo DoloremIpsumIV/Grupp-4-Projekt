@@ -494,7 +494,7 @@ class ElementConstructor {
 
     renderElement(index) {
         const fragment = new DocumentFragment();
-        const propertyToShow = ['description', 'type', 'rating', 'sub_type', 'distance_in_km', 'search_tags', 'avg_lunch_pricing', 'buffet_option'];  // Data that will be displayed
+        const propertyToShow = ['sub_type', 'description', 'rating', 'distance_in_km', 'search_tags', 'avg_lunch_pricing', 'buffet_option'];  // Data that will be displayed
         //const data = Object.keys(this.data[index]);                                            // Switch out property to show with data to display all data in div elements
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
         const divElement = document.createElement("div");
@@ -545,7 +545,7 @@ class ElementConstructor {
                 const dollar = document.createElement("p");
                 dollar.style.display = "inline";
                 dollar.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
-                paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + parsedNumber + " ";
+                paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ":";
                 switch (this.#compare(this.data[distanceIndex][property])) {
                     case 1:
                         dollar.style.color = "green";
@@ -564,7 +564,7 @@ class ElementConstructor {
             }
 
             else if (property == "rating") {   // This will check if the data is a rating, it will then check the first number to loop the amount of stars needed, if the second number (decimal) is 5 or above it will display a half star on the end
-                paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": ";
+                //paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": ";
                 const digit = Math.floor((this.data[distanceIndex][property]) * 10) / 10;
                 const secondDigit = Math.floor((this.data[distanceIndex][property] * 10) % 10);
 
@@ -579,9 +579,19 @@ class ElementConstructor {
                 }
             }
 
+            else if (property == "distance_in_km") {    // Writes the distance in km if above or equal to one, or in meters if less than that
+                if (Math.round((parsedNumber + Number.EPSILON) >= 1)) {
+                    paragraphElement.innerText = Math.round((parsedNumber + Number.EPSILON) * 100) / 100 + " km ifrån dig";
+                }
+                else {
+                    paragraphElement.innerText = (Math.floor((parsedNumber + Number.EPSILON) * 100) / 100) * 1000 + " meter ifrån dig";
+                }
+
+            }
+
             else {
                 if (parsedNumber) {   // If the data is just a number, like distance to target, it will display it in a readable format and with a max of three decimals
-                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100
+                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100;
                 }
                 else {   // This will simply display the raw text in a more readable format, it cleans it up basically
                     paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property].charAt(0).toUpperCase() + this.data[distanceIndex][property].slice(1).replace(/_/g, " ").toLowerCase();
@@ -594,7 +604,7 @@ class ElementConstructor {
     }
 
     #wordTranslator(word) {
-        const swedishNames = ['beskrivning', 'typ', 'betyg', 'under_typ', 'distans_i_km', 'sök_taggar', 'snitt_lunch_pris', 'buffé_alternativ'];
+        const swedishNames = ['beskrivning', 'typ', 'betyg', 'under_typ', 'distans_i_km', 'taggar', 'snitt_lunch_pris', 'buffé_alternativ'];
         switch (word) {
             case 'description':
                 word = swedishNames[0];
@@ -606,7 +616,7 @@ class ElementConstructor {
                 word = swedishNames[2];
                 return word;
             case 'sub_type':
-                word = swedishNames[3];
+                word = swedishNames[1];
                 return word;
             case 'distance_in_km':
                 word = swedishNames[4];
