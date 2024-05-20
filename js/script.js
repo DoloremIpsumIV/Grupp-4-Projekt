@@ -27,7 +27,7 @@ const subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "
 const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 
-let restuarantMarkerArray = []; // Array that stores all restaurant markers so they can be removed
+let restuarantMarkerArray = [];   // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;            // Button elem for småland
 let smalandCheckbox;              // Checkbox element for Småland
 let olandButtonElem;              // Button elem for Öland
@@ -44,6 +44,8 @@ let restaurantFlag = false;       // Flag that checks if there are restaurants o
 let userMarker;                   // Marker that places where the user clicks
 let selectedDropdownContent;      // The selected element that the user clicked on
 let loader;                       // Declaring variable for the div containing loader
+let dropDownContentElem;          // All the button elements for the dropdown
+let dropDownContentFirstChild;    // Array with all the first elements from the first dropdown elements
 
 // Init function
 function init() {
@@ -87,7 +89,8 @@ function init() {
     loader = document.querySelector("#loaderId");
 
     // Updates the contents of the drop-down menus with the selected option
-    let dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
+    dropDownContentFirstChild = document.querySelectorAll(".dropDownContent");
+    const dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
     selectedDropdownContent = document.querySelectorAll(".dropDownContent a");
     for (let i = 0; i < dropDownContentOptions.length; i++) {
         dropDownContentOptions[i].addEventListener("click", handleClick);
@@ -106,7 +109,7 @@ function init() {
         priceDropdownElem.children[i].addEventListener("click", () => setPriceRange(priceDropdownElem.children[i].innerHTML));
     }
 
-    const dropDownContentElem = document.querySelectorAll(".dropDownBtn");
+    dropDownContentElem = document.querySelectorAll(".dropDownBtn");
     for (let i = 0; i < dropDownContentElem.length; i++) {
         dropDownContentElem[i].addEventListener("click", toggleDropdownMenu);
     }
@@ -162,30 +165,66 @@ function toggleDropdownMenu() {
 }
 
 // Function that updates the dropdown menu options
-function handleClick() {
+function handleClick(defaultSearch) {
     const dropDownButtonImg = document.querySelector("#distance button img");
-    const buttonClicked = this.parentElement.previousElementSibling;
-    const thisElem = this;
+    if (defaultSearch == true) {                                                // Selects the first dropdown elements if the user searches without choosing anything first
+        for (let i = 0; i < dropDownContentElem.length; i++) {
+            const childElem = dropDownContentFirstChild[i].firstElementChild;
+            switch (dropDownContentElem[i].innerText) {
+                case "Restaurangtyp":
+                    dropDownContentElem[i].innerHTML = "Alla" + dropDownButtonImg.outerHTML;
+                    Array.from(selectedDropdownContent).splice(0, 1, childElem);
 
-    switch (buttonClicked.parentElement.id) {
-        case "distance":
-            updateDropdownOptions("distance", thisElem);
-            buttonClicked.innerHTML = this.innerHTML + dropDownButtonImg.outerHTML;
-            selectedDropdownContent.splice(1, 1, thisElem);
-            break;
-        case "priceRange":
-            updateDropdownOptions("priceRange", thisElem);
-            buttonClicked.innerHTML = this.innerHTML + dropDownButtonImg.outerHTML;
-            selectedDropdownContent.splice(2, 1, thisElem);
-            break;
+                    childElem.removeEventListener("click", handleClick);
+                    childElem.style.opacity = "0.5";
+                    childElem.style.backgroundColor = "DimGray";
+                    childElem.style.cursor = "default";
+                    break;
+                case "Avstånd (km)":
+                    dropDownContentElem[i].innerHTML = "1 KM" + dropDownButtonImg.outerHTML;
+                    Array.from(selectedDropdownContent).splice(0, 1, childElem);
 
-        default:
-            updateDropdownOptions("typeOfRestaurant", thisElem);
-            buttonClicked.innerHTML = this.innerHTML + dropDownButtonImg.outerHTML;
-            selectedDropdownContent.splice(0, 1, thisElem);
-            break;
+                    childElem.removeEventListener("click", handleClick);
+                    childElem.style.opacity = "0.5";
+                    childElem.style.backgroundColor = "DimGray";
+                    childElem.style.cursor = "default";
+                    break;
+                case "Prisklass (sek)":
+                    dropDownContentElem[i].innerHTML = "Alla" + dropDownButtonImg.outerHTML;
+                    Array.from(selectedDropdownContent).splice(0, 1, childElem);
+
+                    childElem.removeEventListener("click", handleClick);
+                    childElem.style.opacity = "0.5";
+                    childElem.style.backgroundColor = "DimGray";
+                    childElem.style.cursor = "default";
+                    break;
+            }
+        }
     }
-};
+    else {
+        const buttonClicked = this.parentElement.previousElementSibling;
+        const thisElem = this;
+        switch (buttonClicked.parentElement.id) {
+            case "distance":
+                updateDropdownOptions("distance", thisElem);
+                buttonClicked.innerHTML = this.innerHTML + dropDownButtonImg.outerHTML;
+                selectedDropdownContent.splice(1, 1, thisElem);
+
+                break;
+            case "priceRange":
+                updateDropdownOptions("priceRange", thisElem);
+                buttonClicked.innerHTML = this.innerHTML + dropDownButtonImg.outerHTML;
+                selectedDropdownContent.splice(2, 1, thisElem);
+                break;
+
+            default:
+                updateDropdownOptions("typeOfRestaurant", thisElem);
+                buttonClicked.innerHTML = this.innerHTML + dropDownButtonImg.outerHTML;
+                selectedDropdownContent.splice(0, 1, thisElem);
+                break;
+        }
+    }
+}
 
 // Function that updates the dropdown menu and it's CSS
 function updateDropdownOptions(dropdownIdentifier, selectedElement) {
@@ -210,6 +249,7 @@ function updateDropdownOptions(dropdownIdentifier, selectedElement) {
             }
         }
     });
+
 }
 
 // If you click anywhere outside the dropdown menu it will check and close the menu
@@ -428,6 +468,7 @@ function updateMapLoc(success) {
 
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page
 async function fetchData() {
+    handleClick(true);
     initLoader();
 
     let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange);
@@ -594,7 +635,7 @@ class ElementConstructor {
                     paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100;
                 }
                 else {   // This will simply display the raw text in a more readable format, it cleans it up basically
-                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + this.data[distanceIndex][property].charAt(0).toUpperCase() + this.data[distanceIndex][property].slice(1).replace(/_/g, " ").toLowerCase();
+                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + this.#wordTranslator(this.data[distanceIndex][property]).charAt(0).toUpperCase() + this.#wordTranslator(this.data[distanceIndex][property]).slice(1).replace(/_/g, " ").toLowerCase();
                 }
             }
             secondDivElement.appendChild(paragraphElement);
@@ -604,7 +645,8 @@ class ElementConstructor {
     }
 
     #wordTranslator(word) {
-        const swedishNames = ['beskrivning', 'typ', 'betyg', 'under_typ', 'distans_i_km', 'taggar', 'snitt_lunch_pris', 'buffé_alternativ'];
+        console.log(word)
+        const swedishNames = ['beskrivning', 'typ', 'betyg', 'under_typ', 'distans_i_km', 'taggar', 'snitt_lunch_pris', 'buffé_alternativ', 'medelhavskost', 'lokal_mat', 'annat', 'varmkorvar', 'hamburgare', 'konditori', 'asiatiskt'];
         switch (word) {
             case 'description':
                 word = swedishNames[0];
@@ -630,10 +672,30 @@ class ElementConstructor {
             case 'buffet_option':
                 word = swedishNames[7];
                 return word;
+            case 'MEDITERRANEAN':
+                word = swedishNames[8];
+                return word;
+            case 'LOCAL':
+                word = swedishNames[9];
+                return word;
+            case 'OTHER':
+                word = swedishNames[10];
+                return word;
+            case 'HOT_DOGS':
+                word = swedishNames[11];
+                return word;
+            case 'BURGERS':
+                word = swedishNames[12];
+                return word;
+            case 'PASTRIES':
+                word = swedishNames[13];
+                return word;
+            case 'ASIAN':
+                word = swedishNames[14];
+                return word;
             default:
                 return word;
         }
-
     }
 
     #compare(number) {                  // Method that compares a number to see if it's below 60, between 60 and 90, or above 90 for different price ranges
