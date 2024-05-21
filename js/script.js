@@ -46,6 +46,7 @@ let selectedDropdownContent;      // The selected element that the user clicked 
 let loader;                       // Declaring variable for the div containing loader
 let dropDownContentElem;          // All the button elements for the dropdown
 let dropDownContentFirstChild;    // Array with all the first elements from the first dropdown elements
+let markerOnMiniMap; // The marker for the small map
 
 // Init function
 function init() {
@@ -388,20 +389,24 @@ function initMap(id) {
         L.latLng(boundries.minLatCorner, boundries.minLngCorner));
     map.setMaxBounds(bounds);
 
+
+
     userMarker = L.marker();
-    map.on("click", newUserMarker);
+    //map.on("click", newUserMarker);
 
 }
 
 // Function that sets a new marker on the map 
 function newUserMarker(e) {
+
+
     userMarker.setLatLng(e.latlng);
     userMarker.addTo(map);
-
+    
     latitude = e.latlng.lat;
     longitude = e.latlng.lng;
 
-    closeMapDialog();
+    //closeMapDialog();
 }
 
 // Function that adds markers to the map of all restaurants
@@ -756,10 +761,45 @@ function openMapDialog() {
 
     overlay.style.display = "block";
 
+    var boundries = {
+    minLatCorner: smaland.lat, 
+    minLngCorner: smaland.lng,
+    maxLatCorner: smaland.lat,
+    maxLngCorner: smaland.lng
+    };
+
+   
+
     // Creates a mini popup map for the chosen lat and lng
     if (miniMap === undefined) {
+        miniMap = L.map('map', {
+            center: [smaland.lat, smaland.lng],
+            zoom: smaland.zoom,
+            minZoom: 8,
+            maxZoom: 18, 
+            maxBoundsViscosity: 1,
+        });
+
+        var bounds = L.latLngBounds(
+            L.latLng(boundries.minLatCorner, boundries.minLngCorner),
+            L.latLng(boundries.maxLatCorner, boundries.maxLngCorner)
+        );
+        miniMap.setMaxBounds(bounds);
+
+        /*
         miniMap = L.map('map').setView([smaland.lat, smaland.lng], smaland.zoom);
+        */
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
+        
+      var markerOnMiniMap = L.marker([smaland.lat, smaland.lng]).addTo(miniMap);
+
+        markerOnMiniMap.on('click', function(event){
+        
+            var markerPosition = event.latlng;
+            markerOnMiniMap.setLatLng(markerPosition);
+               
+        });
+
 
         miniMap.on("click", newUserMarker);
     }
