@@ -46,7 +46,7 @@ body {
     grid-area: mapViewer;
     height: 90vh;
     width: 60%;
-    max-width: 70%;
+    max-width: 80%;
     margin-left: 20px;
     margin-right: auto;
     margin-top: 80px;
@@ -597,7 +597,7 @@ hr {
     }
 
     #closeButton {
-        margin-left: 570px;
+        margin-left: 670px;
     }
 
     .dropDownContent {
@@ -632,6 +632,10 @@ hr {
 
     hr {
         width: auto;
+    }
+
+    #closeButton {
+        margin-left: 640px;
     }
 }
 

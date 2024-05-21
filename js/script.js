@@ -767,6 +767,7 @@ function openMapDialog() {
 
     overlay.style.display = "block";
 
+    /*
     var boundries = {
     minLatCorner: smaland.lat, 
     minLngCorner: smaland.lng,
@@ -774,7 +775,7 @@ function openMapDialog() {
     maxLngCorner: smaland.lng
     };
 
-   
+   */
 
     // Creates a mini popup map for the chosen lat and lng
     if (miniMap === undefined) {
