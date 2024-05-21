@@ -209,7 +209,7 @@ body {
     left: 620px;
     margin-top: -180px;
     margin-left: -580px;
-   
+
 }
 
 #mapBtn {
@@ -573,6 +573,12 @@ hr {
     display: none;
 }
 
+@media screen and (max-width: 840px) {
+    #restaurantInfo h2 {
+        font-size: 14px;
+    }
+}
+
 @media screen and (max-width: 780px) {
     .dropDownBtn {
         font-size: 17px;
@@ -827,7 +833,7 @@ hr {
         margin-left: 310px;
     }
 
-   
+
     .dropDownBtn {
         width: fit-content;
     }
@@ -911,6 +917,10 @@ hr {
         margin-top: 45px;
     }
 
+    #restaurantInfo h2 {
+        font-size: 10px;
+    }
+
     .dropDownContent {
         width: 94px;
     }
@@ -927,8 +937,10 @@ hr {
         margin-left: -10px;
     }
 
-
-
+    #picture {
+        width: 70px;
+        height: 70px;
+    }
 
     #searchButton {
         width: 230px;
