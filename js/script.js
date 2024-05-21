@@ -123,12 +123,6 @@ function init() {
         });
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const findBtn = this.document.getElementById("findBtn");
-
-        btn
-    })
-
     updateMapLoc(false);
 }
 window.addEventListener("load", init);
