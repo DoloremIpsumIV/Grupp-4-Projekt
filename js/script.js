@@ -585,6 +585,7 @@ class ElementConstructor {
             }
 
             else if (property == "sub_type") {
+                continue;
                 // skips displaying the sub_type
             }
 
@@ -659,7 +660,6 @@ class ElementConstructor {
     }
 
     #wordTranslator(word) {
-        console.log(word)
         const swedishNames = ['beskrivning', '', 'betyg', '', 'distans_i_km', '', 'snitt_lunch_pris', 'buffé_alternativ', 'medelhavskost', 'lokal_mat', 'annat', 'varmkorvar', 'hamburgare', 'konditori', 'asiatiskt'];
         switch (word) {
             case 'description':
