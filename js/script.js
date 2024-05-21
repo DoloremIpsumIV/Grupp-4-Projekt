@@ -750,8 +750,9 @@ function openMapDialog() {
     const overlay = document.querySelector("#overlay");
 
     mapBox.style.display = "block";
-    mapBox.style.width = mapViewBox.offsetWidth + "px";
-    mapBox.style.height = mapViewBox.offsetHeight + "px";
+    mapBox.style.height = "80%";
+    mapBox.style.width = "80%";
+
     overlay.style.display = "block";
 
     // Creates a mini popup map for the chosen lat and lng
