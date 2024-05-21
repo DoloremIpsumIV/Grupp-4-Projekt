@@ -535,7 +535,7 @@ class ElementConstructor {
 
     renderElement(index) {
         const fragment = new DocumentFragment();
-        const propertyToShow = ['sub_type', 'description', 'rating', 'distance_in_km', 'search_tags', 'avg_lunch_pricing', 'buffet_option'];  // Data that will be displayed
+        const propertyToShow = ['rating', 'avg_lunch_pricing', 'distance_in_km', 'sub_type', 'search_tags'];  // Data that will be displayed
         //const data = Object.keys(this.data[index]);                                            // Switch out property to show with data to display all data in div elements
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
         const divElement = document.createElement("div");
@@ -563,6 +563,7 @@ class ElementConstructor {
         secondDivElement.classList.add("restaurantCardFlex");
         secondDivElement.style.display = "block";
 
+
         for (let i = 0; i < propertyToShow.length; i++) {                                        // This loop will display all the elements in the restuarant cards, it checks the raw data to display it differently
             const property = String(propertyToShow[i]);
             const translatedWord = this.#wordTranslator(property);
@@ -582,25 +583,33 @@ class ElementConstructor {
                 paragraphElement.appendChild(secondImageElement);
             }
 
+            else if (property == "sub_type") {
+                // skips displaying the sub_type
+            }
+
             else if (property == "avg_lunch_pricing") {   // This will check if the data is avgerage lunch pricing, it will compare the numbers and give it one to three dollars depening on set amounts
                 const dollar = document.createElement("p");
                 dollar.style.display = "inline";
                 dollar.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
-                paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ":";
+                //paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ":";
                 switch (this.#compare(this.data[distanceIndex][property])) {
                     case 1:
                         dollar.style.color = "green";
-                        dollar.innerText = " $";
+                        dollar.innerText = "$";
                         break;
                     case 2:
                         dollar.style.color = "yellow";
-                        dollar.innerText = " $$";
+                        dollar.innerText = "$$";
                         break;
                     case 3:
                         dollar.style.color = "red";
-                        dollar.innerText = " $$$";
+                        dollar.innerText = "$$$";
                         break;
                 }
+                paragraphElement.style.display = "inline";
+                paragraphElement.style.marginLeft = "0";
+                paragraphElement.style.padding = "10px 10px 0px 10px";
+                paragraphElement.style.fontSize = "23px";
                 paragraphElement.appendChild(dollar);
             }
 
@@ -608,6 +617,8 @@ class ElementConstructor {
                 //paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": ";
                 const digit = Math.floor((this.data[distanceIndex][property]) * 10) / 10;
                 const secondDigit = Math.floor((this.data[distanceIndex][property] * 10) % 10);
+                paragraphElement.style.display = "inline";
+                paragraphElement.style.padding = "10px 10px 0px 10px"
 
                 for (let i = 1; i < digit; i++) {
                     paragraphElement.appendChild(this.#starBuilder(false));
@@ -621,13 +632,15 @@ class ElementConstructor {
             }
 
             else if (property == "distance_in_km") {    // Writes the distance in km if above or equal to one, or in meters if less than that
+                paragraphElement.style.display = "inline";
+                paragraphElement.style.padding = "10px 10px 0px 10px";
+                paragraphElement.style.marginTop = "13px";
                 if (Math.round((parsedNumber + Number.EPSILON) >= 1)) {
-                    paragraphElement.innerText = Math.round((parsedNumber + Number.EPSILON) * 100) / 100 + " km ifrån dig";
+                    paragraphElement.innerText = Math.round((parsedNumber + Number.EPSILON) * 100) / 100 + " km bort";
                 }
                 else {
-                    paragraphElement.innerText = (Math.floor((parsedNumber + Number.EPSILON) * 100) / 100) * 1000 + " meter ifrån dig";
+                    paragraphElement.innerText = (Math.floor((parsedNumber + Number.EPSILON) * 100) / 100) * 1000 + " meter bort";
                 }
-
             }
 
             else {
@@ -635,7 +648,7 @@ class ElementConstructor {
                     paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100;
                 }
                 else {   // This will simply display the raw text in a more readable format, it cleans it up basically
-                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + this.#wordTranslator(this.data[distanceIndex][property]).charAt(0).toUpperCase() + this.#wordTranslator(this.data[distanceIndex][property]).slice(1).replace(/_/g, " ").toLowerCase();
+                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + this.#wordTranslator(this.data[distanceIndex][property]).charAt(0).toUpperCase() + this.#wordTranslator(this.data[distanceIndex][property]).slice(1).replace(/_/g, " ").toLowerCase();
                 }
             }
             secondDivElement.appendChild(paragraphElement);
@@ -646,7 +659,7 @@ class ElementConstructor {
 
     #wordTranslator(word) {
         console.log(word)
-        const swedishNames = ['beskrivning', 'typ', 'betyg', 'under_typ', 'distans_i_km', 'taggar', 'snitt_lunch_pris', 'buffé_alternativ', 'medelhavskost', 'lokal_mat', 'annat', 'varmkorvar', 'hamburgare', 'konditori', 'asiatiskt'];
+        const swedishNames = ['beskrivning', '', 'betyg', '', 'distans_i_km', '', 'snitt_lunch_pris', 'buffé_alternativ', 'medelhavskost', 'lokal_mat', 'annat', 'varmkorvar', 'hamburgare', 'konditori', 'asiatiskt'];
         switch (word) {
             case 'description':
                 word = swedishNames[0];

@@ -136,10 +136,10 @@ body {
 }
 
 .star {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     position: relative;
-    top: 4px;
+    top: 6px;
     margin-right: 2px;
 }
 
@@ -363,6 +363,7 @@ body {
     display: flex;
 
 }
+
 
 #picture {
     font-size: initial;
