@@ -390,6 +390,7 @@ function initMap(id) {
 
     userMarker = L.marker();
     map.on("click", newUserMarker);
+
 }
 
 // Function that sets a new marker on the map 
@@ -426,7 +427,7 @@ function getUserGeo() {
         updateMapLoc(successFlag);
     }, function (error) {
         if (error == "[object GeolocationPositionError]") {
-            window.alert("Om du inte godkänner att sidan använder din platsinfomation kommer inte denna funktionen att fungera! Välj då istället plats via kartan \n\nDu kan också trycka på hitta min plats igen för att godkänna");
+            window.alert("Om du inte godkänner att sidan använder din platsinfomation kommer inte denna funktionen att fungera! Välj då istället plats via kartan \n\nFör att använda hitta min plats måste du ladda om sidan och godkänna på nytt");
         }
         else {
             window.alert("Fel vid hämtning av geo position: " + error)
