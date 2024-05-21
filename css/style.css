@@ -635,9 +635,18 @@ hr {
     }
 
     #closeButton {
-        margin-left: 640px;
+        margin-left: 580px;
     }
 }
+
+@media screen and (max-width: 650px) {
+    #closeButton {
+        margin-left: 500px;
+    }
+
+}
+
+
 
 @media screen and (max-width: 590px) {
     #mapBtn {
@@ -693,7 +702,7 @@ hr {
     }
 
     #closeButton {
-        margin-left: 460px;
+        margin-left: 420px;
     }
 
     #footer {
@@ -707,6 +716,13 @@ hr {
     #forknknife {
         width: 100px;
     }
+}
+
+@media screen and (max-width: 480px) {
+    #closeButton {
+        margin-left: 370px;
+    }
+
 }
 
 @media screen and (max-width: 440px) {
@@ -927,6 +943,10 @@ hr {
 
     .dropDownContent {
         width: 94px;
+    }
+
+    #closeButton {
+        margin-left: 270px;
     }
 
 }
