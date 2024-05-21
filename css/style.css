@@ -910,6 +910,10 @@ hr {
         margin-top: 45px;
     }
 
+    .dropDownContent {
+        width: 94px;
+    }
+
 }
 
 @media screen and (max-width: 350px) {
