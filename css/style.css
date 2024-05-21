@@ -229,7 +229,7 @@ body {
     color: white;
 }
 
-#mapBtn:active {
+#mapBtn.activated {
     background-color: #899e1dc5;
     color: white;
 }
@@ -252,7 +252,7 @@ body {
     transform: scale(1.1);
 }
 
-#findBtn:active {
+#findBtn.activated {
     background-color: #d1922ed3;
     color: white;
 }

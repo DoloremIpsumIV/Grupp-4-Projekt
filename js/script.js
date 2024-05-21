@@ -123,6 +123,12 @@ function init() {
         });
     });
 
+    document.addEventListener("DOMContentLoaded", function () {
+        const findBtn = this.document.getElementById("findBtn");
+
+        btn
+    })
+
     updateMapLoc(false);
 }
 window.addEventListener("load", init);
@@ -418,6 +424,9 @@ function newRestaurantMarker(lat, lng, urlType) {
 
 // Function for gathering data regarding users position, it handles errors by displaying a warning for the user
 function getUserGeo() {
+    const findBtn = document.getElementById("findBtn");
+    findBtn.classList.toggle("activated");
+
     let successFlag = true;
 
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -745,6 +754,9 @@ class ElementConstructor {
 
 // Opens the small popup map
 function openMapDialog() {
+    const mapBtn = document.getElementById("mapBtn");
+    mapBtn.classList.toggle("activated");
+
     const mapBox = document.querySelector("#map");
     const mapViewBox = document.querySelector("#mapViewer")
     const overlay = document.querySelector("#overlay");
