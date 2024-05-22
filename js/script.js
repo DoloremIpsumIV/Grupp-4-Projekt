@@ -626,7 +626,7 @@ class ElementConstructor {
                 paragraphElement.appendChild(secondImageElement);
             }
 
-            else if (property == "sub_type") {
+            else if (property == "sub_type" || property == "id") {
                 continue;
                 // skips displaying the sub_type
             }
