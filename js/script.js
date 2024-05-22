@@ -23,6 +23,11 @@ const marker = L.Icon.extend({     // Definition of a marker with an image
         iconAnchor: [15, 50]
     }
 });
+const ownPositionMarker = L.icon({
+    iconUrl: "/mapIcons/mapOwnPosition.png",
+    iconSize: [20, 40],
+    iconAnchor: [10, 40]
+});
 const subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
 const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
 const ApiKey = "vxJzsf1d";  // Api key for SMAPI
@@ -46,7 +51,7 @@ let selectedDropdownContent;      // The selected element that the user clicked 
 let loader;                       // Declaring variable for the div containing loader
 let dropDownContentElem;          // All the button elements for the dropdown
 let dropDownContentFirstChild;    // Array with all the first elements from the first dropdown elements
-let markerOnMiniMap; // The marker for the small map
+let markerOnMiniMap;              // The marker for the small map
 
 // Init function
 function init() {
@@ -68,9 +73,12 @@ function init() {
     olandButtonElem.classList.toggle("sortButtonsToggle");
     olandButtonElem.addEventListener("click", toggleSortButtons);
 
+    userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
     smalandCheckbox.addEventListener("change", function () {
         if (this.checked) {
             olandCheckbox.checked = false;
+            userMarker.remove();
+            userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
             toggleSortButtons();
         }
     });
@@ -78,6 +86,8 @@ function init() {
     olandCheckbox.addEventListener("change", function () {
         if (this.checked) {
             smalandCheckbox.checked = false;
+            userMarker.remove();
+            userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
             toggleSortButtons();
         }
     });
@@ -85,7 +95,7 @@ function init() {
     document.getElementById("mapBtn").addEventListener("click", openMapDialog);
     document.getElementById("closeButton").addEventListener("click", closeMapDialog);
 
-   
+
 
     header = document.querySelector("#headerContainer");
     headerImg = document.querySelector("#headerContainer img");
@@ -129,7 +139,7 @@ function init() {
     updateMapLoc(false);
 
 
-    
+
 }
 window.addEventListener("load", init);
 
@@ -394,24 +404,16 @@ function initMap(id) {
         L.latLng(boundries.minLatCorner, boundries.minLngCorner));
     map.setMaxBounds(bounds);
 
-
-
     userMarker = L.marker();
-    //map.on("click", newUserMarker);
-
 }
 
 // Function that sets a new marker on the map 
 function newUserMarker(e) {
-
-
     userMarker.setLatLng(e.latlng);
     userMarker.addTo(map);
-    
+
     latitude = e.latlng.lat;
     longitude = e.latlng.lng;
-
-    //closeMapDialog();
 }
 
 // Function that adds markers to the map of all restaurants
@@ -455,32 +457,30 @@ function getUserGeo() {
 
 // Function that updates the position of the map with the geo-data
 function updateMapLoc(success) {
-    map.removeLayer(userMarker);
-
     if (success) {
         map.setView([latitude, longitude], zoom = 16);
+        if (miniMap) {
+            miniMap.setView([latitude, longitude], zoom = 16);
+        }
     }
     else {
         if (!olandButtonElem.classList.value) {
             map.setView([latitude, longitude], smaland.zoom);
             if (miniMap) {
                 miniMap.setView([latitude, longitude], smaland.zoom);
+                return "smaland";
             }
         }
         else {
             map.setView([latitude, longitude], oland.zoom);
             if (miniMap) {
                 miniMap.setView([latitude, longitude], oland.zoom);
+                return "oland";
             }
-
         }
     }
-    const ownPositionMarker = L.icon({
-        iconUrl: "/mapIcons/mapOwnPosition.png",
-        iconSize: [20, 40],
-        iconAnchor: [10, 40]
-    })
-    userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker }).addTo(map);
+
+
 }
 
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page
@@ -762,6 +762,12 @@ class ElementConstructor {
 
 // Opens the small popup map
 function openMapDialog() {
+    if (markerOnMiniMap != undefined) {
+        markerOnMiniMap.remove();
+    }
+    if (userMarker != undefined) {
+        userMarker.remove();
+    }
 
     const mapBtn = document.getElementById("mapBtn");
     mapBtn.classList.toggle("activated");
@@ -769,9 +775,7 @@ function openMapDialog() {
     const findBtn = document.getElementById("findBtn");
     findBtn.classList.remove("activated");
 
-
     const mapBox = document.querySelector("#map");
-    const mapViewBox = document.querySelector("#mapViewer")
     const overlay = document.querySelector("#overlay");
 
     mapBox.style.display = "block";
@@ -780,176 +784,45 @@ function openMapDialog() {
 
     overlay.style.display = "block";
 
-    /*
-    var boundries = {
-    minLatCorner: smaland.lat, 
-    minLngCorner: smaland.lng,
-    maxLatCorner: smaland.lat,
-    maxLngCorner: smaland.lng
-    };
-*/
-
-
-
     // Creates a mini popup map for the chosen lat and lng
     if (miniMap === undefined) {
         miniMap = L.map('map', {
             center: [smaland.lat, smaland.lng],
             zoom: smaland.zoom,
             minZoom: 8.5,
-            maxZoom: 18, 
+            maxZoom: 18,
             maxBoundsViscosity: 1,
         });
 
-        
-        var bounds = L.latLngBounds(
+        const bounds = L.latLngBounds(
             L.latLng(boundries.minLatCorner, boundries.minLngCorner),
             L.latLng(boundries.maxLatCorner, boundries.maxLngCorner)
         );
         miniMap.setMaxBounds(bounds);
-        
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
-
-        const ownPositionMarker = L.icon({
-            iconUrl: "/mapIcons/mapOwnPosition.png",
-            iconSize: [20, 40],
-            iconAnchor: [10, 40]
-        
-        })
-        
-        markerOnMiniMap = L.marker([smaland.lat, smaland.lng],{icon:ownPositionMarker}).addTo(miniMap);
-
-    
-        miniMap.on('click', function(event){
-        
-            var markerPosition = event.latlng;
+        miniMap.on('click', function (event) {
+            const markerPosition = event.latlng;
             markerOnMiniMap.setLatLng(markerPosition);
-               
+            userMarker.setLatLng(markerPosition);
+
         });
-
-
         miniMap.on("click", newUserMarker);
     }
+    const ownPositionMarker = L.icon({
+        iconUrl: "/mapIcons/mapOwnPosition.png",
+        iconSize: [20, 40],
+        iconAnchor: [10, 40]
 
-    /*
-    const mapBtn = document.getElementById("mapBtn");
-    mapBtn.classList.toggle("activated");
-
-    const mapBox = document.querySelector("#map");
-    const mapViewBox = document.querySelector("#mapViewer")
-    const overlay = document.querySelector("#overlay");
-
-    mapBox.style.display = "block";
-    mapBox.style.height = "80%";
-    mapBox.style.width = "60%";
-
-    overlay.style.display = "block";
-
-
-
-var boundries = {
-    minLatCorner: 56.311994, 
-    minLngCorner: 13.050416,
-    maxLatCorner: 58.370371,
-    maxLngCorner: 16.151796
-};
-
-
-
-    // Creates a mini popup map for the chosen lat and lng
-    if (miniMap === undefined) {
-        miniMap = L.map('map', {
-            center: [smaland.lat, smaland.lng],
-            zoom: smaland.zoom,
-            minZoom: 8.5,
-            maxZoom: 18, 
-            maxBoundsViscosity: 1,
-        });
-
-        
-        var bounds = L.latLngBounds(
-            L.latLng(boundries.minLatCorner, boundries.minLngCorner),
-            L.latLng(boundries.maxLatCorner, boundries.maxLngCorner)
-        );
-        miniMap.setMaxBounds(bounds);
-        
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
-
-        const ownPositionMarker = L.icon({
-            iconUrl: "/mapIcons/mapOwnPosition.png",
-            iconSize: [20, 40],
-            iconAnchor: [10, 40]
-        
-        })
-        
-        markerOnMiniMap = L.marker([smaland.lat, smaland.lng],{icon:ownPositionMarker}).addTo(miniMap);
-
-    
-        miniMap.on('click', function(event){
-        
-            var markerPosition = event.latlng;
-            markerOnMiniMap.setLatLng(markerPosition);
-               
-        });
-
-
-        miniMap.on("click", newUserMarker);
+    });
+    if (updateMapLoc(false) == "smaland") {
+        markerOnMiniMap = L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(miniMap);
+        userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
     }
-
-
-
-/*
-const olandBoundries = {
-    minLatCorner: 56.075159,
-    minLngCorner: 15.133873,
-    maxLatCorner: 57.090480,
-    maxLngCorner: 16.000272
-};
-
-if (olandCheckbox.checked) {
-    // Creates a mini popup map for the chosen lat and lng
-    if (miniMap === undefined) {
-        miniMap = L.map('map', {
-            center: [oland.lat, oland.lng],
-            zoom: oland.zoom,
-            minZoom: 8.5,
-            maxZoom: 18, 
-            maxBoundsViscosity: 1,
-        });
-
-        
-        var bounds = L.latLngBounds(
-            L.latLng(olandBoundries.minLatCorner, olandBoundries.minLngCorner),
-            L.latLng(boundries.maxLatCorner, boundries.maxLngCorner)
-        );
-        miniMap.setMaxBounds(bounds);
-        
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
-
-        const ownPositionMarker = L.icon({
-            iconUrl: "/mapIcons/mapOwnPosition.png",
-            iconSize: [20, 40],
-            iconAnchor: [10, 40]
-        
-        })
-        
-        markerOnMiniMap = L.marker([oland.lat, oland.lng],{icon:ownPositionMarker}).addTo(miniMap);
-
-    
-        miniMap.on('click', function(event){
-        
-            var markerPosition = event.latlng;
-            markerOnMiniMap.setLatLng(markerPosition);
-               
-        });
-
-
-        miniMap.on("click", newUserMarker);
+    else {
+        markerOnMiniMap = L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(miniMap);
+        userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
     }
-    */
 }
 
 
