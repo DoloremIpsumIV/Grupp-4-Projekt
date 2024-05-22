@@ -117,15 +117,6 @@ hr {
     color: rgb(148, 148, 148);
 }
 
-.textBox {
-    background-color: rgba(245, 245, 245, 0.589);
-    margin-top: 50px;
-    width: auto;
-    padding: 10px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    border: 3px solid black;
-    border-radius: 3px;
-}
 
 #divBox {
     margin-left: 20%;
