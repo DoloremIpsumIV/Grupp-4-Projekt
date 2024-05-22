@@ -772,17 +772,17 @@ function openMapDialog() {
 
     overlay.style.display = "block";
 
-    /*
-    var boundries = {
-    minLatCorner: smaland.lat, 
-    minLngCorner: smaland.lng,
-    maxLatCorner: smaland.lat,
-    maxLngCorner: smaland.lng
-    };
-*/
 
 
+var smalandBoundries = {
+    minLatCorner: 56.311994, 
+    minLngCorner: 13.050416,
+    maxLatCorner: 58.370371,
+    maxLngCorner: 16.151796
+};
 
+
+if (smalandCheckbox.checked) {
     // Creates a mini popup map for the chosen lat and lng
     if (miniMap === undefined) {
         miniMap = L.map('map', {
@@ -795,8 +795,8 @@ function openMapDialog() {
 
         
         var bounds = L.latLngBounds(
-            L.latLng(boundries.minLatCorner, boundries.minLngCorner),
-            L.latLng(boundries.maxLatCorner, boundries.maxLngCorner)
+            L.latLng(smalandBoundries.minLatCorner, boundries.minLngCorner),
+            L.latLng(smalandBoundries.maxLatCorner, boundries.maxLngCorner)
         );
         miniMap.setMaxBounds(bounds);
         
@@ -824,6 +824,67 @@ function openMapDialog() {
         miniMap.on("click", newUserMarker);
     }
 }
+
+
+
+const olandBoundries = {
+    minLatCorner: 56.075159,
+    minLngCorner: 15.133873,
+    maxLatCorner: 57.090480,
+    maxLngCorner: 16.000272
+};
+
+if (olandCheckbox.checked) {
+    // Creates a mini popup map for the chosen lat and lng
+    if (miniMap === undefined) {
+        miniMap = L.map('map', {
+            center: [oland.lat, oland.lng],
+            zoom: oland.zoom,
+            minZoom: 8.5,
+            maxZoom: 18, 
+            maxBoundsViscosity: 1,
+        });
+
+        
+        var bounds = L.latLngBounds(
+            L.latLng(olandBoundries.minLatCorner, olandBoundries.minLngCorner),
+            L.latLng(boundries.maxLatCorner, boundries.maxLngCorner)
+        );
+        miniMap.setMaxBounds(bounds);
+        
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
+
+        const ownPositionMarker = L.icon({
+            iconUrl: "/mapIcons/mapOwnPosition.png",
+            iconSize: [20, 40],
+            iconAnchor: [10, 40]
+        
+        })
+        
+        markerOnMiniMap = L.marker([oland.lat, oland.lng],{icon:ownPositionMarker}).addTo(miniMap);
+
+    
+        miniMap.on('click', function(event){
+        
+            var markerPosition = event.latlng;
+            markerOnMiniMap.setLatLng(markerPosition);
+               
+        });
+
+
+        miniMap.on("click", newUserMarker);
+    }
+}
+
+
+
+
+
+
+
+}
+
 
 // Closes the small popup map
 function closeMapDialog() {
