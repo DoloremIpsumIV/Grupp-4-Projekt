@@ -432,6 +432,9 @@ function getUserGeo() {
     const findBtn = document.getElementById("findBtn");
     findBtn.classList.toggle("activated");
 
+    const mapBtn = document.getElementById("mapBtn");
+    mapBtn.classList.remove("activated");
+
     let successFlag = true;
 
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -762,6 +765,10 @@ function openMapDialog() {
 
     const mapBtn = document.getElementById("mapBtn");
     mapBtn.classList.toggle("activated");
+
+    const findBtn = document.getElementById("findBtn");
+    findBtn.classList.remove("activated");
+
 
     const mapBox = document.querySelector("#map");
     const mapViewBox = document.querySelector("#mapViewer")
