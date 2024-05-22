@@ -17,13 +17,25 @@ const boundries = {          // Const with min and max boundries for the map
     minLatCorner: 58.122646,
     minLngCorner: 13.061037
 }
+const smalandBoundries = {
+    maxLatCorner: 57.835979,
+    maxLngCorner: 13.372047,
+    minLatCorner: 56.392624,
+    minLngCorner: 15.526773
+}
+const olandBoundries = {
+    maxLatCorner: 57.234476,
+    maxLngCorner: 15.944010,
+    minLatCorner: 56.136368,
+    minLngCorner: 17.505087
+}
 const marker = L.Icon.extend({     // Definition of a marker with an image
     options: {
         iconSize: [30, 50],
         iconAnchor: [15, 50]
     }
 });
-const ownPositionMarker = L.icon({
+const ownPositionMarker = L.icon({  // Position marker for the users location
     iconUrl: "/mapIcons/mapOwnPosition.png",
     iconSize: [20, 40],
     iconAnchor: [10, 40]
@@ -95,8 +107,6 @@ function init() {
     document.getElementById("mapBtn").addEventListener("click", openMapDialog);
     document.getElementById("closeButton").addEventListener("click", closeMapDialog);
 
-
-
     header = document.querySelector("#headerContainer");
     headerImg = document.querySelector("#headerContainer img");
     loader = document.querySelector("#loaderId");
@@ -135,11 +145,7 @@ function init() {
             behavior: "smooth"
         });
     });
-
     updateMapLoc(false);
-
-
-
 }
 window.addEventListener("load", init);
 
@@ -417,7 +423,7 @@ function newUserMarker(e) {
 }
 
 // Function that adds markers to the map of all restaurants
-function newRestaurantMarker(lat, lng, urlType) {
+function newRestaurantMarker(lat, lng, urlType, id) {
     if (restaurantFlag == true) {
         for (let i = 0; i < restuarantMarkerArray.length; i++) {
             restuarantMarkerArray[i].remove();
@@ -425,14 +431,29 @@ function newRestaurantMarker(lat, lng, urlType) {
     }
 
     let restaurantMarker = new marker({ iconUrl: "/mapIcons/map" + urlType + ".png" });
-    restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map));
+    restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map).on("click", () => scrollToRestaurant(id)));
     restaurantFlag = false;
+}
+
+// Function that scrolls to the corresponding restaurant when a marker is clicked
+function scrollToRestaurant(id) {
+    const clickedRestaurant = document.querySelector("#r" + id);
+    clickedRestaurant.scrollIntoView();
+    clickedRestaurant.parentElement.style.backgroundColor = "red";
+    clickedRestaurant.parentElement.style.border = "8px solid black";
+    setTimeout(() => restaurantHighlightTimer(clickedRestaurant), 800);
+}
+
+// Function that reverts the restaurant CSS after a timed amount
+function restaurantHighlightTimer(restaurant) {
+    restaurant.parentElement.style.backgroundColor = "rgb(253, 245, 235)";
+    restaurant.parentElement.style.border = "4px solid black";
 }
 
 // Function for gathering data regarding users position, it handles errors by displaying a warning for the user
 function getUserGeo() {
     const findBtn = document.getElementById("findBtn");
-    findBtn.classList.toggle("activated");
+    findBtn.classList.add("activated");
 
     const mapBtn = document.getElementById("mapBtn");
     mapBtn.classList.remove("activated");
@@ -458,6 +479,8 @@ function getUserGeo() {
 // Function that updates the position of the map with the geo-data
 function updateMapLoc(success) {
     if (success) {
+        userMarker.remove();
+        userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker }).addTo(map);
         map.setView([latitude, longitude], zoom = 16);
         if (miniMap) {
             miniMap.setView([latitude, longitude], zoom = 16);
@@ -524,7 +547,7 @@ function showData(json) {
         const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
 
         for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
-            newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng, jsonArray[i].sub_type);
+            newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng, jsonArray[i].sub_type, jsonArray[i].id);
 
             const listElements = document.createElement("div");
             listElements.appendChild(elementBuilder.renderElement(i));
@@ -552,7 +575,7 @@ class ElementConstructor {
 
     renderElement(index) {
         const fragment = new DocumentFragment();
-        const propertyToShow = ['rating', 'avg_lunch_pricing', 'distance_in_km', 'sub_type', 'search_tags'];  // Data that will be displayed
+        const propertyToShow = ['rating', 'avg_lunch_pricing', 'distance_in_km', 'sub_type', 'search_tags', 'id'];  // Data that will be displayed
         //const data = Object.keys(this.data[index]);                                            // Switch out property to show with data to display all data in div elements
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
         const divElement = document.createElement("div");
@@ -569,6 +592,9 @@ class ElementConstructor {
             const property = String(propertyToShow[i]);
             if (property == "sub_type") {
                 imgElement.src = "/mapIcons/" + this.data[distanceIndex][property] + ".png";
+            }
+            if (property == "id") {
+                divElement.id = "r" + this.data[distanceIndex][property];
             }
         }
 
@@ -759,7 +785,6 @@ class ElementConstructor {
     }
 }
 
-
 // Opens the small popup map
 function openMapDialog() {
     if (markerOnMiniMap != undefined) {
@@ -770,7 +795,7 @@ function openMapDialog() {
     }
 
     const mapBtn = document.getElementById("mapBtn");
-    mapBtn.classList.toggle("activated");
+    mapBtn.classList.add("activated");
 
     const findBtn = document.getElementById("findBtn");
     findBtn.classList.remove("activated");
@@ -794,12 +819,6 @@ function openMapDialog() {
             maxBoundsViscosity: 1,
         });
 
-        const bounds = L.latLngBounds(
-            L.latLng(boundries.minLatCorner, boundries.minLngCorner),
-            L.latLng(boundries.maxLatCorner, boundries.maxLngCorner)
-        );
-        miniMap.setMaxBounds(bounds);
-
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
         miniMap.on('click', function (event) {
             const markerPosition = event.latlng;
@@ -815,6 +834,21 @@ function openMapDialog() {
         iconAnchor: [10, 40]
 
     });
+
+    if (smalandCheckbox.checked) {
+        const miniBounds = L.latLngBounds(
+            L.latLng(smalandBoundries.minLatCorner, smalandBoundries.minLngCorner),
+            L.latLng(smalandBoundries.maxLatCorner, smalandBoundries.maxLngCorner)
+        );
+        miniMap.setMaxBounds(miniBounds);
+    }
+    else if (olandCheckbox.checked) {
+        const miniBounds = L.latLngBounds(
+            L.latLng(olandBoundries.minLatCorner, olandBoundries.minLngCorner),
+            L.latLng(olandBoundries.maxLatCorner, olandBoundries.maxLngCorner)
+        );
+        miniMap.setMaxBounds(miniBounds);
+    }
     if (updateMapLoc(false) == "smaland") {
         markerOnMiniMap = L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(miniMap);
         userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
@@ -825,8 +859,6 @@ function openMapDialog() {
     }
 }
 
-
-
 // Closes the small popup map
 function closeMapDialog() {
     const mapBox = document.querySelector("#map");
@@ -835,4 +867,3 @@ function closeMapDialog() {
     mapBox.style.display = "none";
     overlay.style.display = "none";
 }
-
