@@ -759,6 +759,7 @@ class ElementConstructor {
 
 // Opens the small popup map
 function openMapDialog() {
+
     const mapBtn = document.getElementById("mapBtn");
     mapBtn.classList.toggle("activated");
 
@@ -772,17 +773,17 @@ function openMapDialog() {
 
     overlay.style.display = "block";
 
+    /*
+    var boundries = {
+    minLatCorner: smaland.lat, 
+    minLngCorner: smaland.lng,
+    maxLatCorner: smaland.lat,
+    maxLngCorner: smaland.lng
+    };
+*/
 
 
-var smalandBoundries = {
-    minLatCorner: 56.311994, 
-    minLngCorner: 13.050416,
-    maxLatCorner: 58.370371,
-    maxLngCorner: 16.151796
-};
 
-
-if (smalandCheckbox.checked) {
     // Creates a mini popup map for the chosen lat and lng
     if (miniMap === undefined) {
         miniMap = L.map('map', {
@@ -795,8 +796,8 @@ if (smalandCheckbox.checked) {
 
         
         var bounds = L.latLngBounds(
-            L.latLng(smalandBoundries.minLatCorner, boundries.minLngCorner),
-            L.latLng(smalandBoundries.maxLatCorner, boundries.maxLngCorner)
+            L.latLng(boundries.minLatCorner, boundries.minLngCorner),
+            L.latLng(boundries.maxLatCorner, boundries.maxLngCorner)
         );
         miniMap.setMaxBounds(bounds);
         
@@ -823,10 +824,76 @@ if (smalandCheckbox.checked) {
 
         miniMap.on("click", newUserMarker);
     }
-}
+
+    /*
+    const mapBtn = document.getElementById("mapBtn");
+    mapBtn.classList.toggle("activated");
+
+    const mapBox = document.querySelector("#map");
+    const mapViewBox = document.querySelector("#mapViewer")
+    const overlay = document.querySelector("#overlay");
+
+    mapBox.style.display = "block";
+    mapBox.style.height = "80%";
+    mapBox.style.width = "60%";
+
+    overlay.style.display = "block";
 
 
 
+var boundries = {
+    minLatCorner: 56.311994, 
+    minLngCorner: 13.050416,
+    maxLatCorner: 58.370371,
+    maxLngCorner: 16.151796
+};
+
+
+
+    // Creates a mini popup map for the chosen lat and lng
+    if (miniMap === undefined) {
+        miniMap = L.map('map', {
+            center: [smaland.lat, smaland.lng],
+            zoom: smaland.zoom,
+            minZoom: 8.5,
+            maxZoom: 18, 
+            maxBoundsViscosity: 1,
+        });
+
+        
+        var bounds = L.latLngBounds(
+            L.latLng(boundries.minLatCorner, boundries.minLngCorner),
+            L.latLng(boundries.maxLatCorner, boundries.maxLngCorner)
+        );
+        miniMap.setMaxBounds(bounds);
+        
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
+
+        const ownPositionMarker = L.icon({
+            iconUrl: "/mapIcons/mapOwnPosition.png",
+            iconSize: [20, 40],
+            iconAnchor: [10, 40]
+        
+        })
+        
+        markerOnMiniMap = L.marker([smaland.lat, smaland.lng],{icon:ownPositionMarker}).addTo(miniMap);
+
+    
+        miniMap.on('click', function(event){
+        
+            var markerPosition = event.latlng;
+            markerOnMiniMap.setLatLng(markerPosition);
+               
+        });
+
+
+        miniMap.on("click", newUserMarker);
+    }
+
+
+
+/*
 const olandBoundries = {
     minLatCorner: 56.075159,
     minLngCorner: 15.133873,
@@ -875,15 +942,9 @@ if (olandCheckbox.checked) {
 
         miniMap.on("click", newUserMarker);
     }
+    */
 }
 
-
-
-
-
-
-
-}
 
 
 // Closes the small popup map
