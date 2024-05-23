@@ -221,6 +221,7 @@ body {
     border: solid 2px #4a6700;
     border-radius: 5px;
     transition: 0.5s;
+    
 }
 
 #mapBtn:hover {
