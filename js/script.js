@@ -439,6 +439,8 @@ function newRestaurantMarker(lat, lng, urlType, id) {
 function scrollToRestaurant(id) {
     const clickedRestaurant = document.querySelector("#r" + id);
     clickedRestaurant.scrollIntoView();
+    const y = document.querySelector("#restaurantInfo").getBoundingClientRect().top + window.scrollY - 50;
+    window.scrollTo({ top: y, behavior: "instant" });
     clickedRestaurant.parentElement.style.backgroundColor = "#899e1d7a";
     clickedRestaurant.parentElement.style.border = "8px solid black";
     setTimeout(() => restaurantHighlightTimer(clickedRestaurant), 800);
