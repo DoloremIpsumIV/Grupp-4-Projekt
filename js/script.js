@@ -560,8 +560,8 @@ function showData(json) {
     updateMapLoc();
     stopLoader();
 
+    document.querySelector("#mapBtn").scrollIntoView();
     restaurantContainer.classList.add("restaurantSize");
-    window.location.hash = "#restaurantInfo";
 }
 
 // Class that constructs any element based on method used
