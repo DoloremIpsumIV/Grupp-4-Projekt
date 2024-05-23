@@ -438,7 +438,7 @@ function newRestaurantMarker(lat, lng, urlType, id) {
 // Function that scrolls to the corresponding restaurant when a marker is clicked
 function scrollToRestaurant(id) {
     const clickedRestaurant = document.querySelector("#r" + id);
-    clickedRestaurant.scrollIntoView();
+    clickedRestaurant.scrollIntoView();    
     clickedRestaurant.parentElement.style.backgroundColor = "#899e1d7a";
     clickedRestaurant.parentElement.style.border = "8px solid black";
     setTimeout(() => restaurantHighlightTimer(clickedRestaurant), 800);
