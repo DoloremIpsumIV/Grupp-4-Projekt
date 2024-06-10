@@ -284,34 +284,31 @@ body {
     margin-top: 10px;
 }
 
-.sortCheckboxToggle {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+.sortRadioBtnToggle {
     float: right;
     width: 25px;
     height: 25px;
     margin-right: 22px;
 
-    /* Anpassa bakgrundsfärg och ram på checkboxen */
+    /* Anpassa bakgrundsfärg och ram på RadioBtnen */
     background-color: #ffffff28;
     border: 2px solid #242a4a;
     border-radius: 3px;
-    /* Lägg till en pekare när man hovrar över checkboxen */
+    /* Lägg till en pekare när man hovrar över RadioBtnen */
     cursor: pointer;
     transition: transform 0.1s ease;
 }
 
-.sortCheckboxToggle:checked {
+.sortRadioBtnToggle:checked {
     background-color: #242a4a36;
 }
 
-.sortCheckboxToggle:checked::before {
+.sortRadioBtnToggle:checked::before {
     content: "\2713";
     font-size: 18px;
 }
 
-.sortCheckboxToggle:hover {
+.sortRadioBtnToggle:hover {
     transform: rotate(10deg);
 }
 
@@ -429,7 +426,7 @@ body {
 }
 
 #menuIcon,
-#menuCheckBox {
+#menuRadioBtn {
     display: none;
 }
 
@@ -782,13 +779,13 @@ hr {
         margin-left: 42px;
     }
 
-    .sortCheckboxToggle {
+    .sortRadioBtnToggle {
         width: 22px;
         height: 22px;
         margin-top: -6px;
     }
 
-    .sortCheckboxToggle:checked::before {
+    .sortRadioBtnToggle:checked::before {
         font-size: 15px;
     }
 

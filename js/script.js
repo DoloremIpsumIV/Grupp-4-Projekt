@@ -46,9 +46,9 @@ const ApiKey = "vxJzsf1d";  // Api key for SMAPI
 
 let restuarantMarkerArray = [];   // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;            // Button elem for småland
-let smalandCheckbox;              // Checkbox element for Småland
+let smalandRadioBtn;              // RadioBtn element for Småland
 let olandButtonElem;              // Button elem for Öland
-let olandCheckbox;                // Checkbox element for Öland
+let olandRadioBtn;                // RadioBtn element for Öland
 let miniMap;                      // Small map that pops up
 let map;                          // Variable for the map
 let latitude = smaland.lat;       // Latitude of Småland
@@ -76,28 +76,28 @@ function init() {
     findBtnElem.addEventListener("click", getUserGeo);
 
     smalandButtonElem = document.querySelector("#smaland");
-    smalandCheckbox = document.querySelector("#smalandCheckbox");
-    smalandCheckbox.checked = true;
+    smalandRadioBtn = document.querySelector("#smalandRadioBtn");
+    smalandRadioBtn.checked = true;
 
-    olandCheckbox = document.querySelector("#olandCheckbox");
+    olandRadioBtn = document.querySelector("#olandRadioBtn");
     olandButtonElem = document.querySelector("#oland");
-    olandCheckbox.checked = false;
+    olandRadioBtn.checked = false;
     olandButtonElem.classList.toggle("sortButtonsToggle");
     olandButtonElem.addEventListener("click", toggleSortButtons);
 
     userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
-    smalandCheckbox.addEventListener("change", function () {
+    smalandRadioBtn.addEventListener("change", function () {
         if (this.checked) {
-            olandCheckbox.checked = false;
+            olandRadioBtn.checked = false;
             userMarker.remove();
             userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
             toggleSortButtons();
         }
     });
 
-    olandCheckbox.addEventListener("change", function () {
+    olandRadioBtn.addEventListener("change", function () {
         if (this.checked) {
-            smalandCheckbox.checked = false;
+            smalandRadioBtn.checked = false;
             userMarker.remove();
             userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
             toggleSortButtons();
@@ -837,14 +837,14 @@ function openMapDialog() {
 
     });
 
-    if (smalandCheckbox.checked) {
+    if (smalandRadioBtn.checked) {
         const miniBounds = L.latLngBounds(
             L.latLng(smalandBoundries.minLatCorner, smalandBoundries.minLngCorner),
             L.latLng(smalandBoundries.maxLatCorner, smalandBoundries.maxLngCorner)
         );
         miniMap.setMaxBounds(miniBounds);
     }
-    else if (olandCheckbox.checked) {
+    else if (olandRadioBtn.checked) {
         const miniBounds = L.latLngBounds(
             L.latLng(olandBoundries.minLatCorner, olandBoundries.minLngCorner),
             L.latLng(olandBoundries.maxLatCorner, olandBoundries.maxLngCorner)
