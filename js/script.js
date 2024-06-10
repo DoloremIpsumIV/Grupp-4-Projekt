@@ -536,7 +536,7 @@ function showData(json) {
     const restaurantContainer = document.querySelector("#restaurantInfo");
 
     if (json.payload.length == 0) {
-        restaurantContainer.innerHTML = "Inga resturanger kunde hittas med dessa alternativ, testa att sök på något annat!";
+        restaurantContainer.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat!";
         restaurantContainer.classList.remove("restaurantSize");
         for (let i = 0; i < restuarantMarkerArray.length; i++) {
             restuarantMarkerArray[i].remove();
