@@ -4,11 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
+    <meta name="description"
+        content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/script.js"></script>
+    <script src="js/elementBuilder.js"></script>
+    <script src="js/mapLogic.js"></script>
+    <script src="js/searchOptionsMenu.js"></script>
+    <script src="js/smapiDataFetcher.js"></script>
     <link rel="icon" href="images/logovit.png">
     <title>GetFood</title>
 </head>
@@ -32,7 +39,8 @@
     <div id="filters">
         <div id="flexforResponsive">
             <div id="typeOfRestaurant">
-                <button class="dropDownBtn">Restaurangtyp<img src="images/arrow.png" alt="dropDownMenu icon" class="arrow"></button>
+                <button class="dropDownBtn">Restaurangtyp<img src="images/arrow.png" alt="dropDownMenu icon"
+                        class="arrow"></button>
                 <div class="dropDownContent" id="restaurantType">
                     <a>Alla</a>
                     <a>Pizzeria</a>
@@ -52,7 +60,8 @@
             </div>
 
             <div id="distance">
-                <button class="dropDownBtn">Avstånd &#40;km&#41;<img src="images/arrow.png" alt="dropDownMenu icon" class="arrow"></button>
+                <button class="dropDownBtn">Avstånd &#40;km&#41;<img src="images/arrow.png" alt="dropDownMenu icon"
+                        class="arrow"></button>
                 <div class="dropDownContent" id="radius">
                     <a>1 KM</a>
                     <a>3 KM</a>
@@ -62,7 +71,8 @@
             </div>
 
             <div id="priceRange">
-                <button class="dropDownBtn">Prisklass &#40;sek&#41;<img src="images/arrow.png" alt="dropDownMenu icon" class="arrow"></button>
+                <button class="dropDownBtn">Prisklass &#40;sek&#41;<img src="images/arrow.png" alt="dropDownMenu icon"
+                        class="arrow"></button>
                 <div class="dropDownContent" id="price">
                     <a>Alla</a>
                     <a>&gt60 SEK</a>
@@ -75,15 +85,18 @@
 
         <div id="flexContainer">
             <div id="sortButtons">
-                <label for="smalandRadioBtn"><input type="radio" id="smalandRadioBtn" class="sortRadioBtnToggle" checked> Småland</label>
+                <label for="smalandRadioBtn"><input type="radio" id="smalandRadioBtn" class="sortRadioBtnToggle"
+                        checked> Småland</label>
                 <label for="olandRadioBtn"><input type="radio" id="olandRadioBtn" class="sortRadioBtnToggle">
                     Öland</label>
             </div>
 
             <div id="searchButtons">
-                <button id="mapBtn">Välj placering på karta <img src="images/mapPointer.png" alt="map pin" class="buttonImg"></button>
+                <button id="mapBtn">Välj placering på karta <img src="images/mapPointer.png" alt="map pin"
+                        class="buttonImg"></button>
 
-                <button id="findBtn">Hitta min plats <img src="images/findPic.png" alt="map pointer" class="buttonImg"></button>
+                <button id="findBtn">Hitta min plats <img src="images/findPic.png" alt="map pointer"
+                        class="buttonImg"></button>
             </div>
             <button id="searchButton">SÖK</button>
 
