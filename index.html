@@ -25,14 +25,13 @@
         <img src="images/logovit.png" alt="GetFoods logotype" id="logoWhite">
     </div>
 
-    <dialog id="chooseProvince">
+    <dialog class="chooseProvince">
         <form>
-            <div id="sortButtons"></div>
+            <div class="sortButtons"></div>
             <p>Jag vill söka i:</p>
             <button id="smaland" type="button" class="sortButtonsToggle">Småland</button>
             <button id="oland" type="button" class="sortButtonsToggle">Öland</button>
             <button id="confirmBtn" type="button">Ok</button>
-            </div>
         </form>
     </dialog>
 
@@ -75,16 +74,16 @@
                         class="arrow"></button>
                 <div class="dropDownContent" id="price">
                     <a>Alla</a>
-                    <a>&gt60 SEK</a>
+                    <a>&gt;60 SEK</a>
                     <a>61-90 SEK</a>
                     <a>91-119 SEK</a>
-                    <a>&lt120 SEK</a>
+                    <a>&lt;120 SEK</a>
                 </div>
             </div>
         </div>
 
         <div id="flexContainer">
-            <div id="sortButtons">
+            <div class="sortButtons">
                 <label for="smalandRadioBtn"><input type="radio" id="smalandRadioBtn" class="sortRadioBtnToggle"
                         checked> Småland</label>
                 <label for="olandRadioBtn"><input type="radio" id="olandRadioBtn" class="sortRadioBtnToggle">
@@ -106,7 +105,7 @@
     <div id="overlay">
         <button id="closeButton">X</button>
         <div id="map">
-            <dialog id="chooseProvince">
+            <dialog class="chooseProvince">
                 <!-- Innehåll för dialogrutan -->
             </dialog>
         </div>
