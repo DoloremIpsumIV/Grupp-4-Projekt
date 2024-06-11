@@ -18,10 +18,10 @@ const boundries = {               // Const with min and max boundries for the ma
     minLngCorner: 13.061037
 }
 const smalandBoundries = {
-    maxLatCorner: 57.835979,
-    maxLngCorner: 13.372047,
+    maxLatCorner: 58.135979,
+    maxLngCorner: 13.272047,
     minLatCorner: 56.392624,
-    minLngCorner: 15.526773
+    minLngCorner: 16.826773
 }
 const olandBoundries = {
     maxLatCorner: 57.234476,
