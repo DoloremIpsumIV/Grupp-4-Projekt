@@ -36,7 +36,7 @@ body {
     background-size: cover;
     height: 400px;
     margin-top: 108px;
-    
+
 }
 
 #mapDivBox {
@@ -368,7 +368,6 @@ body {
     font-size: initial;
     width: 100px;
     height: 100px;
-    border: solid 2px black;
     border-radius: 200px;
     margin-top: 20px;
     margin-left: 20px;
@@ -448,7 +447,8 @@ body {
 }
 
 #footerLogo {
-    
+    width: 200px;
+    margin-top: -15px;
     margin-top: 20px;
     margin-left: 10px;
 }
@@ -479,7 +479,7 @@ hr {
     margin-left: 20px;
     margin-top: 50px;
     color: rgb(148, 148, 148);
-    
+
 }
 
 /* Code for loader */
