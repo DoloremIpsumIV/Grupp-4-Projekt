@@ -160,7 +160,6 @@ function openMapDialog() {
         iconUrl: "/mapIcons/mapOwnPosition.png",
         iconSize: [20, 40],
         iconAnchor: [10, 40]
-
     });
 
     if (smalandRadioBtn.checked) {
@@ -189,6 +188,9 @@ function openMapDialog() {
 
 // Closes the small popup map
 function closeMapDialog() {
+    latitude = userMarker._latlng.lat
+    longitude = userMarker._latlng.lng;
+    map.setView([latitude, longitude], zoom = 16);
     const mapBox = document.querySelector("#map");
     const overlay = document.querySelector("#overlay");
 
