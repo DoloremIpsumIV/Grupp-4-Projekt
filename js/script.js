@@ -3,7 +3,7 @@ const smaland = {                 // Start position for the map
     name: "Småland",
     lat: 56.87767,
     lng: 14.80906,
-    zoom: 9
+    zoom: 12
 }
 const oland = {                   // Öland coordinates
     name: "Öland",
@@ -91,6 +91,8 @@ function init() {
             olandRadioBtn.checked = false;
             userMarker.remove();
             userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
+            latitude = smaland.lat;
+            longitude = smaland.lng;
             toggleSortButtons();
         }
     });
@@ -100,6 +102,8 @@ function init() {
             smalandRadioBtn.checked = false;
             userMarker.remove();
             userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
+            latitude = oland.lat;
+            longitude = oland.lng;
             toggleSortButtons();
         }
     });
@@ -145,14 +149,11 @@ function init() {
             behavior: "smooth"
         });
     });
-    updateMapLoc(false);
 }
 window.addEventListener("load", init);
 
 // Function that toggles the two buttons
 function toggleSortButtons() {
-    updateMapLoc(false);
-
     olandButtonElem.classList.toggle("sortButtonsToggle");
     smalandButtonElem.classList.toggle("sortButtonsToggle");
 
