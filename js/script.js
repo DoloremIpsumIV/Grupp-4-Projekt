@@ -18,10 +18,10 @@ const boundries = {               // Const with min and max boundries for the ma
     minLngCorner: 13.061037
 }
 const smalandBoundries = {
-    maxLatCorner: 57.835979,
-    maxLngCorner: 13.372047,
+    maxLatCorner: 58.135979,
+    maxLngCorner: 13.272047,
     minLatCorner: 56.392624,
-    minLngCorner: 15.526773
+    minLngCorner: 16.826773
 }
 const olandBoundries = {
     maxLatCorner: 57.234476,
@@ -31,14 +31,14 @@ const olandBoundries = {
 }
 const marker = L.Icon.extend({    // Definition of a marker with an image
     options: {
-        iconSize: [30, 50],
-        iconAnchor: [15, 50]
+        iconSize: [34, 54],
+        iconAnchor: [17, 54]
     }
 });
 const ownPositionMarker = L.icon({// Position marker for the users location
-    iconUrl: "/mapIcons/mapOwnPosition.png",
-    iconSize: [20, 40],
-    iconAnchor: [10, 40]
+    iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
+    iconSize: [24, 44],
+    iconAnchor: [12, 44]
 });
 const subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
 const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
@@ -111,8 +111,6 @@ function init() {
     document.getElementById("mapBtn").addEventListener("click", openMapDialog);
     document.getElementById("closeButton").addEventListener("click", closeMapDialog);
 
-    header = document.querySelector("#headerContainer");
-    headerImg = document.querySelector("#headerContainer img");
     loader = document.querySelector("#loaderId");
 
     // Updates the contents of the drop-down menus with the selected option
