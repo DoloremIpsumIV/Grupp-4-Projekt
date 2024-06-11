@@ -119,17 +119,37 @@
         </div>
     </div>
 
-    <main>
-        <div id="flexBox">
-            <div id="mapViewer">
+    
+        <main>
+    
+            <div id="searchResult">
+                <p>Aktuell sökning:</p>
+                <p id="searchedResturant">Restaurang</p>
+                <p id="searchedDistance">Distans</p>
+                <p id="searchedPrice">Pris</p>
+    
+            </div>
 
+            <div id="sortBox">
+            <p>Sortera:</p><label for="sort"></label>
+                <select id="sort"><option>Billigaste</option>
+                <option>Dyraste</option></select>
+                
+
+               </div>
+
+            <div id="flexBox">
+                <div id="mapViewer"></div>
+            
+
+
+                <div id="restaurantInfo">
+                    <p id="infoText">Här var det tomt <br>testa att söka</p>
+                    <img src="images/forknKnife.svg" alt="fork and knife" id="forknknife">
+                </div>
             </div>
-            <div id="restaurantInfo">
-                <p id="infoText">Här var det tomt <br>testa att söka</p>
-                <img src="images/forknKnife.svg" alt="fork and knife" id="forknknife">
-            </div>
-        </div>
-    </main>
+        </main>
+    
 
     <footer id="footer">
         <img id="footerLogo" src="images/logo.png" alt="GetFoods logotype">

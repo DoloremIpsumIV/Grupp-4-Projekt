@@ -149,6 +149,9 @@ function init() {
             behavior: "smooth"
         });
     });
+
+
+    
 }
 window.addEventListener("load", init);
 
