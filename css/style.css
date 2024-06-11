@@ -263,7 +263,7 @@ body {
     margin-left: 7px;
 }
 
-#sortButtons {
+.sortButtons {
     display: flex;
     margin-right: auto;
     margin-right: 20px;
@@ -542,7 +542,7 @@ hr {
 /* End of code for loader */
 
 /* Code for modal */
-#chooseProvince {
+.chooseProvince {
     display: none;
     background-color: white;
     box-shadow: 0px 0px 15px 6px #2d324fe1;
@@ -552,14 +552,14 @@ hr {
     margin-right: auto;
 }
 
-#chooseProvince form {
+.chooseProvince form {
     display: flex;
     flex-wrap: nowrap;
     grid-template-columns: max-content auto;
     gap: 0.75em;
 }
 
-#chooseProvince button {
+.chooseProvince button {
     display: block;
     margin-left: auto;
     padding: 0.5em;
@@ -773,7 +773,7 @@ hr {
     }
 
 
-    #sortButtons {
+    .sortButtons {
         font-size: 13px;
         padding-top: 20px;
         margin-left: 42px;
