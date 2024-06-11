@@ -10,7 +10,7 @@ class ElementConstructor {
     renderElement(index) {
         const fragment = new DocumentFragment();
         const propertyToShow = ['rating', 'avg_lunch_pricing', 'distance_in_km', 'sub_type', 'search_tags', 'id'];  // Data that will be displayed
-        //const data = Object.keys(this.data[index]);                                            // Switch out property to show with data to display all data in div elements
+        // Console.log(Object.keys(this.data[index]));                                                              // Will show all data availible, remove later <-------------------
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
         const divElement = document.createElement("div");
         divElement.classList.add("restaurantCardFlex");
@@ -25,7 +25,7 @@ class ElementConstructor {
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = String(propertyToShow[i]);
             if (property == "sub_type") {
-                imgElement.src = "/mapIcons/" + this.data[distanceIndex][property] + ".png";
+                imgElement.src = "/mapIconsSVG/" + this.data[distanceIndex][property] + ".svg";
             }
             if (property == "id") {
                 divElement.id = "r" + this.data[distanceIndex][property];
@@ -45,31 +45,17 @@ class ElementConstructor {
             const property = String(propertyToShow[i]);
             const translatedWord = this.#wordTranslator(property);
             const paragraphElement = document.createElement("p");
-            const secondImageElement = document.createElement("img");
             const parsedNumber = parseFloat((this.data[distanceIndex][property]).toString());
 
-            if (this.data[distanceIndex][property] == "N" || this.data[distanceIndex][property] == "Y") {   // This will check if the current data is "Y" or "N", which will make it into a cross or check
-                if (this.data[distanceIndex][property] == "N") {
-                    secondImageElement.src = "/images/Cross.png";
-                }
-                else {
-                    secondImageElement.src = "/images/Check.png";
-                }
-                secondImageElement.classList = "crossAndCheck";
-                paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": ";
-                paragraphElement.appendChild(secondImageElement);
-            }
-
-            else if (property == "sub_type" || property == "id") {
+            if (property == "sub_type" || property == "id") {
                 continue;
-                // skips displaying the sub_type
+                // skips displaying the sub_type and id
             }
 
             else if (property == "avg_lunch_pricing") {   // This will check if the data is avgerage lunch pricing, it will compare the numbers and give it one to three dollars depening on set amounts
                 const dollar = document.createElement("p");
                 dollar.style.display = "inline";
                 dollar.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
-                //paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ":";
                 switch (this.#compare(this.data[distanceIndex][property])) {
                     case 1:
                         dollar.style.color = "green";
@@ -92,7 +78,6 @@ class ElementConstructor {
             }
 
             else if (property == "rating") {   // This will check if the data is a rating, it will then check the first number to loop the amount of stars needed, if the second number (decimal) is 5 or above it will display a half star on the end
-                //paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": ";
                 const digit = Math.floor((this.data[distanceIndex][property]) * 10) / 10;
                 const secondDigit = Math.floor((this.data[distanceIndex][property] * 10) % 10);
                 paragraphElement.style.display = "inline";
@@ -113,21 +98,16 @@ class ElementConstructor {
                 paragraphElement.style.display = "inline";
                 paragraphElement.style.padding = "10px 10px 0px 10px";
                 paragraphElement.style.marginTop = "13px";
-                if (Math.round((parsedNumber + Number.EPSILON) >= 1)) {
-                    paragraphElement.innerText = Math.round((parsedNumber + Number.EPSILON) * 100) / 100 + " km bort";
-                }
-                else {
-                    paragraphElement.innerText = (Math.floor((parsedNumber + Number.EPSILON) * 100) / 100) * 1000 + " meter bort";
+                if (parsedNumber >= 1) {
+                    paragraphElement.innerText = parsedNumber.toFixed(2) + " km bort";
+                } else {
+                    paragraphElement.innerText = (parsedNumber * 1000).toFixed(0) + " meter bort";
                 }
             }
 
             else {
-                if (parsedNumber) {   // If the data is just a number, like distance to target, it will display it in a readable format and with a max of three decimals
-                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + ": " + Math.round((parsedNumber + Number.EPSILON) * 100) / 100;
-                }
-                else {   // This will simply display the raw text in a more readable format, it cleans it up basically
-                    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + this.#wordTranslator(this.data[distanceIndex][property]).charAt(0).toUpperCase() + this.#wordTranslator(this.data[distanceIndex][property]).slice(1).replace(/_/g, " ").toLowerCase();
-                }
+                // This will simply display the raw text in a more readable format, it cleans it up basically
+                paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + this.#wordTranslator(this.data[distanceIndex][property]).charAt(0).toUpperCase() + this.#wordTranslator(this.data[distanceIndex][property]).slice(1).replace(/_/g, " ").toLowerCase();
             }
             secondDivElement.appendChild(paragraphElement);
             fragment.appendChild(secondDivElement);
@@ -205,9 +185,9 @@ class ElementConstructor {
         const star = document.createElement("img");
         const halfStar = document.createElement("img");
 
-        star.src = "/images/wholeStar.png";
+        star.src = "/images/wholeStar.svg";
         star.classList = "star";
-        halfStar.src = "/images/halfStar.png";
+        halfStar.src = "/images/halfStar.svg";
         halfStar.classList = "star";
 
         if (halfStarExists == true) {

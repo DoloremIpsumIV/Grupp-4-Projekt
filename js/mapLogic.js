@@ -32,7 +32,7 @@ function newRestaurantMarker(lat, lng, urlType, id) {
         }
     }
 
-    let restaurantMarker = new marker({ iconUrl: "/mapIcons/map" + urlType + ".png" });
+    let restaurantMarker = new marker({ iconUrl: "/mapIconsSVG/" + "map" + urlType + ".svg" });
     restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map).on("click", () => scrollToRestaurant(id)));
     restaurantFlag = false;
 }
@@ -104,7 +104,7 @@ function updateMapLoc(success) {
                 miniMap.setView([latitude, longitude], oland.zoom);
                 return "oland";
             }
-            if(success === undefined){
+            if (success === undefined) {
                 map.setView([latitude, longitude], 13);
             }
         }
@@ -157,7 +157,7 @@ function openMapDialog() {
         miniMap.on("click", newUserMarker);
     }
     const ownPositionMarker = L.icon({
-        iconUrl: "/mapIcons/mapOwnPosition.png",
+        iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
         iconSize: [20, 40],
         iconAnchor: [10, 40]
     });
