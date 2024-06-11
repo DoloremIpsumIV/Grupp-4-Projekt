@@ -1,6 +1,6 @@
 // Function for initiation of the map
 function initMap(id) {
-    map = L.map(id).setView([smaland.lat, smaland.lng], smaland.zoom);
+    map = L.map(id).setView([smaland.lat, smaland.lng], 9);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         minZoom: 8,
         maxZoom: 18,
@@ -73,7 +73,7 @@ function getUserGeo() {
             window.alert("Om du inte godkänner att sidan använder din platsinfomation kommer inte denna funktionen att fungera! Välj då istället plats via kartan \n\nFör att använda hitta min plats måste du ladda om sidan och godkänna på nytt");
         }
         else {
-            window.alert("Fel vid hämtning av geo position: " + error)
+            window.alert("Fel vid hämtning av geo position: " + error);
         }
         successFlag = false;
         updateMapLoc(successFlag);
@@ -103,6 +103,9 @@ function updateMapLoc(success) {
             if (miniMap) {
                 miniMap.setView([latitude, longitude], oland.zoom);
                 return "oland";
+            }
+            if(success === undefined){
+                map.setView([latitude, longitude], 13);
             }
         }
     }
