@@ -89,16 +89,15 @@ async function getEstablishmentData() {
         }
         else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
     } catch (error) {
-        if (error.name === 'AbortError') {
-            console.log('Fetch aborted');
+        if (error.name === "AbortError") {
+            console.log("Fetch aborted");
         } else {
-            console.error('Fetch error:', error);
+            console.error("Fetch error:", error);
         }
-
     }
 }
 
-// Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancele async fetch requests
+// Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
 async function fetchData() {
     try {
         handleClick(true);
@@ -112,10 +111,10 @@ async function fetchData() {
         else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
     }
     catch (error) {
-        if (error.name === 'AbortError') {
-            console.log('Fetch aborted');
+        if (error.name === "AbortError") {
+            console.log("Fetch aborted");
         } else {
-            console.error('Fetch error:', error);
+            console.error("Fetch error:", error);
         }
     }
 }
