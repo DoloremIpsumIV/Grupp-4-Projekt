@@ -350,7 +350,7 @@ body {
 }
 
 
-#restaurantCard {
+.restaurantCard {
     background-color: rgb(253, 245, 235);
     width: 95%;
     border: 4px solid black;

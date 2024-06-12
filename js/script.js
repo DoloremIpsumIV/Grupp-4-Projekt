@@ -66,7 +66,7 @@ let loader;                       // Declaring variable for the div containing l
 let dropDownContentElem;          // All the button elements for the dropdown
 let dropDownContentFirstChild;    // Array with all the first elements from the first dropdown elements
 let markerOnMiniMap;              // The marker for the small map
-let arrayEstablishment;           // Array with all food establishments in SMAPI
+let establishmentMap;             // A map with all establishments that can be retrieved with the correct id as the key
 
 window.addEventListener("beforeunload", () => {
     controller.abort();

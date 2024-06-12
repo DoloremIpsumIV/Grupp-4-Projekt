@@ -81,11 +81,10 @@ async function getEstablishmentData() {
         let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=establishment&method=getall&types=food", { signal });
         if (response.ok) {
             let dataResponse = await response.json();
-            arrayEstablishment = dataResponse.payload;
-            console.log(arrayEstablishment);
-            arrayEstablishment.forEach(data => {
-                console.log(data.description)
-            });
+            establishmentMap = new Map(dataResponse.payload.map(obj => [obj.id, obj]));
+            console.log(establishmentMap)
+            const restaurant = getEstablishmentRestaurant("268")
+            console.log(restaurant);
         }
         else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
     } catch (error) {
@@ -95,6 +94,11 @@ async function getEstablishmentData() {
             console.error("Fetch error:", error);
         }
     }
+}
+
+// Takes the id from the establishment map and returns the coresponding restaurant object 
+function getEstablishmentRestaurant(id){
+    return establishmentMap.get(id);
 }
 
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
@@ -151,7 +155,7 @@ function showData(json) {
 
             const listElements = document.createElement("div");
             listElements.appendChild(elementBuilder.renderElement(i));
-            listElements.id = "restaurantCard";
+            listElements.classList.add("restaurantCard");
 
             restaurantContainer.appendChild(listElements);
         }
