@@ -114,30 +114,43 @@ function init() {
     loader = document.querySelector("#loaderId");
 
     // Updates the contents of the drop-down menus with the selected option
-    dropDownContentFirstChild = document.querySelectorAll(".dropDownContent");
+    dropDownContent = document.querySelectorAll(".dropDownContent");
     const dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
-    selectedDropdownContent = document.querySelectorAll(".dropDownContent a");
     for (let i = 0; i < dropDownContentOptions.length; i++) {
         dropDownContentOptions[i].addEventListener("click", handleClick);
-    }
-
-    const radiusDropdownElem = document.querySelector("#radius");
-    for (let i = 0; i < radiusDropdownElem.children.length; i++) {
-        radiusDropdownElem.children[i].addEventListener("click", () => setRadius(radiusDropdownElem.children[i].innerHTML));
-    }
-    const restaurantDropdownElem = document.querySelector("#restaurantType");
-    for (let i = 0; i < restaurantDropdownElem.children.length; i++) {
-        restaurantDropdownElem.children[i].addEventListener("click", () => setRestaurantType(restaurantDropdownElem.children[i].innerHTML));
-    }
-    const priceDropdownElem = document.querySelector("#price");
-    for (let i = 0; i < priceDropdownElem.children.length; i++) {
-        priceDropdownElem.children[i].addEventListener("click", () => setPriceRange(priceDropdownElem.children[i].innerHTML));
     }
 
     dropDownContentElem = document.querySelectorAll(".dropDownBtn");
     for (let i = 0; i < dropDownContentElem.length; i++) {
         dropDownContentElem[i].addEventListener("click", toggleDropdownMenu);
     }
+
+    dropDownContent.forEach(parent => {
+        // Click event for each of the dropdowns
+        parent.addEventListener('click', event => {
+            // Prevents default action
+            event.preventDefault();
+
+            const option = event.target;
+            const dropdownId = parent.id;
+
+            // Checks if its an a tag
+            if (option.tagName.toLowerCase() === "a") {
+                // Switch case which checks different scenarios of which of the dropdowns is used
+                switch (dropdownId) {
+                    case "radius":
+                        setRadius(option.innerHTML);
+                        break;
+                    case "restaurantType":
+                        setRestaurantType(option.innerHTML);
+                        break;
+                    case "price":
+                        setPriceRange(option.innerHTML);
+                        break;
+                }
+            }
+        });
+    });
 
     // When the fork and knife image is pressed it takes you to the search bar
     const forkNknife = document.querySelector("#forknknife");
@@ -149,7 +162,7 @@ function init() {
     });
 
 
-    
+
 }
 window.addEventListener("load", init);
 

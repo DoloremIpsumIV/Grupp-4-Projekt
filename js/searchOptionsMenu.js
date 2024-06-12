@@ -15,7 +15,7 @@ function handleClick(defaultSearch) {
     const dropDownButtonImg = document.querySelector("#distance button img");
     if (defaultSearch == true) {                                                // Selects the first dropdown elements if the user searches without choosing anything first
         for (let i = 0; i < dropDownContentElem.length; i++) {
-            const childElem = dropDownContentFirstChild[i].firstElementChild;
+            const childElem = dropDownContent[i].firstElementChild;
             switch (dropDownContentElem[i].innerText) {
                 case "Restaurangtyp":
                     dropDownContentElem[i].innerHTML = "Alla" + dropDownButtonImg.outerHTML;
@@ -74,6 +74,7 @@ function handleClick(defaultSearch) {
 
 // Function that updates the dropdown menu and it's CSS
 function updateDropdownOptions(dropdownIdentifier, selectedElement) {
+    selectedDropdownContent = document.querySelectorAll(".dropDownContent a");
     selectedDropdownContent.forEach(option => {
         if (option.parentElement.parentElement.id.indexOf(dropdownIdentifier) === 0) {
             selectedElement.removeEventListener("click", handleClick);
