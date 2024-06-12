@@ -75,7 +75,7 @@ function setPriceRange(value) {
     }
 }
 
-// Async function that saves all establishment data in an array, it will abort the fetch request if the page is closed or reloaded
+// Async function that saves all establishment data in a map, it will abort the fetch request if the page is closed or reloaded
 async function getEstablishmentData() {
     try {
         let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=establishment&method=getall&types=food", { signal });
