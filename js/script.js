@@ -43,6 +43,8 @@ const ownPositionMarker = L.icon({// Position marker for the users location
 const subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
 const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
 const ApiKey = "vxJzsf1d";        // Api key for SMAPI
+const controller = new AbortController();   // 
+const signal = controller.signal;
 
 let restuarantMarkerArray = [];   // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;            // Button elem for småland
@@ -64,9 +66,15 @@ let loader;                       // Declaring variable for the div containing l
 let dropDownContentElem;          // All the button elements for the dropdown
 let dropDownContentFirstChild;    // Array with all the first elements from the first dropdown elements
 let markerOnMiniMap;              // The marker for the small map
+let arrayEstablishment;           // Array with all food establishments in SMAPI
+
+window.addEventListener("beforeunload", () => {
+    controller.abort();
+});
 
 // Init function
 function init() {
+    getEstablishmentData()
     initMap("mapViewer");
 
     const searchButton = document.querySelector("#searchButton");
@@ -149,7 +157,7 @@ function init() {
     });
 
 
-    
+
 }
 window.addEventListener("load", init);
 

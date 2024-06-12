@@ -75,17 +75,49 @@ function setPriceRange(value) {
     }
 }
 
-// Async function that collects restaurant data, it will handle errors by popping up a warning on the page
-async function fetchData() {
-    handleClick(true);
-    initLoader();
+// Async function that saves all establishment data in an array, it will abort the fetch request if the page is closed or reloaded
+async function getEstablishmentData() {
+    try {
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=establishment&method=getall&types=food", { signal });
+        if (response.ok) {
+            let dataResponse = await response.json();
+            arrayEstablishment = dataResponse.payload;
+            console.log(arrayEstablishment);
+            arrayEstablishment.forEach(data => {
+                console.log(data.description)
+            });
+        }
+        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            console.log('Fetch aborted');
+        } else {
+            console.error('Fetch error:', error);
+        }
 
-    let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange);
-    if (response.ok) {
-        let dataResponse = await response.json();
-        showData(dataResponse);
     }
-    else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+}
+
+// Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancele async fetch requests
+async function fetchData() {
+    try {
+        handleClick(true);
+        initLoader();
+
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
+        if (response.ok) {
+            let dataResponse = await response.json();
+            showData(dataResponse);
+        }
+        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+    }
+    catch (error) {
+        if (error.name === 'AbortError') {
+            console.log('Fetch aborted');
+        } else {
+            console.error('Fetch error:', error);
+        }
+    }
 }
 
 // Function that adds CSS-class in order to show loader
