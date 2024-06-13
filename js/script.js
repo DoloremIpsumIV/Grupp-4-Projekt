@@ -55,18 +55,13 @@ let miniMap;                      // Small map that pops up
 let map;                          // Variable for the map
 let latitude = smaland.lat;       // Latitude of Småland
 let longitude = smaland.lng;      // Longitude of Småland
-let radius = 1;                   // Radius for search fetch
-let restaurantType = "";          // Type that will be searched for in SMAPI
-let priceRange = "";              // Price range used for SMAPI fetch
-let flag = false;                 // Flag for checking stickyHeader
 let restaurantFlag = false;       // Flag that checks if there are restaurants or not
 let userMarker;                   // Marker that places where the user clicks
 let selectedDropdownContent;      // The selected element that the user clicked on
 let loader;                       // Declaring variable for the div containing loader
-let dropDownContentElem;          // All the button elements for the dropdown
-let dropDownContentFirstChild;    // Array with all the first elements from the first dropdown elements
 let markerOnMiniMap;              // The marker for the small map
 let establishmentMap;             // A map with all establishments that can be retrieved with the correct id as the key
+//let elementBuilder;               // Object that will build restaurant cards on the website
 
 window.addEventListener("beforeunload", () => {
     controller.abort();
@@ -118,47 +113,7 @@ function init() {
 
     document.getElementById("mapBtn").addEventListener("click", openMapDialog);
     document.getElementById("closeButton").addEventListener("click", closeMapDialog);
-
     loader = document.querySelector("#loaderId");
-
-    // Updates the contents of the drop-down menus with the selected option
-    dropDownContent = document.querySelectorAll(".dropDownContent");
-    const dropDownContentOptions = document.querySelectorAll(".dropDownContent a");
-    for (let i = 0; i < dropDownContentOptions.length; i++) {
-        dropDownContentOptions[i].addEventListener("click", handleClick);
-    }
-
-    dropDownContentElem = document.querySelectorAll(".dropDownBtn");
-    for (let i = 0; i < dropDownContentElem.length; i++) {
-        dropDownContentElem[i].addEventListener("click", toggleDropdownMenu);
-    }
-
-    dropDownContent.forEach(parent => {
-        // Click event for each of the dropdowns
-        parent.addEventListener('click', event => {
-            // Prevents default action
-            event.preventDefault();
-
-            const option = event.target;
-            const dropdownId = parent.id;
-
-            // Checks if its an a tag
-            if (option.tagName.toLowerCase() === "a") {
-                // Switch case which checks different scenarios of which of the dropdowns is used
-                switch (dropdownId) {
-                    case "radius":
-                        setRadius(option.innerHTML);
-                        break;
-                    case "restaurantType":
-                        setRestaurantType(option.innerHTML);
-                        break;
-                    case "price":
-                        setPriceRange(option.innerHTML);
-                        break;
-                }
-            }
-        });
-    });
 
     // When the fork and knife image is pressed it takes you to the search bar
     const forkNknife = document.querySelector("#forknknife");

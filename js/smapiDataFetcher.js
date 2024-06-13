@@ -1,77 +1,68 @@
 // Function that defiens the value of the radius
 function setRadius(value) {
-    radius = value;
+    switch (value) {
+        case value = "1 KM":
+            return "1";
+        case value = "3 KM":
+            return "3";
+        case value = "5 KM":
+            return "5";
+        case value = "10 KM":
+            return "10";
+        default:
+            return "1";
+    }
 }
 
 // Function that converts the input value of the dropdown to code that SMAPI understands
 function setRestaurantType(value) {
     switch (value) {
-        case value = "Alla":
-            restaurantType = "";
-            break;
+        case value = "Alla Resturanger":
+            return "";
         case value = "Pizzeria":
-            restaurantType = subTypes[0] + subTypes[8];
-            break;
+            return subTypes[0] + subTypes[8];
         case value = "Asiatisk":
-            restaurantType = subTypes[0] + subTypes[2];
-            break;
+            return subTypes[0] + subTypes[2];
         case value = "Etnisk":
-            restaurantType = types[0] + types[2];
-            break;
+            return types[0] + types[2];
         case value = "Casual":
-            restaurantType = types[0] + types[1];
-            break;
+            return types[0] + types[1];
         case value = "Snabb":
-            restaurantType = types[0] + types[3];
-            break;
+            return types[0] + types[3];
         case value = "Lyx mat":
-            restaurantType = types[0] + types[4];
-            break;
+            return types[0] + types[4];
         case value = "Burgare":
-            restaurantType = subTypes[0] + subTypes[3];
-            break;
+            return subTypes[0] + subTypes[3];
         case value = "Varmkorvar":
-            restaurantType = subTypes[0] + subTypes[4];
-            break;
+            return subTypes[0] + subTypes[4];
         case value = "Latin":
-            restaurantType = subTypes[0] + subTypes[5];
-            break;
+            return subTypes[0] + subTypes[5];
         case value = "Lokalägd":
-            restaurantType = subTypes[0] + subTypes[6];
-            break;
+            return subTypes[0] + subTypes[6];
         case value = "Medelhavs":
-            restaurantType = subTypes[0] + subTypes[7];
-            break;
+            return subTypes[0] + subTypes[7];
         case value = "Annat":
-            restaurantType = subTypes[0] + subTypes[9];
-            break;
+            return subTypes[0] + subTypes[9];
         case value = "Bakverk":
-            restaurantType = subTypes[0] + subTypes[10];
-            break;
+            return subTypes[0] + subTypes[10];
         default:
-            restaurantType = "";
-            break;
+            return "";
     }
 }
 
 // Function that sets the pricerange of SMAPI fetch
 function setPriceRange(value) {
     switch (value) {
-        case "&gt;60 SEK":
-            priceRange = "&max_avg_lunch_pricing=60";
-            break;
+        case ">60 SEK":
+            return "&max_avg_lunch_pricing=60";
         case "61-90 SEK":
-            priceRange = "&max_avg_lunch_pricing=90&min_avg_lunch_pricing=61";
-            break;
+            return "&max_avg_lunch_pricing=90&min_avg_lunch_pricing=61";
         case "91-119 SEK":
-            priceRange = "&max_avg_lunch_pricing=119&min_avg_lunch_pricing=91";
-            break;
-        case "&lt;120 SEK":
-            priceRange = "&min_avg_lunch_pricing=120";
-            break;
+            return "&max_avg_lunch_pricing=119&min_avg_lunch_pricing=91";
+        case "<120 SEK":
+            return "&min_avg_lunch_pricing=120";
         default:
-            priceRange = "";
-            break;
+            return "";
     }
 }
 
@@ -82,9 +73,6 @@ async function getEstablishmentData() {
         if (response.ok) {
             let dataResponse = await response.json();
             establishmentMap = new Map(dataResponse.payload.map(obj => [obj.id, obj]));
-            console.log(establishmentMap)
-            const restaurant = getEstablishmentRestaurant("268")
-            console.log(restaurant);
         }
         else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
     } catch (error) {
@@ -104,9 +92,15 @@ function getEstablishmentRestaurant(id) {
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
 async function fetchData() {
     try {
-        handleClick(true);
-        initLoader();
+        const restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
+        const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
+        const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
 
+        document.querySelector("#searchedResturant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
+        document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
+        document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
+
+        initLoader();
         let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
         if (response.ok) {
             let dataResponse = await response.json();
@@ -149,7 +143,6 @@ function showData(json) {
         restaurantContainer.innerHTML = "";
         const jsonArray = json.payload;
         const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
-
         for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
             const restaurant = jsonArray[i];
 
