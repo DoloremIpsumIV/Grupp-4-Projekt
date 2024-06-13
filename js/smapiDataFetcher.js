@@ -97,7 +97,7 @@ async function getEstablishmentData() {
 }
 
 // Takes the id from the establishment map and returns the coresponding restaurant object 
-function getEstablishmentRestaurant(id){
+function getEstablishmentRestaurant(id) {
     return establishmentMap.get(id);
 }
 
@@ -151,13 +151,21 @@ function showData(json) {
         const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
 
         for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
+            const restaurant = jsonArray[i];
+
             newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng, jsonArray[i].sub_type, jsonArray[i].id);
 
             const listElements = document.createElement("div");
             listElements.appendChild(elementBuilder.renderElement(i));
             listElements.classList.add("restaurantCard");
+            // Byt då detta till att lägga in bilden för stjärnan istället
+            const saveBtn = document.createElement("button");
+            saveBtn.innerHTML = "Spara restaurang";
+            listElements.appendChild(saveBtn);
 
             restaurantContainer.appendChild(listElements);
+
+            saveBtn.addEventListener("click", () => saveRestaurant(listElements));
         }
         restaurantFlag = true;
     }
@@ -167,3 +175,30 @@ function showData(json) {
     document.querySelector("#mapBtn").scrollIntoView();
     restaurantContainer.classList.add("restaurantSize");
 }
+
+function saveRestaurant(listElements) {
+    console.log(listElements);
+
+    let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant"));
+
+    const clonedListElement = listElements.cloneNode(true);
+
+    savedRestaurant.push(clonedListElement.outerHTML);
+    localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+    // Eventuellt ta bort den här feedbacken då vi har en ifylld stjärna istället
+    alert("Restaurangen har sparats!");
+}
+
+// Funktion som laddar in/upp datan som användaren sparat lokalt i savedBox elementet
+// Behöver skriva en if-sats som kollar ifall den redan finns i localstorage
+function loadSavedRestaurant() {
+    const savedBox = document.querySelector("#savedBox");
+    let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant"));
+
+    for (let i = 0; i < savedRestaurant.length; i++) {
+        const savedListElements = document.createElement("div");
+        savedListElements.innerHTML = savedRestaurant[i];
+        savedBox.appendChild(savedListElements);
+    }
+}
+window.addEventListener("load", loadSavedRestaurant);
