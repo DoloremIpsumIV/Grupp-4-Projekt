@@ -1,0 +1,105 @@
+
+/* CSS för favoriter.html */
+
+#savedBox {
+    background-color: #f7f5f2;
+    width: 300px;
+    margin-right: 30px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    height: 400px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+}
+
+.listBox {
+    background-color: #f7f5f2;
+    width: 300px;
+    margin-right: 30px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 400px;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+    position: relative;
+}
+
+#savedFlexbox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.plusSign {
+    font-size: 120px;
+
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+}
+
+.listInput {
+    height: 50px;
+    font-size: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 70%;
+    margin-top: 30px;
+    border: none;
+    border-bottom: 3px solid rgb(255, 255, 255);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.listInput:focus {
+    border-bottom-color: #edad46e7;
+}
+
+.listInput:hover {
+    border-bottom-color: #edad46e7;
+}
+
+h1 {
+margin-top: 100px;
+padding-top: 50px;
+padding-bottom: 120px;
+background-color: aliceblue;
+text-align: center;
+}
+
+h2 {
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pen {
+    width: 40px;
+    height: 40px;
+    margin-bottom: -15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
