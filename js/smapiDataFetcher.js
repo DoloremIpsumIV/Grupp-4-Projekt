@@ -17,7 +17,7 @@ function setRadius(value) {
 // Function that converts the input value of the dropdown to code that SMAPI understands
 function setRestaurantType(value) {
     switch (value) {
-        case value = "Alla":
+        case value = "Alla Resturanger":
             return "";
         case value = "Pizzeria":
             return subTypes[0] + subTypes[8];
@@ -93,12 +93,14 @@ function getEstablishmentRestaurant(id) {
 async function fetchData() {
     try {
         const restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
-        console.log(document.querySelector("#priceRange").firstElementChild.value)
-        const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
         const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
-        console.log(restaurantType)
-        console.log(radius)
-        console.log(priceRange)
+        const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
+
+        const searchResultElems = {
+            restaurant: document.querySelector("#searchedResturant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value,
+            distance: document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value,
+            price: document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value
+        }
         initLoader();
         let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
         if (response.ok) {
