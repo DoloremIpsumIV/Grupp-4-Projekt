@@ -75,17 +75,52 @@ function setPriceRange(value) {
     }
 }
 
-// Async function that collects restaurant data, it will handle errors by popping up a warning on the page
-async function fetchData() {
-    handleClick(true);
-    initLoader();
-
-    let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange);
-    if (response.ok) {
-        let dataResponse = await response.json();
-        showData(dataResponse);
+// Async function that saves all establishment data in a map, it will abort the fetch request if the page is closed or reloaded
+async function getEstablishmentData() {
+    try {
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=establishment&method=getall&types=food", { signal });
+        if (response.ok) {
+            let dataResponse = await response.json();
+            establishmentMap = new Map(dataResponse.payload.map(obj => [obj.id, obj]));
+            console.log(establishmentMap)
+            const restaurant = getEstablishmentRestaurant("268")
+            console.log(restaurant);
+        }
+        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+    } catch (error) {
+        if (error.name === "AbortError") {
+            console.log("Fetch aborted");
+        } else {
+            console.error("Fetch error:", error);
+        }
     }
-    else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+}
+
+// Takes the id from the establishment map and returns the coresponding restaurant object 
+function getEstablishmentRestaurant(id){
+    return establishmentMap.get(id);
+}
+
+// Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
+async function fetchData() {
+    try {
+        handleClick(true);
+        initLoader();
+
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
+        if (response.ok) {
+            let dataResponse = await response.json();
+            showData(dataResponse);
+        }
+        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+    }
+    catch (error) {
+        if (error.name === "AbortError") {
+            console.log("Fetch aborted");
+        } else {
+            console.error("Fetch error:", error);
+        }
+    }
 }
 
 // Function that adds CSS-class in order to show loader
@@ -120,7 +155,7 @@ function showData(json) {
 
             const listElements = document.createElement("div");
             listElements.appendChild(elementBuilder.renderElement(i));
-            listElements.id = "restaurantCard";
+            listElements.classList.add("restaurantCard");
 
             restaurantContainer.appendChild(listElements);
         }
