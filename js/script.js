@@ -61,6 +61,7 @@ let selectedDropdownContent;      // The selected element that the user clicked 
 let loader;                       // Declaring variable for the div containing loader
 let markerOnMiniMap;              // The marker for the small map
 let establishmentMap;             // A map with all establishments that can be retrieved with the correct id as the key
+//let elementBuilder;               // Object that will build restaurant cards on the website
 
 window.addEventListener("beforeunload", () => {
     controller.abort();

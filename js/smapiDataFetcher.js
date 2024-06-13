@@ -96,11 +96,10 @@ async function fetchData() {
         const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
         const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
 
-        const searchResultElems = {
-            restaurant: document.querySelector("#searchedResturant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value,
-            distance: document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value,
-            price: document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value
-        }
+        document.querySelector("#searchedResturant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
+        document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
+        document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
+
         initLoader();
         let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
         if (response.ok) {
