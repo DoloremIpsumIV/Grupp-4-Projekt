@@ -76,7 +76,7 @@ h1 {
 margin-top: 100px;
 padding-top: 50px;
 padding-bottom: 120px;
-background-color: aliceblue;
+color: white;
 text-align: center;
 }
 
@@ -91,6 +91,156 @@ h2 {
     height: 40px;
     margin-bottom: -15px;
 }
+
+
+
+
+
+/* CSS for geoMatch.html */
+
+#firstBox {
+    background-color: #f7f5f2;
+    width: 370px;
+    margin-right: 10px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 300px;
+    justify-content: center;
+    height: 370px;
+    display: block;
+    padding-left: 10px;
+    text-align: center;
+    transition: transform 0.4s ease;
+}
+
+#firstBox:hover {
+    transform: rotate(-10deg);
+}
+
+#secondBox {
+    background-color: #f7f5f2;
+    width: 370px;
+    margin-right: 10px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 300px;
+    justify-content: center;
+    height: 370px;
+    display: block;
+    padding-left: 10px;
+    text-align: center;
+    margin-left: 50px;
+    transition: transform 0.4s ease;
+}
+
+#secondBox:hover {
+    transform: rotate(10deg);
+
+}
+
+#boxBackground {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.insideBox {
+    width: 260px;
+    height: 260px;
+    border: black 3px solid;
+    margin: 50px;
+    border-radius: 300px;
+}
+
+#boxBackground {
+    background-image:url(../images/bakgrundpicnic3.svg) ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100vh; 
+    padding-top: 200px;
+    display: none;
+}
+
+#startPage {
+   background-color: rgb(255, 255, 255);
+  width: 100%;
+  height: 100vh;
+    
+}
+
+#playButton {
+    width: 537px;
+    height: 35px;
+    position: absolute;
+    background-color: #4a6700d7;
+    border: solid 1px #899E1D;
+    color: white;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease;
+
+}
+
+
+
+#mapBtn2 {
+    height: 50px;
+    font-size: 20px;
+    width: 260px;
+    background-color: #899e1d20;
+    color: #4A6700;
+    border: solid 2px #4a6700;
+    border-radius: 5px;
+    transition: 0.5s;
+    margin-top: 300px;
+
+}
+
+#mapBtn2:hover {
+    transform: scale(1.1);
+    background-color: #899e1dc5;
+    color: white;
+}
+
+#mapBtn2.activated {
+    background-color: #899e1dc5;
+    color: white;
+}
+
+#findBtn2 {
+    height: 50px;
+    font-size: 20px;
+    width: 260px;
+    background-color: #d2963562;
+    color: #745523;
+    border: solid 2px #745523;
+    border-radius: 5px;
+    margin-left: 10px;
+    transition: 0.5s;
+}
+
+#findBtn2:hover {
+    background-color: #d1922ed3;
+    color: white;
+    transform: scale(1.1);
+}
+
+#findBtn2.activated {
+    background-color: #d1922ed3;
+    color: white;
+}
+
+#playButton:hover {
+    background-color: #4a670086;
+}
+
+
+
+
+
 
 
 
