@@ -87,7 +87,7 @@ async function getEstablishmentData() {
 // Async function that saves all food data in a map with the correct id, it will abort the fetch request if the page is closed or reloaded
 async function getFoodData(id) {
     try {
-        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getall&ids=" + id, { signal });
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getfromlatlng&ids=" + id + "&lat=" + latitude + "&lng=" + longitude, { signal });
         if (response.ok) {
             let dataResponse = await response.json();
             dataResponse.payload.forEach(obj => {
@@ -100,7 +100,7 @@ async function getFoodData(id) {
                     const listElements = document.createElement("div");
                     listElements.appendChild(displayCardFlex(obj.id));
                     listElements.classList.add("restaurantCard");
-                    container.appendChild(listElements)
+                    container.appendChild(listElements);
                     container.classList.add("restaurantSize");
                     //-----------------------------------------------
                 }

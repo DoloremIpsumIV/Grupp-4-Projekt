@@ -62,7 +62,7 @@ let selectedDropdownContent;      // The selected element that the user clicked 
 let loader;                       // Declaring variable for the div containing loader
 let markerOnMiniMap;              // The marker for the small map
 let establishmentMap;             // A map with all establishments that can be retrieved with the correct id as the key
-let restaurant;                   
+let restaurant;                   // A map with all the data of the two fetches combined into one object with it's id as a key
 
 
 window.addEventListener("beforeunload", () => {

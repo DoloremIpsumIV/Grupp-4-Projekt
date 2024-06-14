@@ -7,56 +7,38 @@ function combineRestaurantData(map1, map2) {
             combinedMap.set(key, { ...value, ...map2.get(key) });
         }
     });
-
     return combinedMap;
 }
 
-// 
+// Function that will display a restaurant card aslong as the restaurant id exists in the restaurant map
 function displayCardFlex(restuarantId) {
+    console.log(restaurant)
     const restaurantObject = restaurant.get(restuarantId.toString());
     const fragment = new DocumentFragment();
     const divElement = document.createElement("div");
+    const secondDivElement = document.createElement("div");
+    const imgElement = document.createElement("img");
+    const titleElement = document.createElement("h2");
+
     divElement.classList.add("restaurantCardFlex");
     divElement.id = restaurantObject.id;
-
-    const imgElement = document.createElement("img");
+    secondDivElement.classList.add("restaurantCardFlex");
+    secondDivElement.style.display = "block";
     imgElement.id = "picture";
-
-    const titleElement = document.createElement("h2");
+    imgElement.src = "/mapIconsSVG/" + restaurantObject.sub_type + ".svg";
     titleElement.id = "restaurantName";
     titleElement.innerText = restaurantObject.name;
-
-    imgElement.src = "/mapIconsSVG/" + restaurantObject.sub_type + ".svg";
 
     divElement.appendChild(imgElement);
     divElement.appendChild(titleElement);
     fragment.appendChild(divElement);
 
-    const secondDivElement = document.createElement("div");
-    secondDivElement.classList.add("restaurantCardFlex");
-    secondDivElement.style.display = "block";
+    const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing"];
 
-    //else if (property == "distance_in_km") {                                      WRITE THE DISTANCE 
-    //paragraphElement.style.display = "inline";
-    //paragraphElement.style.padding = "10px 10px 0px 10px";
-    //paragraphElement.style.marginTop = "13px";
-    //if (parsedNumber >= 1) {
-    //    paragraphElement.innerText = parsedNumber.toFixed(2) + " km bort";
-    //} else {
-    //    paragraphElement.innerText = (parsedNumber * 1000).toFixed(0) + " meter bort";
-    //}
-    //}
-
-    
-    //    paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + this.#wordTranslator(this.data[distanceIndex][property]).charAt(0).toUpperCase() + this.#wordTranslator(this.data[distanceIndex][property]).slice(1).replace(/_/g, " ").toLowerCase();
-   
-    const displayValues = ["name", "type", "phone_number", "website", "abstract", "text", "avg_lunch_pricing", "student_discount", "rating"]
     Object.entries(restaurantObject).forEach(([key, value]) => {
-        if (displayValues.includes(key)) {
-            console.log(key)
+        if (displayValues.includes(key) && value != "") {
             const paragraphElement = document.createElement("p");
             switch (key) {
-
                 case "avg_lunch_pricing":
                     const dollar = document.createElement("p");
                     dollar.style.display = "inline";
@@ -80,6 +62,7 @@ function displayCardFlex(restuarantId) {
                     paragraphElement.style.padding = "10px 10px 0px 10px";
                     paragraphElement.style.fontSize = "23px";
                     paragraphElement.appendChild(dollar);
+                    secondDivElement.prepend(paragraphElement);
                     break;
 
                 case "rating":
@@ -95,23 +78,61 @@ function displayCardFlex(restuarantId) {
                     }
                     else if (secondDigit == 0) {
                         paragraphElement.appendChild(starBuilder(false));
-
                     }
+
+                    secondDivElement.prepend(paragraphElement);
+                    break;
+
+                case "distance_in_km":
+                    paragraphElement.style.display = "inline";
+                    paragraphElement.style.padding = "10px 10px 0px 10px";
+                    paragraphElement.style.marginTop = "13px";
+                    if (value >= 1) {
+                        paragraphElement.innerText = value.toFixed(2) + " km bort";
+                    } else {
+                        paragraphElement.innerText = (value * 1000).toFixed(0) + " meter bort";
+                    }
+
+                    secondDivElement.prepend(paragraphElement);
+                    break;
+
+                case "website":
+                    const linkElement = document.createElement("a")
+                    linkElement.href = value;
+                    linkElement.innerText = "Länk till resturang webbsidan";
+
+                    secondDivElement.appendChild(linkElement);
+                    break;
+
+                case "student_discount":
+                    const crossAndCheck = document.createElement("img");
+                    console.log(value)
+                    if (value == "N") {
+                        crossAndCheck.src = "/images/Cross.png";
+                    }
+                    else {
+                        crossAndCheck.src = "/images/Check.png";
+                    }
+                    crossAndCheck.classList = "crossAndCheck";
+
+                    paragraphElement.innerHTML = key + ": ";
+                    paragraphElement.appendChild(crossAndCheck);
+                    secondDivElement.prepend(paragraphElement);
                     break;
 
                 default:
-                    paragraphElement.innerText = `${key}: ${value}`;
+                    paragraphElement.innerText = `${value}`;
+                    secondDivElement.appendChild(paragraphElement);
+                    fragment.appendChild(secondDivElement);
                     break;
             }
-            secondDivElement.appendChild(paragraphElement);
-            fragment.appendChild(secondDivElement);
         }
     });
     return fragment;
 }
 
-
-function compare(number) {                  // Method that compares a number to see if it's below 60, between 60 and 90, or above 90 for different price ranges
+// Function that takes a number to check if it's below 60, between 60 and 90, or above 90 for different price ranges
+function compare(number) {
     this.numberArray = [60, 90];
     if (number <= this.numberArray[0]) {
         return 1;
@@ -124,8 +145,8 @@ function compare(number) {                  // Method that compares a number to 
     }
 }
 
-
-function starBuilder(halfStarExists) {      // Method that creates a star image whenever called and if halfStarExists is false, if it's true it ads a half star
+// Function that creates a star image whenever called and if halfStarExists is false. If it's true it ads a half star
+function starBuilder(halfStarExists) {
     const star = document.createElement("img");
     const halfStar = document.createElement("img");
 

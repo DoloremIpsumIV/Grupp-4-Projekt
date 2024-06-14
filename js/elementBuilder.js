@@ -106,11 +106,6 @@ class ElementConstructor {
             else {
                 // This will simply display the raw text in a more readable format, it cleans it up basically
                 paragraphElement.innerText = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1).replace(/_/g, " ") + this.#wordTranslator(this.data[distanceIndex][property]).charAt(0).toUpperCase() + this.#wordTranslator(this.data[distanceIndex][property]).slice(1).replace(/_/g, " ").toLowerCase();
-                //console.log(getEstablishmentRestaurant(savedId))
-                //paragraphElement.innerText = getEstablishmentRestaurant(savedId).website
-                //paragraphElement.innerText += getEstablishmentRestaurant(savedId).phone_number
-                //paragraphElement.innerText += getEstablishmentRestaurant(savedId).text
-                //paragraphElement.innerText = getEstablishmentRestaurant(savedId).student_discount
             }
             secondDivElement.appendChild(paragraphElement);
             fragment.appendChild(secondDivElement);
