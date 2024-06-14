@@ -17,7 +17,7 @@ function setRadius(value) {
 // Function that converts the input value of the dropdown to code that SMAPI understands
 function setRestaurantType(value) {
     switch (value) {
-        case value = "Alla Resturanger":
+        case value = "Alla Restauranger":
             return "";
         case value = "Pizzeria":
             return subTypes[0] + subTypes[8];
@@ -87,24 +87,45 @@ async function getEstablishmentData() {
 // Async function that saves all food data in a map with the correct id, it will abort the fetch request if the page is closed or reloaded
 async function getFoodData(id) {
     try {
-        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getfromlatlng&ids=" + id + "&lat=" + latitude + "&lng=" + longitude, { signal });
-        if (response.ok) {
-            let dataResponse = await response.json();
-            dataResponse.payload.forEach(obj => {
-                if (!foodMap.has(obj.id)) {
-                    foodMap.set(obj.id, obj);
-                    restaurant = combineRestaurantData(establishmentMap, foodMap);
+        initLoader();
+        const restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
+        const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
+        const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
 
-                    // This is just to test it, move elsewhere later
-                    const container = document.getElementById("restaurantInfo");
-                    const listElements = document.createElement("div");
-                    listElements.appendChild(displayCardFlex(obj.id));
-                    listElements.classList.add("restaurantCard");
-                    container.appendChild(listElements);
-                    container.classList.add("restaurantSize");
-                    //-----------------------------------------------
+        document.querySelector("#searchedRestaurant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
+        document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
+        document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
+
+        if (id) {
+            id = "&ids=" + id;
+        }
+        else {
+            id = "";
+        }
+        const response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getfromlatlng&" + id + "&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
+        if (response.ok) {
+            const dataResponse = await response.json();
+            console.log(dataResponse.payload.length)
+            const container = document.getElementById("restaurantInfo");
+            container.innerText = "";
+            if (dataResponse.payload.length == 0) {
+                container.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat!";
+                container.classList.remove("restaurantSize");
+                for (let i = 0; i < restuarantMarkerArray.length; i++) {
+                    restuarantMarkerArray[i].remove();
                 }
-            });
+            }
+            else {
+                dataResponse.payload.forEach(obj => {
+
+                    if (!foodMap.has(obj.id)) {
+                        foodMap.set(obj.id, obj);
+                        restaurant = combineRestaurantData(establishmentMap, foodMap);
+                        createCard(obj);
+                    }
+                });
+            }
+            stopLoader();
         }
         else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
     } catch (error) {
@@ -116,9 +137,14 @@ async function getFoodData(id) {
     }
 }
 
-// Takes the id from the establishment map and returns the coresponding restaurant object 
-function getEstablishmentRestaurant(id) {
-    return establishmentMap.get(id);
+// 
+function createCard(obj) {
+    const container = document.getElementById("restaurantInfo");
+    const listElements = document.createElement("div");
+    listElements.appendChild(displayCardFlex(obj.id));
+    listElements.classList.add("restaurantCard");
+    container.appendChild(listElements);
+    container.classList.add("restaurantSize");
 }
 
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
@@ -128,7 +154,7 @@ async function fetchData() {
         const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
         const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
 
-        document.querySelector("#searchedResturant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
+        document.querySelector("#searchedRestaurant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
         document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
         document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
 

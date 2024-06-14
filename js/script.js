@@ -77,7 +77,7 @@ function init() {
     const searchButton = document.querySelector("#searchButton");
     const findBtnElem = document.querySelector("#findBtn");
 
-    searchButton.addEventListener("click", fetchData);
+    searchButton.addEventListener("click", () => fetchData());
     findBtnElem.addEventListener("click", getUserGeo);
 
     smalandButtonElem = document.querySelector("#smaland");

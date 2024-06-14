@@ -34,8 +34,10 @@ function displayCardFlex(restuarantId) {
     fragment.appendChild(divElement);
 
     const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing"];
+    console.log(restaurantObject)
 
     Object.entries(restaurantObject).forEach(([key, value]) => {
+        console.log("bruh")
         if (displayValues.includes(key) && value != "") {
             const paragraphElement = document.createElement("p");
             switch (key) {
@@ -99,7 +101,7 @@ function displayCardFlex(restuarantId) {
                 case "website":
                     const linkElement = document.createElement("a")
                     linkElement.href = value;
-                    linkElement.innerText = "Länk till resturang webbsidan";
+                    linkElement.innerText = "Länk till restaurang webbsidan";
 
                     secondDivElement.appendChild(linkElement);
                     break;
