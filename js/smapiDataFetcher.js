@@ -69,7 +69,7 @@ function setPriceRange(value) {
 // Async function that saves all establishment data in a map, it will abort the fetch request if the page is closed or reloaded
 async function getEstablishmentData() {
     try {
-        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=establishment&method=getall&types=food", { signal });
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=establishment&method=getall&types=food", { signal });
         if (response.ok) {
             let dataResponse = await response.json();
             establishmentMap = new Map(dataResponse.payload.map(obj => [obj.id, obj]));
@@ -102,7 +102,7 @@ async function getFoodData(id) {
         else {
             id = "";
         }
-        const response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getfromlatlng&" + id + "&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
+        const response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=food&method=getfromlatlng&" + id + "&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
         if (response.ok) {
             const dataResponse = await response.json();
             console.log(dataResponse.payload.length)
@@ -117,7 +117,6 @@ async function getFoodData(id) {
             }
             else {
                 dataResponse.payload.forEach(obj => {
-
                     if (!foodMap.has(obj.id)) {
                         foodMap.set(obj.id, obj);
                         restaurant = combineRestaurantData(establishmentMap, foodMap);
@@ -159,7 +158,7 @@ async function fetchData() {
         document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
 
         initLoader();
-        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
         if (response.ok) {
             let dataResponse = await response.json();
             showData(dataResponse);
