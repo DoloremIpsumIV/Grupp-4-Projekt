@@ -10,7 +10,6 @@ class ElementConstructor {
     renderElement(index) {
         const fragment = new DocumentFragment();
         const propertyToShow = ['rating', 'avg_lunch_pricing', 'distance_in_km', 'sub_type', 'search_tags', 'id'];  // Data that will be displayed
-        // Console.log(Object.keys(this.data[index]));                                                              // Will show all data availible, remove later <-------------------
         const distanceIndex = this.distances.indexOf(this.sortedDistances[index]);
         const divElement = document.createElement("div");
         divElement.classList.add("restaurantCardFlex");
@@ -21,7 +20,6 @@ class ElementConstructor {
         const titleElement = document.createElement("h2");
         titleElement.id = "restaurantName";
         titleElement.innerText = this.data[distanceIndex].name;
-        let savedId;
 
         for (let i = 0; i < propertyToShow.length; i++) {
             const property = String(propertyToShow[i]);
@@ -29,7 +27,6 @@ class ElementConstructor {
                 imgElement.src = "/mapIconsSVG/" + this.data[distanceIndex][property] + ".svg";
             }
             if (property == "id") {
-                savedId = this.data[distanceIndex][property];
                 divElement.id = "r" + this.data[distanceIndex][property];
             }
         }
@@ -41,7 +38,6 @@ class ElementConstructor {
         const secondDivElement = document.createElement("div");
         secondDivElement.classList.add("restaurantCardFlex");
         secondDivElement.style.display = "block";
-
 
         for (let i = 0; i < propertyToShow.length; i++) {                                        // This loop will display all the elements in the restuarant cards, it checks the raw data to display it differently
             const property = String(propertyToShow[i]);
@@ -205,3 +201,4 @@ class ElementConstructor {
         }
     }
 }
+

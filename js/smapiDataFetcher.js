@@ -84,6 +84,38 @@ async function getEstablishmentData() {
     }
 }
 
+// Async function that saves all food data in a map with the correct id, it will abort the fetch request if the page is closed or reloaded
+async function getFoodData(id) {
+    try {
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&controller=food&method=getall&ids=" + id, { signal });
+        if (response.ok) {
+            let dataResponse = await response.json();
+            dataResponse.payload.forEach(obj => {
+                if (!foodMap.has(obj.id)) {
+                    foodMap.set(obj.id, obj);
+                    restaurant = combineRestaurantData(establishmentMap, foodMap);
+
+                    // This is just to test it, move elsewhere later
+                    const container = document.getElementById("restaurantInfo");
+                    const listElements = document.createElement("div");
+                    listElements.appendChild(displayCardFlex(obj.id));
+                    listElements.classList.add("restaurantCard");
+                    container.appendChild(listElements)
+                    container.classList.add("restaurantSize");
+                    //-----------------------------------------------
+                }
+            });
+        }
+        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+    } catch (error) {
+        if (error.name === "AbortError") {
+            console.log("Fetch aborted");
+        } else {
+            console.error("Fetch error:", error);
+        }
+    }
+}
+
 // Takes the id from the establishment map and returns the coresponding restaurant object 
 function getEstablishmentRestaurant(id) {
     return establishmentMap.get(id);
@@ -157,8 +189,7 @@ function showData(json) {
             listElements.appendChild(saveBtn);
 
             restaurantContainer.appendChild(listElements);
-
-            saveBtn.addEventListener("click", () => saveRestaurant(listElements));
+            saveBtn.addEventListener("click", () => getFoodData(saveBtn.parentElement.firstElementChild.id.substring(1) + ","));
         }
         restaurantFlag = true;
     }
