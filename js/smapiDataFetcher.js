@@ -210,12 +210,11 @@ function showData(json) {
             listElements.classList.add("restaurantCard");
             // Byt då detta till att lägga in bilden för stjärnan istället
             const saveBtn = document.createElement("img");
-            saveBtn.src = "/images/tomtHjärta.svg";
+            saveBtn.src = "/images/emptyHeart.svg";
             saveBtn.id = "saveBtnIndex";
             listElements.appendChild(saveBtn);
 
             restaurantContainer.appendChild(listElements);
-            saveBtn.addEventListener("click", () => getFoodData(saveBtn.parentElement.firstElementChild.id.substring(1) + ","));
         }
         restaurantFlag = true;
     }
@@ -224,19 +223,38 @@ function showData(json) {
 
     document.querySelector("#mapBtn").scrollIntoView();
     restaurantContainer.classList.add("restaurantSize");
+    toggleHeartImg();
 }
 
 function saveRestaurant(listElements) {
     console.log(listElements);
 
-    let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant"));
+    let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
     const clonedListElement = listElements.cloneNode(true);
 
     savedRestaurant.push(clonedListElement.outerHTML);
     localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-    // Eventuellt ta bort den här feedbacken då vi har en ifylld stjärna istället
-    alert("Restaurangen har sparats!");
+
+}
+
+function toggleHeartImg() {
+    console.log("hejhej");
+    const saveBtns = document.querySelectorAll("#saveBtnIndex");
+
+    saveBtns.forEach(saveBtn => {
+        saveBtn.addEventListener("click", function () {
+
+            if (this.src.includes("/images/emptyHeart.svg")) {
+                console.log("fullthjärta nu");
+                this.src = "/images/filledHeart.svg";
+                saveRestaurant(this.parentNode);
+            } else {
+                console.log("tomthjärta nu");
+                this.src = "/images/emptyHeart.svg";
+            }
+        });
+    });
 }
 
 // Funktion som laddar in/upp datan som användaren sparat lokalt i savedBox elementet
@@ -252,15 +270,3 @@ function loadSavedRestaurant() {
     }
 }
 window.addEventListener("load", loadSavedRestaurant);
-
-function toggleHeartImg() {
-    document.addEventListener("click", () => {
-        const saveBtn = document.querySelectorAll(".saveBtnIndex");
-
-        if (saveBtn.src === "/images/tomtHjärta.svg") {
-            saveBtn.src = "/images/fulltHjärta.svg";
-        } else if (saveBtn.src === "/images/tomtHjärta.svg") {
-            saveBtn.src = "/images/tomtHjärta.svg";
-        }
-    })
-}
