@@ -43,7 +43,7 @@ body {
     display: flex;
 }
 
-#restaurantBox{
+#restaurantBox {
     width: 500px;
 }
 
@@ -96,6 +96,14 @@ body {
     font-weight: 6px;
     position: relative;
     display: block;
+}
+
+#saveBtnIndex {
+    width: 40px;
+    float: right;
+    margin-top: -450px;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .arrow {
@@ -653,7 +661,8 @@ hr {
         width: 100%;
         margin-left: 55px;
     }
-    #restaurantBox{
+
+    #restaurantBox {
         margin: auto;
     }
 

@@ -209,8 +209,9 @@ function showData(json) {
             listElements.appendChild(elementBuilder.renderElement(i));
             listElements.classList.add("restaurantCard");
             // Byt då detta till att lägga in bilden för stjärnan istället
-            const saveBtn = document.createElement("button");
-            saveBtn.innerHTML = "Spara restaurang";
+            const saveBtn = document.createElement("img");
+            saveBtn.src = "/images/tomtHjärta.svg";
+            saveBtn.id = "saveBtnIndex";
             listElements.appendChild(saveBtn);
 
             restaurantContainer.appendChild(listElements);
@@ -251,3 +252,15 @@ function loadSavedRestaurant() {
     }
 }
 window.addEventListener("load", loadSavedRestaurant);
+
+function toggleHeartImg() {
+    document.addEventListener("click", () => {
+        const saveBtn = document.querySelectorAll(".saveBtnIndex");
+
+        if (saveBtn.src === "/images/tomtHjärta.svg") {
+            saveBtn.src = "/images/fulltHjärta.svg";
+        } else if (saveBtn.src === "/images/tomtHjärta.svg") {
+            saveBtn.src = "/images/tomtHjärta.svg";
+        }
+    })
+}
