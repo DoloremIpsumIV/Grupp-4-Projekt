@@ -208,7 +208,7 @@ function showData(json) {
             const listElements = document.createElement("div");
             listElements.appendChild(elementBuilder.renderElement(i));
             listElements.classList.add("restaurantCard");
-            // Byt då detta till att lägga in bilden för stjärnan istället
+
             const saveBtn = document.createElement("img");
             saveBtn.src = "/images/emptyHeart.svg";
             saveBtn.id = "saveBtnIndex";
@@ -232,10 +232,10 @@ function saveRestaurant(listElements) {
     let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
     const clonedListElement = listElements.cloneNode(true);
-
-    savedRestaurant.push(clonedListElement.outerHTML);
-    localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-
+    if (!savedRestaurant.includes(listElements.outerHTML)) {
+        savedRestaurant.push(clonedListElement.outerHTML);
+        localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+    }
 }
 
 function toggleHeartImg() {

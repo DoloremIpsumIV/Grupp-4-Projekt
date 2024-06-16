@@ -156,6 +156,12 @@ body {
     margin-right: 2px;
 }
 
+.highlight {
+    background-color: gray;
+}
+
+
+
 #searchButton:hover {
     background-color: #4a670086;
 }
