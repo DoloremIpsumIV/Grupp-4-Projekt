@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
+        content="Spela geoMatch för att få förslag på mat!">
         <link rel="stylesheet" href="css/styleInteractive.css">
         <link rel="stylesheet" href="css/style.css"> 
     <link rel="icon" href="images/logo.svg">
     <script src="js/geoMatch.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <title>GeoMatch</title>
 </head>
 
@@ -25,14 +27,27 @@
 
     <div id="startPage">
 
-        <div id="searchButtons">
+
+        <div id="buttonContainer">
+        <button id="playButton">Spela</button>
+        </div>
+
+        
+        <div id="selectBox">
+
+            <div class="dialog-box"> 
+                
             <button id="mapBtn2">Välj placering på karta <img src="images/mapPointer.svg" alt="map pin"
                     class="buttonImg"></button>
 
-            <button id="findBtn2">Hitta min plats <img src="images/findPic.svg" alt="map pointer"
-                    class="buttonImg"></button>
-        </div>
-        <button id="playButton">Spela</button>
+            <button id="findBtn2">Hitta min plats <img src="images/findPic.svg" alt="map pointer" class="buttonImg"></button>
+            </div>
+        </div>  
+    </div>
+
+
+    <div id="selectBox2">
+        <div id="newMap">
     </div>
 
 
