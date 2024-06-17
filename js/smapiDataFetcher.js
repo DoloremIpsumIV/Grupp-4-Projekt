@@ -77,14 +77,14 @@ async function fetchData() {
         document.querySelector("#searchedRestaurant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
         document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
         document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
-
-        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=establishment&types=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius, { signal });
+        document.querySelector("#searchedProvince").innerHTML = province.replace("&provinces=", "");
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=establishment&types=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + province, { signal });
         if (response.ok) {
             const dataResponse = await response.json();
             const container = document.getElementById("restaurantInfo");
             container.innerText = "";
             if (dataResponse.payload.length == 0) {
-                container.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat!";
+                container.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat, eller välj en annan provins!";
                 container.classList.remove("restaurantSize");
                 for (let i = 0; i < restuarantMarkerArray.length; i++) {
                     restuarantMarkerArray[i].remove();
@@ -107,7 +107,7 @@ async function fetchData() {
         }
         else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
         document.querySelector("#mapBtn").scrollIntoView();
-        
+
         stopLoader();
         updateMapLoc();
         toggleHeartImg();
@@ -137,7 +137,7 @@ async function getFoodData() {
             const container = document.getElementById("restaurantInfo");
             container.innerText = "";
             if (dataResponse.payload.length == 0) {
-                container.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat!";
+                container.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat, eller välj en annan provins!";
                 container.classList.remove("restaurantSize");
                 for (let i = 0; i < restuarantMarkerArray.length; i++) {
                     restuarantMarkerArray[i].remove();
@@ -159,18 +159,6 @@ async function getFoodData() {
             console.error("Fetch error:", error);
         }
     }
-}
-
-// Function that creates each card on the webbsite
-function createCard(obj) {
-    newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
-
-    const container = document.getElementById("restaurantInfo");
-    const listElements = document.createElement("div");
-    listElements.appendChild(displayCardFlex(obj.id));
-    listElements.classList.add("restaurantCard");
-    container.appendChild(listElements);
-    container.classList.add("restaurantSize");
 }
 
 // Function that adds CSS-class in order to show loader

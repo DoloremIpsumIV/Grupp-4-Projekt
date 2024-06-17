@@ -45,24 +45,25 @@ const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];           
 const ApiKey = "vxJzsf1d";        // Api key for SMAPI
 const controller = new AbortController();   // Creates a controller object that can cancel async fetches from SMAPI
 const signal = controller.signal;           // Links the controller object with the beforeunload event listener to be able to abort it
-const foodMap = new Map();         // A map with all the food restaurants that have the id searched for them
-const establishmentMap = new Map();// A map with all establishments that can be retrieved with the correct id as the key
-
-let restuarantMarkerArray = [];   // Array that stores all restaurant markers so they can be removed
-let smalandButtonElem;            // Button elem for småland
-let smalandRadioBtn;              // RadioBtn element for Småland
-let olandButtonElem;              // Button elem for Öland
-let olandRadioBtn;                // RadioBtn element for Öland
-let miniMap;                      // Small map that pops up
-let map;                          // Variable for the map
-let latitude = smaland.lat;       // Latitude of Småland
-let longitude = smaland.lng;      // Longitude of Småland
-let restaurantFlag = false;       // Flag that checks if there are restaurants or not
-let userMarker;                   // Marker that places where the user clicks
-let selectedDropdownContent;      // The selected element that the user clicked on
-let loader;                       // Declaring variable for the div containing loader
-let markerOnMiniMap;              // The marker for the small map
-let restaurant;                   // A map with all the data of the two fetches combined into one object with it's id as a key
+const foodMap = new Map();          // A map with all the food restaurants that have the id searched for them
+const establishmentMap = new Map(); // A map with all establishments that can be retrieved with the correct id as the key
+ 
+let restuarantMarkerArray = [];     // Array that stores all restaurant markers so they can be removed
+let smalandButtonElem;              // Button elem for småland
+let smalandRadioBtn;                // RadioBtn element for Småland
+let olandButtonElem;                // Button elem for Öland
+let olandRadioBtn;                  // RadioBtn element for Öland
+let miniMap;                        // Small map that pops up
+let map;                            // Variable for the map
+let latitude = smaland.lat;         // Latitude of Småland
+let longitude = smaland.lng;        // Longitude of Småland
+let restaurantFlag = false;         // Flag that checks if there are restaurants or not
+let userMarker;                     // Marker that places where the user clicks
+let selectedDropdownContent;        // The selected element that the user clicked on
+let loader;                         // Declaring variable for the div containing loader
+let markerOnMiniMap;                // The marker for the small map
+let restaurant;                     // A map with all the data of the two fetches combined into one object with it's id as a key
+let province = "&provinces=Småland";// province that will determine if it's småland or öland in SMAPI search
 
 window.addEventListener("beforeunload", () => {
     controller.abort();
@@ -92,6 +93,7 @@ function init() {
     userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
     smalandRadioBtn.addEventListener("change", function () {
         if (this.checked) {
+            province = "&provinces=Småland";
             olandRadioBtn.checked = false;
             userMarker.remove();
             userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
@@ -103,6 +105,7 @@ function init() {
 
     olandRadioBtn.addEventListener("change", function () {
         if (this.checked) {
+            province = "&provinces=Öland";
             smalandRadioBtn.checked = false;
             userMarker.remove();
             userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
