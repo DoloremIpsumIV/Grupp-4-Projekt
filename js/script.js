@@ -45,7 +45,8 @@ const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];           
 const ApiKey = "vxJzsf1d";        // Api key for SMAPI
 const controller = new AbortController();   // Creates a controller object that can cancel async fetches from SMAPI
 const signal = controller.signal;           // Links the controller object with the beforeunload event listener to be able to abort it
-const foodMap = new Map();        // A map with all the food restaurants that have the id searched for them
+const foodMap = new Map();         // A map with all the food restaurants that have the id searched for them
+const establishmentMap = new Map();// A map with all establishments that can be retrieved with the correct id as the key
 
 let restuarantMarkerArray = [];   // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;            // Button elem for småland
@@ -61,9 +62,7 @@ let userMarker;                   // Marker that places where the user clicks
 let selectedDropdownContent;      // The selected element that the user clicked on
 let loader;                       // Declaring variable for the div containing loader
 let markerOnMiniMap;              // The marker for the small map
-let establishmentMap;             // A map with all establishments that can be retrieved with the correct id as the key
 let restaurant;                   // A map with all the data of the two fetches combined into one object with it's id as a key
-
 
 window.addEventListener("beforeunload", () => {
     controller.abort();
@@ -71,7 +70,7 @@ window.addEventListener("beforeunload", () => {
 
 // Init function
 function init() {
-    getEstablishmentData()
+    //getEstablishmentData()
     initMap("mapViewer");
 
     const searchButton = document.querySelector("#searchButton");

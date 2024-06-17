@@ -12,7 +12,6 @@ function combineRestaurantData(map1, map2) {
 
 // Function that will display a restaurant card aslong as the restaurant id exists in the restaurant map
 function displayCardFlex(restuarantId) {
-    console.log(restaurant)
     const restaurantObject = restaurant.get(restuarantId.toString());
     const fragment = new DocumentFragment();
     const divElement = document.createElement("div");
@@ -34,10 +33,8 @@ function displayCardFlex(restuarantId) {
     fragment.appendChild(divElement);
 
     const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing"];
-    console.log(restaurantObject)
 
     Object.entries(restaurantObject).forEach(([key, value]) => {
-        console.log("bruh")
         if (displayValues.includes(key) && value != "") {
             const paragraphElement = document.createElement("p");
             switch (key) {
@@ -108,7 +105,6 @@ function displayCardFlex(restuarantId) {
 
                 case "student_discount":
                     const crossAndCheck = document.createElement("img");
-                    console.log(value)
                     if (value == "N") {
                         crossAndCheck.src = "/images/Cross.png";
                     }
