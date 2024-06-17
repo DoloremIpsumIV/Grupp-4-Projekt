@@ -18,9 +18,12 @@ function displayCardFlex(restuarantId) {
     const secondDivElement = document.createElement("div");
     const imgElement = document.createElement("img");
     const titleElement = document.createElement("h2");
+    const saveBtn = document.createElement("img");
 
+    saveBtn.src = "/images/emptyHeart.svg";
+    saveBtn.id = "saveBtnIndex";
     divElement.classList.add("restaurantCardFlex");
-    divElement.id = restaurantObject.id;
+    divElement.id = "#r" + restaurantObject.id;
     secondDivElement.classList.add("restaurantCardFlex");
     secondDivElement.style.display = "block";
     imgElement.id = "picture";
@@ -30,9 +33,10 @@ function displayCardFlex(restuarantId) {
 
     divElement.appendChild(imgElement);
     divElement.appendChild(titleElement);
+    divElement.appendChild(saveBtn);
     fragment.appendChild(divElement);
 
-    const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing"];
+    const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing", 'sub_type'];
 
     Object.entries(restaurantObject).forEach(([key, value]) => {
         if (displayValues.includes(key) && value != "") {
@@ -58,7 +62,6 @@ function displayCardFlex(restuarantId) {
                     }
                     paragraphElement.style.display = "inline";
                     paragraphElement.style.marginLeft = "0";
-                    paragraphElement.style.padding = "10px 10px 0px 10px";
                     paragraphElement.style.fontSize = "23px";
                     paragraphElement.appendChild(dollar);
                     secondDivElement.prepend(paragraphElement);
@@ -98,7 +101,7 @@ function displayCardFlex(restuarantId) {
                 case "website":
                     const linkElement = document.createElement("a")
                     linkElement.href = value;
-                    linkElement.innerText = "Länk till restaurang webbsidan";
+                    linkElement.innerText = "Länk till: " + restaurantObject.name;
 
                     secondDivElement.appendChild(linkElement);
                     break;

@@ -101,7 +101,6 @@ body {
 #saveBtnIndex {
     width: 40px;
     float: right;
-    margin-top: -210px;
     padding: 10px;
     cursor: pointer;
 }

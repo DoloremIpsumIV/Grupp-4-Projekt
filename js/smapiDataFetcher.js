@@ -66,87 +66,19 @@ function setPriceRange(value) {
     }
 }
 
-// Async function that saves all establishment data in a map, it will abort the fetch request if the page is closed or reloaded
-//async function getEstablishmentData() {
-//    try {
-//        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=establishment&method=getall&types=food", { signal });
-//        if (response.ok) {
-//            let dataResponse = await response.json();
-//            establishmentMap = new Map(dataResponse.payload.map(obj => [obj.id, obj]));
-//        }
-//        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
-//    } catch (error) {
-//        if (error.name === "AbortError") {
-//            console.log("Fetch aborted");
-//        } else {
-//            console.error("Fetch error:", error);
-//        }
-//    }
-//}
-
-// Async function that saves all food data in a map with the correct id, it will abort the fetch request if the page is closed or reloaded
-async function getFoodData() {
-    try {
-        let id = "&ids=";
-        foodMap.forEach(restaurant => {
-            id += restaurant.id + ",";
-        });
-        const restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
-        const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
-        const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
-        const response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=food&method=getfromlatlng&" + id + "&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
-        if (response.ok) {
-            const dataResponse = await response.json();
-            dataResponse.payload.forEach(obj => {
-                if (!establishmentMap.has(obj.id)) {
-                    establishmentMap.set(obj.id, obj);
-                    //console.log(obj.id)
-
-                    //restaurant = combineRestaurantData(establishmentMap, foodMap);
-                    //createCard(obj);
-                }
-            });
-            return dataResponse;
-        }
-        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
-    } catch (error) {
-        if (error.name === "AbortError") {
-            console.log("Fetch aborted");
-        } else {
-            console.error("Fetch error:", error);
-        }
-    }
-}
-
-// 
-function createCard(obj) {
-    const container = document.getElementById("restaurantInfo");
-    const listElements = document.createElement("div");
-    listElements.appendChild(displayCardFlex(obj.id));
-    listElements.classList.add("restaurantCard");
-    container.appendChild(listElements);
-    container.classList.add("restaurantSize");
-}
-
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
 async function fetchData() {
     try {
-        //const restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
-        const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
-        //const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
+        foodMap.clear()
+        establishmentMap.clear()
+        initLoader();
 
+        const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
         document.querySelector("#searchedRestaurant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
         document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
         document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
 
-        initLoader();
         let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=establishment&types=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius, { signal });
-        //if (response.ok) {
-        //    let dataResponse = await response.json();
-        //    console.log(dataResponse)
-        //    //showData(dataResponse);
-        //}
-        //else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
         if (response.ok) {
             const dataResponse = await response.json();
             const container = document.getElementById("restaurantInfo");
@@ -162,23 +94,23 @@ async function fetchData() {
                 dataResponse.payload.forEach(obj => {
                     if (!foodMap.has(obj.id)) {
                         foodMap.set(obj.id, obj);
-                        //console.log(obj.id)
-
-                        //restaurant = combineRestaurantData(establishmentMap, foodMap);
-                        //createCard(obj);
                     }
                 });
+
                 await getFoodData()
                 restaurant = combineRestaurantData(establishmentMap, foodMap);
                 restaurant.forEach(object => {
                     createCard(object);
-
                 });
-                console.log(restaurant)
             }
+            restaurantFlag = true;
         }
         else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+        document.querySelector("#mapBtn").scrollIntoView();
+        
         stopLoader();
+        updateMapLoc();
+        toggleHeartImg();
     }
     catch (error) {
         if (error.name === "AbortError") {
@@ -189,6 +121,57 @@ async function fetchData() {
     }
 }
 
+// Async function that saves all food data in a map with the correct id, it will abort the fetch request if the page is closed or reloaded
+async function getFoodData() {
+    try {
+        let id = "&ids=";
+        foodMap.forEach(restaurant => {
+            id += restaurant.id + ",";
+        });
+        const restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
+        const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
+        const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
+        const response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=food&method=getfromlatlng&" + id + "&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
+        if (response.ok) {
+            const dataResponse = await response.json();
+            const container = document.getElementById("restaurantInfo");
+            container.innerText = "";
+            if (dataResponse.payload.length == 0) {
+                container.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat!";
+                container.classList.remove("restaurantSize");
+                for (let i = 0; i < restuarantMarkerArray.length; i++) {
+                    restuarantMarkerArray[i].remove();
+                }
+            }
+
+            dataResponse.payload.forEach(obj => {
+                if (!establishmentMap.has(obj.id)) {
+                    establishmentMap.set(obj.id, obj);
+                }
+            });
+            return dataResponse;
+        }
+        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+    } catch (error) {
+        if (error.name === "AbortError") {
+            console.log("Fetch aborted");
+        } else {
+            console.error("Fetch error:", error);
+        }
+    }
+}
+
+// Function that creates each card on the webbsite
+function createCard(obj) {
+    newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
+
+    const container = document.getElementById("restaurantInfo");
+    const listElements = document.createElement("div");
+    listElements.appendChild(displayCardFlex(obj.id));
+    listElements.classList.add("restaurantCard");
+    container.appendChild(listElements);
+    container.classList.add("restaurantSize");
+}
 
 // Function that adds CSS-class in order to show loader
 function initLoader() {
@@ -198,48 +181,6 @@ function initLoader() {
 // Function that removes CSS-class in order to hide loader
 function stopLoader() {
     loader.classList.remove("show");
-}
-
-// Function that displays data using a list 
-function showData(json) {
-    const restaurantContainer = document.querySelector("#restaurantInfo");
-
-    if (json.payload.length == 0) {
-        restaurantContainer.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat!";
-        restaurantContainer.classList.remove("restaurantSize");
-        for (let i = 0; i < restuarantMarkerArray.length; i++) {
-            restuarantMarkerArray[i].remove();
-        }
-    }
-    else {
-        restaurantContainer.removeChild(restaurantContainer.firstChild);
-        restaurantContainer.innerHTML = "";
-        const jsonArray = json.payload;
-        const elementBuilder = new ElementConstructor(jsonArray);                 // Object that is used to construct elements on website
-        for (let i = 0; i < jsonArray.length; i++) {                              // Loop that constructs elements on page
-            const restaurant = jsonArray[i];
-
-            newRestaurantMarker(jsonArray[i].lat, jsonArray[i].lng, jsonArray[i].sub_type, jsonArray[i].id);
-
-            const listElements = document.createElement("div");
-            listElements.appendChild(elementBuilder.renderElement(i));
-            listElements.classList.add("restaurantCard");
-            // Byt då detta till att lägga in bilden för stjärnan istället
-            const saveBtn = document.createElement("img");
-            saveBtn.src = "/images/emptyHeart.svg";
-            saveBtn.id = "saveBtnIndex";
-            listElements.appendChild(saveBtn);
-
-            restaurantContainer.appendChild(listElements);
-        }
-        restaurantFlag = true;
-    }
-    updateMapLoc();
-    stopLoader();
-
-    document.querySelector("#mapBtn").scrollIntoView();
-    restaurantContainer.classList.add("restaurantSize");
-    toggleHeartImg();
 }
 
 function saveRestaurant(listElements) {
@@ -264,7 +205,7 @@ function toggleHeartImg() {
             if (this.src.includes("/images/emptyHeart.svg")) {
                 console.log("fullthjärta nu");
                 this.src = "/images/filledHeart.svg";
-                saveRestaurant(this.parentNode);
+                saveRestaurant(this.parentNode.parentNode);
             } else {
                 console.log("tomthjärta nu");
                 this.src = "/images/emptyHeart.svg";
