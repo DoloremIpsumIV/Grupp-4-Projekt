@@ -2,7 +2,7 @@
 // Behöver skriva en if-sats som kollar ifall den redan finns i localstorage
 
 
-document.addEventListener("DOMContentLoaded", () => {
+function init() {
     loadSavedList();
 
     let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadCustomList();
     removeRestaurant();
-});
+}
+window.addEventListener("load", init);
 
 function loadSavedList() {
     const savedBox = document.querySelector("#savedBox");
@@ -28,7 +29,7 @@ function loadSavedList() {
     }
 
     let trashCans = document.querySelectorAll("#saveBtnIndex");
-    
+
     for (let i = 0; i < trashCans.length; i++) {
         trashCans[i].src = "/images/soptunna.svg";
     }
@@ -75,13 +76,13 @@ function loadAll() {
     loadSavedList();
     loadCustomList();
     removeRestaurant();
-   
+    init();
 }
 
 function dragStart() {
     let dragElem = this;
     dragElem.draggable = true;
-    
+
     const dropElem = document.querySelector("#listBox");
     console.log(dropElem);
 
@@ -108,14 +109,12 @@ function dragStart() {
         switch (e.type) {
             case "dragenter":
                 dropElem.classList.add("highlight");
-                dragElem.classList.remove(".restaurantCard")
                 break;
             case "dragleave":
                 dropElem.classList.remove("highlight");
-                dragElem.classList.remove(".restaurantCard")
+
                 break;
             case "drop":
-            
                 dropElem.classList.remove("highlight");
 
                 const clonedListElement = dragElem.cloneNode(true);
@@ -165,3 +164,6 @@ function removeFromCustomList(index) {
 
     localStorage.setItem("savedListArray", JSON.stringify(savedListArray));
 }
+
+// bugg där man klickar soptunna så går det ej att dra i mina favoriter restaurangerna längre
+// bugg där man tar bort sista restaurangen i custom listan, flyttas samtliga över till favoriter igen
