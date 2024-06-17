@@ -380,6 +380,26 @@ body {
 
 }
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-top: -37px;
+}
+
+li {
+    float: right;
+    border-left: 1px solid white;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
 
 #picture {
     font-size: initial;
@@ -545,7 +565,7 @@ hr {
 
 #searchResult {
     border: 2px rgb(64, 69, 87) solid;
-    width: 760px;
+    width: 460px;
     height: 100px;
     margin-top: 100px;
     margin-left: 20px;
@@ -645,6 +665,11 @@ hr {
 
     .dropDownContent {
         width: 156px;
+    }
+
+    ul {
+        font-size: 14px;
+        margin-top: -30px;
     }
 }
 
@@ -762,6 +787,15 @@ hr {
     #forknknife {
         width: 100px;
     }
+
+    #logoWhite {
+        display: none;
+    }
+
+    ul {
+        margin-top: 60px;
+    }
+
 }
 
 @media screen and (max-width: 480px) {
@@ -769,6 +803,9 @@ hr {
         margin-left: 370px;
     }
 
+    li {
+        float: left;
+    }
 }
 
 @media screen and (max-width: 440px) {
@@ -1072,5 +1109,9 @@ hr {
 
     #closeButton {
         margin-left: 250px;
+    }
+
+    li a {
+        font-size: 12px;
     }
 }
