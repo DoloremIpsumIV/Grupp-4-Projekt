@@ -197,6 +197,17 @@ function toggleHeartImg() {
             } else {
                 console.log("tomthjärta nu");
                 this.src = "/images/emptyHeart.svg";
+
+                listElements = this.parentNode.parentNode;
+
+                let listElemsArray = Array.from(listElements);
+                let index = listElemsArray.indexOf(this);
+
+                const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+
+                savedRestaurant.splice(index, 1);
+
+                localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
             }
         });
     });

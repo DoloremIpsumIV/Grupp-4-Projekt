@@ -1,15 +1,15 @@
 // Funktion som laddar in/upp datan som användaren sparat lokalt i savedBox elementet
 // Behöver skriva en if-sats som kollar ifall den redan finns i localstorage
 
+let clickCounter = 0;
 
 function init() {
     loadSavedList();
-    console.log("init")
     let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
-    console.log(dragElems);
     for (let i = 0; i < dragElems.length; i++) {
         dragElems[i].draggable = true;
         dragElems[i].addEventListener("dragstart", dragStart);
+        dragElems[i].addEventListener("click", clickRestaurants);
     }
 
     loadCustomList();
@@ -47,6 +47,7 @@ function loadCustomList() {
         div.innerHTML = card;
         dropElem.appendChild(div.firstChild);
     }
+
 }
 
 function removeRestaurant() {
@@ -59,11 +60,11 @@ function removeRestaurant() {
             loadCustomList();
             removeRestaurant();
             reInitDragElem();
+            init();
         });
     }
 
     let trashCansCustom = document.querySelectorAll("#listBox #saveBtnIndex");
-    console.log(trashCansCustom);
 
     for (let i = 0; i < trashCansCustom.length; i++) {
         trashCansCustom[i].addEventListener("click", () => {
@@ -71,6 +72,7 @@ function removeRestaurant() {
             loadCustomList();
             removeRestaurant();
             reInitDragElem();
+            init();
         });
     }
 }
@@ -161,4 +163,29 @@ function removeFromCustomList(index) {
     savedListArray.splice(index, 1);
 
     localStorage.setItem("savedListArray", JSON.stringify(savedListArray));
+}
+
+function clickRestaurants(e) {
+    e.preventDefault();
+    let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
+
+    clickCounter++;
+
+    let dragElemsArray = Array.from(dragElems);
+    let index = dragElemsArray.indexOf(this);
+
+    setTimeout(() => {
+        clickCounter = 0;
+    }, 500)
+
+    if (clickCounter === 2) {
+        const savedListArray = JSON.parse(localStorage.getItem("savedListArray")) || [];
+        savedListArray.push(this.outerHTML);
+        localStorage.setItem("savedListArray", JSON.stringify(savedListArray));
+
+        removeFromFavoritesList(index);
+        loadSavedList();
+        loadCustomList();
+        init();
+    }
 }
