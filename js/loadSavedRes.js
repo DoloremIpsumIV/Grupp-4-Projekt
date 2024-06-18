@@ -4,7 +4,7 @@
 
 function init() {
     loadSavedList();
-
+    console.log("init")
     let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
     console.log(dragElems);
     for (let i = 0; i < dragElems.length; i++) {
@@ -71,7 +71,6 @@ function removeRestaurant() {
             loadCustomList();
             removeRestaurant();
             reInitDragElem();
-
         });
     }
 }
@@ -154,7 +153,6 @@ function removeFromFavoritesList(index) {
     savedRestaurant.splice(index, 1);
 
     localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-
 }
 
 function removeFromCustomList(index) {
