@@ -30,6 +30,7 @@ function loadSavedList() {
 
     let trashCans = document.querySelectorAll("#saveBtnIndex");
 
+
     for (let i = 0; i < trashCans.length; i++) {
         trashCans[i].src = "/images/soptunna.svg";
     }
