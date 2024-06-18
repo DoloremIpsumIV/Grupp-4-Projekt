@@ -55,6 +55,10 @@ function removeRestaurant() {
     for (let i = 0; i < trashCansFavorites.length; i++) {
         trashCansFavorites[i].addEventListener("click", () => {
             removeFromFavoritesList(i);
+            loadSavedList();
+            loadCustomList();
+            removeRestaurant();
+            reInitDragElem();
         });
     }
 
@@ -64,6 +68,9 @@ function removeRestaurant() {
     for (let i = 0; i < trashCansCustom.length; i++) {
         trashCansCustom[i].addEventListener("click", () => {
             removeFromCustomList(i);
+            loadCustomList();
+            removeRestaurant();
+            reInitDragElem();
         });
     }
 }
