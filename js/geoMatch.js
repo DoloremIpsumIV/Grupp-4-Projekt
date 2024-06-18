@@ -163,6 +163,30 @@ function startGame() {
     gameBackground.style.display = "flex";
     console.log("SDFGH")
 
+    let firstBox = document.querySelector("#firstBox .insideBox");
+    let secondBox = document.querySelector("#secondBox .insideBox");
+
+    let notSameImage = twoNotSameImages(imagesUsed);
+
+    firstBox.innerHTML = `<img src="${imageFolder}/${notSameImage[0]}" alt="Random Image 1">`;
+    secondBox.innerHTML = `<img src="${imageFolder}/${notSameImage[1]}" alt="Random Image 2">`;
+
 }
+
+function twoNotSameImages(imagesArray) {
+
+    let firstImage = Math.floor(Math.random() * imagesArray.length);
+
+    let secondImage;
+    do {
+        secondImage = Math.floor(Math.random() * imagesArray.length);
+    } while (secondImage === firstImage);
+
+    return [imagesArray[firstImage], imagesArray[secondImage]];
+
+
+}
+
+
 
    

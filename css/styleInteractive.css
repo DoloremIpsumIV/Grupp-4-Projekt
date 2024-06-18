@@ -118,10 +118,13 @@ h2 {
     padding-left: 10px;
     text-align: center;
     transition: transform 0.4s ease;
+
 }
 
 #firstBox:hover {
     transform: rotate(-10deg);
+    background-color: #bed745b7;
+    
 }
 
 #secondBox {
@@ -142,6 +145,7 @@ h2 {
 
 #secondBox:hover {
     transform: rotate(10deg);
+    background-color: #bed745b7;
 
 }
 
@@ -157,7 +161,10 @@ h2 {
     border: black 3px solid;
     margin: 50px;
     border-radius: 300px;
+    transition: background-color 0.3s ease;
 }
+
+
 
 #boxBackground {
     background-image:url(../images/bakgrundpicnic3.svg) ;
@@ -170,6 +177,7 @@ h2 {
     display: none;
     z-index: 2000;
     margin-top: -500px;
+
 }
 
 #startPage {
@@ -356,6 +364,12 @@ h2 {
 
 #mapPlaybtn:hover {
     background-color: #4a670086;
+}
+
+.insideBox img {
+    width: 100%;
+    height: 100%;
+     
 }
 
 
