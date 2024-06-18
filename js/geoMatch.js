@@ -11,6 +11,8 @@ let imagesUsed = [
     "pizza.svg"
 ]; //Bilderna som ska användas
 
+let availableImages; // Håller koll på vilka bilder som använts
+
 let playBtn; // spela knappen
 
 let markerOnMiniMap; // Markerare för liten karta
@@ -163,13 +165,23 @@ function startGame() {
     gameBackground.style.display = "flex";
     console.log("SDFGH")
 
-    let firstBox = document.querySelector("#firstBox .insideBox");
-    let secondBox = document.querySelector("#secondBox .insideBox");
+    let firstBoxInside = document.querySelector("#firstBox .insideBox");
+    let secondBoxInside = document.querySelector("#secondBox .insideBox");
 
-    let notSameImage = twoNotSameImages(imagesUsed);
+    let firstBox = document.querySelector("#firstBox");
+    let secondBox = document.querySelector("#secondBox");
 
-    firstBox.innerHTML = `<img src="${imageFolder}/${notSameImage[0]}" alt="Random Image 1">`;
-    secondBox.innerHTML = `<img src="${imageFolder}/${notSameImage[1]}" alt="Random Image 2">`;
+    firstBox.addEventListener("click", newImage);
+    secondBox.addEventListener("click", newImage);
+
+    availableImages = [...imagesUsed]
+
+
+
+    let notSameImage = twoNotSameImages(availableImages);
+
+    firstBoxInside.innerHTML = `<img src="${imageFolder}/${notSameImage[0]}" alt="Random Image 1">`;
+    secondBoxInside.innerHTML = `<img src="${imageFolder}/${notSameImage[1]}" alt="Random Image 2">`;
 
 }
 
@@ -183,7 +195,44 @@ function twoNotSameImages(imagesArray) {
     } while (secondImage === firstImage);
 
     return [imagesArray[firstImage], imagesArray[secondImage]];
+}
 
+function newImage() {
+
+    let firstBox = document.querySelector("#firstBox .insideBox img").src.split('/').pop();
+    let secondBox = document.querySelector("#secondBox .insideBox img").src.split('/').pop();
+
+    availableImages = availableImages.filter(image => image !== firstBox && image !== secondBox);
+
+    if (availableImages.length === 0) {
+        endGame();
+        return;
+    }
+
+    if (this.id === "firstBox") {
+        let newImage = getNewImage(secondBox);
+        document.querySelector("#secondBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="Random Image">`;
+    } else if (this.id === "secondBox") {
+        let newImage = getNewImage(firstBox);
+        document.querySelector("#firstBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="Random Image">`;
+    }  
+   
+}
+
+function getNewImage(currentImage) {
+    let newImage;
+    do {
+        newImage = availableImages[Math.floor(Math.random() * availableImages.length)];
+    } while (newImage === currentImage);
+    return newImage;
+}
+
+function endGame() {
+    let gameBackground = document.querySelector("#boxBackground");
+    gameBackground.style.display = "none";
+
+    let resultPage = document.querySelector("#endGame");
+    endGamePage.style.display = "flex";
 
 }
 
