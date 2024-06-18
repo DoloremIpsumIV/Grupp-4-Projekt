@@ -66,19 +66,46 @@ function setPriceRange(value) {
     }
 }
 
+// Function that sets the sorting order for SMAPI fetch
+function setSortingOrder(value, fetchType) {
+    if (fetchType == "establishment") {
+        switch (value) {
+            case "rating":
+                return "&sort_in=DESC&order_by=rating"
+            case "student_discount":
+                return "&sort_in=DESC&order_by=student_discount"
+            default:
+                return "&sort_in=DESC&order_by=distance_in_km"
+        }
+    }
+    else {
+        switch (value) {
+            case "rating":
+                return "&sort_in=DESC&order_by=rating"
+            case "price_rangeDESC":
+                return "&sort_in=ASC&order_by=avg_lunch_pricing"
+            case "price_rangeASC":
+                return "&sort_in=DESC&order_by=avg_lunch_pricing"
+            default:
+                return "&sort_in=DESC&order_by=distance_in_km"
+        }
+    }
+}
+
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
 async function fetchData() {
     try {
-        foodMap.clear()
-        establishmentMap.clear()
+        foodMap.clear();
+        establishmentMap.clear();
         initLoader();
 
+        const sorting = setSortingOrder(document.querySelector("#sort").value, "establishment");
         const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
         document.querySelector("#searchedRestaurant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
         document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
         document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
         document.querySelector("#searchedProvince").innerHTML = province.replace("&provinces=", "");
-        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=establishment&types=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + province, { signal });
+        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + sorting + "&controller=establishment&types=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + province, { signal });
         if (response.ok) {
             const dataResponse = await response.json();
             const container = document.getElementById("restaurantInfo");
@@ -128,10 +155,11 @@ async function getFoodData() {
         foodMap.forEach(restaurant => {
             id += restaurant.id + ",";
         });
+        const sorting = setSortingOrder(document.querySelector("#sort").value, "");
         const restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
         const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
         const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
-        const response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + "&sort_in=DESC&order_by=distance_in_km&controller=food&method=getfromlatlng&" + id + "&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
+        const response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + sorting + "&controller=food&method=getfromlatlng&" + id + "&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
         if (response.ok) {
             const dataResponse = await response.json();
             const container = document.getElementById("restaurantInfo");

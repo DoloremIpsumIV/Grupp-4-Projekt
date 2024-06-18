@@ -124,9 +124,7 @@
         </div>
     </div>
 
-
     <main>
-
         <div id="searchResult">
             <p>Aktuell sökning:</p>
             <p id="searchedRestaurant">Restaurang</p>
@@ -135,31 +133,26 @@
             <p id="searchedProvince">Provins</p>
         </div>
 
-
-
         <div id="flexBox">
             <div id="mapViewer"></div>
-
-
             <div id="restaurantBox">
                 <div id="sortBox">
                     <p>Sortera:</p><label for="sort"></label>
                     <select id="sort">
-                        <option>Billigaste</option>
-                        <option>Dyraste</option>
+                        <option>Närmast först</option>
+                        <option value="price_rangeDESC">Billigaste först</option>
+                        <option value="price_rangeASC">Dyraste först</option>
+                        <option value="rating">Bästa recensioner först</option>
+                        <option value="student_discount">Student rabbat först</option>
                     </select>
-
-
                 </div>
                 <div id="restaurantInfo">
                     <p id="infoText">Här var det tomt <br>testa att söka</p>
                     <img src="images/forknKnife.svg" alt="fork and knife" id="forknknife">
                 </div>
             </div>
-
         </div>
     </main>
-
 
     <footer id="footer">
         <img id="footerLogo" src="images/logo.svg" alt="GetFoods logotype">

@@ -12,7 +12,6 @@ function combineRestaurantData(map1, map2) {
 
 // Function that creates each card on the webbsite
 function createCard(obj) {
-    console.log(obj);
     newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
 
     const container = document.getElementById("restaurantInfo");

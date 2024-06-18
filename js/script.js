@@ -79,6 +79,7 @@ function init() {
 
     searchButton.addEventListener("click", () => fetchData());
     findBtnElem.addEventListener("click", getUserGeo);
+    document.querySelector("#sort").addEventListener("change", () => fetchData());
 
     smalandButtonElem = document.querySelector("#smaland");
     smalandRadioBtn = document.querySelector("#smalandRadioBtn");
