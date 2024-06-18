@@ -28,7 +28,7 @@ function loadSavedList() {
     }
 
     let trashCans = document.querySelectorAll("#saveBtnIndex");
-    
+
     for (let i = 0; i < trashCans.length; i++) {
         trashCans[i].src = "/images/soptunna.svg";
     }
@@ -55,7 +55,11 @@ function removeRestaurant() {
         trashCansFavorites[i].addEventListener("click", () => {
             removeFromFavoritesList(i)
             console.log("klick")
-            loadAll();
+
+            loadSavedList();
+            loadCustomList();
+            removeRestaurant();
+            reInitDragElem();
         });
     }
 
@@ -66,22 +70,29 @@ function removeRestaurant() {
         trashCansCustom[i].addEventListener("click", () => {
             removeFromCustomList(i);
             console.log("klick i custom")
-            loadAll();
-        })
+
+
+            loadCustomList();
+            removeRestaurant();
+            reInitDragElem();
+
+        });
     }
 }
 
-function loadAll() {
-    loadSavedList();
-    loadCustomList();
-    removeRestaurant();
-   
+function reInitDragElem() {
+    let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
+    console.log(dragElems);
+    for (let i = 0; i < dragElems.length; i++) {
+        dragElems[i].draggable = true;
+        dragElems[i].addEventListener("dragstart", dragStart);
+    }
 }
 
 function dragStart() {
     let dragElem = this;
     dragElem.draggable = true;
-    
+
     const dropElem = document.querySelector("#listBox");
     console.log(dropElem);
 
@@ -108,14 +119,12 @@ function dragStart() {
         switch (e.type) {
             case "dragenter":
                 dropElem.classList.add("highlight");
-                dragElem.classList.remove(".restaurantCard")
                 break;
             case "dragleave":
                 dropElem.classList.remove("highlight");
-                dragElem.classList.remove(".restaurantCard")
                 break;
             case "drop":
-            
+
                 dropElem.classList.remove("highlight");
 
                 const clonedListElement = dragElem.cloneNode(true);
@@ -124,7 +133,7 @@ function dragStart() {
                 dragElem.classList.remove("restaurantCard");
 
                 dragElem.parentNode.removeChild(dragElem);
-
+                console.log("drop")
                 updateLocalStorage();
                 removeRestaurant();
                 break;
@@ -142,7 +151,7 @@ function updateLocalStorage() {
         card = restaurantCards[i];
         savedListArray.push(card.outerHTML);
     }
-
+    removeFromFavoritesList(card);
     localStorage.setItem("savedListArray", JSON.stringify(savedListArray));
 
 }
