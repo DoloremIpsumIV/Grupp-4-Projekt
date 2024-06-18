@@ -39,7 +39,7 @@ function newRestaurantMarker(lat, lng, urlType, id) {
 
 // Function that scrolls to the corresponding restaurant when a marker is clicked
 function scrollToRestaurant(id) {
-    const clickedRestaurant = document.querySelector("#r" + id);
+    const clickedRestaurant = document.getElementById("#r" + id);
     clickedRestaurant.scrollIntoView();
     const y = document.querySelector("#restaurantInfo").getBoundingClientRect().top + window.scrollY - 50;
     window.scrollTo({ top: y, behavior: "instant" });

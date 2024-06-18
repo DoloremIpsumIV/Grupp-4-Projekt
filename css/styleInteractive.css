@@ -166,8 +166,10 @@ h2 {
     background-position: center;
     width: 100%;
     height: 100vh; 
-    padding-top: 200px;
+    padding-top:200px ;
     display: none;
+    z-index: 2000;
+    margin-top: -500px;
 }
 
 #startPage {
@@ -220,10 +222,6 @@ h2 {
     color: white;
 }
 
-#mapBtn2.activated {
-    background-color: #899e1dc5;
-    color: white;
-}
 
 #findBtn2 {
     height: 50px;
@@ -244,10 +242,6 @@ h2 {
     transform: scale(1.1);
 }
 
-#findBtn2.activated {
-    background-color: #d1922ed3;
-    color: white;
-}
 
 #playButton:hover {
     background-color: #4a670086;
@@ -289,6 +283,79 @@ h2 {
     border: black 3px solid;
     z-index: 1000;
     display: none;
+}
+
+#map {
+    width: 700px;
+    height: 200px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: black 3px solid;
+    z-index: 1000;
+    display: none;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    display: none;
+}
+
+/* Code for modal */
+.chooseProvince {
+    display: none;
+    background-color: white;
+    box-shadow: 0px 0px 15px 6px #2d324fe1;
+    border-color: #2d324fe1;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chooseProvince form {
+    display: flex;
+    flex-wrap: nowrap;
+    grid-template-columns: max-content auto;
+    gap: 0.75em;
+}
+
+.chooseProvince button {
+    display: block;
+    margin-left: auto;
+    padding: 0.5em;
+    height: 45px;
+
+}
+
+#mapPlaybtn {
+    width: 400px;
+    height: 50px;
+    
+    background-color: #4a6700d7;
+    border: solid 1px #899E1D;
+    color: white;
+    border-radius: 5px;
+    font-size: 35px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease;
+    margin-top: 370px;
+     
+}
+
+#mapPlaybtnBox {
+   text-align: center;
+}
+
+#mapPlaybtn:hover {
+    background-color: #4a670086;
 }
 
 

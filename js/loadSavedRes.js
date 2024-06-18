@@ -50,13 +50,14 @@ function loadCustomList() {
 
 function removeRestaurant() {
     let trashCansFavorites = document.querySelectorAll("#savedBox #saveBtnIndex");
-    console.log(trashCansFavorites)
 
     for (let i = 0; i < trashCansFavorites.length; i++) {
         trashCansFavorites[i].addEventListener("click", () => {
-            removeFromFavoritesList(i)
-            console.log("klick")
-            loadAll();
+            removeFromFavoritesList(i);
+            loadSavedList();
+            loadCustomList();
+            removeRestaurant();
+            reInitDragElem();
         });
     }
 
@@ -66,17 +67,20 @@ function removeRestaurant() {
     for (let i = 0; i < trashCansCustom.length; i++) {
         trashCansCustom[i].addEventListener("click", () => {
             removeFromCustomList(i);
-            console.log("klick i custom")
-            loadAll();
-        })
+            loadCustomList();
+            removeRestaurant();
+            reInitDragElem();
+
+        });
     }
 }
 
-function loadAll() {
-    loadSavedList();
-    loadCustomList();
-    removeRestaurant();
-    init();
+function reInitDragElem() {
+    let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
+    for (let i = 0; i < dragElems.length; i++) {
+        dragElems[i].draggable = true;
+        dragElems[i].addEventListener("dragstart", dragStart);
+    }
 }
 
 function dragStart() {
@@ -84,7 +88,6 @@ function dragStart() {
     dragElem.draggable = true;
 
     const dropElem = document.querySelector("#listBox");
-    console.log(dropElem);
 
     dragElem.addEventListener("dragend", dragEnd);
     dropElem.addEventListener("dragover", dropZone);
@@ -112,7 +115,6 @@ function dragStart() {
                 break;
             case "dragleave":
                 dropElem.classList.remove("highlight");
-
                 break;
             case "drop":
                 dropElem.classList.remove("highlight");
@@ -134,14 +136,13 @@ function dragStart() {
 function updateLocalStorage() {
     const dropElem = document.querySelector("#listBox");
     const restaurantCards = dropElem.querySelectorAll(".restaurantCard");
-    console.log(restaurantCards);
     const savedListArray = [];
 
     for (let i = 0; i < restaurantCards.length; i++) {
         card = restaurantCards[i];
         savedListArray.push(card.outerHTML);
     }
-
+    removeFromFavoritesList(card);
     localStorage.setItem("savedListArray", JSON.stringify(savedListArray));
 
 }
@@ -149,7 +150,6 @@ function updateLocalStorage() {
 function removeFromFavoritesList(index) {
     const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
-    console.log(index)
     savedRestaurant.splice(index, 1);
 
     localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
@@ -159,11 +159,7 @@ function removeFromFavoritesList(index) {
 function removeFromCustomList(index) {
     const savedListArray = JSON.parse(localStorage.getItem("savedListArray")) || [];
 
-    console.log(index)
     savedListArray.splice(index, 1);
 
     localStorage.setItem("savedListArray", JSON.stringify(savedListArray));
 }
-
-// bugg där man klickar soptunna så går det ej att dra i mina favoriter restaurangerna längre
-// bugg där man tar bort sista restaurangen i custom listan, flyttas samtliga över till favoriter igen
