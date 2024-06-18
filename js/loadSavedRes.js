@@ -4,7 +4,7 @@
 
 function init() {
     loadSavedList();
-
+    console.log("init")
     let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
     console.log(dragElems);
     for (let i = 0; i < dragElems.length; i++) {
@@ -55,10 +55,6 @@ function removeRestaurant() {
     for (let i = 0; i < trashCansFavorites.length; i++) {
         trashCansFavorites[i].addEventListener("click", () => {
             removeFromFavoritesList(i);
-            loadSavedList();
-            loadCustomList();
-            removeRestaurant();
-            reInitDragElem();
         });
     }
 
@@ -68,10 +64,6 @@ function removeRestaurant() {
     for (let i = 0; i < trashCansCustom.length; i++) {
         trashCansCustom[i].addEventListener("click", () => {
             removeFromCustomList(i);
-            loadCustomList();
-            removeRestaurant();
-            reInitDragElem();
-
         });
     }
 }
@@ -154,7 +146,6 @@ function removeFromFavoritesList(index) {
     savedRestaurant.splice(index, 1);
 
     localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-
 }
 
 function removeFromCustomList(index) {
