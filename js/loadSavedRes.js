@@ -4,8 +4,6 @@
 let clickCounter = 0;
 
 function init() {
-    alert("Dubbelklicka på restaurang eller dra och släpp över din nya lista för att flytta över den.");
-
     loadSavedList();
     let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
     for (let i = 0; i < dragElems.length; i++) {
