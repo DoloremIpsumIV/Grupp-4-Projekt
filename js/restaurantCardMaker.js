@@ -39,7 +39,7 @@ function displayCardFlex(restuarantId) {
     secondDivElement.classList.add("restaurantCardFlex");
     secondDivElement.style.display = "block";
     imgElement.id = "picture";
-    imgElement.src = "/mapIconsSVG/" + restaurantObject.sub_type + ".svg";
+    imgElement.src = `/mapIconsSVG/${restaurantObject.sub_type}.svg`;
     titleElement.id = "restaurantName";
     titleElement.innerText = restaurantObject.name;
 
@@ -48,7 +48,7 @@ function displayCardFlex(restuarantId) {
     divElement.appendChild(saveBtn);
     fragment.appendChild(divElement);
 
-    const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing", 'sub_type'];
+    const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing", "sub_type"];
 
     Object.entries(restaurantObject).forEach(([key, value]) => {
         if (displayValues.includes(key) && value != "") {
@@ -102,9 +102,9 @@ function displayCardFlex(restuarantId) {
                     paragraphElement.style.padding = "10px 10px 0px 10px";
                     paragraphElement.style.marginTop = "13px";
                     if (value >= 1) {
-                        paragraphElement.innerText = value.toFixed(2) + " km bort";
+                        paragraphElement.innerText = `${value.toFixed(2)} km bort`;
                     } else {
-                        paragraphElement.innerText = (value * 1000).toFixed(0) + " meter bort";
+                        paragraphElement.innerText = `${(value * 1000).toFixed(0)} meter bort`;
                     }
 
                     secondDivElement.prepend(paragraphElement);
@@ -113,7 +113,7 @@ function displayCardFlex(restuarantId) {
                 case "website":
                     const linkElement = document.createElement("a")
                     linkElement.href = value;
-                    linkElement.innerText = "Länk till: " + restaurantObject.name;
+                    linkElement.innerText = `Länk till: ${restaurantObject.name}`
 
                     secondDivElement.appendChild(linkElement);
                     break;
@@ -128,7 +128,7 @@ function displayCardFlex(restuarantId) {
                     }
                     crossAndCheck.classList = "crossAndCheck";
 
-                    paragraphElement.innerHTML = key + ": ";
+                    paragraphElement.innerHTML = `${key}: `;
                     paragraphElement.appendChild(crossAndCheck);
                     secondDivElement.prepend(paragraphElement);
                     break;

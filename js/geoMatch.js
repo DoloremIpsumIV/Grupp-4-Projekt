@@ -100,7 +100,7 @@ function openMapDialog() {
             [boundries.maxLatCorner, boundries.maxLngCorner]
         );
 
-        miniMap = L.map('map', {
+        miniMap = L.map("map", {
             center: [56.8770, 14.8090], // Växjös koordinater
             zoom: 13,
             minZoom: 8,
@@ -109,8 +109,8 @@ function openMapDialog() {
             maxBoundsViscosity: 1,
         });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
-        miniMap.on('click', function (event) {
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(miniMap);
+        miniMap.on("click", function (event) {
             const markerPosition = event.latlng;
             markerOnMiniMap.setLatLng(markerPosition);
             userMarker.setLatLng(markerPosition);
@@ -199,8 +199,8 @@ function twoNotSameImages(imagesArray) {
 
 function newImage() {
 
-    let firstBox = document.querySelector("#firstBox .insideBox img").src.split('/').pop();
-    let secondBox = document.querySelector("#secondBox .insideBox img").src.split('/').pop();
+    let firstBox = document.querySelector("#firstBox .insideBox img").src.split("/").pop();
+    let secondBox = document.querySelector("#secondBox .insideBox img").src.split("/").pop();
 
     availableImages = availableImages.filter(image => image !== firstBox && image !== secondBox);
 

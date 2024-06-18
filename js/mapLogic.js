@@ -1,7 +1,7 @@
 // Function for initiation of the map
 function initMap(id) {
     map = L.map(id).setView([smaland.lat, smaland.lng], 9);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         minZoom: 8,
         maxZoom: 18,
         maxBoundsViscosity: 1,
@@ -32,14 +32,14 @@ function newRestaurantMarker(lat, lng, urlType, id) {
         }
     }
 
-    let restaurantMarker = new marker({ iconUrl: "/mapIconsSVG/" + "map" + urlType + ".svg" });
+    let restaurantMarker = new marker({ iconUrl: `/mapIconsSVG/map${urlType}.svg` });
     restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map).on("click", () => scrollToRestaurant(id)));
     restaurantFlag = false;
 }
 
 // Function that scrolls to the corresponding restaurant when a marker is clicked
 function scrollToRestaurant(id) {
-    const clickedRestaurant = document.getElementById("#r" + id);
+    const clickedRestaurant = document.getElementById(`#r${id}`);
     clickedRestaurant.scrollIntoView();
     const y = document.querySelector("#restaurantInfo").getBoundingClientRect().top + window.scrollY - 50;
     window.scrollTo({ top: y, behavior: "instant" });
@@ -70,10 +70,12 @@ function getUserGeo() {
         updateMapLoc(successFlag);
     }, function (error) {
         if (error == "[object GeolocationPositionError]") {
-            window.alert("Om du inte godkänner att sidan använder din platsinfomation kommer inte denna funktionen att fungera! Välj då istället plats via kartan \n\nFör att använda hitta min plats måste du ladda om sidan och godkänna på nytt");
+            window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 
+
+För att använda hitta min plats måste du ladda om sidan och godkänna på nytt`);
         }
         else {
-            window.alert("Fel vid hämtning av geo position: " + error);
+            window.alert(`Fel vid hämtning av geo position: ${error}`);
         }
         successFlag = false;
         updateMapLoc(successFlag);
@@ -139,7 +141,7 @@ function openMapDialog() {
 
     // Creates a mini popup map for the chosen lat and lng
     if (miniMap === undefined) {
-        miniMap = L.map('map', {
+        miniMap = L.map("map", {
             center: [smaland.lat, smaland.lng],
             zoom: smaland.zoom,
             minZoom: 8.5,
@@ -147,8 +149,8 @@ function openMapDialog() {
             maxBoundsViscosity: 1,
         });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
-        miniMap.on('click', function (event) {
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(miniMap);
+        miniMap.on("click", function (event) {
             const markerPosition = event.latlng;
             markerOnMiniMap.setLatLng(markerPosition);
             userMarker.setLatLng(markerPosition);

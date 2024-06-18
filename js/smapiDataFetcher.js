@@ -105,7 +105,7 @@ async function fetchData() {
         document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
         document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
         document.querySelector("#searchedProvince").innerHTML = province.replace("&provinces=", "");
-        let response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + sorting + "&controller=establishment&types=food&method=getFromLatLng&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + province, { signal });
+        let response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=establishment&types=food&method=getFromLatLng&lat=${latitude}&lng=${longitude}&radius=${radius}${province}`, { signal });
         if (response.ok) {
             const dataResponse = await response.json();
             const container = document.getElementById("restaurantInfo");
@@ -132,7 +132,8 @@ async function fetchData() {
             }
             restaurantFlag = true;
         }
-        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+        else window.alert(`Error during fetch: ${response.status}
+Hämtning av data fungerade inte, testa senare eller kontakta oss för hjälp`, stopLoader());
         document.querySelector("#mapBtn").scrollIntoView();
 
         stopLoader();
@@ -159,7 +160,7 @@ async function getFoodData() {
         const restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
         const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
         const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
-        const response = await fetch("https://smapi.lnu.se/api/?api_key=" + ApiKey + sorting + "&controller=food&method=getfromlatlng&" + id + "&lat=" + latitude + "&lng=" + longitude + "&radius=" + radius + restaurantType + priceRange, { signal });
+        const response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=food&method=getFromLatLng&lat=${latitude}&${id}&lng=${longitude}&radius=${radius}${restaurantType}${priceRange}`, { signal });
         if (response.ok) {
             const dataResponse = await response.json();
             const container = document.getElementById("restaurantInfo");
@@ -179,7 +180,8 @@ async function getFoodData() {
             });
             return dataResponse;
         }
-        else window.alert("Error during fetch: " + response.status + "\nHämtning av data fungerade inte, testa senare eller kontakta oss för hjälp", stopLoader());
+        else window.alert(`Error during fetch: ${response.status}
+Hämtning av data fungerade inte, testa senare eller kontakta oss för hjälp`, stopLoader());
     } catch (error) {
         if (error.name === "AbortError") {
             console.log("Fetch aborted");

@@ -47,7 +47,7 @@ const controller = new AbortController();   // Creates a controller object that 
 const signal = controller.signal;           // Links the controller object with the beforeunload event listener to be able to abort it
 const foodMap = new Map();          // A map with all the food restaurants that have the id searched for them
 const establishmentMap = new Map(); // A map with all establishments that can be retrieved with the correct id as the key
- 
+
 let restuarantMarkerArray = [];     // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;              // Button elem for småland
 let smalandRadioBtn;                // RadioBtn element for Småland
@@ -71,7 +71,6 @@ window.addEventListener("beforeunload", () => {
 
 // Init function
 function init() {
-    //getEstablishmentData()
     initMap("mapViewer");
 
     const searchButton = document.querySelector("#searchButton");
