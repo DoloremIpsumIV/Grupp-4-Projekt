@@ -14,6 +14,8 @@
     <script src="js/geoMatch.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/smapiDataFetcher.js"></script>
+    <script src="js/restaurantCardMaker.js"></script>
     <title>GeoMatch</title>
 </head>
 
@@ -30,8 +32,14 @@
 
 
     <h1>GeoMatch</h1>
-    
-    
+
+    <p id="text1" class="text">Är du osäker på vad du vill äta? Testa då geoMatch spelet!</p>
+    <p id="text2" class="text">Börja med att trycka på startknappen och välj hur du vill dela din plats. Efter det får du två alternativ på mat du kan välja mellan. Tryck på det aternativ du helst hade velat äta och upprepa detta tills spelet är slut.</p>
+
+    <div id="restartBox">
+    <p>Starta om</p>
+    <img src="images/runt.svg" id="imgSwirl">
+    </div>
 
     <div id="startPage">
 
@@ -40,11 +48,11 @@
         <button id="playButton">Spela</button>
         </div>
 
-        
+    
         <div id="selectBox">
 
             <div class="dialog-box"> 
-                
+                <button id="closeButton2">X</button>
             <button id="mapBtn2">Välj placering på karta <img src="images/mapPointer.svg" alt="map pin"
                     class="buttonImg"></button>
 
@@ -52,7 +60,6 @@
             </div>
         </div>  
     </div>
-
 
     <div id="overlay">
         <button id="closeButton">X</button>
@@ -67,33 +74,35 @@
     </div>
 
     <div id="boxBackground">
-    <div id="firstBox">
-        <div class="insideBox"></div>
+        <div>
+        <div id="firstBox">
+            <div class="insideBox"></div>
+            </div>
+            <p id="food1"></p>
+        </div>
 
-    </div>
+    <div>
     <div id="secondBox">
         <div class="insideBox"></div>
+    </div>
+    <p id="food2"></p>
     </div>
     </div>
 
     <div id="endGamePage">
     <div id="textBox">
-        <h2>Det verkar som att du är mest sugen på </h2>
+        <h2 id="result">Det verkar som att du är mest sugen på  </h2>
         <div id="circleImgHolder"></div>
         
-        <p>Här är några förslag på resturanger som kanske passar dig!!</p>
+        <p>Här är några förslag på restauranger som kanske passar dig!!</p>
     </div>
 
-    <div id="restaurantResults">
+    <div id="restaurantInfo">
         
     </div>
     </div>
 
 
-
-
-
-    
 
 
     <footer id="footer">

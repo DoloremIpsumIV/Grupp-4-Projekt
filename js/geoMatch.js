@@ -11,7 +11,21 @@ let imagesUsed = [
     "pizza.svg"
 ]; //Bilderna som ska användas
 
+let imageNames = {
+   "A_LA_CARTE.svg": "A La Carte",
+    "asian.svg": "Asiatiskt",
+    "burgers.svg": "Hamburgare",
+    "HOT_DOGS.svg": "Korvkiosk",
+    "latin.svg": "Mexikanskt",
+    "MEDITERRANEAN.svg": "Medelhavsmat",
+    "PASTRIES.svg": "Fika",
+    "pizza.svg": "Pizza" 
+};
+
 let availableImages; // Håller koll på vilka bilder som använts
+
+let lastClickedImage = ""; // Håller koll på den sista klickade bilden
+
 
 let playBtn; // spela knappen
 
@@ -54,10 +68,12 @@ function init () {
     mapBtn.addEventListener("click", openMapDialog);
 
     let findBtn = document.querySelector("#findBtn2");
-    findBtn.addEventListener("click", startGame);
+    findBtn.addEventListener("click", getUserGeo);
 
     let mapPlayBtn =document.querySelector("#mapPlaybtn");
     mapPlayBtn.addEventListener("click", startGame);
+
+
 
 
 
@@ -73,6 +89,13 @@ function gameSettings() {
 
     let selectBox = document.querySelector("#selectBox");
     selectBox.style.display = "flex";
+
+    
+    let closeButton2 = document.querySelector("#closeButton2");
+    closeButton2.addEventListener("click", function() {
+        selectBox.style.display = "none";
+        playBtn.style.display = "block";
+    });
 }
 
 function openMapDialog() {
@@ -132,6 +155,8 @@ function openMapDialog() {
     closeButton.addEventListener("click", function() {
         overlay.style.display = "none";
     });
+
+
 }
 
 // Sätter en ny markör på kartan
@@ -154,11 +179,37 @@ function newUserMarker(e) {
     console.log(`New marker set at latitude: ${latitude}, longitude: ${longitude}`);
 }
 
+function getUserGeo() {
+    
+    let successFlag = true;
+
+    navigator.geolocation.getCurrentPosition(function (position) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        startGame()
+    }, function (error) {
+        if (error == "[object GeolocationPositionError]") {
+            window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 
+
+För att använda hitta min plats måste du ladda om sidan och godkänna på nytt`);
+        }
+        else {
+            window.alert(`Fel vid hämtning av geo position: ${error}`);
+        }
+        successFlag = false;
+    });
+    
+}
+
 function startGame() {
 
     overlay.style.display = "none";
     playBtn.style.display = "none";
     selectBox.style.display = "none";
+
+    let restartGame = document.querySelector("#restartBox");
+    restartGame.style.display ="flex";
+    restartGame.addEventListener("click", init);
 
 
     let gameBackground = document.querySelector("#boxBackground");
@@ -176,6 +227,13 @@ function startGame() {
 
     availableImages = [...imagesUsed]
 
+    let settingsBackground = document.querySelector("#startPage");
+    let text1 = document.querySelector("#text1");
+    let text2 = document.querySelector("#text2");
+    text1.style.display = "none";
+    text2.style.display = "none";
+    settingsBackground.style.display = "none";
+
 
 
     let notSameImage = twoNotSameImages(availableImages);
@@ -183,7 +241,15 @@ function startGame() {
     firstBoxInside.innerHTML = `<img src="${imageFolder}/${notSameImage[0]}" alt="Random Image 1">`;
     secondBoxInside.innerHTML = `<img src="${imageFolder}/${notSameImage[1]}" alt="Random Image 2">`;
 
+    food1.textContent = imageNames[notSameImage[0]];
+    food2.textContent = imageNames[notSameImage[1]];
+
+    lastClickedImage = "";
+
 }
+
+
+
 
 function twoNotSameImages(imagesArray) {
 
@@ -199,6 +265,7 @@ function twoNotSameImages(imagesArray) {
 
 function newImage() {
 
+    
     let firstBox = document.querySelector("#firstBox .insideBox img").src.split("/").pop();
     let secondBox = document.querySelector("#secondBox .insideBox img").src.split("/").pop();
 
@@ -209,12 +276,18 @@ function newImage() {
         return;
     }
 
+
+    
     if (this.id === "firstBox") {
         let newImage = getNewImage(secondBox);
-        document.querySelector("#secondBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="Random Image">`;
+        document.querySelector("#secondBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="">`;
+        document.querySelector("#food2").textContent = imageNames[newImage];
+        lastClickedImage = firstBox;
     } else if (this.id === "secondBox") {
         let newImage = getNewImage(firstBox);
-        document.querySelector("#firstBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="Random Image">`;
+        document.querySelector("#firstBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="">`;
+        document.querySelector("#food1").textContent = imageNames[newImage];
+        lastClickedImage = secondBox;
     }  
    
 }
@@ -231,8 +304,13 @@ function endGame() {
     let gameBackground = document.querySelector("#boxBackground");
     gameBackground.style.display = "none";
 
-    let resultPage = document.querySelector("#endGame");
+    let endGamePage = document.querySelector("#endGamePage");
     endGamePage.style.display = "flex";
+
+    let circleImgHolder = document.querySelector("#circleImgHolder");
+    
+    circleImgHolder.innerHTML = `<img src="${imageFolder}/${lastClickedImage}" alt="Final Image">`;
+    document.querySelector("#endGamePage h2").textContent += imageNames[lastClickedImage];
 
 }
 
