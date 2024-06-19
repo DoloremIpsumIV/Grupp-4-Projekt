@@ -23,29 +23,34 @@ function createCard(obj) {
 }
 
 // Function that will display a restaurant card aslong as the restaurant id exists in the restaurant map
-function displayCardFlex(restuarantId) {
-    const restaurantObject = restaurant.get(restuarantId.toString());
+function displayCardFlex(restaurantId) {
+    const restaurantObject = restaurant.get(restaurantId.toString());
     const fragment = new DocumentFragment();
-    const divElement = document.createElement("div");
-    const secondDivElement = document.createElement("div");
-    const imgElement = document.createElement("img");
-    const titleElement = document.createElement("h2");
-    const saveBtn = document.createElement("img");
 
-    saveBtn.src = "/images/emptyHeart.svg";
-    saveBtn.id = "saveBtnIndex";
+    const divElement = document.createElement("div");
     divElement.classList.add("restaurantCardFlex");
     divElement.id = "#r" + restaurantObject.id;
+
+    const secondDivElement = document.createElement("div");
     secondDivElement.classList.add("restaurantCardFlex");
     secondDivElement.style.display = "block";
+
+    const imgElement = document.createElement("img");
     imgElement.id = "picture";
     imgElement.src = `/mapIconsSVG/${restaurantObject.sub_type}.svg`;
+
+    const titleElement = document.createElement("h2");
     titleElement.id = "restaurantName";
     titleElement.innerText = restaurantObject.name;
 
+    const saveBtn = document.createElement("img");
+    saveBtn.src = "/images/emptyHeart.svg";
+    saveBtn.id = "saveBtnIndex";
+    
     divElement.appendChild(imgElement);
     divElement.appendChild(titleElement);
     divElement.appendChild(saveBtn);
+
     fragment.appendChild(divElement);
 
     const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing", "sub_type"];
@@ -53,6 +58,7 @@ function displayCardFlex(restuarantId) {
     Object.entries(restaurantObject).forEach(([key, value]) => {
         if (displayValues.includes(key) && value != "") {
             const paragraphElement = document.createElement("p");
+            
             switch (key) {
                 case "avg_lunch_pricing":
                     const dollar = document.createElement("p");
@@ -72,9 +78,11 @@ function displayCardFlex(restuarantId) {
                             dollar.innerText = "$$$";
                             break;
                     }
+
                     paragraphElement.style.display = "inline";
                     paragraphElement.style.marginLeft = "0";
                     paragraphElement.style.fontSize = "23px";
+
                     paragraphElement.appendChild(dollar);
                     secondDivElement.prepend(paragraphElement);
                     break;
@@ -82,8 +90,10 @@ function displayCardFlex(restuarantId) {
                 case "rating":
                     const digit = Math.floor((value) * 10) / 10;
                     const secondDigit = Math.floor((value * 10) % 10);
+
                     paragraphElement.style.display = "inline";
-                    paragraphElement.style.padding = "10px 10px 0px 10px"
+                    paragraphElement.style.padding = "10px 10px 0px 10px";
+
                     for (let i = 1; i < digit; i++) {
                         paragraphElement.appendChild(starBuilder(false));
                     }
@@ -93,7 +103,6 @@ function displayCardFlex(restuarantId) {
                     else if (secondDigit == 0) {
                         paragraphElement.appendChild(starBuilder(false));
                     }
-
                     secondDivElement.prepend(paragraphElement);
                     break;
 
@@ -101,6 +110,7 @@ function displayCardFlex(restuarantId) {
                     paragraphElement.style.display = "inline";
                     paragraphElement.style.padding = "10px 10px 0px 10px";
                     paragraphElement.style.marginTop = "13px";
+
                     if (value >= 1) {
                         paragraphElement.innerText = `${value.toFixed(2)} km bort`;
                     } else {
@@ -111,7 +121,8 @@ function displayCardFlex(restuarantId) {
                     break;
 
                 case "website":
-                    const linkElement = document.createElement("a")
+                    const linkElement = document.createElement("a");
+
                     linkElement.href = value;
                     linkElement.innerText = `Länk till: ${restaurantObject.name}`
 
@@ -120,6 +131,7 @@ function displayCardFlex(restuarantId) {
 
                 case "student_discount":
                     const crossAndCheck = document.createElement("img");
+
                     if (value == "N") {
                         crossAndCheck.src = "/images/Cross.png";
                     }

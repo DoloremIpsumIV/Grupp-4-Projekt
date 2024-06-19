@@ -115,6 +115,7 @@ function init() {
         }
     });
 
+    document.getElementById("closeButton").addEventListener("click", closeMapDialog);
     document.getElementById("mapBtn").addEventListener("click", openMapDialog);
     loader = document.querySelector("#loaderId");
 
@@ -126,9 +127,6 @@ function init() {
             behavior: "smooth"
         });
     });
-
-
-
 }
 window.addEventListener("load", init);
 
@@ -143,7 +141,6 @@ function toggleSortButtons() {
 
         smalandButtonElem.removeEventListener("click", toggleSortButtons);
         olandButtonElem.addEventListener("click", toggleSortButtons);
-        updateMapLoc(Boolean = false);
     }
     else {
         latitude = oland.lat;
@@ -151,6 +148,6 @@ function toggleSortButtons() {
 
         olandButtonElem.removeEventListener("click", toggleSortButtons);
         smalandButtonElem.addEventListener("click", toggleSortButtons);
-        updateMapLoc(Boolean = false);
     }
+    updateMapLoc(false);
 }
