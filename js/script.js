@@ -116,7 +116,7 @@ function init() {
     });
 
     document.getElementById("mapBtn").addEventListener("click", openMapDialog);
-    document.getElementById(closeButton).addEventListener("click", closeMapDialog);
+    document.getElementById("closeButton").addEventListener("click", closeMapDialog);
     loader = document.querySelector("#loaderId");
 
     // When the fork and knife image is pressed it takes you to the search bar
