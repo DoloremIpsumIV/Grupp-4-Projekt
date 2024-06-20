@@ -61,6 +61,7 @@ const boundries = {               // Const with min and max boundries for the ma
 
 function init () {
 
+
     playBtn = document.querySelector("#playButton");
     playBtn.addEventListener("click", gameSettings);
 
@@ -72,6 +73,7 @@ function init () {
 
     let mapPlayBtn =document.querySelector("#mapPlaybtn");
     mapPlayBtn.addEventListener("click", startGame);
+
 
 
 

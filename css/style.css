@@ -428,6 +428,8 @@ li a {
     display: none;
 }
 
+
+
 #overlay {
     position: fixed;
     top: 0;
@@ -635,9 +637,22 @@ hr {
     display: none;
 }
 
+#largeMap{
+    border: 3px solid black;
+    z-index: 100;
+    display: flex;
+    width: 86%;
+    height: 600px;
+    margin: 12% 6% 4% 6%;
+    position: relative;
+}
+
 @media screen and (max-width: 840px) {
     #restaurantInfo h2 {
         font-size: 14px;
+    }
+    #largeMap{
+        margin: 16% 6% 4% 6%;
     }
 }
 
@@ -713,6 +728,11 @@ hr {
     #closeButton {
         margin-left: 500px;
     }
+    #largeMap{
+        width: 80%;
+        margin: 17% 6% 4% 9%;
+
+    }
 
 }
 
@@ -756,6 +776,9 @@ hr {
         font-size: 14px;
         width: 130px;
     }
+    #headerContainer ul {
+        margin-top: 0;
+    }
 
     .dropDownContent {
         width: 126px;
@@ -785,10 +808,6 @@ hr {
 
     #forknknife {
         width: 100px;
-    }
-
-    #logoWhite {
-        display: none;
     }
 
     ul {

@@ -26,6 +26,7 @@ function createCard(obj) {
 function displayCardFlex(restuarantId) {
     const restaurantObject = restaurant.get(restuarantId.toString());
     const fragment = new DocumentFragment();
+
     const divElement = document.createElement("div");
     const secondDivElement = document.createElement("div");
     const imgElement = document.createElement("img");

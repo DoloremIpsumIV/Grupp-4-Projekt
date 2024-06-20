@@ -1,13 +1,13 @@
 // Function that defiens the value of the radius
 function setRadius(value) {
     switch (value) {
-        case value = "1 KM":
+        case "1 KM":
             return "1";
-        case value = "3 KM":
+        case "3 KM":
             return "3";
-        case value = "5 KM":
+        case "5 KM":
             return "5";
-        case value = "10 KM":
+        case "10 KM":
             return "10";
         default:
             return "1";
@@ -17,33 +17,33 @@ function setRadius(value) {
 // Function that converts the input value of the dropdown to code that SMAPI understands
 function setRestaurantType(value) {
     switch (value) {
-        case value = "Alla Restauranger":
+        case "Alla Restauranger":
             return "";
-        case value = "Pizzeria":
+        case "Pizzeria":
             return subTypes[0] + subTypes[8];
-        case value = "Asiatisk":
+        case "Asiatisk":
             return subTypes[0] + subTypes[2];
-        case value = "Etnisk":
+        case "Etnisk":
             return types[0] + types[2];
-        case value = "Casual":
+        case "Casual":
             return types[0] + types[1];
-        case value = "Snabb":
+        case "Snabb":
             return types[0] + types[3];
-        case value = "Lyx mat":
+        case "Lyx mat":
             return types[0] + types[4];
-        case value = "Burgare":
+        case "Burgare":
             return subTypes[0] + subTypes[3];
-        case value = "Varmkorvar":
+        case "Varmkorvar":
             return subTypes[0] + subTypes[4];
-        case value = "Latin":
+        case "Latin":
             return subTypes[0] + subTypes[5];
-        case value = "Lokalägd":
+        case "Lokalägd":
             return subTypes[0] + subTypes[6];
-        case value = "Medelhavs":
+        case "Medelhavs":
             return subTypes[0] + subTypes[7];
-        case value = "Annat":
+        case "Annat":
             return subTypes[0] + subTypes[9];
-        case value = "Bakverk":
+        case "Bakverk":
             return subTypes[0] + subTypes[10];
         default:
             return "";
@@ -72,14 +72,14 @@ function setSortingOrder(value, fetchType) {
         switch (value) {
             case "rating":
                 return "&sort_in=DESC&order_by=rating"
-            case "student_discount":
-                return "&sort_in=DESC&order_by=student_discount"
             default:
                 return "&sort_in=DESC&order_by=distance_in_km"
         }
     }
     else {
         switch (value) {
+            case "student_discount":
+                return "&sort_in=ASC&order_by=student_discount"
             case "rating":
                 return "&sort_in=DESC&order_by=rating"
             case "price_rangeDESC":
@@ -101,6 +101,7 @@ async function fetchData() {
 
         const sorting = setSortingOrder(document.querySelector("#sort").value, "establishment");
         const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
+
         document.querySelector("#searchedRestaurant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
         document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
         document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
@@ -110,9 +111,11 @@ async function fetchData() {
             const dataResponse = await response.json();
             const container = document.getElementById("restaurantInfo");
             container.innerText = "";
-            if (dataResponse.payload.length == 0) {
+
+            if (dataResponse.payload.length === 0) {
                 container.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat, eller välj en annan provins!";
                 container.classList.remove("restaurantSize");
+
                 for (let i = 0; i < restuarantMarkerArray.length; i++) {
                     restuarantMarkerArray[i].remove();
                 }
@@ -124,21 +127,24 @@ async function fetchData() {
                     }
                 });
 
-                await getFoodData()
+                await getFoodData();
+
                 restaurant = combineRestaurantData(establishmentMap, foodMap);
                 restaurant.forEach(object => {
                     createCard(object);
                 });
             }
+
             restaurantFlag = true;
         }
         else window.alert(`Error during fetch: ${response.status}
 Hämtning av data fungerade inte, testa senare eller kontakta oss för hjälp`, stopLoader());
-        document.querySelector("#mapBtn").scrollIntoView();
 
+        document.querySelector("#mapBtn").scrollIntoView();
         stopLoader();
         updateMapLoc();
         toggleHeartImg();
+
     }
     catch (error) {
         if (error.name === "AbortError") {
@@ -154,31 +160,36 @@ async function getFoodData() {
     try {
         let id = "&ids=";
         foodMap.forEach(restaurant => {
-            id += restaurant.id + ",";
+            id += `${restaurant.id},`;
         });
+        id = id.slice(0, -1);
+
         const sorting = setSortingOrder(document.querySelector("#sort").value, "");
         const restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
         const radius = setRadius(document.querySelector("#distance").firstElementChild.value);
         const priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
         const response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=food&method=getFromLatLng&lat=${latitude}&${id}&lng=${longitude}&radius=${radius}${restaurantType}${priceRange}`, { signal });
+
         if (response.ok) {
             const dataResponse = await response.json();
             const container = document.getElementById("restaurantInfo");
             container.innerText = "";
-            if (dataResponse.payload.length == 0) {
+
+            if (dataResponse.payload.length === 0) {
                 container.innerHTML = "Inga restauranger kunde hittas med dessa alternativ, testa att sök på något annat, eller välj en annan provins!";
                 container.classList.remove("restaurantSize");
+
                 for (let i = 0; i < restuarantMarkerArray.length; i++) {
                     restuarantMarkerArray[i].remove();
                 }
             }
-
-            dataResponse.payload.forEach(obj => {
-                if (!establishmentMap.has(obj.id)) {
-                    establishmentMap.set(obj.id, obj);
-                }
-            });
-            return dataResponse;
+            else {
+                dataResponse.payload.forEach(obj => {
+                    if (!establishmentMap.has(obj.id)) {
+                        establishmentMap.set(obj.id, obj);
+                    }
+                });
+            }
         }
         else window.alert(`Error during fetch: ${response.status}
 Hämtning av data fungerade inte, testa senare eller kontakta oss för hjälp`, stopLoader());
