@@ -45,7 +45,6 @@ async function fetchAllRestaurants() {
         let response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll`, { signal });
         if (response.ok) {
             const dataResponse = await response.json();
-            console.log(dataResponse)
             if (dataResponse.payload.length === 0) {
                 window.alert`Error during fetch: ${response.status}
                 Hämtning av data fungerade inte, testa senare eller kontakta oss för hjälp` }
@@ -56,7 +55,6 @@ async function fetchAllRestaurants() {
 
                 await getRestaurant();
                 const restaurantData = new Map(combineRestaurantData(establishmentMap, foodMap));
-                console.log(restaurantData);
                 restaurantData.forEach(restaurant => {
                     newRestaurantMarker(restaurant.lat, restaurant.lng, restaurant.sub_type);
                 });
@@ -79,14 +77,12 @@ async function getRestaurant() {
         let response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=food&method=getAll`, { signal });
         if (response.ok) {
             const dataResponse = await response.json();
-            console.log(dataResponse)
             if (dataResponse.payload.length === 0) {
                 window.alert`Error during fetch: ${response.status}
                 Hämtning av data fungerade inte, testa senare eller kontakta oss för hjälp` }
             else {
                 dataResponse.payload.forEach(obj => {
                     foodMap.set(obj.id, obj);
-                    console.log(foodMap)
                 });
             }
         }
