@@ -190,8 +190,6 @@ async function getFoodData() {
                     }
                 });
             }
-
-            return dataResponse;
         }
         else window.alert(`Error during fetch: ${response.status}
 Hämtning av data fungerade inte, testa senare eller kontakta oss för hjälp`, stopLoader());

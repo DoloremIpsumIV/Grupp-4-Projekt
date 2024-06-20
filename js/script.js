@@ -42,11 +42,11 @@ const ownPositionMarker = L.icon({// Position marker for the users location
 });
 const subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
 const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
-const ApiKey = "vxJzsf1d";        // Api key for SMAPI
+const ApiKey = "vxJzsf1d";                  // Api key for SMAPI
 const controller = new AbortController();   // Creates a controller object that can cancel async fetches from SMAPI
 const signal = controller.signal;           // Links the controller object with the beforeunload event listener to be able to abort it
-const foodMap = new Map();          // A map with all the food restaurants that have the id searched for them
-const establishmentMap = new Map(); // A map with all establishments that can be retrieved with the correct id as the key
+const foodMap = new Map();                  // A map with all the food restaurants that have the id searched for them
+const establishmentMap = new Map();         // A map with all establishments that can be retrieved with the correct id as the key
 
 let restuarantMarkerArray = [];     // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;              // Button elem for småland

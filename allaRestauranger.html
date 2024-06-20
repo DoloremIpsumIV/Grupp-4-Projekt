@@ -9,13 +9,38 @@
     <link rel="stylesheet" href="css/styleInteractive.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="images/logo.svg">
+    <script src="/js/allRestaurants.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <title>GetFood</title>
 </head>
 
 <body>
-    <div id="headerContainer" class="stickyHeader">
-        <a href="index.html"> <img src="images/logo.svg" alt="GetFoods logotype" id="logoWhite"></a>
+    <header>
+        <div id="headerContainer" class="stickyHeader">
+            <a href="index.html"> <img src="images/logo.svg" alt="GetFoods logotype" id="logoWhite"></a>
+            <ul>
+                <li><a href="allaRestauranger.html">Alla restauranger</a></li>
+                <li><a href="favoriter.html">Favoriter</a></li>
+                <li><a href="geoMatch.html">geoMatch-spelet</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div id="loaderId" class="loaderClass">
+        <div class="loaderContainer">
+            <h1>Laddar in restauranger nära dig...</h1>
+            <div class="loadingRing">
+            </div>
+        </div>
     </div>
+
+    <main>
+        <div id="largeMap"></div>
+    </main>
+
     <footer id="footer">
         <img id="footerLogo" src="images/logo.svg" alt="GetFoods logotype">
         <hr>
