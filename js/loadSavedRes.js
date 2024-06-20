@@ -28,7 +28,7 @@ function loadSavedList() {
         savedBox.appendChild(savedListElements);
     }
 
-    let trashCans = document.querySelectorAll("#saveBtnIndex");
+    let trashCans = document.querySelectorAll(".saveBtnIndex");
 
 
     for (let i = 0; i < trashCans.length; i++) {
@@ -51,7 +51,7 @@ function loadCustomList() {
 }
 
 function removeRestaurant() {
-    let trashCansFavorites = document.querySelectorAll("#savedBox #saveBtnIndex");
+    let trashCansFavorites = document.querySelectorAll("#savedBox .saveBtnIndex");
 
     for (let i = 0; i < trashCansFavorites.length; i++) {
         trashCansFavorites[i].addEventListener("click", () => {
@@ -62,7 +62,7 @@ function removeRestaurant() {
         });
     }
 
-    let trashCansCustom = document.querySelectorAll("#listBox #saveBtnIndex");
+    let trashCansCustom = document.querySelectorAll("#listBox .saveBtnIndex");
 
     for (let i = 0; i < trashCansCustom.length; i++) {
         trashCansCustom[i].addEventListener("click", () => {

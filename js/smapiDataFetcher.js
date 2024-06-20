@@ -215,7 +215,8 @@ function saveRestaurant(listElements) {
 
 function toggleHeartImg() {
     console.log("hejhej");
-    const saveBtns = document.querySelectorAll("#saveBtnIndex");
+    const saveBtns = document.querySelectorAll(".saveBtnIndex");
+    console.log(saveBtns)
 
     saveBtns.forEach(saveBtn => {
         saveBtn.addEventListener("click", function () {

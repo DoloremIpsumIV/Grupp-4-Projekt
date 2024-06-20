@@ -98,7 +98,7 @@ body {
     display: block;
 }
 
-#saveBtnIndex {
+.saveBtnIndex {
     width: 40px;
     float: right;
     padding: 10px;

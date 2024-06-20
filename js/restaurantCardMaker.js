@@ -33,7 +33,7 @@ function displayCardFlex(restuarantId) {
     const saveBtn = document.createElement("img");
 
     saveBtn.src = "/images/emptyHeart.svg";
-    saveBtn.id = "saveBtnIndex";
+    saveBtn.classList.add("saveBtnIndex");
     divElement.classList.add("restaurantCardFlex");
     divElement.id = "#r" + restaurantObject.id;
     secondDivElement.classList.add("restaurantCardFlex");
