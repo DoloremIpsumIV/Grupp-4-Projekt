@@ -1,4 +1,3 @@
-
 /* CSS för favoriter.html */
 
 #savedBox {
@@ -80,11 +79,11 @@
 }
 
 h1 {
-margin-top: 100px;
-padding-top: 50px;
-padding-bottom: 120px;
-color: white;
-text-align: center;
+    margin-top: 100px;
+    padding-top: 50px;
+    padding-bottom: 60px;
+    color: white;
+    text-align: center;
 }
 
 h2 {
@@ -124,7 +123,7 @@ h2 {
 #firstBox:hover {
     transform: rotate(-10deg);
     background-color: #bed745b7;
-    
+
 }
 
 #secondBox {
@@ -152,7 +151,7 @@ h2 {
 #boxBackground {
     display: flex;
     justify-content: center;
-    
+
 }
 
 .insideBox {
@@ -167,33 +166,33 @@ h2 {
 
 
 #boxBackground {
-    background-image:url(../images/bakgrundpicnic3.svg) ;
+    background-image: url(../images/bakgrundpicnic3.svg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     width: 100%;
-    height: 100vh; 
-    padding-top:200px ;
+    height: 100vh;
+    padding-top: 200px;
     display: none;
     z-index: 2000;
-    
+
 
 }
 
 #startPage {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-image:url(../images/bakgrundUtanBestick.svg) ;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 100%;
-    height: 50vh; 
-    padding-top:200px ;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url(../images/bakgrundUtanBestick.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 50vh;
+    padding-top: 200px;
 }
 
 #buttonContainer {
@@ -228,7 +227,7 @@ h2 {
     transition: 0.5s;
     margin-top: 200px;
     margin-left: 40px;
-    
+
 
 }
 
@@ -249,7 +248,7 @@ h2 {
     border-radius: 5px;
     margin-left: 10px;
     transition: 0.5s;
-    
+
 }
 
 #findBtn2:hover {
@@ -354,7 +353,7 @@ h2 {
 #mapPlaybtn {
     width: 400px;
     height: 50px;
-    
+
     background-color: #4a6700d7;
     border: solid 1px #899E1D;
     color: white;
@@ -363,11 +362,11 @@ h2 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: transform 0.3s ease;
     margin-top: 370px;
-     
+
 }
 
 #mapPlaybtnBox {
-   text-align: center;
+    text-align: center;
 }
 
 #mapPlaybtn:hover {
@@ -377,16 +376,16 @@ h2 {
 .insideBox img {
     width: 100%;
     height: 100%;
-    
+
 }
 
 #endGamePage {
     display: none;
     margin-top: -600px;
-    
+
 }
 
-#textBox{
+#textBox {
     margin-left: 100px;
     margin-right: 100px;
     justify-content: center;
@@ -432,7 +431,7 @@ h2 {
 
 #text2 {
     color: white;
-   
+
     margin-left: 20px;
 }
 
@@ -475,24 +474,28 @@ h2 {
     margin-top: 24px;
 }
 
+#instruction {
+    margin-left: 300px;
+    margin-right: 300px;
+    padding-bottom: 120px;
+    color: white;
+    text-align: center;
+}
 
+@media screen and (max-width: 850px) {
+    #instruction {
+        font-size: 20px;
+        margin-left: 150px;
+        margin-right: 150px;
+    }
+}
 
+@media screen and (max-width: 500px) {
+    #instruction {
+        font-size: 16px;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* Fixa css responsivitet med headern/navbaren och ändra ID till class. */

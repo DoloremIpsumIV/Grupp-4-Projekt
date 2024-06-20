@@ -52,27 +52,26 @@ function loadCustomList() {
 
 function removeRestaurant() {
     let trashCansFavorites = document.querySelectorAll("#savedBox #saveBtnIndex");
-    trashCansFavorites.forEach((trashCan, index) => {
-        trashCan.addEventListener("click", () => {
-            removeFromFavoritesList(index);
+
+    for (let i = 0; i < trashCansFavorites.length; i++) {
+        trashCansFavorites[i].addEventListener("click", () => {
+            removeFromFavoritesList(i);
             loadSavedList();
-            loadCustomList();
-            removeRestaurant();
             reInitDragElem();
             init();
         });
-    });
+    }
 
     let trashCansCustom = document.querySelectorAll("#listBox #saveBtnIndex");
-    trashCansCustom.forEach((trashCan, index) => {
-        trashCan.addEventListener("click", () => {
-            removeFromCustomList(index);
+
+    for (let i = 0; i < trashCansCustom.length; i++) {
+        trashCansCustom[i].addEventListener("click", () => {
+            removeFromCustomList(i);
             loadCustomList();
-            removeRestaurant();
             reInitDragElem();
             init();
         });
-    });
+    }
 }
 
 function reInitDragElem() {
