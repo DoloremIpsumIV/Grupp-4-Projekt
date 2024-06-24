@@ -2,8 +2,20 @@
 // Behöver skriva en if-sats som kollar ifall den redan finns i localstorage
 
 let clickCounter = 0;
+let listCounter = 1;
 
 function init() {
+
+    document.getElementById('addNewListBox').addEventListener('click', addNewList);
+
+    loadFromLocalStorage;
+
+
+
+
+
+
+    /*
     loadSavedList();
     let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
     for (let i = 0; i < dragElems.length; i++) {
@@ -14,9 +26,168 @@ function init() {
 
     loadCustomList();
     removeRestaurant();
+    addList()
+*/
+
+
+
 }
 window.addEventListener("load", init);
 
+
+function addNewList() {
+
+    let savedFlexbox = document.getElementById('savedFlexbox');
+
+    // Avslutar om det redan finns 5 lådor
+    if (listCounter > 5) {
+        return; 
+    }
+
+    // Ta bort den sista lådan som kommer upp även om det finns 5 redan
+    if (listCounter === 5) {
+        savedFlexbox.removeChild(savedFlexbox.lastElementChild);
+    } 
+
+    // Skapar ny låda för den nya listan
+    let newListBox = document.createElement('div');
+    newListBox.classList.add('box');
+
+
+    let inputDiv = document.createElement('div');
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.classList.add('listInput');
+    input.placeholder = `Ny lista ${listCounter}`;
+    let penIcon = document.createElement('img');
+    penIcon.src = 'images/penna.svg';
+    penIcon.classList.add('pen');
+
+    inputDiv.appendChild(input);
+    inputDiv.appendChild(penIcon);
+    newListBox.appendChild(inputDiv);
+
+
+
+    // För att lägga till fler listor
+    let listBoxDiv = document.createElement('div');
+    listBoxDiv.classList.add('listBox');
+    newListBox.appendChild(listBoxDiv);
+
+    let closeButton = document.createElement('p');
+    closeButton.classList.add('closeButton');
+    closeButton.textContent = 'x';
+    closeButton.addEventListener('click', function() {
+        
+        savedFlexbox.removeChild(newListBox);
+        listCounter--;
+        saveListToLocalStorage();
+        
+    });
+
+
+    listBoxDiv.appendChild(closeButton);
+
+    
+    let plusSign = document.createElement('p');
+    plusSign.classList.add('plusSign');
+    plusSign.textContent = '+';
+    plusSign.addEventListener('click', addNewList);
+
+    input.addEventListener('blur', function() {
+        saveListName(newListBox, input, inputDiv, penIcon);
+        saveListToLocalStorage();
+    });
+
+
+    input.addEventListener('keydown', function(event) {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            saveListName(newListBox, input, inputDiv, penIcon);
+            saveListToLocalStorage();
+        }
+    });
+
+    // Lägger till listan före lägg till nya listor-boxen
+    savedFlexbox.insertBefore(newListBox, document.getElementById('addNewListBox'));
+
+    listCounter++;
+
+    saveListToLocalStorage();
+     
+}
+
+
+
+function saveListName(newListBox, input, inputDiv, penIcon) {
+
+    let value = input.value.trim();
+    if (value !== '') {
+        // Skapar h2 för input text
+        let title = document.createElement('h2');
+        title.textContent = value;
+        newListBox.replaceChild(title, inputDiv);
+        penIcon.style.display = 'none';
+    } else {
+        newListBox.replaceChild(inputDiv, title); 
+        penIcon.style.display = 'inline';
+    } 
+
+}
+
+function saveListToLocalStorage() {
+    let lists = [];
+
+    console.log(lists)
+
+    let savedFlexbox = document.getElementById('savedFlexbox');
+    let listElements = savedFlexbox.querySelectorAll('.box');
+
+    listElements.forEach(element => {
+        let titleElement = element.querySelector('h2');
+        if (titleElement) {
+            lists.push(titleElement.textContent);
+        }
+    });
+
+    try {
+        localStorage.setItem('savedLists', JSON.stringify(lists));
+    } catch (e) {
+        console.error('Error saving to localStorage:', e);
+    }
+}
+
+// Ladda listorna från localStorage vid sidans laddning
+function loadFromLocalStorage() {
+    let lists = JSON.parse(localStorage.getItem('savedLists'));
+
+    if (lists) {
+        lists.forEach(list => {
+            let newListBox = document.createElement('div');
+            newListBox.classList.add('box');
+
+            let title = document.createElement('h2');
+            title.textContent = list;
+
+            newListBox.appendChild(title);
+            document.getElementById('savedFlexbox').appendChild(newListBox);
+        });
+
+        listCounter = lists.length + 1;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
 function loadSavedList() {
     const savedBox = document.querySelector("#savedBox");
     const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
@@ -48,6 +219,7 @@ function loadCustomList() {
         dropElem.appendChild(div.firstChild);
     }
 
+   
 }
 
 function removeRestaurant() {
@@ -186,3 +358,4 @@ function clickRestaurants(e) {
         init();
     }
 }
+*/
