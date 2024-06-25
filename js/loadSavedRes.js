@@ -1,6 +1,8 @@
 // Funktion som laddar in/upp datan som användaren sparat lokalt i savedBox elementet
 // Behöver skriva en if-sats som kollar ifall den redan finns i localstorage
 
+
+
 let clickCounter = 0;
 let listCounter = 1;
 
@@ -8,28 +10,19 @@ function init() {
 
     document.getElementById('addNewListBox').addEventListener('click', addNewList);
 
-    loadFromLocalStorage;
 
-
-
-
-
-
-    /*
-    loadSavedList();
+    
     let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
     for (let i = 0; i < dragElems.length; i++) {
         dragElems[i].draggable = true;
         dragElems[i].addEventListener("dragstart", dragStart);
         dragElems[i].addEventListener("click", clickRestaurants);
     }
-
+    
+    loadSavedList();
     loadCustomList();
     removeRestaurant();
-    addList()
-*/
-
-
+    addList();
 
 }
 window.addEventListener("load", init);
@@ -135,6 +128,68 @@ function saveListName(newListBox, input, inputDiv, penIcon) {
 
 }
 
+
+function loadSavedList() {
+    const savedBox = document.querySelector("#savedBox");
+    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+    savedBox.innerHTML = " ";
+
+    for (let i = 0; i < savedRestaurant.length; i++) {
+        const savedListElements = document.createElement("div");
+        savedListElements.innerHTML = savedRestaurant[i];
+        savedBox.appendChild(savedListElements);
+    }
+
+    let trashCans = document.querySelectorAll(".saveBtnIndex");
+
+
+    for (let i = 0; i < trashCans.length; i++) {
+        trashCans[i].src = "/images/soptunna.svg";
+    }
+}
+
+
+/*
+function loadCustomList() {
+    const savedListArray = JSON.parse(localStorage.getItem("savedListArray")) || [];
+    const dropElem = document.querySelector("#listBox");
+    dropElem.innerHTML = " ";
+
+    for (let i = 0; i < savedListArray.length; i++) {
+        const div = document.createElement("div");
+        card = savedListArray[i];
+        div.innerHTML = card;
+        dropElem.appendChild(div.firstChild);
+    }
+
+}
+
+function removeRestaurant() {
+    let trashCansFavorites = document.querySelectorAll("#savedBox .saveBtnIndex");
+
+    for (let i = 0; i < trashCansFavorites.length; i++) {
+        trashCansFavorites[i].addEventListener("click", () => {
+            removeFromFavoritesList(i);
+            loadSavedList();
+            reInitDragElem();
+            init();
+        });
+    }
+
+    let trashCansCustom = document.querySelectorAll("#listBox .saveBtnIndex");
+
+    for (let i = 0; i < trashCansCustom.length; i++) {
+        trashCansCustom[i].addEventListener("click", () => {
+            removeFromCustomList(i);
+            loadCustomList();
+            reInitDragElem();
+            init();
+        });
+    }
+}
+
+
+/*
 function saveListToLocalStorage() {
     let lists = [];
 
@@ -178,16 +233,6 @@ function loadFromLocalStorage() {
 }
 
 
-
-
-
-
-
-
-
-
-
-/*
 function loadSavedList() {
     const savedBox = document.querySelector("#savedBox");
     const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
@@ -219,7 +264,6 @@ function loadCustomList() {
         dropElem.appendChild(div.firstChild);
     }
 
-   
 }
 
 function removeRestaurant() {

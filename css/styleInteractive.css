@@ -114,6 +114,30 @@ h2 {
     cursor: pointer;
 }
 
+div.restaurantCard {
+    width: 280px;
+    margin-left: 5px;
+    
+}
+
+div.restaurantCardFlex img {
+    font-size: 10px;
+    color: black;
+    width: 30px;
+}
+
+img#picture {
+    width: 70px;
+}
+
+h2#restaurantName {
+    font-size: 15px;
+    margin-left: 20px;
+    color: black;
+}
+
+
+
 
 
 
