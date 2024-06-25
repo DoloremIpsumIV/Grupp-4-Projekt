@@ -11,44 +11,22 @@ let imagesUsed = [
 ]; //Bilderna som ska användas
 
 let imageNames = {
-    "A_LA_CARTE.svg": "A La Carte",
-    "asian.svg": "Asiatiskt",
-    "burgers.svg": "Hamburgare",
-    "HOT_DOGS.svg": "Korvkiosk",
-    "latin.svg": "Mexikanskt",
-    "MEDITERRANEAN.svg": "Medelhavsmat",
-    "PASTRIES.svg": "Fika",
-    "pizza.svg": "Pizza"
+    "A_LA_CARTE.svg": "Lyx mat",
+    "asian.svg": "Asiatisk",
+    "burgers.svg": "Burgare",
+    "HOT_DOGS.svg": "Varmkorvar",
+    "latin.svg": "Latin",
+    "MEDITERRANEAN.svg": "Medelhavs",
+    "PASTRIES.svg": "Bakverk",
+    "pizza.svg": "Pizzeria"
 };
 let imageFolder = "mapIconsSVG"; // Folder with all icon images
 let availableImages;             // Saves all remaining images 
 let lastClickedImage = "";       // Saves the last clicked image
 let playBtn;                     // Button object that starts the game
-let userMarker;                  // Marker that indicates the users position
-let miniMap;                     // Container with the map object
-let latitude, longitude;         // Saves lat and lng for 
-
-const smaland = {                 // Start position for the map
-    name: "Småland",
-    lat: 56.87767,
-    lng: 14.80906,
-    zoom: 12
-}
-const oland = {                   // Öland coordinates
-    name: "Öland",
-    lat: 56.6499,
-    lng: 16.46859,
-    zoom: 10
-}
-const boundries = {               // Const with min and max boundries for the map
-    maxLatCorner: 56.018610,
-    maxLngCorner: 17.472606,
-    minLatCorner: 58.122646,
-    minLngCorner: 13.061037
-}
 
 // Function that initiates on window load
-function init() {
+function initGeoMatch() {
     playBtn = document.querySelector("#playButton");
     playBtn.addEventListener("click", gameSettings);
 
@@ -62,12 +40,8 @@ function init() {
     mapPlayBtn.addEventListener("click", startGame);
 }
 
-window.addEventListener("load", init);
-
 // Shows the options to use either geo location or a map to choose user position
 function gameSettings() {
-    console.log("FGH")
-
     playBtn.style.display = "none";
 
     let selectBox = document.querySelector("#selectBox");
@@ -181,7 +155,6 @@ function startGame() {
 
     let gameBackground = document.querySelector("#boxBackground");
     gameBackground.style.display = "flex";
-    console.log("SDFGH")
 
     let firstBoxInside = document.querySelector("#firstBox .insideBox");
     let secondBoxInside = document.querySelector("#secondBox .insideBox");
@@ -192,7 +165,7 @@ function startGame() {
     firstBox.addEventListener("click", newImage);
     secondBox.addEventListener("click", newImage);
 
-    availableImages = [...imagesUsed]
+    availableImages = [...imagesUsed];
 
     let settingsBackground = document.querySelector("#startPage");
     let text1 = document.querySelector("#text1");
@@ -231,21 +204,22 @@ function newImage() {
 
     availableImages = availableImages.filter(image => image !== firstBox && image !== secondBox);
 
-    if (availableImages.length === 0) {
-        endGame();
-        return;
-    }
-
-    if (this.id === "firstBox") {
+    if (this.id === "firstBox" && availableImages.length !== 0) {
         let newImage = getNewImage(secondBox);
         document.querySelector("#secondBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="">`;
         document.querySelector("#food2").textContent = imageNames[newImage];
         lastClickedImage = firstBox;
-    } else if (this.id === "secondBox") {
+    } else if (this.id === "secondBox" && availableImages.length !== 0) {
         let newImage = getNewImage(firstBox);
         document.querySelector("#firstBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="">`;
         document.querySelector("#food1").textContent = imageNames[newImage];
         lastClickedImage = secondBox;
+    }
+
+    if (availableImages.length === 0) {
+        fetchData();
+        endGame();
+        return;
     }
 }
 

@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Spela geoMatch för att få förslag på mat!">
-        <link rel="stylesheet" href="css/styleInteractive.css">
-        <link rel="stylesheet" href="css/style.css"> 
+    <meta name="description" content="Spela geoMatch för att få förslag på mat!">
+    <link rel="stylesheet" href="css/styleInteractive.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="images/logo.svg">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script src="js/geoMatch.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/smapiDataFetcher.js"></script>
     <script src="js/restaurantCardMaker.js"></script>
+    <script src="/js/script.js"></script>
     <title>GeoMatch</title>
 </head>
 
@@ -30,35 +30,38 @@
         </ul>
     </div>
 
+    <div id="loaderId" class="loaderClass">
+        <div class="loaderContainer">
+            <h1>Laddar in alla restauranger baserat på din preferens...</h1>
+            <div class="loadingRing">
+            </div>
+        </div>
+    </div>
 
     <h1>GeoMatch</h1>
-
     <p id="text1" class="text">Är du osäker på vad du vill äta? Testa då geoMatch spelet!</p>
-    <p id="text2" class="text">Börja med att trycka på startknappen och välj hur du vill dela din plats. Efter det får du två alternativ på mat du kan välja mellan. Tryck på det aternativ du helst hade velat äta och upprepa detta tills spelet är slut.</p>
+    <p id="text2" class="text">Börja med att trycka på startknappen och välj hur du vill dela din plats. Efter det får
+        du två alternativ på mat du kan välja mellan. Tryck på det aternativ du helst hade velat äta och upprepa detta
+        tills spelet är slut.</p>
 
     <div id="restartBox">
-    <p>Starta om spelet</p>
-    <img src="images/runt.svg" id="imgSwirl">
+        <p>Starta om spelet</p>
+        <img src="images/runt.svg" id="imgSwirl">
     </div>
 
     <div id="startPage">
-
-
         <div id="buttonContainer">
-        <button id="playButton">Spela</button>
+            <button id="playButton">Spela</button>
         </div>
-
-    
         <div id="selectBox">
-
-            <div class="dialog-box"> 
+            <div class="dialog-box">
                 <button id="closeButton2">X</button>
-            <button id="mapBtn2">Välj placering på karta <img src="images/mapPointer.svg" alt="map pin"
-                    class="buttonImg"></button>
-
-            <button id="findBtn2">Hitta min plats <img src="images/findPic.svg" alt="map pointer" class="buttonImg"></button>
+                <button id="mapBtn2">Välj placering på karta <img src="images/mapPointer.svg" alt="map pin"
+                        class="buttonImg"></button>
+                <button id="findBtn2">Hitta min plats <img src="images/findPic.svg" alt="map pointer"
+                        class="buttonImg"></button>
             </div>
-        </div>  
+        </div>
     </div>
 
     <div id="overlay">
@@ -69,41 +72,38 @@
             </dialog>
         </div>
         <div id="mapPlaybtnBox">
-        <button id="mapPlaybtn">Starta spel</button>
+            <button id="mapPlaybtn">Starta spel</button>
         </div>
     </div>
 
     <div id="boxBackground">
         <div>
-        <div id="firstBox">
-            <div class="insideBox"></div>
+            <div id="firstBox">
+                <div class="insideBox"></div>
             </div>
             <p id="food1"></p>
         </div>
 
-    <div>
-    <div id="secondBox">
-        <div class="insideBox"></div>
-    </div>
-    <p id="food2"></p>
-    </div>
+        <div>
+            <div id="secondBox">
+                <div class="insideBox"></div>
+            </div>
+            <p id="food2"></p>
+        </div>
     </div>
 
     <div id="endGamePage">
-    <div id="textBox">
-        <h2 id="result">Det verkar som att du är mest sugen på  </h2>
-        <div id="circleImgHolder"></div>
-        
-        <p>Här är några förslag på restauranger som kanske passar dig!!</p>
+        <div id="textBox">
+            <h2 id="result">Det verkar som att du är mest sugen på </h2>
+            <div id="circleImgHolder"></div>
+
+            <p>Här är några förslag på restauranger som kanske passar dig!!</p>
+        </div>
+
+        <div id="restaurantInfo">
+
+        </div>
     </div>
-
-    <div id="restaurantInfo">
-        
-    </div>
-    </div>
-
-
-
 
     <footer id="footer">
         <img id="footerLogo" src="images/logo.svg" alt="GetFoods logotype">
