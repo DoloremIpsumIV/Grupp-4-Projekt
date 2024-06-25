@@ -47,7 +47,7 @@ const controller = new AbortController();      // Creates a controller object th
 const signal = controller.signal;              // Links the controller object with the beforeunload event listener to be able to abort it
 const foodMap = new Map();                     // A map with all the food restaurants that have the id searched for them
 const establishmentMap = new Map();            // A map with all establishments that can be retrieved with the correct id as the key
-const currentWindow = window.location.pathname;// Const that saves the current window to avoid conflict
+const currentWindow = window.location.href;// Const that saves the current window to avoid conflict
 
 let restuarantMarkerArray = [];     // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;              // Button elem for småland
@@ -65,11 +65,10 @@ let loader;                         // Declaring variable for the div containing
 let markerOnMiniMap;                // The marker for the small map
 let restaurant;                     // A map with all the data of the two fetches combined into one object with it's id as a key
 let province = "&provinces=Småland";// province that will determine if it's småland or öland in SMAPI search
-
-let sorting;
-let restaurantType;
-let radius;
-let priceRange;
+let sorting;                        // Variable with the sorting parameter for SMAPI
+let restaurantType;                 // Variable with the type of restarant for SMAPI
+let radius;                         // Variable with the radius amount for SMAPI
+let priceRange;                     // Variable with the set price range for SMAPI
 
 window.addEventListener("beforeunload", () => {
     controller.abort();
@@ -77,7 +76,7 @@ window.addEventListener("beforeunload", () => {
 
 // Init function for all different init websites
 function init() {
-    if (currentWindow == "/index.html") {
+    if (currentWindow.endsWith("index.html")) {
         initMap("mapViewer");
 
         const searchButton = document.querySelector("#searchButton");
@@ -135,7 +134,7 @@ function init() {
             });
         });
     }
-    else if (currentWindow == "/geoMatch.html") {
+    else if (currentWindow.endsWith("/geoMatch.html")) {
         loader = document.querySelector("#loaderId");
         initGeoMatch();
     }

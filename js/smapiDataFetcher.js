@@ -102,13 +102,13 @@ async function fetchData() {
         foodMap.clear();
         establishmentMap.clear();
 
-        if (currentWindow == "/geoMatch.html") {
+        if (currentWindow.endsWith("/geoMatch.html")) {
             province = "";
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll`, { signal });
             initLoader();
         }
 
-        else if (currentWindow == "/index.html") {
+        else if (currentWindow.endsWith("/index.html")) {
             initLoader();
 
             sorting = setSortingOrder(document.querySelector("#sort").value, "establishment");
@@ -123,7 +123,7 @@ async function fetchData() {
 
         if (response.ok) {
             const dataResponse = await response.json();
-            if (currentWindow == "/index.html") {
+            if (currentWindow.endsWith("index.html")) {
                 const container = document.getElementById("restaurantInfo");
                 container.innerText = "";
 
@@ -150,14 +150,14 @@ async function fetchData() {
                 createCard(object);
             });
 
-            if (currentWindow == "/index.html") {
+            if (currentWindow.endsWith("index.html")) {
                 restaurantFlag = true;
                 document.querySelector("#mapBtn").scrollIntoView();
                 stopLoader();
                 updateMapLoc();
                 toggleHeartImg();
             }
-            else if (currentWindow == "/geoMatch.html") {
+            else if (currentWindow.endsWith("/geoMatch.html")) {
                 stopLoader();
             }
         }
@@ -187,11 +187,11 @@ async function getFoodData() {
         });
         id = id.slice(0, -1);
 
-        if (currentWindow == "/geoMatch.html") {
+        if (currentWindow.endsWith("/geoMatch.html")) {
             restaurantType = setRestaurantType(imageNames[lastClickedImage]);
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&sort_in=DESC&order_by=distance_in_km&controller=food&method=getFromLatLng&lat=${latitude}${id}&lng=${longitude}&radius=1000${restaurantType}`, { signal });
         }
-        else if (currentWindow == "/index.html") {
+        else if (currentWindow.endsWith("index.html")) {
             sorting = setSortingOrder(document.querySelector("#sort").value, "");
             restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
             radius = setRadius(document.querySelector("#distance").firstElementChild.value);
@@ -202,7 +202,7 @@ async function getFoodData() {
         if (response.ok) {
             const dataResponse = await response.json();
             console.log(dataResponse);
-            if (currentWindow == "/index.html") {
+            if (currentWindow.endsWith("index.html")) {
                 const container = document.getElementById("restaurantInfo");
                 container.innerText = "";
                 if (dataResponse.payload.length === 0) {
