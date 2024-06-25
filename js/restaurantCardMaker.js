@@ -12,8 +12,9 @@ function combineRestaurantData(map1, map2) {
 
 // Function that creates each card on the webbsite
 function createCard(obj) {
-    newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
-
+    if (currentWindow == "/index.html") {
+        newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
+    }
     const container = document.getElementById("restaurantInfo");
     const listElements = document.createElement("div");
     listElements.appendChild(displayCardFlex(obj.id));
@@ -49,7 +50,7 @@ function displayCardFlex(restuarantId) {
     divElement.appendChild(saveBtn);
     fragment.appendChild(divElement);
 
-    const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing", "sub_type"];
+    const displayValues = ["student_discount", "rating", "distance_in_km", "phone_number", "website", "abstract", "text", "avg_lunch_pricing", "sub_type", "address", "city"];
 
     Object.entries(restaurantObject).forEach(([key, value]) => {
         if (displayValues.includes(key) && value != "") {

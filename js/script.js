@@ -42,11 +42,12 @@ const ownPositionMarker = L.icon({// Position marker for the users location
 });
 const subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
 const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
-const ApiKey = "vxJzsf1d";                  // Api key for SMAPI
-const controller = new AbortController();   // Creates a controller object that can cancel async fetches from SMAPI
-const signal = controller.signal;           // Links the controller object with the beforeunload event listener to be able to abort it
-const foodMap = new Map();                  // A map with all the food restaurants that have the id searched for them
-const establishmentMap = new Map();         // A map with all establishments that can be retrieved with the correct id as the key
+const ApiKey = "vxJzsf1d";                     // Api key for SMAPI
+const controller = new AbortController();      // Creates a controller object that can cancel async fetches from SMAPI
+const signal = controller.signal;              // Links the controller object with the beforeunload event listener to be able to abort it
+const foodMap = new Map();                     // A map with all the food restaurants that have the id searched for them
+const establishmentMap = new Map();            // A map with all establishments that can be retrieved with the correct id as the key
+const currentWindow = window.location.pathname;// Const that saves the current window to avoid conflict
 
 let restuarantMarkerArray = [];     // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;              // Button elem for småland
@@ -65,68 +66,79 @@ let markerOnMiniMap;                // The marker for the small map
 let restaurant;                     // A map with all the data of the two fetches combined into one object with it's id as a key
 let province = "&provinces=Småland";// province that will determine if it's småland or öland in SMAPI search
 
+let sorting;
+let restaurantType;
+let radius;
+let priceRange;
+
 window.addEventListener("beforeunload", () => {
     controller.abort();
 });
 
-// Init function
+// Init function for all different init websites
 function init() {
-    initMap("mapViewer");
+    if (currentWindow == "/index.html") {
+        initMap("mapViewer");
 
-    const searchButton = document.querySelector("#searchButton");
-    const findBtnElem = document.querySelector("#findBtn");
+        const searchButton = document.querySelector("#searchButton");
+        const findBtnElem = document.querySelector("#findBtn");
 
-    searchButton.addEventListener("click", () => fetchData());
-    findBtnElem.addEventListener("click", getUserGeo);
-    document.querySelector("#sort").addEventListener("change", () => fetchData());
+        searchButton.addEventListener("click", () => fetchData());
+        findBtnElem.addEventListener("click", getUserGeo);
+        document.querySelector("#sort").addEventListener("change", () => fetchData());
 
-    smalandButtonElem = document.querySelector("#smaland");
-    smalandRadioBtn = document.querySelector("#smalandRadioBtn");
-    smalandRadioBtn.checked = true;
+        smalandButtonElem = document.querySelector("#smaland");
+        smalandRadioBtn = document.querySelector("#smalandRadioBtn");
+        smalandRadioBtn.checked = true;
 
-    olandRadioBtn = document.querySelector("#olandRadioBtn");
-    olandButtonElem = document.querySelector("#oland");
-    olandRadioBtn.checked = false;
-    olandButtonElem.classList.toggle("sortButtonsToggle");
-    olandButtonElem.addEventListener("click", toggleSortButtons);
+        olandRadioBtn = document.querySelector("#olandRadioBtn");
+        olandButtonElem = document.querySelector("#oland");
+        olandRadioBtn.checked = false;
+        olandButtonElem.classList.toggle("sortButtonsToggle");
+        olandButtonElem.addEventListener("click", toggleSortButtons);
 
-    userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
-    smalandRadioBtn.addEventListener("change", function () {
-        if (this.checked) {
-            province = "&provinces=Småland";
-            olandRadioBtn.checked = false;
-            userMarker.remove();
-            userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
-            latitude = smaland.lat;
-            longitude = smaland.lng;
-            toggleSortButtons();
-        }
-    });
-
-    olandRadioBtn.addEventListener("change", function () {
-        if (this.checked) {
-            province = "&provinces=Öland";
-            smalandRadioBtn.checked = false;
-            userMarker.remove();
-            userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
-            latitude = oland.lat;
-            longitude = oland.lng;
-            toggleSortButtons();
-        }
-    });
-
-    document.getElementById("closeButton").addEventListener("click", closeMapDialog);
-    document.getElementById("mapBtn").addEventListener("click", openMapDialog);
-    loader = document.querySelector("#loaderId");
-
-    // When the fork and knife image is pressed it takes you to the search bar
-    const forkNknife = document.querySelector("#forknknife");
-    forkNknife.addEventListener("click", function () {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
+        userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
+        smalandRadioBtn.addEventListener("change", function () {
+            if (this.checked) {
+                province = "&provinces=Småland";
+                olandRadioBtn.checked = false;
+                userMarker.remove();
+                userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
+                latitude = smaland.lat;
+                longitude = smaland.lng;
+                toggleSortButtons();
+            }
         });
-    });
+
+        olandRadioBtn.addEventListener("change", function () {
+            if (this.checked) {
+                province = "&provinces=Öland";
+                smalandRadioBtn.checked = false;
+                userMarker.remove();
+                userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
+                latitude = oland.lat;
+                longitude = oland.lng;
+                toggleSortButtons();
+            }
+        });
+
+        document.getElementById("closeButton").addEventListener("click", closeMapDialog);
+        document.getElementById("mapBtn").addEventListener("click", openMapDialog);
+        loader = document.querySelector("#loaderId");
+
+        // When the fork and knife image is pressed it takes you to the search bar
+        const forkNknife = document.querySelector("#forknknife");
+        forkNknife.addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
+    else if (currentWindow == "/geoMatch.html") {
+        loader = document.querySelector("#loaderId");
+        initGeoMatch();
+    }
 }
 window.addEventListener("load", init);
 
