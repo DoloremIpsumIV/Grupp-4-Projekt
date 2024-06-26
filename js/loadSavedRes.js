@@ -2,27 +2,32 @@
 // Behöver skriva en if-sats som kollar ifall den redan finns i localstorage
 
 
-
 let clickCounter = 0;
 let listCounter = 1;
+let maxList = 5;
+
 
 function init() {
 
     document.getElementById('addNewListBox').addEventListener('click', addNewList);
 
+   
+
+    /*
+    for (let i = 0; i < trashCansFavorites.length; i++) {
+        trashCansFavorites[i].addEventListener("click", () => {
+            removeRestaurant();
+        });
+    }
+  
+*/
 
     
-    let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
-    for (let i = 0; i < dragElems.length; i++) {
-        dragElems[i].draggable = true;
-        dragElems[i].addEventListener("dragstart", dragStart);
-        dragElems[i].addEventListener("click", clickRestaurants);
-    }
-    
     loadSavedList();
-    loadCustomList();
-    removeRestaurant();
-    addList();
+    makeCardsDraggable();
+    setupTrashCanClick();
+
+    
 
 }
 window.addEventListener("load", init);
@@ -33,7 +38,7 @@ function addNewList() {
     let savedFlexbox = document.getElementById('savedFlexbox');
 
     // Avslutar om det redan finns 5 lådor
-    if (listCounter > 5) {
+    if (listCounter > maxList) {
         return; 
     }
 
@@ -74,7 +79,7 @@ function addNewList() {
         
         savedFlexbox.removeChild(newListBox);
         listCounter--;
-        saveListToLocalStorage();
+        
         
     });
 
@@ -89,7 +94,7 @@ function addNewList() {
 
     input.addEventListener('blur', function() {
         saveListName(newListBox, input, inputDiv, penIcon);
-        saveListToLocalStorage();
+        
     });
 
 
@@ -97,7 +102,7 @@ function addNewList() {
         if (event.key === 'Tab') {
             event.preventDefault();
             saveListName(newListBox, input, inputDiv, penIcon);
-            saveListToLocalStorage();
+            
         }
     });
 
@@ -106,7 +111,7 @@ function addNewList() {
 
     listCounter++;
 
-    saveListToLocalStorage();
+    makeCardsDraggable();
      
 }
 
@@ -148,8 +153,178 @@ function loadSavedList() {
     }
 }
 
+function makeCardsDraggable() {
+    const cards = document.querySelectorAll('.restaurantCard');
+    const listBoxes = document.querySelectorAll('.listBox');
+    
+    cards.forEach(card => {
+        if (listBoxes.length > 1) {
+            card.setAttribute('draggable', true);
+            card.addEventListener('dragstart', dragStart);
+        } else {
+            card.removeAttribute('draggable');
+            card.removeEventListener('dragstart', dragStart);
+        }
+    });
+}
+
+function dragStart(e) {
+    let dragElem = this;
+    dragElem.classList.add('dragging');
+
+    const listBoxes = document.querySelectorAll('.listBox');
+    listBoxes.forEach(listBox => {
+        listBox.addEventListener('dragover', dragOver);
+        listBox.addEventListener('dragenter', dragEnter);
+        listBox.addEventListener('drop', dropZone);
+    });
+
+    function dragOver(e) {
+        e.preventDefault();
+    }
+
+    function dragEnter(e) {
+        e.preventDefault();
+        
+    }
+
+
+    function dropZone(e) {
+        e.preventDefault();
+        const droppedListBox = this;
+    
+    
+        if (droppedListBox.querySelector('.plusSign')) {
+            return; 
+        }
+
+    
+        const draggedRestaurant = document.querySelector('.dragging');
+        droppedListBox.appendChild(draggedRestaurant);
+        draggedRestaurant.classList.remove('dragging');
+        
+    }
+    
+}
+
+function setupTrashCanClick() {
+    const trashCans = document.querySelectorAll(".saveBtnIndex");
+    trashCans.forEach(trashCan => {
+        trashCan.addEventListener('click', function() {
+            const restaurantToRemove = this.parentElement;
+            removeRestaurant(restaurantToRemove);
+        });
+    });
+}
+
+function removeRestaurant(restaurantToRemove) {
+    console.log("FGHJ")
+    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+
+     
+     const restaurantId = restaurantToRemove.getAttribute('data-id');
+
+     
+     const index = savedRestaurant.findIndex(item => item.id === restaurantId);
+ 
+     if (index !== -1) {
+         savedRestaurant.splice(index, 1);
+         localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+ 
+         restaurantToRemove.remove();
+     }
+}
+
+
 
 /*
+function dragStart(e) {
+
+    console.log("dfgh")
+    
+    let dragElem = this;
+    dragElem.draggable = true;
+
+    const dropElem = document.querySelector("#listBox");
+
+    dragElem.addEventListener("dragend", dragEnd);
+    dropElem.addEventListener("dragover", dropZone);
+    dropElem.addEventListener("dragenter", dropZone);
+    dropElem.addEventListener("dragleave", dropZone);
+    dropElem.addEventListener("drop", dropZone);
+
+    function dragEnd() {
+        dragElem.removeEventListener("dragend", dragEnd);
+
+        dropElem.removeEventListener("dragover", dropZone);
+        dropElem.removeEventListener("dragenter", dropZone);
+        dropElem.removeEventListener("dragleave", dropZone);
+        dropElem.removeEventListener("drop", dropZone);
+
+    }
+    function dropZone(e) {
+        e.preventDefault();
+        let dropElem = document.querySelectorAll('.listBox');
+
+        switch (e.type) {
+            case "dragenter":
+                dropElem.classList.add("highlight");
+                break;
+            case "dragleave":
+                dropElem.classList.remove("highlight");
+                break;
+            case "drop":
+                dropElem.classList.remove("highlight");
+
+                const clonedListElement = dragElem.cloneNode(true);
+                dropElem.appendChild(clonedListElement);
+
+                dragElem.classList.remove("restaurantCard");
+
+                dragElem.parentNode.removeChild(dragElem);
+    
+                break;
+        }
+    }
+   
+}
+
+/*
+function handleDrop(e) {
+    e.preventDefault();
+    const data = e.dataTransfer.getData('text/html');
+    e.target.closest('.listBox').insertAdjacentHTML('beforeend', data);
+    makeCardsDraggable(); // För att göra de nya korten dragbara också
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+}
+
+// Gör listboxarna till droppzoner
+function makeListsDroppable() {
+    const listBoxes = document.querySelectorAll('.listBox');
+    listBoxes.forEach(listBox => {
+        listBox.addEventListener('dragover', handleDragOver);
+        listBox.addEventListener('drop', handleDrop);
+    });
+}
+
+
+
+
+/*
+
+
+    let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
+    for (let i = 0; i < dragElems.length; i++) {
+        dragElems[i].draggable = true;
+        dragElems[i].addEventListener("dragstart", dragStart);
+        dragElems[i].addEventListener("click", clickRestaurants);
+    }
+
+
 function loadCustomList() {
     const savedListArray = JSON.parse(localStorage.getItem("savedListArray")) || [];
     const dropElem = document.querySelector("#listBox");
@@ -347,7 +522,7 @@ function dragStart() {
         }
     }
 }
-
+/*
 function updateLocalStorage() {
     const dropElem = document.querySelector("#listBox");
     const restaurantCards = dropElem.querySelectorAll(".restaurantCard");
