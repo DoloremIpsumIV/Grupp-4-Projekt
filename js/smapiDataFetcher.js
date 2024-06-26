@@ -123,7 +123,7 @@ async function fetchData() {
 
         if (response.ok) {
             const dataResponse = await response.json();
-            if (currentWindow.endsWith("index.html")) {
+            if (currentWindow === "" || currentWindow.includes("index")) {
                 const container = document.getElementById("restaurantInfo");
                 container.innerText = "";
 
@@ -150,7 +150,7 @@ async function fetchData() {
                 createCard(object);
             });
 
-            if (currentWindow.endsWith("index.html")) {
+            if (currentWindow === "" || currentWindow.includes("index")) {
                 restaurantFlag = true;
                 document.querySelector("#mapBtn").scrollIntoView();
                 stopLoader();
@@ -191,18 +191,17 @@ async function getFoodData() {
             restaurantType = setRestaurantType(imageNames[lastClickedImage]);
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&sort_in=DESC&order_by=distance_in_km&controller=food&method=getFromLatLng&lat=${latitude}${id}&lng=${longitude}&radius=1000${restaurantType}`, { signal });
         }
-        else if (currentWindow.endsWith("index.html")) {
+        else if (currentWindow === "" || currentWindow.includes("index")) {
             sorting = setSortingOrder(document.querySelector("#sort").value, "");
             restaurantType = setRestaurantType(document.querySelector("#restaurantType").firstElementChild.value);
             radius = setRadius(document.querySelector("#distance").firstElementChild.value);
             priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=food&method=getFromLatLng&lat=${latitude}&${id}&lng=${longitude}&radius=${radius}${restaurantType}${priceRange}`, { signal });
         }
-
         if (response.ok) {
             const dataResponse = await response.json();
             console.log(dataResponse);
-            if (currentWindow.endsWith("index.html")) {
+            if (currentWindow === "" || currentWindow.includes("index")) {
                 const container = document.getElementById("restaurantInfo");
                 container.innerText = "";
                 if (dataResponse.payload.length === 0) {
