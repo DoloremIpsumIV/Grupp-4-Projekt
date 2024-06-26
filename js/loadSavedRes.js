@@ -13,19 +13,12 @@ function init() {
 
    
 
-    /*
-    for (let i = 0; i < trashCansFavorites.length; i++) {
-        trashCansFavorites[i].addEventListener("click", () => {
-            removeRestaurant();
-        });
-    }
-  
-*/
 
     
     loadSavedList();
     makeCardsDraggable();
     setupTrashCanClick();
+    loadAllLists();
 
     
 
@@ -79,7 +72,7 @@ function addNewList() {
         
         savedFlexbox.removeChild(newListBox);
         listCounter--;
-        
+        saveAllLists();
         
     });
 
@@ -112,7 +105,7 @@ function addNewList() {
     listCounter++;
 
     makeCardsDraggable();
-     
+    saveAllLists();
 }
 
 
@@ -126,6 +119,7 @@ function saveListName(newListBox, input, inputDiv, penIcon) {
         title.textContent = value;
         newListBox.replaceChild(title, inputDiv);
         penIcon.style.display = 'none';
+        saveAllLists();
     } else {
         newListBox.replaceChild(inputDiv, title); 
         penIcon.style.display = 'inline';
@@ -233,6 +227,26 @@ function removeRestaurant(restaurantToRemove) {
  
          restaurantToRemove.remove();
      }
+}
+
+function saveAllLists() {
+    let savedLists = [];
+    const listBoxes = document.querySelectorAll('.box');
+
+    listBoxes.forEach(listBox => {
+        let listName = listBox.querySelector('h2').textContent;
+        savedLists.push(listName);
+    });
+
+    localStorage.setItem("savedLists", JSON.stringify(savedLists));
+}
+
+function loadAllLists() {
+    const savedLists = JSON.parse(localStorage.getItem("savedLists")) || [];
+
+    savedLists.forEach(listName => {
+        addNewList(listName);
+    });
 }
 
 
