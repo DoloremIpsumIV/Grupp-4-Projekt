@@ -12,7 +12,7 @@ function combineRestaurantData(map1, map2) {
 
 // Function that creates each card on the webbsite
 function createCard(obj) {
-    if (currentWindow.endsWith("/index.html")) {
+    if (currentWindow === "" || currentWindow.includes("index")) {
         newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
     }
     const container = document.getElementById("restaurantInfo");

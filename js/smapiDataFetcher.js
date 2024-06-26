@@ -102,13 +102,13 @@ async function fetchData() {
         foodMap.clear();
         establishmentMap.clear();
 
-        if (currentWindow.endsWith("/geoMatch.html")) {
+        if (currentWindow.includes("geo")) {
             province = "";
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll`, { signal });
             initLoader();
         }
 
-        else if (currentWindow.endsWith("/index.html")) {
+        else if (currentWindow === "" || currentWindow.includes("index")) {
             initLoader();
 
             sorting = setSortingOrder(document.querySelector("#sort").value, "establishment");
@@ -157,7 +157,7 @@ async function fetchData() {
                 updateMapLoc();
                 toggleHeartImg();
             }
-            else if (currentWindow.endsWith("/geoMatch.html")) {
+            else if (currentWindow.includes("geo")) {
                 stopLoader();
             }
         }
@@ -187,7 +187,7 @@ async function getFoodData() {
         });
         id = id.slice(0, -1);
 
-        if (currentWindow.endsWith("/geoMatch.html")) {
+        if (currentWindow.includes("geo")) {
             restaurantType = setRestaurantType(imageNames[lastClickedImage]);
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&sort_in=DESC&order_by=distance_in_km&controller=food&method=getFromLatLng&lat=${latitude}${id}&lng=${longitude}&radius=1000${restaurantType}`, { signal });
         }

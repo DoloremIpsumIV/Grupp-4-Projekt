@@ -47,7 +47,7 @@ const controller = new AbortController();      // Creates a controller object th
 const signal = controller.signal;              // Links the controller object with the beforeunload event listener to be able to abort it
 const foodMap = new Map();                     // A map with all the food restaurants that have the id searched for them
 const establishmentMap = new Map();            // A map with all establishments that can be retrieved with the correct id as the key
-const currentWindow = window.location.href;// Const that saves the current window to avoid conflict
+const currentWindow = (window.location.pathname).split('/').pop(); // Const that saves the current window to avoid conflicting init
 
 let restuarantMarkerArray = [];     // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;              // Button elem for småland
@@ -76,7 +76,7 @@ window.addEventListener("beforeunload", () => {
 
 // Init function for all different init websites
 function init() {
-    if (currentWindow.endsWith("index.html")) {
+    if (currentWindow === "" || currentWindow.includes("index")) {
         initMap("mapViewer");
 
         const searchButton = document.querySelector("#searchButton");
@@ -134,7 +134,7 @@ function init() {
             });
         });
     }
-    else if (currentWindow.endsWith("/geoMatch.html")) {
+    else if (currentWindow.includes("geo")) {
         loader = document.querySelector("#loaderId");
         initGeoMatch();
     }
