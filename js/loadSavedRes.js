@@ -11,16 +11,16 @@ function init() {
 
     document.getElementById('addNewListBox').addEventListener('click', addNewList);
 
-   
 
 
-    
+
+
     loadSavedList();
     makeCardsDraggable();
     setupTrashCanClick();
     loadAllLists();
 
-    
+
 
 }
 window.addEventListener("load", init);
@@ -32,13 +32,13 @@ function addNewList() {
 
     // Avslutar om det redan finns 5 lådor
     if (listCounter > maxList) {
-        return; 
+        return;
     }
 
     // Ta bort den sista lådan som kommer upp även om det finns 5 redan
     if (listCounter === 5) {
         savedFlexbox.removeChild(savedFlexbox.lastElementChild);
-    } 
+    }
 
     // Skapar ny låda för den nya listan
     let newListBox = document.createElement('div');
@@ -68,34 +68,34 @@ function addNewList() {
     let closeButton = document.createElement('p');
     closeButton.classList.add('closeButton');
     closeButton.textContent = 'x';
-    closeButton.addEventListener('click', function() {
-        
+    closeButton.addEventListener('click', function () {
+
         savedFlexbox.removeChild(newListBox);
         listCounter--;
         saveAllLists();
-        
+
     });
 
 
     listBoxDiv.appendChild(closeButton);
 
-    
+
     let plusSign = document.createElement('p');
     plusSign.classList.add('plusSign');
     plusSign.textContent = '+';
     plusSign.addEventListener('click', addNewList);
 
-    input.addEventListener('blur', function() {
+    input.addEventListener('blur', function () {
         saveListName(newListBox, input, inputDiv, penIcon);
-        
+
     });
 
 
-    input.addEventListener('keydown', function(event) {
+    input.addEventListener('keydown', function (event) {
         if (event.key === 'Tab') {
             event.preventDefault();
             saveListName(newListBox, input, inputDiv, penIcon);
-            
+
         }
     });
 
@@ -121,9 +121,9 @@ function saveListName(newListBox, input, inputDiv, penIcon) {
         penIcon.style.display = 'none';
         saveAllLists();
     } else {
-        newListBox.replaceChild(inputDiv, title); 
+        newListBox.replaceChild(inputDiv, title);
         penIcon.style.display = 'inline';
-    } 
+    }
 
 }
 
@@ -150,7 +150,7 @@ function loadSavedList() {
 function makeCardsDraggable() {
     const cards = document.querySelectorAll('.restaurantCard');
     const listBoxes = document.querySelectorAll('.listBox');
-    
+
     cards.forEach(card => {
         if (listBoxes.length > 1) {
             card.setAttribute('draggable', true);
@@ -179,54 +179,42 @@ function dragStart(e) {
 
     function dragEnter(e) {
         e.preventDefault();
-        
+
     }
 
 
     function dropZone(e) {
         e.preventDefault();
         const droppedListBox = this;
-    
-    
+
+
         if (droppedListBox.querySelector('.plusSign')) {
-            return; 
+            return;
         }
 
-    
+
         const draggedRestaurant = document.querySelector('.dragging');
         droppedListBox.appendChild(draggedRestaurant);
         draggedRestaurant.classList.remove('dragging');
-        
+
     }
-    
+
 }
 
 function setupTrashCanClick() {
     const trashCans = document.querySelectorAll(".saveBtnIndex");
     trashCans.forEach(trashCan => {
-        trashCan.addEventListener('click', function() {
-            const restaurantToRemove = this.parentElement;
-            removeRestaurant(restaurantToRemove);
+        trashCan.addEventListener('click', function () {
+            let thisId = this.parentElement.id;
+            let savedArray = JSON.parse(localStorage.getItem("savedRestaurant"))
+            let filteredArray = savedArray.filter(string => !string.includes(thisId));
+            savedArray.splice(filteredArray)
+
+            localStorage.clear();
+            localStorage.setItem("savedRestaurant", JSON.stringify(filteredArray));
+            this.parentElement.parentElement.remove();
         });
     });
-}
-
-function removeRestaurant(restaurantToRemove) {
-    console.log("FGHJ")
-    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-
-     
-     const restaurantId = restaurantToRemove.getAttribute('data-id');
-
-     
-     const index = savedRestaurant.findIndex(item => item.id === restaurantId);
- 
-     if (index !== -1) {
-         savedRestaurant.splice(index, 1);
-         localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
- 
-         restaurantToRemove.remove();
-     }
 }
 
 function saveAllLists() {

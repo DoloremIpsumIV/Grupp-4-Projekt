@@ -200,7 +200,6 @@ async function getFoodData() {
         }
         if (response.ok) {
             const dataResponse = await response.json();
-            console.log(dataResponse);
             if (currentWindow === "" || currentWindow.includes("index")) {
                 const container = document.getElementById("restaurantInfo");
                 container.innerText = "";
