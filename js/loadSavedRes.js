@@ -201,6 +201,7 @@ function dragStart(e) {
 
 }
 
+// Removes the element from local storage and from the webbsite
 function setupTrashCanClick() {
     const trashCans = document.querySelectorAll(".saveBtnIndex");
     trashCans.forEach(trashCan => {
@@ -208,8 +209,7 @@ function setupTrashCanClick() {
             let thisId = this.parentElement.id;
             let savedArray = JSON.parse(localStorage.getItem("savedRestaurant"))
             let filteredArray = savedArray.filter(string => !string.includes(thisId));
-            savedArray.splice(filteredArray)
-
+            
             localStorage.clear();
             localStorage.setItem("savedRestaurant", JSON.stringify(filteredArray));
             this.parentElement.parentElement.remove();
