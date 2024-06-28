@@ -1,34 +1,22 @@
-// Funktion som laddar in/upp datan som användaren sparat lokalt i savedBox elementet
-// Behöver skriva en if-sats som kollar ifall den redan finns i localstorage
-
-
-let clickCounter = 0;
-let listCounter = 1;
-let maxList = 5;
-
+let listCounter = 1; // How many list there are
+let maxList = 5; // How many list there can be
 
 function init() {
 
-    document.getElementById('addNewListBox').addEventListener('click', addNewList);
-
-
-
-
+    document.getElementById("addNewListBox").addEventListener("click", addNewList);
 
     loadSavedList();
     makeCardsDraggable();
     setupTrashCanClick();
     loadAllLists();
 
-
-
 }
 window.addEventListener("load", init);
 
-
+// Lägger till och skapar lista
 function addNewList() {
 
-    let savedFlexbox = document.getElementById('savedFlexbox');
+    let savedFlexbox = document.getElementById("savedFlexbox");
 
     // Avslutar om det redan finns 5 lådor
     if (listCounter > maxList) {
@@ -41,34 +29,31 @@ function addNewList() {
     }
 
     // Skapar ny låda för den nya listan
-    let newListBox = document.createElement('div');
-    newListBox.classList.add('box');
+    let newListBox = document.createElement("div");
+    newListBox.classList.add("box");
 
-
-    let inputDiv = document.createElement('div');
-    let input = document.createElement('input');
-    input.type = 'text';
-    input.classList.add('listInput');
+    let inputDiv = document.createElement("div");
+    let input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("listInput");
     input.placeholder = `Ny lista ${listCounter}`;
-    let penIcon = document.createElement('img');
-    penIcon.src = 'images/penna.svg';
-    penIcon.classList.add('pen');
+    let penIcon = document.createElement("img");
+    penIcon.src = "images/penna.svg";
+    penIcon.classList.add("pen");
 
     inputDiv.appendChild(input);
     inputDiv.appendChild(penIcon);
     newListBox.appendChild(inputDiv);
 
-
-
-    // För att lägga till fler listor
-    let listBoxDiv = document.createElement('div');
-    listBoxDiv.classList.add('listBox');
+    // För att kunna lägga till fler listor
+    let listBoxDiv = document.createElement("div");
+    listBoxDiv.classList.add("listBox");
     newListBox.appendChild(listBoxDiv);
 
-    let closeButton = document.createElement('p');
-    closeButton.classList.add('closeButton');
-    closeButton.textContent = 'x';
-    closeButton.addEventListener('click', function () {
+    let closeButton = document.createElement("p");
+    closeButton.classList.add("closeButton");
+    closeButton.textContent = "x";
+    closeButton.addEventListener("click", function () {
 
         savedFlexbox.removeChild(newListBox);
         listCounter--;
@@ -76,23 +61,21 @@ function addNewList() {
 
     });
 
-
     listBoxDiv.appendChild(closeButton);
 
+    let plusSign = document.createElement("p");
+    plusSign.classList.add("plusSign");
+    plusSign.textContent = "+";
+    plusSign.addEventListener("click", addNewList);
 
-    let plusSign = document.createElement('p');
-    plusSign.classList.add('plusSign');
-    plusSign.textContent = '+';
-    plusSign.addEventListener('click', addNewList);
-
-    input.addEventListener('blur', function () {
+    input.addEventListener("blur", function () {
         saveListName(newListBox, input, inputDiv, penIcon);
 
     });
 
-
-    input.addEventListener('keydown', function (event) {
-        if (event.key === 'Tab') {
+    // Fungerar ej!!!!
+    input.addEventListener("keydown", function (event) {
+        if (event.key === "Tab") {
             event.preventDefault();
             saveListName(newListBox, input, inputDiv, penIcon);
 
@@ -100,7 +83,7 @@ function addNewList() {
     });
 
     // Lägger till listan före lägg till nya listor-boxen
-    savedFlexbox.insertBefore(newListBox, document.getElementById('addNewListBox'));
+    savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
 
     listCounter++;
 
@@ -108,25 +91,23 @@ function addNewList() {
     saveAllLists();
 }
 
-
-
+// Skapar så att det man namnger listan till blir en h2
 function saveListName(newListBox, input, inputDiv, penIcon) {
 
     let value = input.value.trim();
-    if (value !== '') {
+    if (value !== "") {
         // Skapar h2 för input text
-        let title = document.createElement('h2');
+        let title = document.createElement("h2");
         title.textContent = value;
         newListBox.replaceChild(title, inputDiv);
-        penIcon.style.display = 'none';
+        penIcon.style.display = "none";
         saveAllLists();
     } else {
         newListBox.replaceChild(inputDiv, title);
-        penIcon.style.display = 'inline';
+        penIcon.style.display = "inline";
     }
 
 }
-
 
 function loadSavedList() {
     const savedBox = document.querySelector("#savedBox");
@@ -141,36 +122,37 @@ function loadSavedList() {
 
     let trashCans = document.querySelectorAll(".saveBtnIndex");
 
-
     for (let i = 0; i < trashCans.length; i++) {
         trashCans[i].src = "/images/soptunna.svg";
     }
 }
 
+// Gör så att korten blir dragbara
 function makeCardsDraggable() {
-    const cards = document.querySelectorAll('.restaurantCard');
-    const listBoxes = document.querySelectorAll('.listBox');
+    const cards = document.querySelectorAll(".restaurantCard");
+    const listBoxes = document.querySelectorAll(".listBox");
 
     cards.forEach(card => {
         if (listBoxes.length > 1) {
-            card.setAttribute('draggable', true);
-            card.addEventListener('dragstart', dragStart);
+            card.setAttribute("draggable", true);
+            card.addEventListener("dragstart", dragStart);
         } else {
-            card.removeAttribute('draggable');
-            card.removeEventListener('dragstart', dragStart);
+            card.removeAttribute("draggable");
+            card.removeEventListener("dragstart", dragStart);
         }
     });
 }
 
+// dragstart och stopp
 function dragStart(e) {
     let dragElem = this;
-    dragElem.classList.add('dragging');
+    dragElem.classList.add("dragging");
 
-    const listBoxes = document.querySelectorAll('.listBox');
+    const listBoxes = document.querySelectorAll(".listBox");
     listBoxes.forEach(listBox => {
-        listBox.addEventListener('dragover', dragOver);
-        listBox.addEventListener('dragenter', dragEnter);
-        listBox.addEventListener('drop', dropZone);
+        listBox.addEventListener("dragover", dragOver);
+        listBox.addEventListener("dragenter", dragEnter);
+        listBox.addEventListener("drop", dropZone);
     });
 
     function dragOver(e) {
@@ -182,30 +164,27 @@ function dragStart(e) {
 
     }
 
-
     function dropZone(e) {
         e.preventDefault();
         const droppedListBox = this;
 
-
-        if (droppedListBox.querySelector('.plusSign')) {
+        if (droppedListBox.querySelector(".plusSign")) {
             return;
         }
 
-
-        const draggedRestaurant = document.querySelector('.dragging');
+        const draggedRestaurant = document.querySelector(".dragging");
         droppedListBox.appendChild(draggedRestaurant);
-        draggedRestaurant.classList.remove('dragging');
+        draggedRestaurant.classList.remove("dragging");
 
     }
 
 }
 
-// Removes the element from local storage and from the webbsite
+// Tar bort elementet från localstorage med soptunnan
 function setupTrashCanClick() {
     const trashCans = document.querySelectorAll(".saveBtnIndex");
     trashCans.forEach(trashCan => {
-        trashCan.addEventListener('click', function () {
+        trashCan.addEventListener("click", function () {
             let thisId = this.parentElement.id;
             let savedArray = JSON.parse(localStorage.getItem("savedRestaurant"))
             let filteredArray = savedArray.filter(string => !string.includes(thisId));
@@ -217,18 +196,20 @@ function setupTrashCanClick() {
     });
 }
 
+// Sparar listorna
 function saveAllLists() {
     let savedLists = [];
-    const listBoxes = document.querySelectorAll('.box');
+    const listBoxes = document.querySelectorAll(".box");
 
     listBoxes.forEach(listBox => {
-        let listName = listBox.querySelector('h2').textContent;
+        let listName = listBox.querySelector("h2").textContent;
         savedLists.push(listName);
     });
 
     localStorage.setItem("savedLists", JSON.stringify(savedLists));
 }
 
+// Laddar listorna
 function loadAllLists() {
     const savedLists = JSON.parse(localStorage.getItem("savedLists")) || [];
 
@@ -238,93 +219,9 @@ function loadAllLists() {
 }
 
 
-
-/*
-function dragStart(e) {
-
-    console.log("dfgh")
-    
-    let dragElem = this;
-    dragElem.draggable = true;
-
-    const dropElem = document.querySelector("#listBox");
-
-    dragElem.addEventListener("dragend", dragEnd);
-    dropElem.addEventListener("dragover", dropZone);
-    dropElem.addEventListener("dragenter", dropZone);
-    dropElem.addEventListener("dragleave", dropZone);
-    dropElem.addEventListener("drop", dropZone);
-
-    function dragEnd() {
-        dragElem.removeEventListener("dragend", dragEnd);
-
-        dropElem.removeEventListener("dragover", dropZone);
-        dropElem.removeEventListener("dragenter", dropZone);
-        dropElem.removeEventListener("dragleave", dropZone);
-        dropElem.removeEventListener("drop", dropZone);
-
-    }
-    function dropZone(e) {
-        e.preventDefault();
-        let dropElem = document.querySelectorAll('.listBox');
-
-        switch (e.type) {
-            case "dragenter":
-                dropElem.classList.add("highlight");
-                break;
-            case "dragleave":
-                dropElem.classList.remove("highlight");
-                break;
-            case "drop":
-                dropElem.classList.remove("highlight");
-
-                const clonedListElement = dragElem.cloneNode(true);
-                dropElem.appendChild(clonedListElement);
-
-                dragElem.classList.remove("restaurantCard");
-
-                dragElem.parentNode.removeChild(dragElem);
-    
-                break;
-        }
-    }
-   
-}
-
-/*
-function handleDrop(e) {
-    e.preventDefault();
-    const data = e.dataTransfer.getData('text/html');
-    e.target.closest('.listBox').insertAdjacentHTML('beforeend', data);
-    makeCardsDraggable(); // För att göra de nya korten dragbara också
-}
-
-function handleDragOver(e) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-}
-
-// Gör listboxarna till droppzoner
-function makeListsDroppable() {
-    const listBoxes = document.querySelectorAll('.listBox');
-    listBoxes.forEach(listBox => {
-        listBox.addEventListener('dragover', handleDragOver);
-        listBox.addEventListener('drop', handleDrop);
-    });
-}
-
-
-
-
 /*
 
 
-    let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
-    for (let i = 0; i < dragElems.length; i++) {
-        dragElems[i].draggable = true;
-        dragElems[i].addEventListener("dragstart", dragStart);
-        dragElems[i].addEventListener("click", clickRestaurants);
-    }
 
 
 function loadCustomList() {
@@ -339,30 +236,6 @@ function loadCustomList() {
         dropElem.appendChild(div.firstChild);
     }
 
-}
-
-function removeRestaurant() {
-    let trashCansFavorites = document.querySelectorAll("#savedBox .saveBtnIndex");
-
-    for (let i = 0; i < trashCansFavorites.length; i++) {
-        trashCansFavorites[i].addEventListener("click", () => {
-            removeFromFavoritesList(i);
-            loadSavedList();
-            reInitDragElem();
-            init();
-        });
-    }
-
-    let trashCansCustom = document.querySelectorAll("#listBox .saveBtnIndex");
-
-    for (let i = 0; i < trashCansCustom.length; i++) {
-        trashCansCustom[i].addEventListener("click", () => {
-            removeFromCustomList(i);
-            loadCustomList();
-            reInitDragElem();
-            init();
-        });
-    }
 }
 
 
@@ -467,64 +340,7 @@ function removeRestaurant() {
     }
 }
 
-function reInitDragElem() {
-    let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
-    for (let i = 0; i < dragElems.length; i++) {
-        dragElems[i].draggable = true;
-        dragElems[i].addEventListener("dragstart", dragStart);
-    }
-}
 
-function dragStart() {
-    let dragElem = this;
-    dragElem.draggable = true;
-
-    const dropElem = document.querySelector("#listBox");
-
-    dragElem.addEventListener("dragend", dragEnd);
-    dropElem.addEventListener("dragover", dropZone);
-    dropElem.addEventListener("dragenter", dropZone);
-    dropElem.addEventListener("dragleave", dropZone);
-    dropElem.addEventListener("drop", dropZone);
-
-
-    function dragEnd() {
-        dragElem.removeEventListener("dragend", dragEnd);
-
-        dropElem.removeEventListener("dragover", dropZone);
-        dropElem.removeEventListener("dragenter", dropZone);
-        dropElem.removeEventListener("dragleave", dropZone);
-        dropElem.removeEventListener("drop", dropZone);
-
-    }
-    function dropZone(e) {
-        e.preventDefault();
-        let dropElem = this;
-
-        switch (e.type) {
-            case "dragenter":
-                dropElem.classList.add("highlight");
-                break;
-            case "dragleave":
-                dropElem.classList.remove("highlight");
-                break;
-            case "drop":
-                dropElem.classList.remove("highlight");
-
-                const clonedListElement = dragElem.cloneNode(true);
-                dropElem.appendChild(clonedListElement);
-
-                dragElem.classList.remove("restaurantCard");
-
-                dragElem.parentNode.removeChild(dragElem);
-
-                updateLocalStorage();
-                init();
-                break;
-        }
-    }
-}
-/*
 function updateLocalStorage() {
     const dropElem = document.querySelector("#listBox");
     const restaurantCards = dropElem.querySelectorAll(".restaurantCard");
@@ -539,44 +355,5 @@ function updateLocalStorage() {
 
 }
 
-function removeFromFavoritesList(index) {
-    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
-    savedRestaurant.splice(index, 1);
-
-    localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-}
-
-function removeFromCustomList(index) {
-    const savedListArray = JSON.parse(localStorage.getItem("savedListArray")) || [];
-
-    savedListArray.splice(index, 1);
-
-    localStorage.setItem("savedListArray", JSON.stringify(savedListArray));
-}
-
-function clickRestaurants(e) {
-    e.preventDefault();
-    let dragElems = document.querySelectorAll("#savedBox div.restaurantCard");
-
-    clickCounter++;
-
-    let dragElemsArray = Array.from(dragElems);
-    let index = dragElemsArray.indexOf(this);
-
-    setTimeout(() => {
-        clickCounter = 0;
-    }, 500)
-
-    if (clickCounter === 2) {
-        const savedListArray = JSON.parse(localStorage.getItem("savedListArray")) || [];
-        savedListArray.push(this.outerHTML);
-        localStorage.setItem("savedListArray", JSON.stringify(savedListArray));
-
-        removeFromFavoritesList(index);
-        loadSavedList();
-        loadCustomList();
-        init();
-    }
-}
 */
