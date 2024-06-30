@@ -1,20 +1,33 @@
-let listCounter = 1; // How many list there are
-let maxList = 5; // How many list there can be
+
+
+let listCounter = 1; // Hur många listor som finns
+let maxList = 5; // Max antal på listorna
 
 function init() {
 
     document.getElementById("addNewListBox").addEventListener("click", addNewList);
 
+    let cards = document.querySelectorAll(".restaurantCard");
+    cards.forEach(card => {
+        card.addEventListener("dblclick", function () {
+            moveCardToFavorites(card);
+        });
+    });
+
+    console.log(cards)
+
     loadSavedList();
     makeCardsDraggable();
     setupTrashCanClick();
     loadAllLists();
+    
 
 }
 window.addEventListener("load", init);
 
 // Lägger till och skapar lista
 function addNewList() {
+
 
     let savedFlexbox = document.getElementById("savedFlexbox");
 
@@ -24,9 +37,11 @@ function addNewList() {
     }
 
     // Ta bort den sista lådan som kommer upp även om det finns 5 redan
-    if (listCounter === 5) {
+    if (listCounter === maxList) {
         savedFlexbox.removeChild(savedFlexbox.lastElementChild);
-    }
+    } 
+
+
 
     // Skapar ny låda för den nya listan
     let newListBox = document.createElement("div");
@@ -68,6 +83,7 @@ function addNewList() {
     plusSign.textContent = "+";
     plusSign.addEventListener("click", addNewList);
 
+
     input.addEventListener("blur", function () {
         saveListName(newListBox, input, inputDiv, penIcon);
 
@@ -76,7 +92,9 @@ function addNewList() {
     // Fungerar ej!!!!
     input.addEventListener("keydown", function (event) {
         if (event.key === "Tab") {
+            console.log("ZSDFGH")
             event.preventDefault();
+            input.blur(); 
             saveListName(newListBox, input, inputDiv, penIcon);
 
         }
@@ -89,37 +107,56 @@ function addNewList() {
 
     makeCardsDraggable();
     saveAllLists();
+  
+
 }
+
+
+
+
 
 // Skapar så att det man namnger listan till blir en h2
 function saveListName(newListBox, input, inputDiv, penIcon) {
 
     let value = input.value.trim();
     if (value !== "") {
-        // Skapar h2 för input text
         let title = document.createElement("h2");
         title.textContent = value;
         newListBox.replaceChild(title, inputDiv);
         penIcon.style.display = "none";
+        title.addEventListener("click", function () {
+            newListBox.replaceChild(inputDiv, title);
+            penIcon.style.display = "inline";
+            input.focus();
+        });
         saveAllLists();
     } else {
-        newListBox.replaceChild(inputDiv, title);
-        penIcon.style.display = "inline";
+        input.value = defaultName;
+        saveListName(newListBox, input, inputDiv, penIcon, defaultName);
     }
 
 }
 
 function loadSavedList() {
+
     const savedBox = document.querySelector("#savedBox");
     const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-    savedBox.innerHTML = " ";
+    savedBox.innerHTML = "";
 
-    for (let i = 0; i < savedRestaurant.length; i++) {
+    savedRestaurant.forEach(savedItem => {
         const savedListElements = document.createElement("div");
-        savedListElements.innerHTML = savedRestaurant[i];
-        savedBox.appendChild(savedListElements);
-    }
+        savedListElements.innerHTML = savedItem;
 
+        const cards = savedListElements.querySelectorAll(".restaurantCard");
+        cards.forEach(card => {
+            card.addEventListener("dblclick", function () {
+                moveCardToFavorites(card);
+            });
+        });
+
+        savedBox.appendChild(savedListElements);
+    });
+ 
     let trashCans = document.querySelectorAll(".saveBtnIndex");
 
     for (let i = 0; i < trashCans.length; i++) {
@@ -127,10 +164,23 @@ function loadSavedList() {
     }
 }
 
+function moveCardToFavorites(card) {
+    console.log("DFGH")
+    let favoritesBox = document.getElementById("savedBox");
+
+    card.parentElement.removeChild(card);
+
+    favoritesBox.appendChild(card);
+
+    saveAllLists(); 
+}
+
+
+
 // Gör så att korten blir dragbara
 function makeCardsDraggable() {
-    const cards = document.querySelectorAll(".restaurantCard");
-    const listBoxes = document.querySelectorAll(".listBox");
+    let cards = document.querySelectorAll(".restaurantCard");
+    let listBoxes = document.querySelectorAll(".listBox");
 
     cards.forEach(card => {
         if (listBoxes.length > 1) {
@@ -141,6 +191,8 @@ function makeCardsDraggable() {
             card.removeEventListener("dragstart", dragStart);
         }
     });
+   
+
 }
 
 // dragstart och stopp
@@ -154,6 +206,7 @@ function dragStart(e) {
         listBox.addEventListener("dragenter", dragEnter);
         listBox.addEventListener("drop", dropZone);
     });
+
 
     function dragOver(e) {
         e.preventDefault();
@@ -172,8 +225,11 @@ function dragStart(e) {
             return;
         }
 
-        const draggedRestaurant = document.querySelector(".dragging");
+        let draggedRestaurant = document.querySelector(".dragging");
         droppedListBox.appendChild(draggedRestaurant);
+
+
+
         draggedRestaurant.classList.remove("dragging");
 
     }
@@ -200,6 +256,18 @@ function setupTrashCanClick() {
 function saveAllLists() {
     let savedLists = [];
     const listBoxes = document.querySelectorAll(".box");
+    listBoxes.forEach(listBox => {
+        let listNameElement = listBox.querySelector("h2") || listBox.querySelector("input");
+        if (listNameElement) {
+            let listName = listNameElement.textContent || listNameElement.value;
+            savedLists.push(listName);
+        }
+    });
+    localStorage.setItem("savedLists", JSON.stringify(savedLists));
+
+    /*
+    let savedLists = [];
+    const listBoxes = document.querySelectorAll(".box");
 
     listBoxes.forEach(listBox => {
         let listName = listBox.querySelector("h2").textContent;
@@ -207,6 +275,7 @@ function saveAllLists() {
     });
 
     localStorage.setItem("savedLists", JSON.stringify(savedLists));
+    */
 }
 
 // Laddar listorna
@@ -217,6 +286,7 @@ function loadAllLists() {
         addNewList(listName);
     });
 }
+
 
 
 /*
