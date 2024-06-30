@@ -23,7 +23,6 @@ body {
     padding-top: 10px;
 }
 
-/* Declaring grid-areas */
 #headerContainer {
     background-color: #2d324fe1;
 }
@@ -114,9 +113,7 @@ body {
     transform: translateY(-50%) rotate(0deg);
 }
 
-.arrow.rotate {
-    transform: translateY(-50%) rotate(180deg);
-}
+
 
 .dropDownContent {
     display: none;
@@ -485,8 +482,8 @@ li a {
 }
 
 #footerLogo {
-    width: 200px;
-    margin-top: -15px;
+   
+   
     margin-top: 20px;
     margin-left: 10px;
 }
@@ -595,6 +592,13 @@ hr {
     margin-top: 18px;
 }
 
+#logoWhite {
+
+    padding-top: 10px;
+    margin-left: 20px;
+    margin-bottom: -10px;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -646,6 +650,17 @@ hr {
     margin: 12% 6% 4% 6%;
     position: relative;
 }
+
+#nav a{
+    color: white;
+}
+
+#nav a:hover{
+    color: #242a4a;
+    background-color: #d7ddf7bf;
+}
+
+
 
 @media screen and (max-width: 840px) {
     #restaurantInfo h2 {

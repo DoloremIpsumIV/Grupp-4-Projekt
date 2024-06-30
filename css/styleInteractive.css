@@ -431,7 +431,7 @@ h2#restaurantName {
 
 #textBox {
     margin-left: 100px;
-    margin-right: 100px;
+    margin-right: 0px;
     justify-content: center;
     
 }
@@ -444,8 +444,8 @@ h2#restaurantName {
 
 #restaurantResults {
     background-color: #f7f5f2;
-    width: 600px;
-    margin-right: 100px;
+    width: 1000px;
+    padding-right: 200px;
     margin-top: 50px;
     border: 4px solid black;
     border-radius: 10px;
@@ -456,6 +456,10 @@ h2#restaurantName {
     display: block;
     padding-left: 10px;
     text-align: center;
+}
+
+#resturantInfo {
+    margin-right: 200px;
 }
 
 #food1 {

@@ -1,6 +1,6 @@
 
 
-let listCounter = 1; // Hur många listor som finns
+let listCounter = 0; // Hur många listor som finns
 let maxList = 5; // Max antal på listorna
 
 function init() {
@@ -14,20 +14,22 @@ function init() {
         });
     });
 
+    console.log("listCounter:", listCounter);
+
     console.log(cards)
 
     loadSavedList();
     makeCardsDraggable();
     setupTrashCanClick();
     loadAllLists();
-    
-
 }
 window.addEventListener("load", init);
 
+
+
+
 // Lägger till och skapar lista
 function addNewList() {
-
 
     let savedFlexbox = document.getElementById("savedFlexbox");
 
@@ -35,13 +37,6 @@ function addNewList() {
     if (listCounter > maxList) {
         return;
     }
-
-    // Ta bort den sista lådan som kommer upp även om det finns 5 redan
-    if (listCounter === maxList) {
-        savedFlexbox.removeChild(savedFlexbox.lastElementChild);
-    } 
-
-
 
     // Skapar ny låda för den nya listan
     let newListBox = document.createElement("div");
@@ -51,7 +46,8 @@ function addNewList() {
     let input = document.createElement("input");
     input.type = "text";
     input.classList.add("listInput");
-    input.placeholder = `Ny lista ${listCounter}`;
+    input.placeholder = `Ny lista ${getListNumber()}`;
+    //input.placeholder = `Ny lista ${getListNumber()}`;
     let penIcon = document.createElement("img");
     penIcon.src = "images/penna.svg";
     penIcon.classList.add("pen");
@@ -60,28 +56,28 @@ function addNewList() {
     inputDiv.appendChild(penIcon);
     newListBox.appendChild(inputDiv);
 
-    // För att kunna lägga till fler listor
-    let listBoxDiv = document.createElement("div");
+    //För att kunna lägga till fler listor
+   let listBoxDiv = document.createElement("div");
     listBoxDiv.classList.add("listBox");
     newListBox.appendChild(listBoxDiv);
+
 
     let closeButton = document.createElement("p");
     closeButton.classList.add("closeButton");
     closeButton.textContent = "x";
     closeButton.addEventListener("click", function () {
 
+        console.log("Före borttagning:", listCounter);
         savedFlexbox.removeChild(newListBox);
         listCounter--;
-        saveAllLists();
+        console.log("Efter borttagning:", listCounter);
 
+        removeBox();
+        saveAllLists();
+        updateListNames();
     });
 
     listBoxDiv.appendChild(closeButton);
-
-    let plusSign = document.createElement("p");
-    plusSign.classList.add("plusSign");
-    plusSign.textContent = "+";
-    plusSign.addEventListener("click", addNewList);
 
 
     input.addEventListener("blur", function () {
@@ -89,10 +85,9 @@ function addNewList() {
 
     });
 
-    // Fungerar ej!!!!
+    // 
     input.addEventListener("keydown", function (event) {
-        if (event.key === "Tab") {
-            console.log("ZSDFGH")
+        if (event.key === "Enter") {
             event.preventDefault();
             input.blur(); 
             saveListName(newListBox, input, inputDiv, penIcon);
@@ -107,12 +102,38 @@ function addNewList() {
 
     makeCardsDraggable();
     saveAllLists();
+    removeBox();
   
-
 }
 
+//Uppdaterar namn när en lista tas bort så sifforna stämmer
+function updateListNames() {
+    let lists = document.querySelectorAll(".listInput");
+    lists.forEach((list, index) => {
+        list.placeholder = `Ny lista ${index + 1}`;
+    });
+}
 
+// Hämtar i nästa led tillgängliga nummer för listan
+function getListNumber() {
+    let currentNumbers = Array.from(document.querySelectorAll(".listInput")).map(input => parseInt(input.placeholder.split(" ")[2]));
+    for (let i = 1; i <= maxList; i++) {
+        if (!currentNumbers.includes(i)) {
+            return i;
+        }
+    }
+   return maxList + 1; // Om alla nummer skulle vara upptagna
+}
 
+// Läser av och gömmer addnewlistbox om det finns 5 listor lägger till när det tas bort och är under 5
+function removeBox(){
+    if (listCounter === maxList) {
+        document.getElementById("addNewListBox").style.display = "none";
+        
+    } else {
+        document.getElementById("addNewListBox").style.display = "block";
+    }
+}
 
 
 // Skapar så att det man namnger listan till blir en h2
@@ -191,9 +212,8 @@ function makeCardsDraggable() {
             card.removeEventListener("dragstart", dragStart);
         }
     });
-   
-
 }
+
 
 // dragstart och stopp
 function dragStart(e) {
@@ -251,6 +271,7 @@ function setupTrashCanClick() {
         });
     });
 }
+
 
 // Sparar listorna
 function saveAllLists() {

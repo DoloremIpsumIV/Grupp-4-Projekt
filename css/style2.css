@@ -156,6 +156,36 @@ h3 {
     color: white;
 }
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-top: -37px;
+}
+
+li {
+    float: right;
+    border-left: 1px solid white;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+#nav a{
+    color: white;
+}
+
+#nav a:hover{
+    color: #242a4a;
+    background-color: #d7ddf7bf;
+}
+
 @media screen and (max-width: 1200px) {
     .textBox hr {
         width: auto;
