@@ -1,5 +1,4 @@
 
-
 let listCounter = 0; // Hur många listor som finns
 let maxList = 5; // Max antal på listorna
 
@@ -14,14 +13,10 @@ function init() {
         });
     });
 
-    console.log("listCounter:", listCounter);
-
-    console.log(cards)
-
     loadSavedList();
     makeCardsDraggable();
     setupTrashCanClick();
-    loadAllLists();
+    
 }
 window.addEventListener("load", init);
 
@@ -31,12 +26,14 @@ window.addEventListener("load", init);
 // Lägger till och skapar lista
 function addNewList() {
 
+    
     let savedFlexbox = document.getElementById("savedFlexbox");
 
     // Avslutar om det redan finns 5 lådor
     if (listCounter > maxList) {
         return;
     }
+
 
     // Skapar ny låda för den nya listan
     let newListBox = document.createElement("div");
@@ -73,7 +70,6 @@ function addNewList() {
         console.log("Efter borttagning:", listCounter);
 
         removeBox();
-        saveAllLists();
         updateListNames();
     });
 
@@ -101,7 +97,6 @@ function addNewList() {
     listCounter++;
 
     makeCardsDraggable();
-    saveAllLists();
     removeBox();
   
 }
@@ -273,6 +268,8 @@ function setupTrashCanClick() {
 }
 
 
+
+/*
 // Sparar listorna
 function saveAllLists() {
     let savedLists = [];
@@ -286,7 +283,7 @@ function saveAllLists() {
     });
     localStorage.setItem("savedLists", JSON.stringify(savedLists));
 
-    /*
+    
     let savedLists = [];
     const listBoxes = document.querySelectorAll(".box");
 
@@ -296,8 +293,11 @@ function saveAllLists() {
     });
 
     localStorage.setItem("savedLists", JSON.stringify(savedLists));
-    */
+    
 }
+/*
+
+
 
 // Laddar listorna
 function loadAllLists() {
@@ -310,24 +310,13 @@ function loadAllLists() {
 
 
 
+
+
+
+
+
+
 /*
-
-
-
-
-function loadCustomList() {
-    const savedListArray = JSON.parse(localStorage.getItem("savedListArray")) || [];
-    const dropElem = document.querySelector("#listBox");
-    dropElem.innerHTML = " ";
-
-    for (let i = 0; i < savedListArray.length; i++) {
-        const div = document.createElement("div");
-        card = savedListArray[i];
-        div.innerHTML = card;
-        dropElem.appendChild(div.firstChild);
-    }
-
-}
 
 
 /*
@@ -370,64 +359,6 @@ function loadFromLocalStorage() {
         });
 
         listCounter = lists.length + 1;
-    }
-}
-
-
-function loadSavedList() {
-    const savedBox = document.querySelector("#savedBox");
-    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-    savedBox.innerHTML = " ";
-
-    for (let i = 0; i < savedRestaurant.length; i++) {
-        const savedListElements = document.createElement("div");
-        savedListElements.innerHTML = savedRestaurant[i];
-        savedBox.appendChild(savedListElements);
-    }
-
-    let trashCans = document.querySelectorAll(".saveBtnIndex");
-
-
-    for (let i = 0; i < trashCans.length; i++) {
-        trashCans[i].src = "/images/soptunna.svg";
-    }
-}
-
-function loadCustomList() {
-    const savedListArray = JSON.parse(localStorage.getItem("savedListArray")) || [];
-    const dropElem = document.querySelector("#listBox");
-    dropElem.innerHTML = " ";
-
-    for (let i = 0; i < savedListArray.length; i++) {
-        const div = document.createElement("div");
-        card = savedListArray[i];
-        div.innerHTML = card;
-        dropElem.appendChild(div.firstChild);
-    }
-
-}
-
-function removeRestaurant() {
-    let trashCansFavorites = document.querySelectorAll("#savedBox .saveBtnIndex");
-
-    for (let i = 0; i < trashCansFavorites.length; i++) {
-        trashCansFavorites[i].addEventListener("click", () => {
-            removeFromFavoritesList(i);
-            loadSavedList();
-            reInitDragElem();
-            init();
-        });
-    }
-
-    let trashCansCustom = document.querySelectorAll("#listBox .saveBtnIndex");
-
-    for (let i = 0; i < trashCansCustom.length; i++) {
-        trashCansCustom[i].addEventListener("click", () => {
-            removeFromCustomList(i);
-            loadCustomList();
-            reInitDragElem();
-            init();
-        });
     }
 }
 
