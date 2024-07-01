@@ -15,9 +15,10 @@ function init() {
     });
 
     makeCardsDraggable();
-    setupTrashCanClick();
     loadSavedCards();
     loadSavedState();
+    setupTrashCanClick();
+
     
     
     
@@ -142,7 +143,9 @@ function removeBox(){
 function saveListName(newListBox, input, inputDiv, penIcon) {
 
     let value = input.value.trim();
-    if (value !== "") {
+    console.log(value.length);
+    
+    if (value !== "" && value.length !== 0) {
         let title = document.createElement("h2");
         title.textContent = value;
         newListBox.replaceChild(title, inputDiv);
@@ -154,6 +157,7 @@ function saveListName(newListBox, input, inputDiv, penIcon) {
         });
        
     } else {
+        defaultName = "Ny lista";
         input.value = defaultName;
         saveListName(newListBox, input, inputDiv, penIcon, defaultName);
     }
@@ -190,32 +194,31 @@ function dragStart(e) {
         listBox.addEventListener("dragenter", dragEnter);
         listBox.addEventListener("drop", dropZone);
     });
+}
+function dragOver(e) {
+    e.preventDefault();
+}
 
+function dragEnter(e) {
+    e.preventDefault();
 
-    function dragOver(e) {
-        e.preventDefault();
+}
+
+function dropZone(e) {
+    e.preventDefault();
+    const droppedListBox = this;
+
+    if (droppedListBox.querySelector(".plusSign")) {
+        return;
     }
 
-    function dragEnter(e) {
-        e.preventDefault();
+    let draggedRestaurant = document.querySelector(".dragging");
+    console.log(draggedRestaurant.className);
+    console.log(draggedRestaurant);
+    droppedListBox.appendChild(draggedRestaurant);
 
-    }
-
-    function dropZone(e) {
-        e.preventDefault();
-        const droppedListBox = this;
-
-        if (droppedListBox.querySelector(".plusSign")) {
-            return;
-        }
-
-        let draggedRestaurant = document.querySelector(".dragging");
-        droppedListBox.appendChild(draggedRestaurant);
-
-        draggedRestaurant.classList.remove("dragging");
-        saveState();
-
-    }
+    draggedRestaurant.classList.remove("dragging");
+    saveState();
 
 }
 
@@ -239,6 +242,8 @@ function setupTrashCanClick() {
 
 function loadSavedCards() {
 
+    
+
     const savedBox = document.querySelector("#savedBox");
     const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
     savedBox.innerHTML = "";
@@ -246,6 +251,7 @@ function loadSavedCards() {
     savedRestaurant.forEach(savedItem => {
         const savedListElements = document.createElement("div");
         savedListElements.innerHTML = savedItem;
+
 
         const cards = savedListElements.querySelectorAll(".restaurantCard");
         cards.forEach(card => {
@@ -262,6 +268,7 @@ function loadSavedCards() {
     for (let i = 0; i < trashCans.length; i++) {
         trashCans[i].src = "/images/soptunna.svg";
     }
+    
 }
 
 function moveCardToFavorites(card) {
@@ -302,10 +309,13 @@ function loadSavedState() {
             if (savedList.listName === "Mina favoriter" || savedList.listName === "Skapa ny lista") {
                 return;
             }
+            
 
             let newListBox = document.createElement("div");
             newListBox.classList.add("box");
 
+
+            
             let inputDiv = document.createElement("div");
             let input = document.createElement("input");
             input.type = "text";
@@ -322,13 +332,6 @@ function loadSavedState() {
             let listBoxDiv = document.createElement("div");
             listBoxDiv.classList.add("listBox");
             newListBox.appendChild(listBoxDiv);
-
-            savedList.cards.forEach(cardHTML => {
-                let temporaryDiv = document.createElement("div");
-                temporaryDiv.innerHTML = cardHTML;
-                listBoxDiv.appendChild(temporaryDiv.firstChild);
-            });
-
             let closeButton = document.createElement("p");
             closeButton.classList.add("closeButton");
             closeButton.textContent = "x";
@@ -341,6 +344,14 @@ function loadSavedState() {
             });
 
             listBoxDiv.appendChild(closeButton);
+
+            savedList.cards.forEach(cardHTML => {
+                let temporaryDiv = document.createElement("div");
+                temporaryDiv.innerHTML = cardHTML;
+                listBoxDiv.appendChild(temporaryDiv.firstChild);
+            });
+
+            
 
             input.addEventListener("blur", function () {
                 saveListName(newListBox, input, inputDiv, penIcon);
