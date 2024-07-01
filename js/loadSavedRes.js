@@ -1,6 +1,7 @@
 
 let listCounter = 0; // Hur många listor som finns
 let maxList = 5; // Max antal på listorna
+let listArray = [];
 
 function init() {
 
@@ -13,9 +14,12 @@ function init() {
         });
     });
 
-    loadSavedList();
     makeCardsDraggable();
     setupTrashCanClick();
+    loadSavedCards();
+    loadSavedState();
+    
+    
     
 }
 window.addEventListener("load", init);
@@ -63,14 +67,13 @@ function addNewList() {
     closeButton.classList.add("closeButton");
     closeButton.textContent = "x";
     closeButton.addEventListener("click", function () {
-
-        console.log("Före borttagning:", listCounter);
         savedFlexbox.removeChild(newListBox);
         listCounter--;
-        console.log("Efter borttagning:", listCounter);
-
         removeBox();
         updateListNames();
+        saveState();
+
+       
     });
 
     listBoxDiv.appendChild(closeButton);
@@ -78,6 +81,7 @@ function addNewList() {
 
     input.addEventListener("blur", function () {
         saveListName(newListBox, input, inputDiv, penIcon);
+        saveState();
 
     });
 
@@ -87,6 +91,7 @@ function addNewList() {
             event.preventDefault();
             input.blur(); 
             saveListName(newListBox, input, inputDiv, penIcon);
+            saveState();
 
         }
     });
@@ -95,10 +100,12 @@ function addNewList() {
     savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
 
     listCounter++;
+    saveState();
 
     makeCardsDraggable();
     removeBox();
-  
+    
+    
 }
 
 //Uppdaterar namn när en lista tas bort så sifforna stämmer
@@ -145,52 +152,14 @@ function saveListName(newListBox, input, inputDiv, penIcon) {
             penIcon.style.display = "inline";
             input.focus();
         });
-        saveAllLists();
+       
     } else {
         input.value = defaultName;
         saveListName(newListBox, input, inputDiv, penIcon, defaultName);
     }
+   
 
 }
-
-function loadSavedList() {
-
-    const savedBox = document.querySelector("#savedBox");
-    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-    savedBox.innerHTML = "";
-
-    savedRestaurant.forEach(savedItem => {
-        const savedListElements = document.createElement("div");
-        savedListElements.innerHTML = savedItem;
-
-        const cards = savedListElements.querySelectorAll(".restaurantCard");
-        cards.forEach(card => {
-            card.addEventListener("dblclick", function () {
-                moveCardToFavorites(card);
-            });
-        });
-
-        savedBox.appendChild(savedListElements);
-    });
- 
-    let trashCans = document.querySelectorAll(".saveBtnIndex");
-
-    for (let i = 0; i < trashCans.length; i++) {
-        trashCans[i].src = "/images/soptunna.svg";
-    }
-}
-
-function moveCardToFavorites(card) {
-    console.log("DFGH")
-    let favoritesBox = document.getElementById("savedBox");
-
-    card.parentElement.removeChild(card);
-
-    favoritesBox.appendChild(card);
-
-    saveAllLists(); 
-}
-
 
 
 // Gör så att korten blir dragbara
@@ -243,9 +212,8 @@ function dragStart(e) {
         let draggedRestaurant = document.querySelector(".dragging");
         droppedListBox.appendChild(draggedRestaurant);
 
-
-
         draggedRestaurant.classList.remove("dragging");
+        saveState();
 
     }
 
@@ -263,9 +231,378 @@ function setupTrashCanClick() {
             localStorage.clear();
             localStorage.setItem("savedRestaurant", JSON.stringify(filteredArray));
             this.parentElement.parentElement.remove();
+            saveState();
         });
     });
 }
+
+
+function loadSavedCards() {
+
+    const savedBox = document.querySelector("#savedBox");
+    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+    savedBox.innerHTML = "";
+
+    savedRestaurant.forEach(savedItem => {
+        const savedListElements = document.createElement("div");
+        savedListElements.innerHTML = savedItem;
+
+        const cards = savedListElements.querySelectorAll(".restaurantCard");
+        cards.forEach(card => {
+            card.addEventListener("dblclick", function () {
+                moveCardToFavorites(card);
+            });
+        });
+
+        savedBox.appendChild(savedListElements);
+    });
+ 
+    let trashCans = document.querySelectorAll(".saveBtnIndex");
+
+    for (let i = 0; i < trashCans.length; i++) {
+        trashCans[i].src = "/images/soptunna.svg";
+    }
+}
+
+function moveCardToFavorites(card) {
+    console.log("DFGH")
+    let favoritesBox = document.getElementById("savedBox");
+
+    card.parentElement.removeChild(card);
+
+    favoritesBox.appendChild(card);
+    saveState();
+}
+
+function saveState() {
+    let state = {
+        lists: [],
+        cards: []
+    };
+
+    document.querySelectorAll(".box").forEach((listBox, index) => {
+        let listName = listBox.querySelector("h2") ? listBox.querySelector("h2").textContent : listBox.querySelector("input").placeholder;
+        let cards = Array.from(listBox.querySelectorAll(".restaurantCard")).map(card => card.outerHTML);
+        state.lists.push({ listName, cards });
+    });
+
+    localStorage.setItem("appState", JSON.stringify(state));
+}
+
+// Laddar tillståndet på sidan från localStorage
+function loadSavedState() {
+
+    let savedState = JSON.parse(localStorage.getItem("appState"));
+
+    if (savedState) {
+        console.log(savedState); 
+
+        savedState.lists.forEach(savedList => {
+            // Ignorerar de statiska listorna, "Mina favoriter" och "Skapa ny lista"
+            if (savedList.listName === "Mina favoriter" || savedList.listName === "Skapa ny lista") {
+                return;
+            }
+
+            let newListBox = document.createElement("div");
+            newListBox.classList.add("box");
+
+            let inputDiv = document.createElement("div");
+            let input = document.createElement("input");
+            input.type = "text";
+            input.classList.add("listInput");
+            input.placeholder = savedList.listName;
+            let penIcon = document.createElement("img");
+            penIcon.src = "images/penna.svg";
+            penIcon.classList.add("pen");
+
+            inputDiv.appendChild(input);
+            inputDiv.appendChild(penIcon);
+            newListBox.appendChild(inputDiv);
+
+            let listBoxDiv = document.createElement("div");
+            listBoxDiv.classList.add("listBox");
+            newListBox.appendChild(listBoxDiv);
+
+            savedList.cards.forEach(cardHTML => {
+                let temporaryDiv = document.createElement("div");
+                temporaryDiv.innerHTML = cardHTML;
+                listBoxDiv.appendChild(temporaryDiv.firstChild);
+            });
+
+            let closeButton = document.createElement("p");
+            closeButton.classList.add("closeButton");
+            closeButton.textContent = "x";
+            closeButton.addEventListener("click", function () {
+                newListBox.parentElement.removeChild(newListBox);
+                listCounter--;
+                updateListNames();
+                saveState(); 
+                removeBox();
+            });
+
+            listBoxDiv.appendChild(closeButton);
+
+            input.addEventListener("blur", function () {
+                saveListName(newListBox, input, inputDiv, penIcon);
+                saveState();
+            });
+
+            input.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    input.blur();
+                    saveListName(newListBox, input, inputDiv, penIcon);
+                    saveState(); 
+                }
+            });
+
+            let savedFlexbox = document.getElementById("savedFlexbox");
+            savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
+            listCounter++;
+        });
+
+        makeCardsDraggable();
+        removeBox();
+    } else {
+        console.log("Inga sparade listor");
+    }
+
+}
+    /*
+    let savedState = JSON.parse(localStorage.getItem("appState"));
+
+    if (savedState) {
+        savedState.lists.forEach(savedList => {
+            let newListBox = document.createElement("div");
+            newListBox.classList.add("box");
+
+            let inputDiv = document.createElement("div");
+            let input = document.createElement("input");
+            input.type = "text";
+            input.classList.add("listInput");
+            input.placeholder = savedList.listName;
+            let penIcon = document.createElement("img");
+            penIcon.src = "images/penna.svg";
+            penIcon.classList.add("pen");
+
+            inputDiv.appendChild(input);
+            inputDiv.appendChild(penIcon);
+            newListBox.appendChild(inputDiv);
+
+            let listBoxDiv = document.createElement("div");
+            listBoxDiv.classList.add("listBox");
+            newListBox.appendChild(listBoxDiv);
+
+            savedList.cards.forEach(cardHTML => {
+                let tempDiv = document.createElement("div");
+                tempDiv.innerHTML = cardHTML;
+                listBoxDiv.appendChild(tempDiv.firstChild);
+            });
+
+            let closeButton = document.createElement("p");
+            closeButton.classList.add("closeButton");
+            closeButton.textContent = "x";
+            closeButton.addEventListener("click", function () {
+                newListBox.parentElement.removeChild(newListBox);
+                listCounter--;
+                updateListNames();
+                saveState(); 
+                removeBox();
+            });
+
+            listBoxDiv.appendChild(closeButton);
+
+            input.addEventListener("blur", function () {
+                saveListName(newListBox, input, inputDiv, penIcon);
+                saveState(); // Spara tillstånd efter namnändring
+            });
+
+            input.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    input.blur();
+                    saveListName(newListBox, input, inputDiv, penIcon);
+                    saveState(); 
+                }
+            });
+
+            let savedFlexbox = document.getElementById("savedFlexbox");
+            savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
+            listCounter++;
+        });
+
+        makeCardsDraggable();
+        removeBox();
+    }  
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+/*
+
+
+function saveListToArray(newListBox) {
+    let listObject = {
+        id: listCounter,
+        element: newListBox,
+        name: newListBox.querySelector('input').placeholder
+    };
+    listArray.push(listObject);
+    console.log(listArray);
+    saveListsToLocalStorage();
+}
+
+function saveListsToLocalStorage() {
+    let listsToSave = listArray.map(list => ({
+        id: list.id,
+        name: list.name
+    }));
+    localStorage.setItem('savedLists', JSON.stringify(listsToSave));
+    console.log("Listor sparade i localStorage:", listsToSave);
+}
+
+function loadSavedLists() {
+    
+    let savedLists = JSON.parse(localStorage.getItem('savedLists')) || [];
+    savedLists.forEach(list => {
+        let newListBox = document.createElement("div");
+        newListBox.classList.add("box");
+
+        let inputDiv = document.createElement("div");
+        let input = document.createElement("input");
+        input.type = "text";
+        input.classList.add("listInput");
+        input.placeholder = list.name;
+
+        let penIcon = document.createElement("img");
+        penIcon.src = "images/penna.svg";
+        penIcon.classList.add("pen");
+
+        inputDiv.appendChild(input);
+        inputDiv.appendChild(penIcon);
+        newListBox.appendChild(inputDiv);
+
+        let listBoxDiv = document.createElement("div");
+        listBoxDiv.classList.add("listBox");
+        newListBox.appendChild(listBoxDiv);
+
+        let closeButton = document.createElement("p");
+        closeButton.classList.add("closeButton");
+        closeButton.textContent = "x";
+        closeButton.addEventListener("click", function () {
+            document.getElementById("savedFlexbox").removeChild(newListBox);
+            listCounter--;
+            removeListFromArray(newListBox);
+            updateListNames();
+            saveListsToLocalStorage();
+        });
+
+        listBoxDiv.appendChild(closeButton);
+
+        input.addEventListener("blur", function () {
+            saveListName(newListBox, input, inputDiv, penIcon);
+        });
+
+        input.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                input.blur();
+                saveListName(newListBox, input, inputDiv, penIcon);
+            }
+        });
+
+        document.getElementById("savedFlexbox").insertBefore(newListBox, document.getElementById("addNewListBox"));
+
+        listCounter++;
+        saveListToArray(newListBox);
+    });
+    
+}
+
+
+
+
+
+/*
+// Sparar listor i localStorage
+function saveLists() {
+    listArray = [];
+    document.querySelectorAll('.box').forEach(box => {
+        let listTitle = box.querySelector('h2') ? box.querySelector('h2').textContent : box.querySelector('input').placeholder;
+        let items = [];
+        box.querySelectorAll('.restaurantCard').forEach(card => {
+            items.push(card.outerHTML);
+        });
+        listArray.push({ title: listTitle, items: items });
+    });
+    localStorage.setItem('lists', JSON.stringify(listArray));
+}
+
+// Laddar listor från localStorage
+function loadSavedLists() {
+    let savedLists = JSON.parse(localStorage.getItem('lists')) || [];
+    let savedFlexbox = document.getElementById("savedFlexbox");
+
+    savedLists.forEach(savedList => {
+        let newListBox = document.createElement("div");
+        newListBox.classList.add("box");
+
+        let inputDiv = document.createElement("div");
+        let input = document.createElement("input");
+        input.type = "text";
+        input.classList.add("listInput");
+        input.placeholder = savedList.title;
+
+        let penIcon = document.createElement("img");
+        penIcon.src = "images/penna.svg";
+        penIcon.classList.add("pen");
+
+        inputDiv.appendChild(input);
+        inputDiv.appendChild(penIcon);
+        newListBox.appendChild(inputDiv);
+
+        let listBoxDiv = document.createElement("div");
+        listBoxDiv.classList.add("listBox");
+        newListBox.appendChild(listBoxDiv);
+
+        let closeButton = document.createElement("p");
+        closeButton.classList.add("closeButton");
+        closeButton.textContent = "x";
+        closeButton.addEventListener("click", function () {
+            savedFlexbox.removeChild(newListBox);
+            listCounter--;
+            removeBox();
+            updateListNames();
+            saveLists();
+        });
+
+        listBoxDiv.appendChild(closeButton);
+
+        savedList.items.forEach(item => {
+            let itemDiv = document.createElement("div");
+            itemDiv.innerHTML = item;
+            listBoxDiv.appendChild(itemDiv.firstChild);
+        });
+
+        savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
+
+        listCounter++;
+    });
+
+    updateListNames();
+    removeBox();
+    makeCardsDraggable();
+}
+
 
 
 
@@ -307,14 +644,6 @@ function loadAllLists() {
         addNewList(listName);
     });
 }
-
-
-
-
-
-
-
-
 
 /*
 
