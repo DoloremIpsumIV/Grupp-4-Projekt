@@ -360,9 +360,6 @@ function loadSavedState() {
                 listBoxDiv.appendChild(temporaryDiv.firstChild);
             });
 
-
-            let isHandled = false;
-
             input.addEventListener("blur", function (event) {
                 // Adding a slight delay to allow keydown event to complete
                 setTimeout(function() {
@@ -380,7 +377,7 @@ function loadSavedState() {
                     console.log(event);
             
                     event.preventDefault();
-                    input.blur(); // Trigger blur event
+                    input.blur(); 
                 }
             });
 
