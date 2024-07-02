@@ -19,9 +19,9 @@ function init() {
     loadSavedState();
     setupTrashCanClick();
 
-    
-    
-    
+
+
+
 }
 window.addEventListener("load", init);
 
@@ -31,7 +31,7 @@ window.addEventListener("load", init);
 // Lägger till och skapar lista
 function addNewList() {
 
-    
+
     let savedFlexbox = document.getElementById("savedFlexbox");
 
     // Avslutar om det redan finns 5 lådor
@@ -59,7 +59,7 @@ function addNewList() {
     newListBox.appendChild(inputDiv);
 
     //För att kunna lägga till fler listor
-   let listBoxDiv = document.createElement("div");
+    let listBoxDiv = document.createElement("div");
     listBoxDiv.classList.add("listBox");
     newListBox.appendChild(listBoxDiv);
 
@@ -74,7 +74,7 @@ function addNewList() {
         updateListNames();
         saveState();
 
-       
+
     });
 
     listBoxDiv.appendChild(closeButton);
@@ -83,14 +83,13 @@ function addNewList() {
     input.addEventListener("blur", function () {
         saveListName(newListBox, input, inputDiv, penIcon);
         saveState();
-
     });
 
     // 
     input.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            input.blur(); 
+            input.blur();
             saveListName(newListBox, input, inputDiv, penIcon);
             saveState();
 
@@ -105,8 +104,8 @@ function addNewList() {
 
     makeCardsDraggable();
     removeBox();
-    
-    
+
+
 }
 
 //Uppdaterar namn när en lista tas bort så sifforna stämmer
@@ -125,14 +124,14 @@ function getListNumber() {
             return i;
         }
     }
-   return maxList + 1; // Om alla nummer skulle vara upptagna
+    return maxList + 1; // Om alla nummer skulle vara upptagna
 }
 
 // Läser av och gömmer addnewlistbox om det finns 5 listor lägger till när det tas bort och är under 5
-function removeBox(){
+function removeBox() {
     if (listCounter === maxList) {
         document.getElementById("addNewListBox").style.display = "none";
-        
+
     } else {
         document.getElementById("addNewListBox").style.display = "block";
     }
@@ -141,10 +140,9 @@ function removeBox(){
 
 // Skapar så att det man namnger listan till blir en h2
 function saveListName(newListBox, input, inputDiv, penIcon) {
-   
+
     let value = input.value.trim();
-    console.log(value.length);
-    
+
     if (value !== "" && value.length !== 0) {
         let title = document.createElement("h2");
         title.textContent = value;
@@ -156,11 +154,10 @@ function saveListName(newListBox, input, inputDiv, penIcon) {
             input.focus();
         });
         saveState();
-       
+
     } else {
-        input.value = `Ny lista ${getListNumber()}`;
-       //defaultName = "Ny lista";
-       //input.value = defaultName;
+        defaultName = `Ny lista ${getListNumber()}`;
+        input.value = defaultName;
         saveListName(newListBox, input, inputDiv, penIcon, defaultName);
     }
 
@@ -231,7 +228,7 @@ function setupTrashCanClick() {
             let thisId = this.parentElement.id;
             let savedArray = JSON.parse(localStorage.getItem("savedRestaurant"))
             let filteredArray = savedArray.filter(string => !string.includes(thisId));
-            
+
             localStorage.clear();
             localStorage.setItem("savedRestaurant", JSON.stringify(filteredArray));
             this.parentElement.parentElement.remove();
@@ -243,7 +240,7 @@ function setupTrashCanClick() {
 
 function loadSavedCards() {
 
-    
+
 
     const savedBox = document.querySelector("#savedBox");
     const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
@@ -263,13 +260,13 @@ function loadSavedCards() {
 
         savedBox.appendChild(savedListElements);
     });
- 
+
     let trashCans = document.querySelectorAll(".saveBtnIndex");
 
     for (let i = 0; i < trashCans.length; i++) {
         trashCans[i].src = "/images/soptunna.svg";
     }
-    
+
 }
 
 function moveCardToFavorites(card) {
@@ -299,19 +296,19 @@ function saveState() {
 
 // Laddar tillståndet på sidan från localStorage
 function loadSavedState() {
- 
+
 
     let savedState = JSON.parse(localStorage.getItem("appState"));
 
     if (savedState) {
-        console.log(savedState); 
+        console.log(savedState);
 
         savedState.lists.forEach(savedList => {
             // Ignorerar de statiska listorna, "Mina favoriter" och "Skapa ny lista"
             if (savedList.listName === "Mina favoriter" || savedList.listName === "Skapa ny lista") {
                 return;
             }
-            
+
 
             let newListBox = document.createElement("div");
             newListBox.classList.add("box");
@@ -327,77 +324,6 @@ function loadSavedState() {
 
 
 
-            
-            let inputDiv = document.createElement("div");
-            let input = document.createElement("input");
-            input.type = "text";
-            input.classList.add("listInput");
-            input.placeholder = savedList.listName;
-            let penIcon = document.createElement("img");
-            penIcon.src = "images/penna.svg";
-            penIcon.classList.add("pen");
-
-            inputDiv.appendChild(input);
-           inputDiv.appendChild(penIcon);
-           newListBox.appendChild(inputDiv);
-
-            let listBoxDiv = document.createElement("div");
-            listBoxDiv.classList.add("listBox");
-            newListBox.appendChild(listBoxDiv);
-            let closeButton = document.createElement("p");
-            closeButton.classList.add("closeButton");
-            closeButton.textContent = "x";
-            closeButton.addEventListener("click", function () {
-                newListBox.parentElement.removeChild(newListBox);
-                listCounter--;
-                updateListNames();
-                saveState(); 
-                removeBox();
-            });
-
-            listBoxDiv.appendChild(closeButton);
-
-            savedList.cards.forEach(cardHTML => {
-                let temporaryDiv = document.createElement("div");
-                temporaryDiv.innerHTML = cardHTML;
-                listBoxDiv.appendChild(temporaryDiv.firstChild);
-            });
-
-            
-
-            input.addEventListener("blur", function () {
-                saveListName(newListBox, input, inputDiv, penIcon);
-                saveState();
-            });
-
-            input.addEventListener("keydown", function (event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    input.blur();
-                    saveListName(newListBox, input, inputDiv, penIcon);
-                    saveState(); 
-                }
-            });
-
-            let savedFlexbox = document.getElementById("savedFlexbox");
-            savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
-            listCounter++;
-        });
-
-        makeCardsDraggable();
-        removeBox();
-    } else {
-        console.log("Inga sparade listor");
-    }
-
-}
-    /*
-    let savedState = JSON.parse(localStorage.getItem("appState"));
-
-    if (savedState) {
-        savedState.lists.forEach(savedList => {
-            let newListBox = document.createElement("div");
-            newListBox.classList.add("box");
 
             let inputDiv = document.createElement("div");
             let input = document.createElement("input");
@@ -415,13 +341,6 @@ function loadSavedState() {
             let listBoxDiv = document.createElement("div");
             listBoxDiv.classList.add("listBox");
             newListBox.appendChild(listBoxDiv);
-
-            savedList.cards.forEach(cardHTML => {
-                let tempDiv = document.createElement("div");
-                tempDiv.innerHTML = cardHTML;
-                listBoxDiv.appendChild(tempDiv.firstChild);
-            });
-
             let closeButton = document.createElement("p");
             closeButton.classList.add("closeButton");
             closeButton.textContent = "x";
@@ -429,23 +348,39 @@ function loadSavedState() {
                 newListBox.parentElement.removeChild(newListBox);
                 listCounter--;
                 updateListNames();
-                saveState(); 
+                saveState();
                 removeBox();
             });
 
             listBoxDiv.appendChild(closeButton);
 
-            input.addEventListener("blur", function () {
-                saveListName(newListBox, input, inputDiv, penIcon);
-                saveState(); // Spara tillstånd efter namnändring
+            savedList.cards.forEach(cardHTML => {
+                let temporaryDiv = document.createElement("div");
+                temporaryDiv.innerHTML = cardHTML;
+                listBoxDiv.appendChild(temporaryDiv.firstChild);
             });
 
+
+            let isHandled = false;
+
+            input.addEventListener("blur", function (event) {
+                // Adding a slight delay to allow keydown event to complete
+                setTimeout(function() {
+                    console.log(event);
+            
+                    console.log("inputDiv");
+            
+                    saveListName(newListBox, input, inputDiv, penIcon);
+                    saveState();
+                }, 10);
+            });
+            
             input.addEventListener("keydown", function (event) {
                 if (event.key === "Enter") {
+                    console.log(event);
+            
                     event.preventDefault();
-                    input.blur();
-                    saveListName(newListBox, input, inputDiv, penIcon);
-                    saveState(); 
+                    input.blur(); // Trigger blur event
                 }
             });
 
@@ -456,7 +391,79 @@ function loadSavedState() {
 
         makeCardsDraggable();
         removeBox();
-    }  
+    } else {
+        console.log("Inga sparade listor");
+    }
+
+}
+
+
+/*
+let savedState = JSON.parse(localStorage.getItem("appState"));
+
+if (savedState) {
+    savedState.lists.forEach(savedList => {
+        let newListBox = document.createElement("div");
+        newListBox.classList.add("box");
+
+        let inputDiv = document.createElement("div");
+        let input = document.createElement("input");
+        input.type = "text";
+        input.classList.add("listInput");
+        input.placeholder = savedList.listName;
+        let penIcon = document.createElement("img");
+        penIcon.src = "images/penna.svg";
+        penIcon.classList.add("pen");
+
+        inputDiv.appendChild(input);
+        inputDiv.appendChild(penIcon);
+        newListBox.appendChild(inputDiv);
+
+        let listBoxDiv = document.createElement("div");
+        listBoxDiv.classList.add("listBox");
+        newListBox.appendChild(listBoxDiv);
+
+        savedList.cards.forEach(cardHTML => {
+            let tempDiv = document.createElement("div");
+            tempDiv.innerHTML = cardHTML;
+            listBoxDiv.appendChild(tempDiv.firstChild);
+        });
+
+        let closeButton = document.createElement("p");
+        closeButton.classList.add("closeButton");
+        closeButton.textContent = "x";
+        closeButton.addEventListener("click", function () {
+            newListBox.parentElement.removeChild(newListBox);
+            listCounter--;
+            updateListNames();
+            saveState(); 
+            removeBox();
+        });
+
+        listBoxDiv.appendChild(closeButton);
+
+        input.addEventListener("blur", function () {
+            saveListName(newListBox, input, inputDiv, penIcon);
+            saveState(); // Spara tillstånd efter namnändring
+        });
+
+        input.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                input.blur();
+                saveListName(newListBox, input, inputDiv, penIcon);
+                saveState(); 
+            }
+        });
+
+        let savedFlexbox = document.getElementById("savedFlexbox");
+        savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
+        listCounter++;
+    });
+
+    makeCardsDraggable();
+    removeBox();
+}  
 
 
 
