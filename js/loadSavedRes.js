@@ -141,7 +141,7 @@ function removeBox(){
 
 // Skapar så att det man namnger listan till blir en h2
 function saveListName(newListBox, input, inputDiv, penIcon) {
-
+   
     let value = input.value.trim();
     console.log(value.length);
     
@@ -155,13 +155,14 @@ function saveListName(newListBox, input, inputDiv, penIcon) {
             penIcon.style.display = "inline";
             input.focus();
         });
+        saveState();
        
     } else {
-        defaultName = "Ny lista";
-        input.value = defaultName;
+        input.value = `Ny lista ${getListNumber()}`;
+       //defaultName = "Ny lista";
+       //input.value = defaultName;
         saveListName(newListBox, input, inputDiv, penIcon, defaultName);
     }
-   
 
 }
 
@@ -298,6 +299,7 @@ function saveState() {
 
 // Laddar tillståndet på sidan från localStorage
 function loadSavedState() {
+ 
 
     let savedState = JSON.parse(localStorage.getItem("appState"));
 
@@ -315,6 +317,16 @@ function loadSavedState() {
             newListBox.classList.add("box");
 
 
+            let title = document.createElement("h2");
+            title.textContent = savedList.listName;
+            title.addEventListener("click", function () {
+                newListBox.replaceChild(inputDiv, title);
+                penIcon.style.display = "inline";
+                input.focus();
+            });
+
+
+
             
             let inputDiv = document.createElement("div");
             let input = document.createElement("input");
@@ -326,8 +338,8 @@ function loadSavedState() {
             penIcon.classList.add("pen");
 
             inputDiv.appendChild(input);
-            inputDiv.appendChild(penIcon);
-            newListBox.appendChild(inputDiv);
+           inputDiv.appendChild(penIcon);
+           newListBox.appendChild(inputDiv);
 
             let listBoxDiv = document.createElement("div");
             listBoxDiv.classList.add("listBox");
