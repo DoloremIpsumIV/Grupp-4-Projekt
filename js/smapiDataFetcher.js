@@ -253,7 +253,6 @@ function saveRestaurant(listElements) {
 }
 
 function toggleHeartImg() {
-    console.log("hejhej");
     const saveBtns = document.querySelectorAll(".saveBtnIndex");
     console.log(saveBtns)
 

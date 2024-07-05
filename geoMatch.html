@@ -54,17 +54,23 @@
             <button id="playButton">Spela</button>
         </div>
         <div id="selectBox">
-                <button id="closeButton2">X</button>
-                <div class="dialog-box">
-                    <div class="sortButtons">
-                        <label for="smalandRadioBtn"><input type="radio" id="smalandRadioBtn" class="sortRadioBtnToggle" checked=""> Småland</label>
-                        <label for="olandRadioBtn"><input type="radio" id="olandRadioBtn" class="sortRadioBtnToggle">
-                            Öland</label>
-                    </div>
+            <button id="closeButton2">X</button>
+            <div class="dialog-box">
+
                 <button id="mapBtn2">Välj placering på karta <img src="images/mapPointer.svg" alt="map pin"
                         class="buttonImg"></button>
                 <button id="findBtn2">Hitta min plats <img src="images/findPic.svg" alt="map pointer"
                         class="buttonImg"></button>
+                <div class="sortButtons">
+                    <form>
+                        <input type="radio" id="smalandRadioBtn" name="location" class="sortRadioBtnToggle" value="Småland" checked>
+                        <label for="smalandRadioBtn">Småland</label>
+                        <br>
+                        <input type="radio" id="olandRadioBtn" name="location" class="sortRadioBtnToggle" value="Öland">
+                        <label for="olandRadioBtn">Öland</label>
+                    </form>
+
+                </div>
             </div>
         </div>
     </div>
