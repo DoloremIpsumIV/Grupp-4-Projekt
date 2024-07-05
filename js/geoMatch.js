@@ -103,6 +103,7 @@ function openMapDialog() {
     let closeButton = document.querySelector("#closeButton");
     closeButton.addEventListener("click", function () {
         overlay.style.display = "none";
+        startGame();
     });
 }
 
@@ -120,9 +121,8 @@ function newUserMarker(e) {
             })
         }).addTo(miniMap);
     }
-    const latitude = e.latlng.lat;
-    const longitude = e.latlng.lng;
-    console.log(`New marker set at latitude: ${latitude}, longitude: ${longitude}`);
+    latitude = e.latlng.lat;
+    longitude = e.latlng.lng;
 }
 
 // Starts the game after defining the users position after clicking get geo position button
@@ -150,6 +150,7 @@ function startGame() {
     selectBox.style.display = "none";
 
     let restartGame = document.querySelector("#restartBox");
+    restartGame.addEventListener("click", startGame);
     restartGame.style.display = "flex";
     restartGame.addEventListener("click", init);
 
@@ -208,15 +209,20 @@ function newImage() {
         let newImage = getNewImage(secondBox);
         document.querySelector("#secondBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="">`;
         document.querySelector("#food2").textContent = imageNames[newImage];
-        lastClickedImage = firstBox;
     } else if (this.id === "secondBox" && availableImages.length !== 0) {
         let newImage = getNewImage(firstBox);
         document.querySelector("#firstBox .insideBox").innerHTML = `<img src="${imageFolder}/${newImage}" alt="">`;
         document.querySelector("#food1").textContent = imageNames[newImage];
+    }
+
+    if (this.id === "firstBox") {
+        lastClickedImage = firstBox;
+    } else if (this.id === "secondBox") {
         lastClickedImage = secondBox;
     }
 
     if (availableImages.length === 0) {
+        document.getElementById("restaurantInfo").innerText = "";
         fetchData();
         endGame();
         return;
@@ -243,5 +249,6 @@ function endGame() {
     let circleImgHolder = document.querySelector("#circleImgHolder");
 
     circleImgHolder.innerHTML = `<img src="${imageFolder}/${lastClickedImage}" alt="Final Image">`;
+    document.querySelector("#endGamePage h2").textContent = "Det verkar som att du är mest sugen på ";
     document.querySelector("#endGamePage h2").textContent += imageNames[lastClickedImage];
 }
