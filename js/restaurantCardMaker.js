@@ -12,6 +12,7 @@ function combineRestaurantData(map1, map2) {
 
 // Function that creates each card on the webbsite
 function createCard(obj) {
+    console.log(obj);
     if (currentWindow === "" || currentWindow.includes("index")) {
         newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
     }
@@ -25,6 +26,7 @@ function createCard(obj) {
 
 // Function that will display a restaurant card aslong as the restaurant id exists in the restaurant map
 function displayCardFlex(restuarantId) {
+    console.log(restuarantId)
     const restaurantObject = restaurant.get(restuarantId.toString());
     const fragment = new DocumentFragment();
 

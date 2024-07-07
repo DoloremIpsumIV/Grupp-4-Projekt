@@ -240,24 +240,31 @@ function stopLoader() {
     loader.classList.remove("show");
 }
 
-function saveRestaurant(listElements) {
-    console.log(listElements);
+function saveRestaurant(listElement) {
+console.log(listElement)
+    const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
+    console.log("Saving restaurant ID:", restaurantId);
 
     let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
-    const clonedListElement = listElements.cloneNode(true);
+    if (!savedRestaurant.includes(restaurantId)) {
+        savedRestaurant.push(restaurantId);
 
-    savedRestaurant.push(clonedListElement.outerHTML);
-    localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-
+        localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+    }
 }
 
 function toggleHeartImg() {
     const saveBtns = document.querySelectorAll(".saveBtnIndex");
-    console.log(saveBtns)
 
     saveBtns.forEach(saveBtn => {
         saveBtn.addEventListener("click", function () {
+            const listElement = this.parentNode.parentNode;
+            console.log(listElement)
+            const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
+            console.log(restaurantId)
+
+
 
             if (this.src.includes("/images/emptyHeart.svg")) {
                 console.log("fullthjärta nu");

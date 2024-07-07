@@ -1,4 +1,4 @@
-
+const ApiKey = "vxJzsf1d";                     // Api key for SMAPI
 let listCounter = 0; // Hur många listor som finns
 let maxList = 5; // Max antal på listorna
 let listArray = [];
@@ -18,7 +18,7 @@ function init() {
     loadSavedCards();
     loadSavedState();
     setupTrashCanClick();
-
+    recreateRestaurantCards();
 
 
 
@@ -26,6 +26,52 @@ function init() {
 window.addEventListener("load", init);
 
 
+async function fetchDataByIds(ids) {
+    try {
+        const idQuery = ids.map(id => `ids=${id}`).join('&');
+        const response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&${idQuery}`);
+
+        if (response.ok) {
+            return await response.json();
+        } else {
+            console.error(`Failed to fetch data: ${response.status}`);
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return null;
+    }
+}
+
+async function recreateRestaurantCards() {
+    const savedRestaurantIds = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+
+    if (savedRestaurantIds.length === 0) {
+        console.log("No saved restaurants to recreate");
+        return;
+    }
+
+
+    const restaurantDetails = await fetchDataByIds(savedRestaurantIds);
+    console.log(savedRestaurantIds)
+
+    let cleanedIds = savedRestaurantIds.map(id => id.slice(1));
+    console.log(cleanedIds)
+
+    const container = document.getElementById("favoritesList");
+    const listElements = document.createElement("div");
+    listElements.appendChild(displayCardFlex(cleanedIds));
+    listElements.classList.add("restaurantCard");
+    container.appendChild(listElements);
+    container.classList.add("restaurantSize");
+
+
+}
+
+function displayCardFlex(cleanedIds) {
+    const restaurantObject = cleanedIds;
+
+}
 
 
 // Lägger till och skapar lista
@@ -362,22 +408,22 @@ function loadSavedState() {
 
             input.addEventListener("blur", function (event) {
                 // Adding a slight delay to allow keydown event to complete
-                setTimeout(function() {
+                setTimeout(function () {
                     console.log(event);
-            
+
                     console.log("inputDiv");
-            
+
                     saveListName(newListBox, input, inputDiv, penIcon);
                     saveState();
                 }, 10);
             });
-            
+
             input.addEventListener("keydown", function (event) {
                 if (event.key === "Enter") {
                     console.log(event);
-            
+
                     event.preventDefault();
-                    input.blur(); 
+                    input.blur();
                 }
             });
 
