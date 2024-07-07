@@ -95,7 +95,7 @@ function setSortingOrder(value, fetchType) {
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
 async function fetchData() {
     try {
-        let response;   // Smapi data response
+        let response;   // SMAPI data response
         sorting = "";
         radius = "";
 
@@ -118,6 +118,7 @@ async function fetchData() {
             document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
             document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
             document.querySelector("#searchedProvince").innerHTML = province.replace("&provinces=", "");
+
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=establishment&types=food&method=getFromLatLng&lat=${latitude}&lng=${longitude}&radius=${radius}${province}`, { signal });
         }
 
@@ -155,11 +156,11 @@ async function fetchData() {
                 document.querySelector("#mapBtn").scrollIntoView();
                 stopLoader();
                 updateMapLoc();
-                toggleHeartImg();
             }
             else if (currentWindow.includes("geo")) {
                 stopLoader();
             }
+            toggleHeartImg();
         }
         else window.alert(`Error during fetch: ${response.status}
 Hämtning av data fungerade inte, testa senare eller kontakta oss för hjälp`, stopLoader());
@@ -176,7 +177,7 @@ Hämtning av data fungerade inte, testa senare eller kontakta oss för hjälp`, 
 // Async function that saves all food data in a map with the correct id, it will abort the fetch request if the page is closed or reloaded
 async function getFoodData() {
     try {
-        let response;   // Smapi data response
+        let response;   // SMAPI data response
         sorting = "";
         radius = "";
         priceRange = "";
@@ -252,7 +253,6 @@ function saveRestaurant(listElements) {
 }
 
 function toggleHeartImg() {
-    console.log("hejhej");
     const saveBtns = document.querySelectorAll(".saveBtnIndex");
     console.log(saveBtns)
 
