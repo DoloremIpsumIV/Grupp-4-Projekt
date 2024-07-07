@@ -26,14 +26,16 @@ function init() {
 window.addEventListener("load", init);
 
 
-async function fetchDataByIds(ids) {
-    console.log(ids)
+async function fetchDataByIds(cleanedIds) {
+    console.log(cleanedIds)
+
     try {
-        const idQuery = ids.join(',');
+        const idQuery = cleanedIds.join(',');
         console.log(idQuery)
-        const response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&?ids=${idQuery}`);
+        const response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&ids=${idQuery}`);
 
         if (response.ok) {
+            console.log(response.listName)
             return await response.json();
         } else {
             console.error(`Failed to fetch data: ${response.status}`);
@@ -52,28 +54,24 @@ async function recreateRestaurantCards() {
         console.log("No saved restaurants to recreate");
         return;
     }
+    let cleanedIds = savedRestaurantIds.map(id => id.replace(/r/, ''));
+    console.log(savedRestaurantIds); // original ids
+    console.log(cleanedIds); // cleaned ids
 
-
-    const restaurantDetails = await fetchDataByIds(savedRestaurantIds);
-    console.log(savedRestaurantIds)
-
-    let cleanedIds = savedRestaurantIds.map(id => id.slice(1));
-    console.log(cleanedIds)
+    const restaurantDetails = await fetchDataByIds(cleanedIds);
+    console.log(restaurantDetails)
 
     const container = document.getElementById("favoritesList");
     const listElements = document.createElement("div");
-    listElements.appendChild(displayCardFlex(cleanedIds));
+
+    displayCardFlex(restaurantDetails);
     listElements.classList.add("restaurantCard");
     container.appendChild(listElements);
     container.classList.add("restaurantSize");
-
-    fetchDataByIds(cleanedIds);
 }
 
-function displayCardFlex(cleanedIds) {
-    const restaurantObject = cleanedIds.toString();
-    console.log(restaurantObject)
-
+function displayCardFlex(restaurantDetails) {
+    
 }
 
 
