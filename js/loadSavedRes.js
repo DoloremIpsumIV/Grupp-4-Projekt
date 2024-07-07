@@ -35,7 +35,7 @@ async function fetchDataByIds(cleanedIds) {
         const response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&ids=${idQuery}`);
 
         if (response.ok) {
-            console.log(response.listName)
+            console.log(response)
             return await response.json();
         } else {
             console.error(`Failed to fetch data: ${response.status}`);
@@ -60,11 +60,11 @@ async function recreateRestaurantCards() {
 
     const restaurantDetails = await fetchDataByIds(cleanedIds);
     console.log(restaurantDetails)
-
+// osäker på det under här
     const container = document.getElementById("favoritesList");
     const listElements = document.createElement("div");
 
-    displayCardFlex(restaurantDetails);
+    listElements.appendChild(createCard(restaurantDetails));
     listElements.classList.add("restaurantCard");
     container.appendChild(listElements);
     container.classList.add("restaurantSize");
