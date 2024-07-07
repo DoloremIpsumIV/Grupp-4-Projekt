@@ -19,6 +19,7 @@ function createCard(obj) {
     const container = document.getElementById("restaurantInfo");
     const listElements = document.createElement("div");
     listElements.appendChild(displayCardFlex(obj.id));
+    console.log(obj.id)
     listElements.classList.add("restaurantCard");
     container.appendChild(listElements);
     container.classList.add("restaurantSize");
@@ -29,7 +30,7 @@ function displayCardFlex(restuarantId) {
     console.log(restuarantId)
     const restaurantObject = restaurant.get(restuarantId.toString());
     const fragment = new DocumentFragment();
-
+console.log(restaurantObject)
     const divElement = document.createElement("div");
     const secondDivElement = document.createElement("div");
     const imgElement = document.createElement("img");
@@ -40,6 +41,7 @@ function displayCardFlex(restuarantId) {
     saveBtn.classList.add("saveBtnIndex");
     divElement.classList.add("restaurantCardFlex");
     divElement.id = "#r" + restaurantObject.id;
+    console.log(divElement)
     secondDivElement.classList.add("restaurantCardFlex");
     secondDivElement.style.display = "block";
     imgElement.id = "picture";

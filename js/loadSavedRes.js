@@ -27,9 +27,11 @@ window.addEventListener("load", init);
 
 
 async function fetchDataByIds(ids) {
+    console.log(ids)
     try {
-        const idQuery = ids.map(id => `ids=${id}`).join('&');
-        const response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&${idQuery}`);
+        const idQuery = ids.join(',');
+        console.log(idQuery)
+        const response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&?ids=${idQuery}`);
 
         if (response.ok) {
             return await response.json();
@@ -65,11 +67,12 @@ async function recreateRestaurantCards() {
     container.appendChild(listElements);
     container.classList.add("restaurantSize");
 
-
+    fetchDataByIds(cleanedIds);
 }
 
 function displayCardFlex(cleanedIds) {
-    const restaurantObject = cleanedIds;
+    const restaurantObject = cleanedIds.toString();
+    console.log(restaurantObject)
 
 }
 
