@@ -60,7 +60,12 @@ async function recreateRestaurantCards() {
 
     const restaurantDetails = await fetchDataByIds(cleanedIds);
     console.log(restaurantDetails)
-// osäker på det under här
+
+    restaurantDetails.payload.forEach(object => {
+        createCard(object);
+    })
+
+    // osäker på det under här
     const container = document.getElementById("favoritesList");
     const listElements = document.createElement("div");
 
@@ -70,9 +75,20 @@ async function recreateRestaurantCards() {
     container.classList.add("restaurantSize");
 }
 
-function displayCardFlex(restaurantDetails) {
-    
+function createCard(obj) {
+    console.log(obj);
+    if (currentWindow === "" || currentWindow.includes("favoriter")) {
+        newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
+    }
+    const container = document.getElementById("restaurantInfo");
+    const listElements = document.createElement("div");
+    listElements.appendChild(displayCardFlex(obj.id));
+    console.log(obj.id)
+    listElements.classList.add("restaurantCard");
+    container.appendChild(listElements);
+    container.classList.add("restaurantSize");
 }
+
 
 
 // Lägger till och skapar lista
