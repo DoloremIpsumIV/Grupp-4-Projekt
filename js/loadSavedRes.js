@@ -240,8 +240,6 @@ function setupTrashCanClick() {
 
 function loadSavedCards() {
 
-
-
     const savedBox = document.querySelector("#savedBox");
     const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
     savedBox.innerHTML = "";
@@ -321,9 +319,6 @@ function loadSavedState() {
                 penIcon.style.display = "inline";
                 input.focus();
             });
-
-
-
 
             let inputDiv = document.createElement("div");
             let input = document.createElement("input");
