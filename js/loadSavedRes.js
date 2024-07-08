@@ -1,9 +1,10 @@
-const ApiKey = "vxJzsf1d";                     // Api key for SMAPI
+
 let listCounter = 0; // Hur många listor som finns
 let maxList = 5; // Max antal på listorna
 let listArray = [];
+let cleanedIds;
 
-function init() {
+function initLoadSaved() {
 
     document.getElementById("addNewListBox").addEventListener("click", addNewList);
 
@@ -36,7 +37,14 @@ async function fetchDataByIds(cleanedIds) {
 
         if (response.ok) {
             console.log(response)
-            return await response.json();
+            const dataResponse = await response.json();
+            dataResponse.payload.forEach(obj => {
+                if (!foodMap.has(obj.id)) {
+                    foodMap.set(obj.id, obj);
+                    restaurant = foodMap;
+                }
+            });
+            return restaurant;
         } else {
             console.error(`Failed to fetch data: ${response.status}`);
             return null;
@@ -54,42 +62,12 @@ async function recreateRestaurantCards() {
         console.log("No saved restaurants to recreate");
         return;
     }
-    let cleanedIds = savedRestaurantIds.map(id => id.replace(/r/, ''));
+    cleanedIds = savedRestaurantIds.map(id => id.replace(/r/, ''));
     console.log(savedRestaurantIds); // original ids
     console.log(cleanedIds); // cleaned ids
 
-    const restaurantDetails = await fetchDataByIds(cleanedIds);
-    console.log(restaurantDetails)
-
-    restaurantDetails.payload.forEach(object => {
-        createCard(object);
-    })
-
-    // osäker på det under här
-    const container = document.getElementById("favoritesList");
-    const listElements = document.createElement("div");
-
-    listElements.appendChild(createCard(restaurantDetails));
-    listElements.classList.add("restaurantCard");
-    container.appendChild(listElements);
-    container.classList.add("restaurantSize");
+    fetchData();
 }
-
-function createCard(obj) {
-    console.log(obj);
-    if (currentWindow === "" || currentWindow.includes("favoriter")) {
-        newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
-    }
-    const container = document.getElementById("restaurantInfo");
-    const listElements = document.createElement("div");
-    listElements.appendChild(displayCardFlex(obj.id));
-    console.log(obj.id)
-    listElements.classList.add("restaurantCard");
-    container.appendChild(listElements);
-    container.classList.add("restaurantSize");
-}
-
-
 
 // Lägger till och skapar lista
 function addNewList() {

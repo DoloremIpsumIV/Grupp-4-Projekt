@@ -12,14 +12,15 @@ function combineRestaurantData(map1, map2) {
 
 // Function that creates each card on the webbsite
 function createCard(obj) {
-    console.log(obj);
+    if (obj.id == undefined) {
+        return;
+    }
     if (currentWindow === "" || currentWindow.includes("index")) {
         newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
     }
-    const container = document.getElementById("restaurantInfo");
+    const container = document.getElementById("favoritesList");
     const listElements = document.createElement("div");
     listElements.appendChild(displayCardFlex(obj.id));
-    console.log(obj.id)
     listElements.classList.add("restaurantCard");
     container.appendChild(listElements);
     container.classList.add("restaurantSize");
@@ -28,9 +29,12 @@ function createCard(obj) {
 // Function that will display a restaurant card aslong as the restaurant id exists in the restaurant map
 function displayCardFlex(restuarantId) {
     console.log(restuarantId)
+    if (restuarantId == undefined) {
+        return;
+    }
     const restaurantObject = restaurant.get(restuarantId.toString());
     const fragment = new DocumentFragment();
-console.log(restaurantObject)
+
     const divElement = document.createElement("div");
     const secondDivElement = document.createElement("div");
     const imgElement = document.createElement("img");
@@ -41,7 +45,6 @@ console.log(restaurantObject)
     saveBtn.classList.add("saveBtnIndex");
     divElement.classList.add("restaurantCardFlex");
     divElement.id = "#r" + restaurantObject.id;
-    console.log(divElement)
     secondDivElement.classList.add("restaurantCardFlex");
     secondDivElement.style.display = "block";
     imgElement.id = "picture";

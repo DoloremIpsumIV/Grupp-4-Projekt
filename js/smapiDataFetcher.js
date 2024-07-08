@@ -94,6 +94,7 @@ function setSortingOrder(value, fetchType) {
 
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
 async function fetchData() {
+    console.log(currentWindow);
     try {
         let response;   // SMAPI data response
         sorting = "";
@@ -120,6 +121,10 @@ async function fetchData() {
             document.querySelector("#searchedProvince").innerHTML = province.replace("&provinces=", "");
 
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=establishment&types=food&method=getFromLatLng&lat=${latitude}&lng=${longitude}&radius=${radius}${province}`, { signal });
+        } else if (currentWindow.includes("favoriter")) {
+            province = "";
+            response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&ids=${cleanedIds}`, { signal });
+            initLoader();
         }
 
         if (response.ok) {
@@ -157,7 +162,7 @@ async function fetchData() {
                 stopLoader();
                 updateMapLoc();
             }
-            else if (currentWindow.includes("geo")) {
+            else if (currentWindow.includes("geo") || currentWindow.includes("favoriter")) {
                 stopLoader();
             }
             toggleHeartImg();
@@ -198,7 +203,13 @@ async function getFoodData() {
             radius = setRadius(document.querySelector("#distance").firstElementChild.value);
             priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=food&method=getFromLatLng&lat=${latitude}&${id}&lng=${longitude}&radius=${radius}${restaurantType}${priceRange}`, { signal });
+        } else if (currentWindow.includes("favoriter")) {
+            province = "";
+            response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&ids=${cleanedIds}`, { signal });
+            initLoader();
         }
+
+        console.log(response)
         if (response.ok) {
             const dataResponse = await response.json();
             if (currentWindow === "" || currentWindow.includes("index")) {
@@ -241,7 +252,7 @@ function stopLoader() {
 }
 
 function saveRestaurant(listElement) {
-console.log(listElement)
+    console.log(listElement)
     const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
     console.log("Saving restaurant ID:", restaurantId);
 
