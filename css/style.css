@@ -1,4 +1,4 @@
-/* Fundamental code for document */
+/* CSS all pages */
 
 html,
 body {
@@ -13,8 +13,7 @@ body {
     margin: 0;
 }
 
-
-/* Class for the sticky header */
+/* Sticky header */
 .stickyHeader {
     position: fixed;
     top: 0%;
@@ -27,15 +26,156 @@ body {
     background-color: #2d324fe1;
 }
 
-/* Id for the container of the different buttons */
+#headerContainer img {
+    width: 200px;
+    margin-top: -15px;
+}
+
+#logoWhite {
+    padding-top: 10px;
+    margin-left: 20px;
+    margin-bottom: -10px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-top: -37px;
+}
+
+li {
+    float: right;
+    border-left: 1px solid white;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+#nav a{
+    color: white;
+}
+
+#nav a:hover{
+    color: #242a4a;
+    background-color: #d7ddf7bf;
+}
+
+/* CSS footer */
+#footer {
+    grid-area: footer;
+    margin-top: 150px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: -15px;
+    background-color: #fdfdfc;
+    background-image: url(../images/footer.jpg);
+    background-size: cover;
+}
+
+#footerLogo {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+hr {
+    width: 500px;
+    margin-left: 0px;
+}
+
+.footLink {
+    margin-left: 30px;
+    margin-top: 20px;
+    color: #2d324fe1;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-decoration: none;
+    display: block;
+}
+
+.footLink:hover {
+    color: #242a4a;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#copyRight {
+    font-size: 12px;
+    margin-left: 20px;
+    margin-top: 50px;
+    color: rgb(148, 148, 148);
+
+}
+
+/* Code for loader */
+.loaderClass {
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(128, 128, 128, 0.767);
+    z-index: 1000;
+    transition: opacity 2.5s;
+    pointer-events: none;
+}
+
+.loaderClass h1 {
+    font-size: 20px;
+}
+
+.loaderClass .loaderContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loaderClass.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.loadingRing {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+.loadingRing {
+    margin: 8px;
+    border-radius: 70%;
+    border: 8px solid #000;
+    border-color: #000 #000 transparent;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ------------------------ */
+
+
+/* CSS Index */
 #filters {
-    grid-area: filters;
     text-align: center;
     background-image: url(../images/bakgrund.jpg);
     background-size: cover;
     height: 400px;
     margin-top: 108px;
-
 }
 
 #mapDivBox {
@@ -97,38 +237,6 @@ body {
     display: block;
 }
 
-.saveBtnIndex {
-    width: 40px;
-    float: right;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.arrow {
-    width: 20px;
-    position: relative;
-    float: right;
-    top: 15px;
-    transition: transform 0.4s ease;
-    transform: translateY(-50%) rotate(0deg);
-}
-
-
-
-.dropDownContent {
-    display: none;
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0.902);
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 100;
-    font-size: 15px;
-    border: solid 2px black;
-    border-radius: 5px;
-    height: 105px;
-    width: 236px;
-    overflow: auto;
-}
-
 #searchButton {
     width: 537px;
     margin-left: 40px;
@@ -144,6 +252,10 @@ body {
     transition: transform 0.3s ease;
 }
 
+#searchButton:hover {
+    background-color: #4a670086;
+}
+
 .star {
     width: 30px;
     height: 30px;
@@ -154,47 +266,6 @@ body {
 
 .highlight {
     background-color: gray;
-}
-
-
-
-#searchButton:hover {
-    background-color: #4a670086;
-}
-
-/* Textbox */
-#adressTextBox {
-    height: 50px;
-    width: 440px;
-    position: absolute;
-    top: 75%;
-    left: 20%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
-}
-
-#findAdress {
-    font-size: 10px;
-    margin-top: -99px;
-    position: relative;
-    z-index: 100;
-    margin-left: 357px;
-}
-
-.dropDownContent a {
-    color: black;
-    display: block;
-    padding: 12px;
-}
-
-.dropDownContent a:hover {
-    background-color: rgb(100, 97, 97);
-}
-
-.dropDownContent.show {
-    display: block;
-    cursor: pointer;
-    max-height: 236px;
 }
 
 #typeOfRestaurant,
@@ -213,10 +284,8 @@ body {
     width: fit-content;
     cursor: pointer;
     display: block;
-
     font-size: 30px;
     padding: 8px;
-
 }
 
 #searchButtons {
@@ -224,7 +293,6 @@ body {
     left: 620px;
     margin-top: -180px;
     margin-left: -580px;
-
 }
 
 #mapBtn {
@@ -284,7 +352,6 @@ body {
     margin-right: 20px;
     margin-top: -65px;
     font-size: 20px;
-
     justify-content: flex-end;
     position: relative;
     margin-top: -220px;
@@ -304,7 +371,6 @@ body {
     width: 25px;
     height: 25px;
     margin-right: 22px;
-
     background-color: #ffffff28;
     border: 2px solid #242a4a;
     border-radius: 3px;
@@ -319,10 +385,6 @@ body {
 .sortRadioBtnToggle:checked::before {
     content: "\2713";
     font-size: 18px;
-}
-
-.sortRadioBtnToggle:hover {
-    transform: rotate(10deg);
 }
 
 #restaurantInfo {
@@ -359,9 +421,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 50px;
     margin-right: 30px;
-
 }
-
 
 .restaurantCard {
     background-color: rgb(253, 245, 235);
@@ -373,28 +433,6 @@ body {
 
 .restaurantCardFlex {
     display: flex;
-
-}
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    margin-top: -37px;
-}
-
-li {
-    float: right;
-    border-left: 1px solid white;
-}
-
-li a {
-    display: block;
-    text-align: center;
-    padding: 10px;
-    text-decoration: none;
-    color: black;
 }
 
 #picture {
@@ -412,7 +450,6 @@ li a {
     width: 200px;
 }
 
-
 #map {
     width: 700px;
     height: 400px;
@@ -424,8 +461,6 @@ li a {
     z-index: 1000;
     display: none;
 }
-
-
 
 #overlay {
     position: fixed;
@@ -439,6 +474,7 @@ li a {
     display: none;
 }
 
+/* TA BORT SEN */
 .crossAndCheck {
     width: 20px;
     height: 20px;
@@ -465,102 +501,6 @@ li a {
     display: none;
 }
 
-#headerContainer img {
-    width: 200px;
-    margin-top: -15px;
-}
-
-#footer {
-    grid-area: footer;
-    margin-top: 150px;
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: -15px;
-    background-color: #fdfdfc;
-    background-image: url(../images/footer.jpg);
-    background-size: cover;
-}
-
-#footerLogo {
-   
-   
-    margin-top: 20px;
-    margin-left: 10px;
-}
-
-hr {
-    width: 500px;
-    margin-left: 0px;
-}
-
-.footLink {
-    margin-left: 30px;
-    margin-top: 20px;
-    color: #2d324fe1;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    text-decoration: none;
-    display: block;
-
-}
-
-.footLink:hover {
-    color: #242a4a;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-#copyRight {
-    font-size: 12px;
-    margin-left: 20px;
-    margin-top: 50px;
-    color: rgb(148, 148, 148);
-
-}
-
-/* Code for loader */
-.loaderClass {
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(128, 128, 128, 0.767);
-    z-index: 1000;
-    transition: opacity 2.5s;
-    pointer-events: none;
-}
-
-.loaderClass h1 {
-    font-size: 20px;
-}
-
-.loaderClass .loaderContainer {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.loaderClass.show {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.loadingRing {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-}
-
-.loadingRing {
-    margin: 8px;
-    border-radius: 70%;
-    border: 8px solid #000;
-    border-color: #000 #000 transparent;
-    animation: spin 2s linear infinite;
-}
-
 #searchResult {
     border: 2px rgb(64, 69, 87) solid;
     width: 510px;
@@ -571,7 +511,6 @@ hr {
     border-radius: 5px;
     color: white;
     display: flex;
-
 }
 
 #searchResult p {
@@ -592,55 +531,6 @@ hr {
     margin-top: 18px;
 }
 
-#logoWhite {
-
-    padding-top: 10px;
-    margin-left: 20px;
-    margin-bottom: -10px;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-/* End of code for loader */
-
-/* Code for modal */
-.chooseProvince {
-    display: none;
-    background-color: white;
-    box-shadow: 0px 0px 15px 6px #2d324fe1;
-    border-color: #2d324fe1;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.chooseProvince form {
-    display: flex;
-    flex-wrap: nowrap;
-    grid-template-columns: max-content auto;
-    gap: 0.75em;
-}
-
-.chooseProvince button {
-    display: block;
-    margin-left: auto;
-    padding: 0.5em;
-    height: 45px;
-
-}
-
-#settings {
-    display: none;
-}
-
 #largeMap{
     border: 3px solid black;
     z-index: 100;
@@ -651,16 +541,8 @@ hr {
     position: relative;
 }
 
-#nav a{
-    color: white;
-}
 
-#nav a:hover{
-    color: #242a4a;
-    background-color: #d7ddf7bf;
-}
-
-
+/* Responsiv design index */
 
 @media screen and (max-width: 840px) {
     #restaurantInfo h2 {
@@ -675,13 +557,6 @@ hr {
     .dropDownBtn {
         font-size: 17px;
         width: 160px;
-    }
-
-    .arrow {
-        position: relative;
-        float: right;
-        top: 10px;
-        left: 5px;
     }
 
     #map {
@@ -1145,3 +1020,873 @@ hr {
         font-size: 12px;
     }
 }
+
+
+
+
+
+
+
+/* CSS FAQ & OM OSS */
+
+#filters2 {
+    text-align: center;
+    background-image: url(../images/pizzabackground.JPG);
+    background-size: cover;
+    height: 400px;
+    margin-top: 108px;
+    position: relative;
+
+}
+
+#filters2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#name {
+    padding-top: 150px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 50px;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+#divBox {
+    margin-left: 20%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: white;
+    margin-right: 20%;
+}
+
+#divBox h2 {
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 40px;
+}
+
+h3 {
+    margin-top: 50px;
+    margin-bottom: -5px;
+    color: rgb(209, 209, 209);
+}
+
+.textBox h3 {
+    color: white;
+}
+
+
+/* Responsive design Faq & om oss */
+@media screen and (max-width: 1200px) {
+    .textBox hr {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 710px) {
+    footer hr {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .textBox {
+        font-size: 20px;
+    }
+
+    #divBox {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* CSS för favoriter.html */
+
+#savedBox {
+    background-color: #f7f5f2;
+    width: 300px;
+    margin-right: 30px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    height: 400px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+}
+
+.listBox {
+    background-color: #f7f5f2;
+    width: 300px;
+    margin-right: 30px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 400px;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+    position: relative;
+}
+
+#addNewListBox {
+    margin-top: 50px;
+}
+
+#savedFlexbox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.plusSign {
+    font-size: 120px;
+    cursor: pointer;
+
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: -40px;
+}
+
+.listInput {
+    height: 50px;
+    font-size: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 70%;
+    border: none;
+    border-bottom: 3px solid rgb(255, 255, 255);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    margin-left: 20px;
+    text-align: center;
+    margin-bottom: -20px;
+}
+
+.listInput:focus {
+    border-bottom-color: #edad46e7;
+}
+
+.listInput:hover {
+    border-bottom-color: #edad46e7;
+}
+
+h1 {
+
+    margin-top: 150px;
+    text-align: center;
+    color: white;
+}
+
+h2 {
+    color: white;
+    text-align: center;
+    margin-right: 40px;
+    margin-bottom: -20px;
+}
+
+#instructions {
+    padding-left: 100px;
+    padding-right: 100px;
+    color: white;
+    font-size: 13px;
+    margin-top: -20px;
+    text-align: center;
+}
+
+.pen {
+    width: 40px;
+    height: 40px;
+    margin-bottom: -15px;
+}
+
+.closeButton {
+    font-size: 40px;
+    margin-top: -10px;
+    margin-left: 260px;
+    margin-bottom: -15px;
+    cursor: pointer;
+}
+
+div.restaurantCard {
+    width: 280px;
+    margin-left: 5px;
+
+}
+
+div.restaurantCardFlex img {
+    font-size: 10px;
+    color: black;
+    width: 30px;
+}
+
+img#picture {
+    width: 70px;
+}
+
+h2#restaurantName {
+    font-size: 15px;
+    margin-left: 20px;
+    color: black;
+}
+
+
+
+
+
+
+
+
+
+
+/* CSS favoriter.html */
+
+#savedBox {
+    background-color: #f7f5f2;
+    width: 300px;
+    margin-right: 30px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    height: 400px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+}
+
+.listBox {
+    background-color: #f7f5f2;
+    width: 300px;
+    margin-right: 30px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 400px;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+    position: relative;
+}
+
+#addNewListBox {
+    margin-top: 50px;
+}
+
+#savedFlexbox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.plusSign {
+    font-size: 120px;
+    cursor: pointer;
+
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: -40px;
+}
+
+.listInput {
+    height: 50px;
+    font-size: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 70%;
+    border: none;
+    border-bottom: 3px solid rgb(255, 255, 255);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    margin-left: 20px;
+    text-align: center;
+    margin-bottom: -20px;
+}
+
+.listInput:focus {
+    border-bottom-color: #edad46e7;
+}
+
+.listInput:hover {
+    border-bottom-color: #edad46e7;
+}
+
+h1 {
+
+    margin-top: 150px;
+    text-align: center;
+    color: white;
+}
+
+h2 {
+    color: white;
+    text-align: center;
+    margin-right: 40px;
+    margin-bottom: -20px;
+}
+
+#instructions {
+    padding-left: 100px;
+    padding-right: 100px;
+    color: white;
+    font-size: 13px;
+    margin-top: -20px;
+    text-align: center;
+}
+
+.pen {
+    width: 40px;
+    height: 40px;
+    margin-bottom: -15px;
+}
+
+.closeButton {
+    font-size: 40px;
+    margin-top: -10px;
+    margin-left: 260px;
+    margin-bottom: -15px;
+    cursor: pointer;
+}
+
+div.restaurantCard {
+    width: 280px;
+    margin-left: 5px;
+
+}
+
+div.restaurantCardFlex img {
+    font-size: 10px;
+    color: black;
+    width: 30px;
+}
+
+img#picture {
+    width: 70px;
+}
+
+h2#restaurantName {
+    font-size: 15px;
+    margin-left: 20px;
+    color: black;
+}
+
+
+
+
+/* CSS geoMatch */
+
+#firstBox {
+    background-color: #f7f5f2;
+    width: 370px;
+    margin-right: 10px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 300px;
+    justify-content: center;
+    height: 370px;
+    display: block;
+    padding-left: 10px;
+    text-align: center;
+    transition: transform 0.4s ease;
+
+}
+
+#firstBox:hover {
+    transform: rotate(-10deg);
+    background-color: #bed745b7;
+
+}
+
+#secondBox {
+    background-color: #f7f5f2;
+    width: 370px;
+    margin-right: 10px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 300px;
+    justify-content: center;
+    height: 370px;
+    display: block;
+    padding-left: 10px;
+    text-align: center;
+    margin-left: 50px;
+    transition: transform 0.4s ease;
+}
+
+#secondBox:hover {
+    transform: rotate(10deg);
+    background-color: #bed745b7;
+
+}
+
+#boxBackground {
+    display: flex;
+    justify-content: center;
+
+}
+
+.insideBox {
+    width: 260px;
+    height: 260px;
+    border: black 3px solid;
+    margin: 50px;
+    border-radius: 300px;
+    transition: background-color 0.3s ease;
+}
+
+#boxBackground {
+    background-image: url(../images/bakgrundpicnic3.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100vh;
+    padding-top: 200px;
+    display: none;
+    z-index: 2000;
+
+
+}
+
+#startPage {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url(../images/bakgrundUtanBestick.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 50vh;
+    padding-top: 200px;
+}
+
+#buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#playButton {
+    width: 400px;
+    height: 80px;
+    position: absolute;
+    background-color: #64870dd7;
+    border: solid 2px #ffffff;
+    color: white;
+    border-radius: 5px;
+    font-size: 35px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease;
+    margin-top: -400px;
+}
+
+#mapBtn2 {
+    height: 50px;
+    font-size: 20px;
+    width: 260px;
+    background-color: #899e1de1;
+    color: white;
+    border: solid 2px #4a6700;
+    border-radius: 5px;
+    transition: 0.5s;
+    margin-top: 200px;
+    margin-left: 105px;
+
+
+}
+
+#mapBtn2:hover {
+    transform: scale(1.1);
+    background-color: #bcd92cc5;
+    color: white;
+}
+
+
+#findBtn2 {
+    height: 50px;
+    font-size: 20px;
+    width: 260px;
+    background-color: #d29635df;
+    color: white;
+    border: solid 2px #745523;
+    border-radius: 5px;
+    margin-left: 10px;
+    transition: 0.5s;
+
+}
+
+#findBtn2:hover {
+    background-color: #f59f15d3;
+    color: white;
+    transform: scale(1.1);
+}
+
+
+#playButton:hover {
+    background-color: #a9d43df4;
+}
+
+#selectBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    display: none;
+    justify-content: center;
+}
+
+#selectBox2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    display: none;
+    justify-content: center;
+}
+
+#newMap {
+    width: 700px;
+    height: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: black 3px solid;
+    z-index: 1000;
+    display: none;
+}
+
+#map {
+    width: 700px;
+    height: 200px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: black 3px solid;
+    z-index: 1000;
+    display: none;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    display: none;
+}
+
+/* Code for modal */
+.chooseProvince {
+    display: none;
+    background-color: white;
+    box-shadow: 0px 0px 15px 6px #2d324fe1;
+    border-color: #2d324fe1;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chooseProvince form {
+    display: flex;
+    flex-wrap: nowrap;
+    grid-template-columns: max-content auto;
+    gap: 0.75em;
+}
+
+.chooseProvince button {
+    display: block;
+    margin-left: auto;
+    padding: 0.5em;
+    height: 45px;
+
+}
+
+#mapPlaybtn {
+    width: 400px;
+    height: 50px;
+
+    background-color: #4a6700d7;
+    border: solid 1px #899E1D;
+    color: white;
+    border-radius: 5px;
+    font-size: 35px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease;
+    margin-top: 370px;
+
+}
+
+#mapPlaybtnBox {
+    text-align: center;
+}
+
+#mapPlaybtn:hover {
+    background-color: #4a670086;
+}
+
+.insideBox img {
+    width: 100%;
+    height: 100%;
+
+}
+
+#endGamePage {
+    display: none;
+
+
+}
+
+#textBox {
+    margin-left: 100px;
+    margin-right: 0px;
+    justify-content: center;
+
+}
+
+#circleImgHolder {
+    width: 120px;
+    height: 120px;
+
+}
+
+#restaurantResults {
+    background-color: #f7f5f2;
+    width: 1000px;
+    padding-right: 200px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 400px;
+    overflow: scroll;
+    display: block;
+    padding-left: 10px;
+    text-align: center;
+}
+
+#resturantInfo {
+    margin-right: 200px;
+}
+
+#food1 {
+    text-align: center;
+    font-size: 25px;
+    margin-left: -10px;
+}
+
+#food2 {
+    text-align: center;
+    margin-left: 50px;
+    font-size: 25px;
+}
+
+#text1 {
+    color: white;
+    margin-top: -20px;
+    margin-left: 20px;
+}
+
+#text2 {
+    color: white;
+
+    margin-left: 20px;
+}
+
+#controlls {
+    margin-left: 20px;
+    color: #5b73fae1;
+    text-decoration: underline;
+}
+
+#controlls:hover {
+    color: #b8c1f3e1;
+    cursor: pointer;
+}
+
+#closeButton2 {
+    background: none;
+    border: none;
+    color: white;
+    width: 100px;
+    height: 100px;
+    font-size: 50px;
+}
+
+#closeButton2:hover {
+    cursor: pointer;
+}
+
+#restartBox {
+    cursor: pointer;
+    color: white;
+    display: flex;
+    box-shadow: 0 9px #999;
+    margin-left: 20px;
+    display: none;
+    width: fit-content;
+    background-color: #2f3551;
+}
+
+#restartBox:active {
+    background-color: #454a63;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+#imgSwirl {
+    height: 20px;
+    width: 20px;
+    margin-left: 6px;
+    margin-top: 24px;
+}
+
+/* Responsive design favoriter */
+@media screen and (max-width: 850px) {
+    #instruction {
+        font-size: 20px;
+        margin-left: 150px;
+        margin-right: 150px;
+    }
+}
+
+@media screen and (max-width: 569px) {
+    html body div#headerContainer.stickyHeader a img#logoWhite {
+        display: block;
+        width: 150px;
+        margin-bottom: -80px;
+    }
+}
+
+@media screen and (max-width: 510px) {
+    html body div#headerContainer.stickyHeader a img#logoWhite {
+        display: block;
+        width: 100px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #instruction {
+        font-size: 16px;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    html body div#headerContainer.stickyHeader a img#logoWhite {
+        float: right;
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    #savedBox {
+        width: 350px;
+    }
+
+    #listBox {
+        margin-right: 0px;
+    }
+
+    #listBox div {
+        margin-right: 10px;
+    }
+}
+
+@media screen and (max-width: 410px) {
+    #listBox {
+        width: 250px;
+    }
+
+    div.restaurantCard {
+        width: 200px;
+    }
+
+    div.restaurantCardFlex img {
+        font-size: 10px;
+        color: black;
+        width: 50px;
+    }
+
+    img#picture {
+        width: 50px;
+    }
+
+    h2#restaurantName {
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
+    #listBox {
+        margin-left: 50px;
+    }
+
+    #listBox div {
+        margin-right: 10px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    #savedBox {
+        width: 250px;
+    }
+
+    #listBox {
+        margin-left: 40px;
+    }
+}
+
+/* Fixa css responsivitet med headern/navbaren och ändra ID till class. */
+
