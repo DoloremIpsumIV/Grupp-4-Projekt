@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
-    <link rel="stylesheet" href="css/styleInteractive.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="images/logoBlack.png">
     <script src="/js/allRestaurants.js"></script>
@@ -39,6 +38,12 @@
 
     <main>
         <div id="largeMap"></div>
+
+        <div>
+            <label for="searchInput">Search for a location:</label>
+            <input type="text" id="searchInput" placeholder="Enter location name...">
+        </div>
+        <ul id="searchResults"></ul>
     </main>
 
     <footer id="footer">

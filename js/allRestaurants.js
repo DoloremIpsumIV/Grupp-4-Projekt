@@ -3,9 +3,14 @@ const controller = new AbortController();   // Creates a controller object that 
 const signal = controller.signal;           // Links the controller object with the beforeunload event listener to be able to abort it
 const foodMap = new Map();                  // A map with all the food restaurants that have the id searched for them
 const establishmentMap = new Map();         // A map with all establishments that can be retrieved with the correct id as the key
+const restaurantSearchMap = new Map();      // Map that contains all the names of the different restaurants along with their id 
 
+let restaurantData;                         // Variable with all the data for all restaurants
 let map;                                    // Variable for the map
 let loader;                                 // Declaring variable for the div containing loader
+let searchResultElem;                       // Element that shows all results
+let searchInputElem;                        // Element that takes input of user
+let restuarantMarkerArray = [];             // Array that stores all restaurant markers so they can be removed
 
 // Init function
 function init() {
@@ -29,6 +34,13 @@ function init() {
     bounds = L.latLngBounds(L.latLng(boundries.maxLatCorner, boundries.maxLngCorner),
         L.latLng(boundries.minLatCorner, boundries.minLngCorner));
     map.setMaxBounds(bounds);
+
+    searchResultElem = document.getElementById("searchResults");
+
+    searchInputElem = document.getElementById("searchInput");
+    searchInputElem.value = "";
+    searchInputElem.addEventListener("input", filterLocations);
+
     initLoader();
     fetchAllRestaurants();
 }
@@ -54,13 +66,11 @@ async function fetchAllRestaurants() {
                 });
 
                 await getRestaurant();
-                const restaurantData = new Map(combineRestaurantData(establishmentMap, foodMap));
-                restaurantData.forEach(restaurant => {
-                    newRestaurantMarker(restaurant.lat, restaurant.lng, restaurant.sub_type);
-                });
+                restaurantData = new Map(combineRestaurantData(establishmentMap, foodMap));
             }
         }
         stopLoader();
+        displayLocations(restaurantData)
     }
     catch (error) {
         if (error.name === "AbortError") {
@@ -98,7 +108,7 @@ async function getRestaurant() {
 
 // Function that adds markers to the map of all restaurants
 function newRestaurantMarker(lat, lng, urlType) {
-    const marker = L.Icon.extend({              
+    const marker = L.Icon.extend({
         options: {
             iconSize: [34, 54],
             iconAnchor: [17, 54]
@@ -106,7 +116,7 @@ function newRestaurantMarker(lat, lng, urlType) {
     });
 
     let restaurantMarker = new marker({ iconUrl: `/mapIconsSVG/map${urlType}.svg` });
-    L.marker([lat, lng], { icon: restaurantMarker }).addTo(map);
+    restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map));
 }
 
 // Function that takes the two Map:s and combines them if they have the same id
@@ -129,4 +139,35 @@ function initLoader() {
 // Function that removes CSS-class in order to hide loader
 function stopLoader() {
     loader.classList.remove("show");
+}
+
+// Function that displays the restaurants in a list and on the map with newRestaurantMarker()
+function displayLocations(locationsMap) {
+    searchResultElem.innerText = "";
+    for (let i = 0; i < restuarantMarkerArray.length; i++) {
+        restuarantMarkerArray[i].remove();
+    }
+    restuarantMarkerArray = [];
+    locationsMap.forEach(location => {
+        const li = document.createElement("li");
+        const p = document.createElement("p");
+        li.textContent = location.name;
+        li.id = location.id;
+        p.textContent = location.city;
+        li.appendChild(p);
+        searchResults.appendChild(li);
+        newRestaurantMarker(location.lat, location.lng, location.sub_type);
+
+    });
+}
+
+// Function that filters the search array and resends it to the displayLocations() function to update the shown data
+function filterLocations() {
+    const query = searchInputElem.value.toLowerCase();
+    const filteredLocations = new Map(
+        Array.from(restaurantData).filter(([id, obj]) =>
+            obj.name.toLowerCase().includes(query)
+        )
+    );
+    displayLocations(filteredLocations);
 }
