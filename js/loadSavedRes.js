@@ -8,52 +8,12 @@ function initLoadSaved() {
 
     document.getElementById("addNewListBox").addEventListener("click", addNewList);
 
-    let cards = document.querySelectorAll(".restaurantCard");
-    cards.forEach(card => {
-        card.addEventListener("dblclick", function () {
-            moveCardToFavorites(card);
-        });
-    });
-
-    makeCardsDraggable();
     loadSavedCards();
     loadSavedState();
     setupTrashCanClick();
     recreateRestaurantCards();
-
-
-
 }
 window.addEventListener("load", init);
-
-
-async function fetchDataByIds(cleanedIds) {
-    console.log(cleanedIds)
-
-    try {
-        const idQuery = cleanedIds.join(',');
-        console.log(idQuery)
-        const response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&ids=${idQuery}`);
-
-        if (response.ok) {
-            console.log(response)
-            const dataResponse = await response.json();
-            dataResponse.payload.forEach(obj => {
-                if (!foodMap.has(obj.id)) {
-                    foodMap.set(obj.id, obj);
-                    restaurant = foodMap;
-                }
-            });
-            return restaurant;
-        } else {
-            console.error(`Failed to fetch data: ${response.status}`);
-            return null;
-        }
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        return null;
-    }
-}
 
 async function recreateRestaurantCards() {
     const savedRestaurantIds = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
@@ -280,28 +240,6 @@ function setupTrashCanClick() {
 
 
 function loadSavedCards() {
-
-
-
-    const savedBox = document.querySelector("#savedBox");
-    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-    savedBox.innerHTML = "";
-
-    savedRestaurant.forEach(savedItem => {
-        const savedListElements = document.createElement("div");
-        savedListElements.innerHTML = savedItem;
-
-
-        const cards = savedListElements.querySelectorAll(".restaurantCard");
-        cards.forEach(card => {
-            card.addEventListener("dblclick", function () {
-                moveCardToFavorites(card);
-            });
-        });
-
-        savedBox.appendChild(savedListElements);
-    });
-
     let trashCans = document.querySelectorAll(".saveBtnIndex");
 
     for (let i = 0; i < trashCans.length; i++) {
@@ -362,9 +300,6 @@ function loadSavedState() {
                 penIcon.style.display = "inline";
                 input.focus();
             });
-
-
-
 
             let inputDiv = document.createElement("div");
             let input = document.createElement("input");
