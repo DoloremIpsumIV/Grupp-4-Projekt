@@ -10,7 +10,6 @@ function initLoadSaved() {
 
     loadSavedCards();
     loadSavedState();
-    setupTrashCanClick();
     recreateRestaurantCards();
 }
 window.addEventListener("load", init);
@@ -224,16 +223,26 @@ function dropZone(e) {
 // Tar bort elementet från localstorage med soptunnan
 function setupTrashCanClick() {
     const trashCans = document.querySelectorAll(".saveBtnIndex");
+
+
+//Detta bör fungera, tror det blir så att felet är att den loopas genom varje trashCan (foreach alltså) eller att funktionen kallas flera gånger
     trashCans.forEach(trashCan => {
         trashCan.addEventListener("click", function () {
-            let thisId = this.parentElement.id;
-            let savedArray = JSON.parse(localStorage.getItem("savedRestaurant"))
-            let filteredArray = savedArray.filter(string => !string.includes(thisId));
+            const listElement = this.parentNode.parentNode;
+            console.log(listElement)
+            const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
+            console.log("Removing restaurant ID:", restaurantId);
 
-            localStorage.clear();
-            localStorage.setItem("savedRestaurant", JSON.stringify(filteredArray));
-            this.parentElement.parentElement.remove();
-            saveState();
+            let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+            console.log("Before removing:", savedRestaurant);
+
+            if (savedRestaurant.includes(restaurantId)) {
+                savedRestaurant = savedRestaurant.filter(id => id !== restaurantId);
+                localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+                console.log("After removing:", savedRestaurant);
+
+                saveState();
+            }
         });
     });
 }
@@ -244,6 +253,7 @@ function loadSavedCards() {
 
     for (let i = 0; i < trashCans.length; i++) {
         trashCans[i].src = "/images/soptunna.svg";
+
     }
 
 }

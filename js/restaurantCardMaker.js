@@ -32,6 +32,8 @@ function createCard(obj) {
         container.classList.add("restaurantSize");
 
         makeCardsDraggable();
+        loadSavedCards();
+        setupTrashCanClick();
     }
 }
 
