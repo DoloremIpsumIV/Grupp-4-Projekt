@@ -138,6 +138,9 @@ function init() {
         loader = document.querySelector("#loaderId");
         initGeoMatch();
     }
+    else if (currentWindow.includes("alla")){
+        initAllRestaurants();
+    }
 }
 window.addEventListener("load", init);
 

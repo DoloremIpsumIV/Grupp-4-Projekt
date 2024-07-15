@@ -101,15 +101,14 @@ async function fetchData() {
 
         foodMap.clear();
         establishmentMap.clear();
+        initLoader();
 
         if (currentWindow.includes("geo")) {
             province = "";
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll`, { signal });
-            initLoader();
         }
 
         else if (currentWindow === "" || currentWindow.includes("index")) {
-            initLoader();
 
             sorting = setSortingOrder(document.querySelector("#sort").value, "establishment");
             radius = setRadius(document.querySelector("#distance").firstElementChild.value);
@@ -154,12 +153,9 @@ async function fetchData() {
             if (currentWindow === "" || currentWindow.includes("index")) {
                 restaurantFlag = true;
                 document.querySelector("#mapBtn").scrollIntoView();
-                stopLoader();
                 updateMapLoc();
             }
-            else if (currentWindow.includes("geo")) {
-                stopLoader();
-            }
+            stopLoader();
             toggleHeartImg();
         }
         else window.alert(`Error during fetch: ${response.status}

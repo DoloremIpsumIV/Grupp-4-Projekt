@@ -17,11 +17,29 @@ function initMap(id) {
 
 // Function that sets a new marker on the map 
 function newUserMarker(e) {
-    userMarker.setLatLng(e.latlng);
-    userMarker.addTo(map);
+    if (currentWindow === "" || currentWindow.includes("index")) {
+        userMarker.setLatLng(e.latlng);
+        userMarker.addTo(map);
 
-    latitude = e.latlng.lat;
-    longitude = e.latlng.lng;
+        latitude = e.latlng.lat;
+        longitude = e.latlng.lng;
+    }
+    else if (currentWindow.includes("geo")) {
+        if (userMarker) {
+            userMarker.setLatLng(e.latlng);
+            userMarker.addTo(miniMap);
+        } else {
+            userMarker = L.marker(e.latlng, {
+                icon: L.icon({
+                    iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
+                    iconSize: [24, 44],
+                    iconAnchor: [12, 44]
+                })
+            }).addTo(miniMap);
+        }
+        latitude = e.latlng.lat;
+        longitude = e.latlng.lng;
+    }
 }
 
 // Function that adds markers to the map of all restaurants
@@ -56,30 +74,48 @@ function restaurantHighlightTimer(restaurant) {
 
 // Function for gathering data regarding users position, it handles errors by displaying a warning for the user
 function getUserGeo() {
-    const findBtn = document.getElementById("findBtn");
-    findBtn.classList.add("activated");
+    if (currentWindow === "" || currentWindow.includes("index")) {
+        const findBtn = document.getElementById("findBtn");
+        findBtn.classList.add("activated");
 
-    const mapBtn = document.getElementById("mapBtn");
-    mapBtn.classList.remove("activated");
+        const mapBtn = document.getElementById("mapBtn");
+        mapBtn.classList.remove("activated");
 
-    let successFlag = true;
+        let successFlag = true;
 
-    navigator.geolocation.getCurrentPosition(function (position) {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-        updateMapLoc(successFlag);
-    }, function (error) {
-        if (error == "[object GeolocationPositionError]") {
-            window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 
+        navigator.geolocation.getCurrentPosition(function (position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            updateMapLoc(successFlag);
+        }, function (error) {
+            if (error == "[object GeolocationPositionError]") {
+                window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 
 
 För att använda hitta min plats måste du ladda om sidan och godkänna på nytt`);
-        }
-        else {
-            window.alert(`Fel vid hämtning av geo position: ${error}`);
-        }
-        successFlag = false;
-        updateMapLoc(successFlag);
-    });
+            }
+            else {
+                window.alert(`Fel vid hämtning av geo position: ${error}`);
+            }
+            successFlag = false;
+            updateMapLoc(successFlag);
+        });
+    }
+    else if (currentWindow.includes("geo")) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            startGame()
+        }, function (error) {
+            if (error == "[object GeolocationPositionError]") {
+                window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 
+    
+    För att använda hitta min plats måste du ladda om sidan och godkänna på nytt`);
+            }
+            else {
+                window.alert(`Fel vid hämtning av geo position: ${error}`);
+            }
+        });
+    }
 }
 
 // Function that updates the position of the map with the geo-data
@@ -117,74 +153,137 @@ function updateMapLoc(success) {
 
 // Opens the small popup map
 function openMapDialog() {
-    if (markerOnMiniMap != undefined) {
-        markerOnMiniMap.remove();
-    }
-    if (userMarker != undefined) {
-        userMarker.remove();
-    }
+    if (currentWindow === "" || currentWindow.includes("index")) {
+        if (markerOnMiniMap != undefined) {
+            markerOnMiniMap.remove();
+        }
+        if (userMarker != undefined) {
+            userMarker.remove();
+        }
 
-    const mapBtn = document.getElementById("mapBtn");
-    mapBtn.classList.add("activated");
+        const mapBtn = document.getElementById("mapBtn");
+        mapBtn.classList.add("activated");
 
-    const findBtn = document.getElementById("findBtn");
-    findBtn.classList.remove("activated");
+        const findBtn = document.getElementById("findBtn");
+        findBtn.classList.remove("activated");
 
-    const mapBox = document.querySelector("#map");
-    const overlay = document.querySelector("#overlay");
+        const mapBox = document.querySelector("#map");
+        const overlay = document.querySelector("#overlay");
 
-    mapBox.style.display = "block";
-    mapBox.style.height = "80%";
-    mapBox.style.width = "60%";
+        mapBox.style.display = "block";
+        mapBox.style.height = "80%";
+        mapBox.style.width = "60%";
 
-    overlay.style.display = "block";
+        overlay.style.display = "block";
 
-    // Creates a mini popup map for the chosen lat and lng
-    if (miniMap === undefined) {
-        miniMap = L.map("map", {
-            center: [smaland.lat, smaland.lng],
-            zoom: smaland.zoom,
-            minZoom: 8.5,
-            maxZoom: 18,
-            maxBoundsViscosity: 1,
+        // Creates a mini popup map for the chosen lat and lng
+        if (miniMap === undefined) {
+            miniMap = L.map("map", {
+                center: [smaland.lat, smaland.lng],
+                zoom: smaland.zoom,
+                minZoom: 8.5,
+                maxZoom: 18,
+                maxBoundsViscosity: 1,
+            });
+
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(miniMap);
+            miniMap.on("click", function (event) {
+                const markerPosition = event.latlng;
+                markerOnMiniMap.setLatLng(markerPosition);
+                userMarker.setLatLng(markerPosition);
+
+            });
+            miniMap.on("click", newUserMarker);
+        }
+        const ownPositionMarker = L.icon({
+            iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
+            iconSize: [20, 40],
+            iconAnchor: [10, 40]
         });
 
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(miniMap);
-        miniMap.on("click", function (event) {
-            const markerPosition = event.latlng;
-            markerOnMiniMap.setLatLng(markerPosition);
-            userMarker.setLatLng(markerPosition);
+        if (smalandRadioBtn.checked) {
+            const miniBounds = L.latLngBounds(
+                L.latLng(smalandBoundries.minLatCorner, smalandBoundries.minLngCorner),
+                L.latLng(smalandBoundries.maxLatCorner, smalandBoundries.maxLngCorner)
+            );
+            miniMap.setMaxBounds(miniBounds);
+        }
+        else if (olandRadioBtn.checked) {
+            const miniBounds = L.latLngBounds(
+                L.latLng(olandBoundries.minLatCorner, olandBoundries.minLngCorner),
+                L.latLng(olandBoundries.maxLatCorner, olandBoundries.maxLngCorner)
+            );
+            miniMap.setMaxBounds(miniBounds);
+        }
+        if (updateMapLoc(false) == "smaland") {
+            markerOnMiniMap = L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(miniMap);
+            userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
+        }
+        else {
+            markerOnMiniMap = L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(miniMap);
+            userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
+        }
+    }
+    else if (currentWindow.includes("geo")) {
+        if (userMarker !== undefined) {
+            userMarker.remove();
+        }
+        const mapBox = document.querySelector("#map");
+        const overlay = document.querySelector("#overlay");
 
+        mapBox.style.display = "block";
+        mapBox.style.height = "60%";
+        mapBox.style.width = "60%";
+
+        overlay.style.display = "block";
+
+        if (miniMap === undefined) {
+            const mapBounds = L.latLngBounds(
+                [boundries.minLatCorner, boundries.minLngCorner],
+                [boundries.maxLatCorner, boundries.maxLngCorner]
+            );
+
+            if (smalandRadioBtn.checked) {
+                latitude = smaland.lat;
+                longitude = smaland.lng;
+            }
+            else {
+                latitude = oland.lat;
+                longitude = oland.lng;
+            }
+            miniMap = L.map("map", {
+                center: [latitude, longitude],
+                zoom: 13,
+                minZoom: 8,
+                maxZoom: 20,
+                maxBounds: mapBounds,
+                maxBoundsViscosity: 1,
+            });
+
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(miniMap);
+            miniMap.on("click", function (event) {
+                const markerPosition = event.latlng;
+                userMarker.setLatLng(markerPosition);
+            });
+            miniMap.on("click", newUserMarker);
+        }
+
+        const ownPositionMarker = L.icon({
+            iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
+            iconSize: [24, 44],
+            iconAnchor: [12, 44]
         });
-        miniMap.on("click", newUserMarker);
-    }
-    const ownPositionMarker = L.icon({
-        iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
-        iconSize: [20, 40],
-        iconAnchor: [10, 40]
-    });
 
-    if (smalandRadioBtn.checked) {
-        const miniBounds = L.latLngBounds(
-            L.latLng(smalandBoundries.minLatCorner, smalandBoundries.minLngCorner),
-            L.latLng(smalandBoundries.maxLatCorner, smalandBoundries.maxLngCorner)
-        );
-        miniMap.setMaxBounds(miniBounds);
-    }
-    else if (olandRadioBtn.checked) {
-        const miniBounds = L.latLngBounds(
-            L.latLng(olandBoundries.minLatCorner, olandBoundries.minLngCorner),
-            L.latLng(olandBoundries.maxLatCorner, olandBoundries.maxLngCorner)
-        );
-        miniMap.setMaxBounds(miniBounds);
-    }
-    if (updateMapLoc(false) == "smaland") {
-        markerOnMiniMap = L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(miniMap);
-        userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
-    }
-    else {
-        markerOnMiniMap = L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(miniMap);
-        userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
+        // Sätter Växjö som default
+        userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker }).addTo(miniMap);
+
+
+
+        let closeButton = document.querySelector("#closeButton");
+        closeButton.addEventListener("click", function () {
+            overlay.style.display = "none";
+            startGame();
+        });
     }
 }
 

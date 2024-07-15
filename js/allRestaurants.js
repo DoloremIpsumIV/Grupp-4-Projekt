@@ -1,19 +1,11 @@
-const ApiKey = "vxJzsf1d";                  // Api key for SMAPI
-const controller = new AbortController();   // Creates a controller object that can cancel async fetches from SMAPI
-const signal = controller.signal;           // Links the controller object with the beforeunload event listener to be able to abort it
-const foodMap = new Map();                  // A map with all the food restaurants that have the id searched for them
-const establishmentMap = new Map();         // A map with all establishments that can be retrieved with the correct id as the key
 const restaurantSearchMap = new Map();      // Map that contains all the names of the different restaurants along with their id 
 
 let restaurantData;                         // Variable with all the data for all restaurants
-let map;                                    // Variable for the map
-let loader;                                 // Declaring variable for the div containing loader
 let searchResultElem;                       // Element that shows all results
 let searchInputElem;                        // Element that takes input of user
-let restuarantMarkerArray = [];             // Array that stores all restaurant markers so they can be removed
 
 // Init function
-function init() {
+function initAllRestaurants() {
     loader = document.querySelector("#loaderId");
     loader.firstElementChild.firstElementChild.innerText = "Laddar in alla restauranger, snälla vänta lite...";
     map = L.map("largeMap").setView([56.87767, 14.80906], 8);
@@ -27,7 +19,7 @@ function init() {
     const boundries = {
         maxLatCorner: 56.018610,
         maxLngCorner: 17.472606,
-        minLatCorner: 58.122646,
+        minLatCorner: 58.322646,
         minLngCorner: 13.061037
     }
 
@@ -44,12 +36,6 @@ function init() {
     initLoader();
     fetchAllRestaurants();
 }
-window.addEventListener("load", init);
-
-// Cancels fetch if page unloads before fetch is complete
-window.addEventListener("beforeunload", () => {
-    controller.abort();
-});
 
 // Function that fetches all restaurants form establishments, then combines it with the getRestaurant() fetch to display all markers with newRestaurantMarker()
 async function fetchAllRestaurants() {
@@ -106,41 +92,6 @@ async function getRestaurant() {
     }
 }
 
-// Function that adds markers to the map of all restaurants
-function newRestaurantMarker(lat, lng, urlType) {
-    const marker = L.Icon.extend({
-        options: {
-            iconSize: [34, 54],
-            iconAnchor: [17, 54]
-        }
-    });
-
-    let restaurantMarker = new marker({ iconUrl: `/mapIconsSVG/map${urlType}.svg` });
-    restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map));
-}
-
-// Function that takes the two Map:s and combines them if they have the same id
-function combineRestaurantData(map1, map2) {
-    const combinedMap = new Map();
-
-    map1.forEach((value, key) => {
-        if (map2.has(key)) {
-            combinedMap.set(key, { ...value, ...map2.get(key) });
-        }
-    });
-    return combinedMap;
-}
-
-// Function that adds CSS-class in order to show loader
-function initLoader() {
-    loader.classList.add("show");
-}
-
-// Function that removes CSS-class in order to hide loader
-function stopLoader() {
-    loader.classList.remove("show");
-}
-
 // Function that displays the restaurants in a list and on the map with newRestaurantMarker()
 function displayLocations(locationsMap) {
     searchResultElem.innerText = "";
@@ -152,12 +103,11 @@ function displayLocations(locationsMap) {
         const li = document.createElement("li");
         const p = document.createElement("p");
         li.textContent = location.name;
-        li.id = location.id;
+        li.id = "#r" + location.id;
         p.textContent = location.city;
         li.appendChild(p);
         searchResults.appendChild(li);
-        newRestaurantMarker(location.lat, location.lng, location.sub_type);
-
+        newRestaurantMarker(location.lat, location.lng, location.sub_type, location.id);
     });
 }
 
