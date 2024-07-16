@@ -38,7 +38,8 @@ const marker = L.Icon.extend({    // Definition of a marker with an image
 const ownPositionMarker = L.icon({// Position marker for the users location
     iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
     iconSize: [24, 44],
-    iconAnchor: [12, 44]
+    iconAnchor: [12, 44],
+    zIndexOffset: 1000
 });
 const subTypes = ["&sub_types=", "A_LA_CARTE", "ASIAN", "BURGERS", "HOT_DOGS", "LATIN", "LOCAL", "MEDITERRANEAN", "PIZZA", "OTHER", "PASTRIES"]; // Array for all types
 const types = ["&types=", "CASUAL", "ETHNIC", "FAST", "FINE_DINING"];                                                                            // Array for all subTypes 
@@ -96,13 +97,13 @@ function init() {
         olandButtonElem.classList.toggle("sortButtonsToggle");
         olandButtonElem.addEventListener("click", toggleSortButtons);
 
-        userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
+        userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker, zIndexOffset: 1000 }).addTo(map);
         smalandRadioBtn.addEventListener("change", function () {
             if (this.checked) {
                 province = "&provinces=Småland";
                 olandRadioBtn.checked = false;
                 userMarker.remove();
-                userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
+                userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker, zIndexOffset: 1000 }).addTo(map);
                 latitude = smaland.lat;
                 longitude = smaland.lng;
                 toggleSortButtons();
@@ -114,7 +115,7 @@ function init() {
                 province = "&provinces=Öland";
                 smalandRadioBtn.checked = false;
                 userMarker.remove();
-                userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
+                userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker, zIndexOffset: 1000 }).addTo(map);
                 latitude = oland.lat;
                 longitude = oland.lng;
                 toggleSortButtons();
@@ -135,7 +136,6 @@ function init() {
         });
     }
     else if (currentWindow.includes("geo")) {
-        loader = document.querySelector("#loaderId");
         initGeoMatch();
     }
     else if (currentWindow.includes("alla")){

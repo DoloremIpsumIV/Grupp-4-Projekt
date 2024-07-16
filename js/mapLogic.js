@@ -33,7 +33,8 @@ function newUserMarker(e) {
                 icon: L.icon({
                     iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
                     iconSize: [24, 44],
-                    iconAnchor: [12, 44]
+                    iconAnchor: [12, 44],
+                    zIndexOffset: 1000
                 })
             }).addTo(miniMap);
         }
@@ -116,13 +117,35 @@ För att använda hitta min plats måste du ladda om sidan och godkänna på nyt
             }
         });
     }
+    else if (currentWindow.includes("alla")){
+        let successFlag = true;
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            updateMapLoc(successFlag);
+        }, function (error) {
+            if (error == "[object GeolocationPositionError]") {
+                window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 
+
+För att använda hitta min plats måste du ladda om sidan och godkänna på nytt`);
+            }
+            else {
+                window.alert(`Fel vid hämtning av geo position: ${error}`);
+            }
+            successFlag = false;
+            updateMapLoc(successFlag);
+        });
+    }
 }
 
 // Function that updates the position of the map with the geo-data
 function updateMapLoc(success) {
     if (success) {
-        userMarker.remove();
-        userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker }).addTo(map);
+        if (userMarker) {
+            userMarker.remove();
+        }
+        userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker, zIndexOffset: 1000}).addTo(map);
         map.setView([latitude, longitude], zoom = 16);
         if (miniMap) {
             miniMap.setView([latitude, longitude], zoom = 16);
@@ -198,7 +221,8 @@ function openMapDialog() {
         const ownPositionMarker = L.icon({
             iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
             iconSize: [20, 40],
-            iconAnchor: [10, 40]
+            iconAnchor: [10, 40],
+            zIndexOffset: 1000
         });
 
         if (smalandRadioBtn.checked) {
@@ -217,11 +241,11 @@ function openMapDialog() {
         }
         if (updateMapLoc(false) == "smaland") {
             markerOnMiniMap = L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(miniMap);
-            userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker }).addTo(map);
+            userMarker = new L.marker([smaland.lat, smaland.lng], { icon: ownPositionMarker, zIndexOffset: 1000 }).addTo(map);
         }
         else {
             markerOnMiniMap = L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(miniMap);
-            userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker }).addTo(map);
+            userMarker = new L.marker([oland.lat, oland.lng], { icon: ownPositionMarker, zIndexOffset: 1000 }).addTo(map);
         }
     }
     else if (currentWindow.includes("geo")) {
@@ -271,15 +295,14 @@ function openMapDialog() {
         const ownPositionMarker = L.icon({
             iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
             iconSize: [24, 44],
-            iconAnchor: [12, 44]
+            iconAnchor: [12, 44],
+            zIndexOffset: 1000
         });
 
         // Sätter Växjö som default
-        userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker }).addTo(miniMap);
+        userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker, zIndexOffset: 1000 }).addTo(miniMap);
 
-
-
-        let closeButton = document.querySelector("#closeButton");
+        const closeButton = document.querySelector("#closeButton");
         closeButton.addEventListener("click", function () {
             overlay.style.display = "none";
             startGame();

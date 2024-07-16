@@ -4,8 +4,20 @@ let restaurantData;                         // Variable with all the data for al
 let searchResultElem;                       // Element that shows all results
 let searchInputElem;                        // Element that takes input of user
 
+
+
+// Att fixa: User marker copy pastad kod
+// currentwindow switch?
+// Clickbara markörer med popups, samt clickbara restauranger för markörerna.
+// extra sida för restaurangen?
+// Kunna söka efter stad, provins eller namn m.m.?
+
+
 // Init function
 function initAllRestaurants() {
+    const findBtnElem = document.querySelector("#findBtn");
+    findBtnElem.addEventListener("click", getUserGeo);
+
     loader = document.querySelector("#loaderId");
     loader.firstElementChild.firstElementChild.innerText = "Laddar in alla restauranger, snälla vänta lite...";
     map = L.map("largeMap").setView([56.87767, 14.80906], 8);

@@ -27,6 +27,8 @@ let playBtn;                     // Button object that starts the game
 
 // Function that initiates on window load
 function initGeoMatch() {
+    loader = document.querySelector("#loaderId");
+
     smalandRadioBtn = document.querySelector("#smalandRadioBtn");
     olandRadioBtn = document.querySelector("#olandRadioBtn");
 
