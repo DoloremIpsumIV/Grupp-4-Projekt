@@ -37,7 +37,6 @@
             <div class="sortButtons"></div>
             <button id="smaland" type="button" class="sortButtonsToggle">Småland</button>
             <button id="oland" type="button" class="sortButtonsToggle">Öland</button>
-            <button id="confirmBtn" type="button">Ok</button>
         </form>
     </dialog>
 
@@ -127,24 +126,26 @@
     </div>
 
     <main>
+        <p id="searchLabel">Aktuell sökning:</p>  
         <div id="searchResult">
-            <p>Aktuell sökning:</p>
-            <p id="searchedRestaurant">Restaurang</p>
-            <p id="searchedDistance">Distans</p>
-            <p id="searchedPrice">Pris</p>
-            <p id="searchedProvince">Provins</p>
+           <p id="searchedRestaurant">Ingen aktiv sökning</p>
+            <p id="searchedDistance"></p>
+            <p id="searchedPrice"></p>
+            <p id="searchedProvince"></p>
+            <img id="searchResultTrash" src="images/soptunna.svg" alt="soptunna">
+           
         </div>
 
         <div id="flexBox">
             <div id="mapViewer"></div>
             <div id="restaurantBox">
                 <div id="sortBox">
-                    <p>Sortera:</p><label for="sort"></label>
+                    <p>Sortera efter:</p><label for="sort"></label>
                     <select id="sort">
-                        <option>Närmast först</option>
-                        <option value="price_rangeDESC">Billigaste först</option>
-                        <option value="price_rangeASC">Dyraste först</option>
-                        <option value="rating">Bästa recensioner först</option>
+                        <option>Närmaste</option>
+                        <option value="price_rangeDESC">Billigaste</option>
+                        <option value="price_rangeASC">Dyraste</option>
+                        <option value="rating">Bäst recensioner</option>
                         <option value="student_discount">Studentrabatt först</option>
                     </select>
                 </div>
