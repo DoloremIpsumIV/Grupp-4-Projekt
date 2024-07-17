@@ -1275,7 +1275,7 @@ h2 {
 .closeButton {
     font-size: 40px;
     margin-top: -10px;
-    margin-left: 260px;
+    margin-left: 300px;
     margin-bottom: -15px;
     cursor: pointer;
 }
@@ -1792,5 +1792,39 @@ h2 {
     }
 }
 
-/* Fixa css responsivitet med headern/navbaren och ändra ID till class. */
 
+
+
+
+
+
+/* CSS Alla restauranger */
+
+#largeMap {
+    width: 55%;
+}
+
+#allDiv {
+    display: flex;
+}
+
+#locationResults {
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+    margin-right: 30px;
+}
+
+#searchInput {
+    
+}
+
+#searchResultsDiv {
+    background-color: rgba(255, 255, 255, 0.158);
+    margin-top: 20px;
+    padding: 10px;
+    height: 500px;
+    overflow: scroll;
+    color: white;
+    border-radius: 5px;
+}

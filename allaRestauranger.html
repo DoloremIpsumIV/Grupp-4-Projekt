@@ -32,6 +32,11 @@
         </div>
     </header>
 
+
+    <h1>Alla restauranger</h1>
+    <h3 id="instructions">Sök bland alla restauranger som finns på getFood</h3>
+
+
     <div id="loaderId" class="loaderClass">
         <div class="loaderContainer">
             <h1>Laddar in restauranger nära dig...</h1>
@@ -41,16 +46,26 @@
     </div>
 
     <main>
+
+        <div id="findBtnDiv">
+         <button id="findBtn">Hitta min plats <img src="images/findPic.svg" alt="map pointer"
+            class="buttonImg"></button>
+        </div>
+
+
+        <div id="allDiv">
         <div id="largeMap"></div>
 
-        <button id="findBtn">Hitta min plats <img src="images/findPic.svg" alt="map pointer"
-            class="buttonImg"></button>
-            
-        <div>
+        <div id="locationResults">
             <label for="searchInput">Search for a location:</label>
             <input type="text" id="searchInput" placeholder="Enter location name...">
-        </div>
+    
+        <div id="searchResultsDiv">
         <ul id="searchResults"></ul>
+        </div>
+        </div>
+        </div>
+
     </main>
 
     <footer id="footer">
