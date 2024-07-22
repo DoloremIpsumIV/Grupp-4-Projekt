@@ -284,16 +284,6 @@ function loadSavedCards() {
 
 }
 
-function moveCardToFavorites(card) {
-    console.log("DFGH")
-    let favoritesBox = document.getElementById("savedBox");
-
-    card.parentElement.removeChild(card);
-
-    favoritesBox.appendChild(card);
-    saveState();
-}
-
 function saveState() {
     let state = {
         lists: [],
