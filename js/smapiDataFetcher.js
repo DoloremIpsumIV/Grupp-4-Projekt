@@ -266,36 +266,38 @@ function saveRestaurant(listElement) {
 }
 
 function toggleHeartImg() {
-    const saveBtns = document.querySelectorAll(".saveBtnIndex");
+    if (currentWindow.includes("index")) {
+        const saveBtns = document.querySelectorAll(".saveBtnIndex");
 
-    saveBtns.forEach(saveBtn => {
-        saveBtn.addEventListener("click", function () {
-            const listElement = this.parentNode.parentNode;
-            console.log(listElement)
-            const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
-            console.log(restaurantId)
+        saveBtns.forEach(saveBtn => {
+            saveBtn.addEventListener("click", function () {
+                const listElement = this.parentNode.parentNode;
+                console.log(listElement)
+                const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
+                console.log(restaurantId)
 
 
 
-            if (this.src.includes("/images/emptyHeart.svg")) {
-                console.log("fullthjärta nu");
-                this.src = "/images/filledHeart.svg";
-                saveRestaurant(this.parentNode.parentNode);
-            } else {
-                console.log("tomthjärta nu");
-                this.src = "/images/emptyHeart.svg";
+                if (this.src.includes("/images/emptyHeart.svg")) {
+                    console.log("fullthjärta nu");
+                    this.src = "/images/filledHeart.svg";
+                    saveRestaurant(this.parentNode.parentNode);
+                } else {
+                    console.log("tomthjärta nu");
+                    this.src = "/images/emptyHeart.svg";
 
-                listElements = this.parentNode.parentNode;
+                    listElements = this.parentNode.parentNode;
 
-                let listElemsArray = Array.from(listElements);
-                let index = listElemsArray.indexOf(this);
+                    let listElemsArray = Array.from(listElements);
+                    let index = listElemsArray.indexOf(this);
 
-                const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+                    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
-                savedRestaurant.splice(index, 1);
+                    savedRestaurant.splice(index, 1);
 
-                localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-            }
+                    localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+                }
+            });
         });
-    });
+    }
 }

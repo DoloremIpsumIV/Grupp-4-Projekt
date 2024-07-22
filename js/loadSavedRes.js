@@ -216,20 +216,22 @@ function dropZone(e) {
     droppedListBox.appendChild(draggedRestaurant);
 
     draggedRestaurant.classList.remove("dragging");
+    whenDropped(draggedRestaurant);
     saveState();
 
 }
 
+
 // Tar bort elementet från localstorage med soptunnan
 function setupTrashCanClick() {
+    console.log("i funktion");
     const trashCans = document.querySelectorAll(".saveBtnIndex");
 
-
-//Detta bör fungera, tror det blir så att felet är att den loopas genom varje trashCan (foreach alltså) eller att funktionen kallas flera gånger
     trashCans.forEach(trashCan => {
         trashCan.addEventListener("click", function () {
             const listElement = this.parentNode.parentNode;
-            console.log(listElement)
+            console.log(listElement);
+
             const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
             console.log("Removing restaurant ID:", restaurantId);
 
@@ -241,10 +243,36 @@ function setupTrashCanClick() {
                 localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
                 console.log("After removing:", savedRestaurant);
 
+                // Remove the card element from the DOM
+                listElement.parentNode.removeChild(listElement);
+                console.log("Card removed from DOM");
+
+                // Save the state
                 saveState();
             }
         });
     });
+}
+
+function whenDropped(draggedRestaurant) {
+    console.log("123");
+    console.log(draggedRestaurant);
+
+    const restaurantId = draggedRestaurant.firstElementChild.id.startsWith("#") ? draggedRestaurant.firstElementChild.id.slice(1) : draggedRestaurant.firstElementChild.id.id;
+    console.log(restaurantId);
+
+    console.log("Removing restaurant ID:", restaurantId);
+
+    let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+    console.log("Before removing:", savedRestaurant);
+
+    if (savedRestaurant.includes(restaurantId)) {
+        savedRestaurant = savedRestaurant.filter(id => id !== restaurantId);
+        localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+        console.log("After removing:", savedRestaurant);
+
+        saveState();
+    }
 }
 
 
