@@ -12,13 +12,16 @@ function combineRestaurantData(map1, map2) {
 
 // Function that creates each card on the webbsite
 function createCard(obj) {
-    if (currentWindow === "" || currentWindow.includes("index")) {
-        newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id, obj);
-    }
-    const container = document.getElementById("restaurantInfo");
     const listElements = document.createElement("div");
     listElements.appendChild(displayCardFlex(obj.id));
     listElements.classList.add("restaurantCard");
+    if (currentWindow === "" || currentWindow.includes("index")) {
+        listElements.addEventListener("click", () => popup(obj)); 
+        listElements.style.cursor = "pointer";
+        newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id, obj);
+    }
+    const container = document.getElementById("restaurantInfo");
+    
     container.appendChild(listElements);
     container.classList.add("restaurantSize");
 }

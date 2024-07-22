@@ -8,9 +8,8 @@ let searchInputElem;                        // Element that takes input of user
 
 // Att fixa: User marker copy pastad kod
 // currentwindow switch?
-// Clickbara markörer med popups, samt clickbara restauranger för markörerna.
+// clickbara restauranger för markörerna.
 // extra sida för restaurangen?
-// Kunna söka efter stad, provins eller namn m.m.?
 
 
 // Init function
@@ -116,7 +115,10 @@ function displayLocations(locationsMap) {
         const p = document.createElement("p");
         li.textContent = location.name;
         li.id = "#r" + location.id;
-        p.textContent = location.city;
+        li.setAttribute("data-lat", location.lat);
+        li.setAttribute("data-lng", location.lng);
+        li.addEventListener("click", () => popup(location)); 
+        p.textContent = `${location.city}, ${location.province}`;
         li.appendChild(p);
         searchResults.appendChild(li);
         newRestaurantMarker(location.lat, location.lng, location.sub_type, location.id, location);
@@ -128,7 +130,9 @@ function filterLocations() {
     const query = searchInputElem.value.toLowerCase();
     const filteredLocations = new Map(
         Array.from(restaurantData).filter(([id, obj]) =>
-            obj.name.toLowerCase().includes(query) || obj.city.toLowerCase().includes(query) || obj.province.toLowerCase().includes(query)
+            ["name", "city", "province", "sub_type", "type"].some(key =>
+                obj[key].toLowerCase().includes(query)
+            )
         )
     );
     displayLocations(filteredLocations);

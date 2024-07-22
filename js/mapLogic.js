@@ -37,6 +37,7 @@ function newUserMarker(e) {
                     zIndexOffset: 1000
                 })
             }).addTo(miniMap);
+            
         }
         latitude = e.latlng.lat;
         longitude = e.latlng.lng;
@@ -53,7 +54,6 @@ function newRestaurantMarker(lat, lng, urlType, id, location) {
 
     let restaurantMarker = new marker({ iconUrl: `/mapIconsSVG/map${urlType}.svg`, popupAnchor: [0, -35] });
     restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map).on("click", () => scrollToRestaurant(id)).bindPopup(popupText(location)));
-
     restaurantFlag = false;
 }
 
@@ -65,6 +65,18 @@ function popupText(location) {
     text += `Telefon nummer: ${location.phone_number}`;
 
     return text;
+}
+
+function popup(e){
+   var popup = L.popup({offset: [0, -30]});
+   popup
+       .setLatLng([e.lat, e.lng])
+       .setContent(`${e.name}<br>` +
+        `Stad: ${e.city}<br>` +
+        `Länk: <a href="${e.website}"> ${e.website} </a><br>` +
+        `Telefon nummer: ${e.phone_number}`.toString())
+       .openOn(map);
+       map.setView([e.lat, e.lng], zoom = 15);
 }
 
 // Function that scrolls to the corresponding restaurant when a marker is clicked
