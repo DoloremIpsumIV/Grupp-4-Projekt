@@ -243,11 +243,9 @@ function setupTrashCanClick() {
                 localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
                 console.log("After removing:", savedRestaurant);
 
-                // Remove the card element from the DOM
                 listElement.parentNode.removeChild(listElement);
                 console.log("Card removed from DOM");
 
-                // Save the state
                 saveState();
             }
         });
