@@ -44,27 +44,44 @@ function newUserMarker(e) {
 }
 
 // Function that adds markers to the map of all restaurants
-function newRestaurantMarker(lat, lng, urlType, id) {
+function newRestaurantMarker(lat, lng, urlType, id, location) {
     if (restaurantFlag == true) {
         for (let i = 0; i < restuarantMarkerArray.length; i++) {
             restuarantMarkerArray[i].remove();
         }
     }
 
-    let restaurantMarker = new marker({ iconUrl: `/mapIconsSVG/map${urlType}.svg` });
-    restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map).on("click", () => scrollToRestaurant(id)));
+    let restaurantMarker = new marker({ iconUrl: `/mapIconsSVG/map${urlType}.svg`, popupAnchor: [0, -35] });
+    restuarantMarkerArray.push(L.marker([lat, lng], { icon: restaurantMarker }).addTo(map).on("click", () => scrollToRestaurant(id)).bindPopup(popupText(location)));
+
     restaurantFlag = false;
+}
+
+// Function that determines what is added to the popup dialogue box
+function popupText(location) {
+    let text = `${location.name}<br>`;
+    text += `Stad: ${location.city}<br>`;
+    text += `Länk: <a href="${location.website}"> ${location.website} </a><br>`;
+    text += `Telefon nummer: ${location.phone_number}`;
+
+    return text;
 }
 
 // Function that scrolls to the corresponding restaurant when a marker is clicked
 function scrollToRestaurant(id) {
     const clickedRestaurant = document.getElementById(`#r${id}`);
     clickedRestaurant.scrollIntoView();
-    const y = document.querySelector("#restaurantInfo").getBoundingClientRect().top + window.scrollY - 50;
+    let y;
+    if (!currentWindow.includes("alla")) {
+        y = document.querySelector("#restaurantInfo").getBoundingClientRect().top + window.scrollY - 50;
+        clickedRestaurant.parentElement.style.backgroundColor = "#899e1d7a";
+        clickedRestaurant.parentElement.style.border = "8px solid black";
+        setTimeout(() => restaurantHighlightTimer(clickedRestaurant), 800);
+    }
+    else {
+        y = document.querySelector("#searchResultsDiv").getBoundingClientRect().top + window.scrollY - 50;
+    }
     window.scrollTo({ top: y, behavior: "instant" });
-    clickedRestaurant.parentElement.style.backgroundColor = "#899e1d7a";
-    clickedRestaurant.parentElement.style.border = "8px solid black";
-    setTimeout(() => restaurantHighlightTimer(clickedRestaurant), 800);
 }
 
 // Function that reverts the restaurant CSS after a timed amount
@@ -117,7 +134,7 @@ För att använda hitta min plats måste du ladda om sidan och godkänna på nyt
             }
         });
     }
-    else if (currentWindow.includes("alla")){
+    else if (currentWindow.includes("alla")) {
         let successFlag = true;
 
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -145,7 +162,7 @@ function updateMapLoc(success) {
         if (userMarker) {
             userMarker.remove();
         }
-        userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker, zIndexOffset: 1000}).addTo(map);
+        userMarker = new L.marker([latitude, longitude], { icon: ownPositionMarker, zIndexOffset: 1000 }).addTo(map);
         map.setView([latitude, longitude], zoom = 16);
         if (miniMap) {
             miniMap.setView([latitude, longitude], zoom = 16);

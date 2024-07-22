@@ -13,7 +13,7 @@ function combineRestaurantData(map1, map2) {
 // Function that creates each card on the webbsite
 function createCard(obj) {
     if (currentWindow === "" || currentWindow.includes("index")) {
-        newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
+        newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id, obj);
     }
     const container = document.getElementById("restaurantInfo");
     const listElements = document.createElement("div");
@@ -113,7 +113,7 @@ function displayCardFlex(restuarantId) {
                     break;
 
                 case "website":
-                    const linkElement = document.createElement("a")
+                    const linkElement = document.createElement("a");
                     linkElement.href = value;
                     linkElement.innerText = `Länk till: ${restaurantObject.name}`
 

@@ -68,7 +68,7 @@ async function fetchAllRestaurants() {
             }
         }
         stopLoader();
-        displayLocations(restaurantData)
+        displayLocations(restaurantData);
     }
     catch (error) {
         if (error.name === "AbortError") {
@@ -119,7 +119,7 @@ function displayLocations(locationsMap) {
         p.textContent = location.city;
         li.appendChild(p);
         searchResults.appendChild(li);
-        newRestaurantMarker(location.lat, location.lng, location.sub_type, location.id);
+        newRestaurantMarker(location.lat, location.lng, location.sub_type, location.id, location);
     });
 }
 
@@ -128,7 +128,7 @@ function filterLocations() {
     const query = searchInputElem.value.toLowerCase();
     const filteredLocations = new Map(
         Array.from(restaurantData).filter(([id, obj]) =>
-            obj.name.toLowerCase().includes(query)
+            obj.name.toLowerCase().includes(query) || obj.city.toLowerCase().includes(query) || obj.province.toLowerCase().includes(query)
         )
     );
     displayLocations(filteredLocations);
