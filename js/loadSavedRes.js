@@ -9,9 +9,10 @@ function init() {
 
     let cards = document.querySelectorAll(".restaurantCard");
     cards.forEach(card => {
-        card.addEventListener("dblclick", function () {
-            moveCardToFavorites(card);
-        });
+        card.addEventListener("dblclick", () => moveCardToFavorites(card));
+        card.addEventListener("touchstart", handleTouchStart, false);
+        card.addEventListener("touchmove", handleTouchMove, false);
+        card.addEventListener("touchend", handleTouchEnd, false);
     });
 
     makeCardsDraggable();
@@ -19,13 +20,73 @@ function init() {
     loadSavedState();
     setupTrashCanClick();
 
-
-
-
 }
 window.addEventListener("load", init);
 
 
+
+
+function handleTouchStart(event) {
+    console.log("SDcvbnj")
+    event.preventDefault();
+    this.touchStartTime = new Date().getTime();
+    this.touchMoveHandler = handleTouchMove.bind(this);
+    this.touchEndHandler = handleTouchEnd.bind(this);
+
+  
+    this.style.zIndex = 1000; 
+
+    this.addEventListener("touchmove", this.touchMoveHandler, false);
+    this.addEventListener("touchend", this.touchEndHandler, false);
+}
+
+function handleTouchMove(event) {
+    console.log("SDFGHJ")
+    event.preventDefault();
+    const touch = event.touches[0];
+    const card = this;
+
+    this.style.zIndex = 1000; 
+
+    card.style.transform = `translate(${touch.pageX - card.offsetWidth / 2}px, ${touch.pageY - card.offsetHeight / 2}px)`;
+    card.classList.add("dragging");
+    
+}
+
+function handleTouchEnd(event) {
+    console.log("end");
+    event.preventDefault();
+    let touchDuration = new Date().getTime() - this.touchStartTime;
+    const card = this;
+
+
+    if (touchDuration < 500) {
+        moveCardToFavorites(card);
+    } else {
+        card.classList.remove("dragging");
+
+        card.style.transform = "";
+        card.style.position = "static";
+        
+        
+        const touch = event.changedTouches[0];
+        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+
+        if (dropTarget) {
+            // Kontrollera att dropTarget är en listBox och lägg till extra kontroller om nödvändigt
+            if (dropTarget.classList.contains("listBox")) {
+                dropTarget.appendChild(card);
+                saveState();
+            } else {
+                console.log("Drop target is not a valid listBox");
+            }
+        }
+
+    }
+
+    this.removeEventListener("touchmove", this.touchMoveHandler);
+    this.removeEventListener("touchend", this.touchEndHandler);
+}
 
 
 // Lägger till och skapar lista
@@ -173,9 +234,11 @@ function makeCardsDraggable() {
         if (listBoxes.length > 1) {
             card.setAttribute("draggable", true);
             card.addEventListener("dragstart", dragStart);
+            card.addEventListener("touchstart", handleTouchStart, false);
         } else {
             card.removeAttribute("draggable");
             card.removeEventListener("dragstart", dragStart);
+            card.removeEventListener("touchstart", handleTouchStart);
         }
     });
 }
@@ -191,6 +254,10 @@ function dragStart(e) {
         listBox.addEventListener("dragover", dragOver);
         listBox.addEventListener("dragenter", dragEnter);
         listBox.addEventListener("drop", dropZone);
+
+        listBox.addEventListener("touchmove", dragOver);
+        listBox.addEventListener("touchenter", dragEnter);
+        listBox.addEventListener("touchend", dropZone);
     });
 }
 function dragOver(e) {

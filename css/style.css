@@ -1308,8 +1308,16 @@ h2 {
     cursor: pointer;
 }
 
-
-
+.restaurantCard.dragging {
+    /* Förhindra att kortet ändrar storlek eller blir osynligt under dragning */
+    /* Använd transform för att flytta kortet */
+    transform: translate(0, 0);
+    /* Om du har några z-index regler, se till att kortet är ovanpå andra element under dragning */
+    z-index: 1000; /* Exempel, justera efter behov */
+    /* Se till att kortets storlek inte ändras */
+    width: auto; /* Förhindra att bredden ändras */
+    height: auto; /* Förhindra att höjden ändras */
+}
 
 
 
