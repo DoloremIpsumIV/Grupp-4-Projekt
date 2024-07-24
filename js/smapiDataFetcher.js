@@ -205,7 +205,7 @@ async function getFoodData() {
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=food&method=getFromLatLng&lat=${latitude}&${id}&lng=${longitude}&radius=${radius}${restaurantType}${priceRange}`, { signal });
         } else if (currentWindow.includes("favoriter")) {
             province = "";
-            response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&ids=${cleanedIds}`, { signal });
+            response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=food&method=getAll&ids=${cleanedIds}`, { signal });
             initLoader();
         }
 
