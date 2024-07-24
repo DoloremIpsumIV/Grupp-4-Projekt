@@ -73,7 +73,6 @@ function handleTouchEnd(event) {
         const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
 
         if (dropTarget) {
-            // Kontrollera att dropTarget är en listBox och lägg till extra kontroller om nödvändigt
             if (dropTarget.classList.contains("listBox")) {
                 dropTarget.appendChild(card);
                 saveState();
@@ -110,7 +109,6 @@ function addNewList() {
     input.type = "text";
     input.classList.add("listInput");
     input.placeholder = `Ny lista ${getListNumber()}`;
-    //input.placeholder = `Ny lista ${getListNumber()}`;
     let penIcon = document.createElement("img");
     penIcon.src = "images/penna.svg";
     penIcon.classList.add("pen");
@@ -134,8 +132,6 @@ function addNewList() {
         removeBox();
         updateListNames();
         saveState();
-
-
     });
 
     listBoxDiv.appendChild(closeButton);
@@ -330,12 +326,19 @@ function loadSavedCards() {
 
     for (let i = 0; i < trashCans.length; i++) {
         trashCans[i].src = "/images/soptunna.svg";
+
+        trashCans[i].addEventListener('mouseenter', function() {
+            trashCans[i].src = "/images/soptunnaOpen.svg";
+        });
+        
+        trashCans[i].addEventListener('mouseleave', function() {
+            trashCans[i].src = "/images/soptunna.svg";
+        });
     }
 
 }
 
 function moveCardToFavorites(card) {
-    console.log("DFGH")
     let favoritesBox = document.getElementById("savedBox");
 
     card.parentElement.removeChild(card);
@@ -447,6 +450,20 @@ function loadSavedState() {
             savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
             listCounter++;
         });
+
+        let trashCans = document.querySelectorAll(".saveBtnIndex");
+
+    for (let i = 0; i < trashCans.length; i++) {
+    
+        trashCans[i].addEventListener('mouseenter', function() {
+            trashCans[i].src = "/images/soptunnaOpen.svg";
+        });
+        
+        trashCans[i].addEventListener('mouseleave', function() {
+            trashCans[i].src = "/images/soptunna.svg";
+        });
+    }
+
 
         makeCardsDraggable();
         removeBox();
