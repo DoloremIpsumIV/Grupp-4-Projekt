@@ -16,12 +16,12 @@ function createCard(obj) {
     listElements.appendChild(displayCardFlex(obj.id));
     listElements.classList.add("restaurantCard");
     if (currentWindow === "" || currentWindow.includes("index")) {
-        listElements.addEventListener("click", () => popup(obj)); 
+        listElements.addEventListener("click", () => popup(obj));
         listElements.style.cursor = "pointer";
         newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id, obj);
     }
     const container = document.getElementById("restaurantInfo");
-    
+
     container.appendChild(listElements);
     container.classList.add("restaurantSize");
 }
@@ -136,6 +136,13 @@ function displayCardFlex(restuarantId) {
                     paragraphElement.innerHTML = `${key}: `;
                     paragraphElement.appendChild(crossAndCheck);
                     secondDivElement.prepend(paragraphElement);
+                    break;
+                case "city":
+                    paragraphElement.style.margin = "initial";
+                case "address":
+                    key === "address" ? paragraphElement.innerHTML = `${value}, ` : paragraphElement.innerHTML = `${value}`;
+                    paragraphElement.style.display = "inline";
+                    secondDivElement.appendChild(paragraphElement);
                     break;
 
                 default:

@@ -115,8 +115,6 @@ function displayLocations(locationsMap) {
         const p = document.createElement("p");
         li.textContent = location.name;
         li.id = "#r" + location.id;
-        li.setAttribute("data-lat", location.lat);
-        li.setAttribute("data-lng", location.lng);
         li.addEventListener("click", () => popup(location)); 
         p.textContent = `${location.city}, ${location.province}`;
         li.appendChild(p);

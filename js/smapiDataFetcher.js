@@ -113,9 +113,9 @@ async function fetchData() {
             sorting = setSortingOrder(document.querySelector("#sort").value, "establishment");
             radius = setRadius(document.querySelector("#distance").firstElementChild.value);
 
-            document.querySelector("#searchedRestaurant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value;
-            document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value;
-            document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value;
+            document.querySelector("#searchedRestaurant").innerHTML = document.querySelector("#restaurantType").firstElementChild.value + ",";
+            document.querySelector("#searchedDistance").innerHTML = document.querySelector("#distance").firstElementChild.value + ",";
+            document.querySelector("#searchedPrice").innerHTML = document.querySelector("#priceRange").firstElementChild.value + ",";
             document.querySelector("#searchedProvince").innerHTML = province.replace("&provinces=", "");
 
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=establishment&types=food&method=getFromLatLng&lat=${latitude}&lng=${longitude}&radius=${radius}${province}`, { signal });

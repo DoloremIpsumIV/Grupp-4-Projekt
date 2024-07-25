@@ -82,9 +82,11 @@ function init() {
 
         const searchButton = document.querySelector("#searchButton");
         const findBtnElem = document.querySelector("#findBtn");
+        const trashElement = document.querySelector("#searchResultTrash");
 
         searchButton.addEventListener("click", () => fetchData());
         findBtnElem.addEventListener("click", getUserGeo);
+        trashElement.addEventListener("click", resetSearch)
         document.querySelector("#sort").addEventListener("change", () => fetchData());
 
         smalandButtonElem = document.querySelector("#smaland");
@@ -164,4 +166,8 @@ function toggleSortButtons() {
         smalandButtonElem.addEventListener("click", toggleSortButtons);
     }
     updateMapLoc(false);
+}
+
+function resetSearch() {
+    window.location.reload();
 }

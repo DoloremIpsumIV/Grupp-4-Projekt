@@ -333,8 +333,8 @@ function openMapDialog() {
 
         const closeButton = document.querySelector("#closeButton");
         closeButton.addEventListener("click", function () {
+            GameStartBtn.style.display = "initial";
             overlay.style.display = "none";
-            startGame();
         });
     }
 }

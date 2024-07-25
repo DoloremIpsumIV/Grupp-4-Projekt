@@ -58,11 +58,11 @@ li a {
     color: black;
 }
 
-#nav a{
+#nav a {
     color: white;
 }
 
-#nav a:hover{
+#nav a:hover {
     color: #242a4a;
     background-color: #d7ddf7bf;
 }
@@ -240,6 +240,26 @@ hr {
     background-color: #4a670086;
 }
 
+#GameStartBtn {
+    width: 537px;
+    height: 35px;
+    position: absolute;
+    margin-left: -100px;
+    margin-top: 122px;
+    background-color: #4a6700d7;
+    border: solid 1px #899E1D;
+    color: white;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+#GameStartBtn:hover {
+    background-color: #4a670086;
+}
+
 .star {
     width: 30px;
     height: 30px;
@@ -285,6 +305,7 @@ hr {
     margin-top: 0;
     display: inline-grid;
 }
+
 #searchResults li {
     cursor: pointer;
     margin: 5px 0;
@@ -436,7 +457,7 @@ hr {
     border-radius: 10px;
     margin-top: 20px;
     justify-content: center;
-    margin-left: 1px;  
+    margin-left: 1px;
 }
 
 .restaurantCardFlex {
@@ -458,7 +479,7 @@ div.restaurantCardFlex img {
     color: black;
     width: 40px;
     margin-top: -40px;
-    margin-right: 5%;   
+    margin-right: 5%;
 }
 
 .star {
@@ -474,7 +495,7 @@ h2#restaurantName {
     margin-right: 40px;
     width: 130px;
     margin-left: 1px;
-    
+
 }
 
 
@@ -539,13 +560,15 @@ h2#restaurantName {
     color: white;
     margin-top: -20px;
     display: flex;
-    gap: 20px;
-    
+    gap: 6px;
+
 }
 
 #searchResult p {
-    margin-left: 20px;
     margin-top: 35px;
+}
+#searchResult p:first-child {
+    margin-left: 35px;
 }
 
 #searchLabel {
@@ -567,7 +590,7 @@ h2#restaurantName {
     height: 30px;
     margin-top: 10px;
     margin-left: 350px;
-    display: none;
+    cursor: pointer;
 }
 
 #sort {
@@ -576,7 +599,7 @@ h2#restaurantName {
     margin-top: 18px;
 }
 
-#largeMap{
+#largeMap {
     border: 3px solid black;
     z-index: 100;
     display: flex;
@@ -590,8 +613,8 @@ h2#restaurantName {
 /* Responsiv design index */
 
 @media screen and (max-width: 840px) {
-    
-    #largeMap{
+
+    #largeMap {
         margin: 16% 6% 2% 6%;
     }
 }
@@ -610,9 +633,9 @@ h2#restaurantName {
         margin-left: 670px;
     }
 
-   #searchResult {
-    width: 650px;
-   }
+    #searchResult {
+        width: 650px;
+    }
 
     ul {
         font-size: 14px;
@@ -666,18 +689,18 @@ h2#restaurantName {
         margin-top: 20px;
         margin-left: 20px;
     }
-    
-    
+
+
     div.restaurantCardFlex img {
         font-size: 10px;
         color: black;
         width: 40px;
         margin-top: -40px;
-        margin-right: 5%;   
+        margin-right: 5%;
     }
-    
 
-    
+
+
     h2#restaurantName {
         margin-left: 40px;
         color: black;
@@ -685,24 +708,25 @@ h2#restaurantName {
         margin-right: 60px;
         width: 130px;
         margin-left: 40px;
-        
+
     }
 
-   
-    
+
+
 }
 
 @media screen and (max-width: 650px) {
     #closeButton {
         margin-left: 500px;
     }
-    #largeMap{
+
+    #largeMap {
         width: 80%;
         margin: 17% 6% 2% 9%;
 
     }
 
-    
+
 
 }
 
@@ -1313,10 +1337,13 @@ h2 {
     /* Använd transform för att flytta kortet */
     transform: translate(0, 0);
     /* Om du har några z-index regler, se till att kortet är ovanpå andra element under dragning */
-    z-index: 1000; /* Exempel, justera efter behov */
+    z-index: 1000;
+    /* Exempel, justera efter behov */
     /* Se till att kortets storlek inte ändras */
-    width: auto; /* Förhindra att bredden ändras */
-    height: auto; /* Förhindra att höjden ändras */
+    width: auto;
+    /* Förhindra att bredden ändras */
+    height: auto;
+    /* Förhindra att höjden ändras */
 }
 
 
@@ -1446,7 +1473,7 @@ h2 {
     transition: 0.5s;
     margin-top: 300px;
     margin-left: -100px;
-
+    cursor: pointer;
 }
 
 #mapBtn2:hover {
@@ -1466,7 +1493,7 @@ h2 {
     border-radius: 5px;
     margin-left: 10px;
     transition: 0.5s;
-
+    cursor: pointer;
 }
 
 #findBtn2:hover {
@@ -1695,7 +1722,7 @@ h2 {
 
 #restartBox p {
     margin-bottom: 0px;
-   
+
 }
 
 
@@ -1722,9 +1749,9 @@ h2 {
 }
 
 #geoMatchBtns label {
-   margin-left: -15px;
-   margin-right: 20px;
-   margin-top: 2px;
+    margin-left: -15px;
+    margin-right: 20px;
+    margin-top: 2px;
 }
 
 

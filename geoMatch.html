@@ -7,9 +7,11 @@
     <meta name="description" content="Spela geoMatch för att få förslag på mat!">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="images/logoBlack.png">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script src="js/geoMatch.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/smapiDataFetcher.js"></script>
     <script src="js/restaurantCardMaker.js"></script>
     <script src="/js/script.js"></script>
@@ -20,7 +22,6 @@
 <body>
     <div id="headerContainer" class="stickyHeader">
         <a href="index.html"> <img src="images/logoWhite.png" alt="GetFoods logotype" id="logoWhite"></a>
-
         <ul id="nav">
             <li><a href="allaRestauranger.html">Alla restauranger</a></li>
             <li><a href="favoriter.html">Favoriter</a></li>
@@ -54,7 +55,6 @@
         <div id="selectBox">
             <button id="closeButton2">X</button>
             <div class="dialog-box">
-
                 <button id="mapBtn2">Välj placering på karta <img src="images/mapPointer.svg" alt="map pin"
                         class="buttonImg"></button>
                 <button id="findBtn2">Hitta min plats <img src="images/findPic.svg" alt="map pointer"
@@ -62,15 +62,17 @@
                 <div class="sortButtons">
                     <form>
                         <div id="geoMatchBtns">
-                        <input type="radio" id="smalandRadioBtn" name="location" class="sortRadioBtnToggle" value="Småland" checked>
-                        <label for="smalandRadioBtn">Småland</label>
-                        <br>
-                        <input type="radio" id="olandRadioBtn" name="location" class="sortRadioBtnToggle" value="Öland">
-                        <label for="olandRadioBtn">Öland</label>
+                            <input type="radio" id="smalandRadioBtn" name="location" class="sortRadioBtnToggle"
+                                value="Småland" checked>
+                            <label for="smalandRadioBtn">Småland</label>
+                            <br>
+                            <input type="radio" id="olandRadioBtn" name="location" class="sortRadioBtnToggle"
+                                value="Öland">
+                            <label for="olandRadioBtn">Öland</label>
                         </div>
                     </form>
-
                 </div>
+                <button id="GameStartBtn">Spela</button>
             </div>
         </div>
     </div>

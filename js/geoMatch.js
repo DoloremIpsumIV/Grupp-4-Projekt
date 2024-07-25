@@ -24,6 +24,8 @@ let imageFolder = "mapIconsSVG"; // Folder with all icon images
 let availableImages;             // Saves all remaining images 
 let lastClickedImage = "";       // Saves the last clicked image
 let playBtn;                     // Button object that starts the game
+let restartGameBtn;              // Button for restarting the game
+let GameStartBtn;                // Button to start the game
 
 // Function that initiates on window load
 function initGeoMatch() {
@@ -41,12 +43,15 @@ function initGeoMatch() {
     let findBtn = document.querySelector("#findBtn2");
     findBtn.addEventListener("click", getUserGeo);
 
-    let mapPlayBtn = document.querySelector("#mapPlaybtn");
-    mapPlayBtn.addEventListener("click", startGame);
+    GameStartBtn = document.querySelector("#GameStartBtn");
+    GameStartBtn.style.display = "none";
+    GameStartBtn.addEventListener("click", (e) => startGame(e));
 }
 
 // Shows the options to use either geo location or a map to choose user position
 function gameSettings() {
+    restartGameBtn = document.querySelector("#restartBox");
+    restartGameBtn.addEventListener("click", restartGame);
     playBtn.style.display = "none";
 
     let selectBox = document.querySelector("#selectBox");
@@ -59,16 +64,18 @@ function gameSettings() {
     });
 }
 
+function restartGame() {
+    window.location.reload()
+}
+
 // Initiates the game and defines an array (availableImages) and makes sure the images are different from one another
 function startGame() {
     overlay.style.display = "none";
     playBtn.style.display = "none";
     selectBox.style.display = "none";
 
-    let restartGame = document.querySelector("#restartBox");
-    restartGame.addEventListener("click", startGame);
-    restartGame.style.display = "flex";
-    restartGame.addEventListener("click", init);
+    
+    restartGameBtn.style.display = "flex";
 
     let gameBackground = document.querySelector("#boxBackground");
     gameBackground.style.display = "flex";
