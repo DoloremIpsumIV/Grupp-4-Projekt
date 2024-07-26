@@ -3,7 +3,7 @@ let listCounter = 0; // Hur många listor som finns
 let maxList = 5; // Max antal på listorna
 let listArray = [];
 let cleanedIds;
-
+/*
 function initLoadSaved() {
 
     document.getElementById("addNewListBox").addEventListener("click", addNewList);
@@ -110,7 +110,6 @@ function addNewList() {
     if (listCounter > maxList) {
         return;
     }
-
 
     // Skapar ny låda för den nya listan
     let newListBox = document.createElement("div");

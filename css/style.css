@@ -418,6 +418,7 @@ hr {
     width: 370px;
     margin-right: 70px;
     margin-top: 40px;
+    margin-left: 30px;
     border: 4px solid black;
     border-radius: 10px;
     justify-content: center;
@@ -561,7 +562,7 @@ h2#restaurantName {
     margin-top: -20px;
     display: flex;
     gap: 6px;
-
+    position: relative;
 }
 
 #searchResult p {
@@ -589,9 +590,40 @@ h2#restaurantName {
 #searchResultTrash {
     height: 30px;
     margin-top: 10px;
-    margin-left: 350px;
+    margin-left: 700px;
     cursor: pointer;
+    position: absolute;
 }
+
+#searchResultTrash:hover {
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 700px;
+    cursor: pointer;
+    
+}
+
+.tooltip {
+    visibility: hidden;
+    width: 100px;
+    font-size: 10px;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
+    text-align: center;
+    padding: 2px;
+    position: absolute;
+    z-index: 1;
+    left: 85%;
+    margin-top: 45px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#searchResultTrash:hover + .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
 
 #sort {
     margin-left: 5px;
@@ -1333,22 +1365,95 @@ h2 {
 }
 
 .restaurantCard.dragging {
-    /* Förhindra att kortet ändrar storlek eller blir osynligt under dragning */
-    /* Använd transform för att flytta kortet */
+  
     transform: translate(0, 0);
-    /* Om du har några z-index regler, se till att kortet är ovanpå andra element under dragning */
+ 
     z-index: 1000;
-    /* Exempel, justera efter behov */
-    /* Se till att kortets storlek inte ändras */
+ 
     width: auto;
-    /* Förhindra att bredden ändras */
+   
     height: auto;
-    /* Förhindra att höjden ändras */
+   
 }
 
 
+/*
+#savedBox {
+    background-color: #f7f5f2;
+    width: 300px;
+    margin-right: 30px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    height: 400px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+}
 
+.listBox {
+    background-color: #f7f5f2;
+    width: 300px;
+    margin-right: 30px;
+    margin-top: 50px;
+    border: 4px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 400px;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+    position: relative;
+}
 
+#savedFlexbox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.plusSign {
+    font-size: 120px;
+
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+}
+
+.listInput {
+    height: 50px;
+    font-size: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 70%;
+    margin-top: 30px;
+    border: none;
+    border-bottom: 3px solid rgb(255, 255, 255);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.listInput:focus {
+    border-bottom-color: #edad46e7;
+}
+
+.listInput:hover {
+    border-bottom-color: #edad46e7;
+}
+
+    
+.pen {
+    width: 40px;
+    height: 40px;
+    margin-bottom: -15px;
+}
 
 
 /* CSS geoMatch */

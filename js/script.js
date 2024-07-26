@@ -146,6 +146,17 @@ function init() {
     else if (currentWindow.includes("alla")){
         initAllRestaurants();
     }
+
+    let trashCan = document.querySelector("#searchResultTrash");
+
+        trashCan.addEventListener('mouseenter', function() {
+            trashCan.src = "/images/soptunnaOpen.svg";
+        });
+        
+        trashCan.addEventListener('mouseleave', function() {
+            trashCan.src = "/images/soptunna.svg";
+        });
+
 }
 window.addEventListener("load", init);
 
