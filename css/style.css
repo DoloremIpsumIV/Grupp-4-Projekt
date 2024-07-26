@@ -416,9 +416,10 @@ hr {
 #restaurantInfo {
     background-color: #f7f5f2;
     width: 370px;
-    margin-right: 70px;
+    
     margin-top: 40px;
-    margin-left: 30px;
+    margin-left: auto;
+    margin-right: auto;
     border: 4px solid black;
     border-radius: 10px;
     justify-content: center;
@@ -428,6 +429,7 @@ hr {
     display: block;
     padding-left: 10px;
     text-align: center;
+    box-sizing: border-box; 
 }
 
 .restaurantSize {
@@ -479,8 +481,9 @@ div.restaurantCardFlex img {
     font-size: 10px;
     color: black;
     width: 40px;
-    margin-top: -40px;
-    margin-right: 5%;
+    margin-right: 2%;
+    margin-top: -50px;
+    
 }
 
 .star {
@@ -490,7 +493,7 @@ div.restaurantCardFlex img {
 
 h2#restaurantName {
     font-size: 18px;
-    margin-left: 40px;
+    margin-left: 70px;
     color: black;
     margin-top: 35px;
     margin-right: 40px;
@@ -607,8 +610,8 @@ h2#restaurantName {
     visibility: hidden;
     width: 100px;
     font-size: 10px;
-    background-color: rgb(255, 255, 255);
-    color: #000000;
+    background-color: white;
+    color: black;
     text-align: center;
     padding: 2px;
     position: absolute;
@@ -646,9 +649,12 @@ h2#restaurantName {
 
 @media screen and (max-width: 840px) {
 
+
     #largeMap {
         margin: 16% 6% 2% 6%;
     }
+
+   
 }
 
 @media screen and (max-width: 780px) {
@@ -666,8 +672,22 @@ h2#restaurantName {
     }
 
     #searchResult {
-        width: 650px;
+        width: 600px;
     }
+
+    #center {
+        justify-content: center;
+    }
+
+    #searchResultTrash {
+        margin-left: 550px;
+    }
+
+    #searchResultTrash:hover {
+        margin-left: 550px;
+    }
+    
+
 
     ul {
         font-size: 14px;
@@ -758,6 +778,29 @@ h2#restaurantName {
 
     }
 
+    #searchResult {
+        width: 500px;
+        font-size: 16px;
+
+    }
+
+    #searchResultTrash {
+        margin-left: 450px;
+    }
+
+    #searchResultTrash:hover {
+        margin-left: 450px;
+    }
+
+    #searchResult p:first-child {
+        margin-left: 10px;
+    }
+
+    #filters {
+        background-size: 1000px 400px;
+    }
+    
+
 
 
 }
@@ -785,12 +828,17 @@ h2#restaurantName {
         width: 357px;
     }
 
-    #filters {
-        background-size: 800px 400px;
-    }
-
     #map {
         width: 600px;
+    }
+
+    .dropDownBtn {
+        font-size: 14px;
+        width: 145px;
+    }
+
+    #filters {
+        background-size: 700px 400px;
     }
 
 
@@ -800,18 +848,9 @@ h2#restaurantName {
 
     .dropDownBtn {
         font-size: 14px;
-        width: 130px;
+        width: 145px;
     }
 
-    .dropDownContent {
-        width: 126px;
-    }
-
-
-    .arrow {
-        width: 15px;
-        margin-top: -3px;
-    }
 
     #map {
         width: 400px;
@@ -837,43 +876,78 @@ h2#restaurantName {
         margin-top: 60px;
     }
 
+    li {
+        float: left;
+    }
+
+    #logoWhite {
+        float: right;
+    }
+
+    #searchResult {
+        width: 350px;
+        font-size: 12px;
+    }
+
+    #searchResultTrash {
+        margin-left: 320px;
+        height: 25px;
+    }
+
+    #searchResultTrash:hover {
+        margin-left: 320px;
+        height: 25px;
+    }
+
+    .restaurantCard {
+        background-color: rgb(253, 245, 235);
+        width: 95%;
+        border: 4px solid black;
+        border-radius: 10px;
+        margin-top: 20px;
+        justify-content: center;
+        margin-left: 1px;
+    }
+
+
+
 }
 
 @media screen and (max-width: 480px) {
     #closeButton {
         margin-left: 370px;
     }
+}
 
-    li {
-        float: left;
+
+@media screen and (max-width: 480px) {
+    #closeButton {
+        margin-left: 370px;
+    }
+
+    .dropDownBtn {
+        font-size: 12px;
+        width: 130px;
+    }
+
+    #logoWhite {
+        margin-right: 30px;
     }
 }
 
+
 @media screen and (max-width: 440px) {
-    .dropDownBtn {
-        font-size: 12px;
-        width: 120px;
-    }
 
-    .dropDownContent {
-        width: 116px;
-    }
 
-    .arrow {
-        width: 15px;
-        margin-top: -3px;
-    }
-
-    #map {
+ #map {
         width: 300px;
     }
 
     #closeButton {
         margin-left: 340px;
     }
-}
 
-@media screen and (max-width: 410px) {
+   
 
     #flexforResponsive {
         margin-left: auto;
@@ -942,12 +1016,6 @@ h2#restaurantName {
     }
 
 
-    .arrow {
-        width: 10px;
-        margin-top: -3px;
-    }
-
-
     #distance {
         margin-left: -10px;
     }
@@ -956,10 +1024,7 @@ h2#restaurantName {
         margin-left: -10px;
     }
 
-    #logoWhite {
-        width: 160px;
-        margin-left: 25%;
-    }
+    
 
     #forknknife {
         margin-right: 6%;
@@ -980,6 +1045,21 @@ h2#restaurantName {
 
     .dropDownBtn {
         width: fit-content;
+    }
+
+    #searchResult {
+        width: 330px;
+        font-size: 12px;
+    }
+
+    #searchResultTrash {
+        margin-left: 300px;
+        height: 20px;
+    }
+
+    #searchResultTrash:hover {
+        margin-left: 300px;
+        height: 20px;
     }
 
 }
@@ -1007,6 +1087,11 @@ h2#restaurantName {
     #filters {
         background-size: 680px 300px;
     }
+
+    #logoWhite {
+        margin-right: 45px;
+    }
+
 
 }
 
@@ -1057,7 +1142,7 @@ h2#restaurantName {
 
     .dropDownBtn {
         font-size: 10px;
-        width: 98px;
+        width: 110px;
         margin-top: 45px;
     }
 
