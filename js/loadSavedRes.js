@@ -1,9 +1,10 @@
 
-const listCounter = 2; // Hur många listor som finns
+const listCounter = 5; // Hur många listor som finns
 const maxList = 5; // Max antal på listorna
 let idPosition = new Map();
 let currentContainer;
 let cleanedIds;
+let movingCard;
 
 async function initLoadSaved() {
     try {
@@ -18,16 +19,6 @@ async function initLoadSaved() {
     } catch (error) {
         console.log("No id's");
     }
-
-
-
-
-
-    //makeCardsDraggable();
-    //loadSavedCards();
-    //loadSavedState();
-    //setupTrashCanClick();
-    //recreateRestaurantCards();
 }
 
 function getRestaurantIds() {
@@ -35,11 +26,9 @@ function getRestaurantIds() {
     cleanedIds = restaurantIds.map(id => id.replace(/r/, ''));
 }
 
-async function moveCard(card) {
-    console.log(card.firstChild.id);
-    const thisCard = card.firstChild.id.substring(2);
-    idPosition.set(thisCard, 1)
-    console.log(idPosition);
+async function moveCard(containerId) {
+    const thisCard = movingCard.firstChild.id.substring(2);
+    idPosition.set(thisCard, containerId.substring(3))
 
     loadCards();
 }
@@ -49,18 +38,16 @@ async function loadCards() {
         currentContainer = document.getElementById(`box${i}`);
         currentContainer.innerHTML = "";
     }
-
     await fetchData()
 
-    //document.getElementById("addNewListBox").addEventListener("click", addNewList);
-
     let cards = document.querySelectorAll(".restaurantCard");
+    let containers = document.querySelectorAll(".listBox");
+    containers.forEach(container => {
+        container.addEventListener("dragover", handleDragOver);
+        container.addEventListener("drop", handleDrop);
+    });
     cards.forEach(card => {
-        //card.addEventListener("dblclick", () => moveCardToFavorites(card));
-        //card.addEventListener("touchstart", handleTouchStart, false);
-        //card.addEventListener("touchmove", handleTouchMove, false);
-        //card.addEventListener("touchend", handleTouchEnd, false);
-        card.addEventListener("click", () => moveCard(card));
+        card.addEventListener("dragstart", () => dragCard(card));
     });
 }
 
@@ -78,7 +65,18 @@ function fetchStoredData() {
 }
 
 
+function dragCard(card) {
+    movingCard = card;
+}
 
+function handleDragOver(event) {
+    event.preventDefault(); 
+}
+
+function handleDrop(event) {
+    event.preventDefault();
+    moveCard(this.id);
+}
 
 
 /*
@@ -96,66 +94,7 @@ async function recreateRestaurantCards() {
     fetchData();
 }
 
-function handleTouchStart(event) {
-    console.log("SDcvbnj")
-    event.preventDefault();
-    this.touchStartTime = new Date().getTime();
-    this.touchMoveHandler = handleTouchMove.bind(this);
-    this.touchEndHandler = handleTouchEnd.bind(this);
 
-  
-    this.style.zIndex = 1000; 
-
-    this.addEventListener("touchmove", this.touchMoveHandler, false);
-    this.addEventListener("touchend", this.touchEndHandler, false);
-}
-
-function handleTouchMove(event) {
-    console.log("SDFGHJ")
-    event.preventDefault();
-    const touch = event.touches[0];
-    const card = this;
-
-    this.style.zIndex = 1000; 
-
-    card.style.transform = `translate(${touch.pageX - card.offsetWidth / 2}px, ${touch.pageY - card.offsetHeight / 2}px)`;
-    card.classList.add("dragging");
-    
-}
-
-function handleTouchEnd(event) {
-    console.log("end");
-    event.preventDefault();
-    let touchDuration = new Date().getTime() - this.touchStartTime;
-    const card = this;
-
-
-    if (touchDuration < 500) {
-        moveCardToFavorites(card);
-    } else {
-        card.classList.remove("dragging");
-
-        card.style.transform = "";
-        card.style.position = "static";
-        
-        
-        const touch = event.changedTouches[0];
-        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-
-        if (dropTarget) {
-            if (dropTarget.classList.contains("listBox")) {
-                dropTarget.appendChild(card);
-                saveState();
-            } else {
-                console.log("Drop target is not a valid listBox");
-            }
-        }
-
-    }
-
-    this.removeEventListener("touchmove", this.touchMoveHandler);
-    this.removeEventListener("touchend", this.touchEndHandler);
-}
 
 
 // Lägger till och skapar lista

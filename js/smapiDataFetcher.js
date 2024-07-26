@@ -147,7 +147,6 @@ async function fetchData() {
 
             await getFoodData();
             restaurant = combineRestaurantData(establishmentMap, foodMap);
-            console.log(restaurant);
             restaurant.forEach(object => {
                 createCard(object);
             });

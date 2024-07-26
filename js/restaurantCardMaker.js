@@ -14,6 +14,7 @@ function combineRestaurantData(map1, map2) {
 function createCard(obj) {
     const listElements = document.createElement("div");
     listElements.classList.add("restaurantCard");
+    listElements.draggable = true;
     if (currentWindow === "" || currentWindow.includes("index")) {
         listElements.appendChild(displayCardFlex(obj.id));
         listElements.addEventListener("click", () => popup(obj));
@@ -27,21 +28,16 @@ function createCard(obj) {
         container.classList.add("restaurantSize");
     }
     else if (currentWindow.includes("favoriter")) {
-        console.log(idPosition.get(obj.id));
-
         currentContainer = document.getElementById(`box${idPosition.get(obj.id)}`);
         listElements.appendChild(displayCardFlex(obj.id));
 
         currentContainer.appendChild(listElements);
         currentContainer.classList.add("restaurantSize");
-
-
     }
 }
 
 // Function that will display a restaurant card aslong as the restaurant id exists in the restaurant map
 function displayCardFlex(restuarantId) {
-    console.log(restuarantId)
     if (restuarantId == undefined) {
         return;
     }
