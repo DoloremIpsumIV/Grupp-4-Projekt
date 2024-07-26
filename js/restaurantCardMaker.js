@@ -13,35 +13,29 @@ function combineRestaurantData(map1, map2) {
 // Function that creates each card on the webbsite
 function createCard(obj) {
     const listElements = document.createElement("div");
-    listElements.appendChild(displayCardFlex(obj.id));
     listElements.classList.add("restaurantCard");
     if (currentWindow === "" || currentWindow.includes("index")) {
+        listElements.appendChild(displayCardFlex(obj.id));
         listElements.addEventListener("click", () => popup(obj));
         listElements.style.cursor = "pointer";
         newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id, obj);
     }
 
-    if(currentWindow === "" || currentWindow.includes("index") || currentWindow.includes("geo")){
+    if (currentWindow === "" || currentWindow.includes("index") || currentWindow.includes("geo")) {
         const container = document.getElementById("restaurantInfo");
         container.appendChild(listElements);
         container.classList.add("restaurantSize");
     }
-
-    
-    if (obj.id == undefined) {
-        return;
-    }
     else if (currentWindow.includes("favoriter")) {
-        const container = document.getElementById("savedBox");
-        const listElements = document.createElement("div");
-        listElements.appendChild(displayCardFlex(obj.id));
-        listElements.classList.add("restaurantCard");
-        container.appendChild(listElements);
-        container.classList.add("restaurantSize");
+        console.log(idPosition.get(obj.id));
 
-        makeCardsDraggable();
-        loadSavedCards();
-        setupTrashCanClick();
+        currentContainer = document.getElementById(`box${idPosition.get(obj.id)}`);
+        listElements.appendChild(displayCardFlex(obj.id));
+
+        currentContainer.appendChild(listElements);
+        currentContainer.classList.add("restaurantSize");
+
+
     }
 }
 

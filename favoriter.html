@@ -4,10 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
+    <meta name="description"
+        content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/script.js"></script>
     <script src="js/smapiDataFetcher.js"></script>
     <script src="js/mapLogic.js"></script>
@@ -31,69 +34,70 @@
 
 
     <h1>Sparade favoriter</h1>
-    <h3 id="instructions">Skapa egna personliga listor och sortera dina favoriter genom att dra dem mellan listor. Dubbelklicka för att lägga tillbaka i mina favoriter.</h3>
+    <h3 id="instructions">Skapa egna personliga listor och sortera dina favoriter genom att dra dem mellan listor.
+        Dubbelklicka för att lägga tillbaka i mina favoriter.</h3>
 
 
     <div id="savedFlexbox">
 
-        <div class="box">
-        <h2>Mina favoriter</h2>
-        <div id="savedBox"></div>
+        <div class="box" >
+            <h2>Mina favoriter</h2>
+            <div class="listBox" id="box0"></div>
         </div>
-    
-        <div class="box">
-            <div >
-            <input type="text" class="listInput" placeholder="Ny lista 1">
-            <img src="images/penna.svg" class="pen">
+
+        <div class="box" >
+            <div>
+                <input type="text" class="listInput" placeholder="Ny lista 1">
+                <img src="images/penna.svg" class="pen">
             </div>
-        <div class="listBox">
-            <p class="plusSign">+</p>
-        </div>
-        </div>
-    
-        <div class="box">
-            <div >
-            <input type="text" class="listInput" placeholder="Ny lista 2">
-            <img src="images/penna.svg" class="pen">
+            <div class="listBox" id="box1">
+                <p class="plusSign">+</p>
             </div>
-        <div class="listBox">
-            <p class="plusSign">+</p>
         </div>
-        </div>
-    
-        <div class="box">
-            <div >
-            <input type="text" class="listInput" placeholder="Ny lista 3">
-            <img src="images/penna.svg" class="pen">
+
+        <div class="box" >
+            <div>
+                <input type="text" class="listInput" placeholder="Ny lista 2">
+                <img src="images/penna.svg" class="pen">
             </div>
-        <div class="listBox">
-            <p class="plusSign">+</p>
-        </div>
-        </div>
-    
-        <div class="box">
-            <div >
-            <input type="text" class="listInput" placeholder="Ny lista 4">
-            <img src="images/penna.svg" class="pen">
+            <div class="listBox" id="box2">
+                <p class="plusSign">+</p>
             </div>
-        <div class="listBox">
-            <p class="plusSign">+</p>
         </div>
-        </div>
-    
-        <div class="box">
-            <div >
-            <input type="text" class="listInput" placeholder="Ny lista 5">
-            <img src="images/penna.svg" class="pen">
+
+        <div class="box" >
+            <div>
+                <input type="text" class="listInput" placeholder="Ny lista 3">
+                <img src="images/penna.svg" class="pen">
             </div>
-        <div class="listBox">
-            <p class="plusSign">+</p>
+            <div class="listBox" id="box3">
+                <p class="plusSign">+</p>
+            </div>
         </div>
+
+        <div class="box" >
+            <div>
+                <input type="text" class="listInput" placeholder="Ny lista 4">
+                <img src="images/penna.svg" class="pen">
+            </div>
+            <div class="listBox" id="box4">
+                <p class="plusSign">+</p>
+            </div>
         </div>
-    
-        
-    
+
+        <div class="box" >
+            <div>
+                <input type="text" class="listInput" placeholder="Ny lista 5">
+                <img src="images/penna.svg" class="pen">
+            </div>
+            <div class="listBox" id="box5">
+                <p class="plusSign">+</p>
+            </div>
         </div>
+
+
+
+    </div>
 
 
 

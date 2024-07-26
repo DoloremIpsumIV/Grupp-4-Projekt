@@ -94,7 +94,6 @@ function setSortingOrder(value, fetchType) {
 
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
 async function fetchData() {
-    console.log(currentWindow);
     try {
         let response;   // SMAPI data response
         sorting = "";
@@ -121,9 +120,7 @@ async function fetchData() {
 
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=establishment&types=food&method=getFromLatLng&lat=${latitude}&lng=${longitude}&radius=${radius}${province}`, { signal });
         } else if (currentWindow.includes("favoriter")) {
-            province = "";
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&ids=${cleanedIds}`, { signal });
-            initLoader();
         }
 
         if (response.ok) {
@@ -150,7 +147,7 @@ async function fetchData() {
 
             await getFoodData();
             restaurant = combineRestaurantData(establishmentMap, foodMap);
-
+            console.log(restaurant);
             restaurant.forEach(object => {
                 createCard(object);
             });
@@ -202,7 +199,6 @@ async function getFoodData() {
         } else if (currentWindow.includes("favoriter")) {
             province = "";
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=food&method=getAll&ids=${cleanedIds}`, { signal });
-            initLoader();
         }
 
         console.log(response)
@@ -239,12 +235,13 @@ async function getFoodData() {
 
 // Function that adds CSS-class in order to show loader
 function initLoader() {
-    loader.classList.add("show");
+    loader ? loader.classList.add("show") : "";
+    
 }
 
 // Function that removes CSS-class in order to hide loader
 function stopLoader() {
-    loader.classList.remove("show");
+    loader ? loader.classList.remove("show") : "";
 }
 
 function saveRestaurant(listElement) {

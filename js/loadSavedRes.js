@@ -1,29 +1,75 @@
 
-let listCounter = 0; // Hur många listor som finns
-let maxList = 5; // Max antal på listorna
-let listArray = [];
+const listCounter = 2; // Hur många listor som finns
+const maxList = 5; // Max antal på listorna
+let idPosition = new Map();
+let currentContainer;
 let cleanedIds;
 
-function initLoadSaved() {
+async function initLoadSaved() {
+    getRestaurantIds();
+    cleanedIds.forEach(id => {
+        const position = 0;
+        idPosition.set(id, position);
+    });
 
-    document.getElementById("addNewListBox").addEventListener("click", addNewList);
+    loadCards();
+
+    //makeCardsDraggable();
+    //loadSavedCards();
+    //loadSavedState();
+    //setupTrashCanClick();
+    //recreateRestaurantCards();
+}
+
+function getRestaurantIds() {
+    let restaurantIds = JSON.parse(localStorage.getItem("savedRestaurant"));
+    cleanedIds = restaurantIds.map(id => id.replace(/r/, ''));
+}
+
+async function moveCard(card) {
+    console.log(card.firstChild.id);
+    const thisCard = card.firstChild.id.substring(2);
+    idPosition.set(thisCard, 1)
+    console.log(idPosition);
+
+    loadCards();
+}
+
+async function loadCards() {
+    for (let i = 0; i < listCounter; i++) {
+        currentContainer = document.getElementById(`box${i}`);
+        currentContainer.innerHTML = "";
+    }
+
+    await fetchData()
+
+    //document.getElementById("addNewListBox").addEventListener("click", addNewList);
 
     let cards = document.querySelectorAll(".restaurantCard");
     cards.forEach(card => {
-        card.addEventListener("dblclick", () => moveCardToFavorites(card));
-        card.addEventListener("touchstart", handleTouchStart, false);
-        card.addEventListener("touchmove", handleTouchMove, false);
-        card.addEventListener("touchend", handleTouchEnd, false);
+        //card.addEventListener("dblclick", () => moveCardToFavorites(card));
+        //card.addEventListener("touchstart", handleTouchStart, false);
+        //card.addEventListener("touchmove", handleTouchMove, false);
+        //card.addEventListener("touchend", handleTouchEnd, false);
+        card.addEventListener("click", () => moveCard(card));
     });
-
-    makeCardsDraggable();
-    loadSavedCards();
-    loadSavedState();
-    setupTrashCanClick();
-    recreateRestaurantCards();
 }
-window.addEventListener("load", init);
 
+window.addEventListener("beforeunload", () => {
+    localStorage.setItem("idPosition", JSON.stringify(Array.from(idPosition.entries())));
+});
+
+window.addEventListener("load", () => {
+    const storedData = localStorage.getItem("idPosition");
+    if (storedData) {
+        idPosition = new Map(JSON.parse(storedData));
+    }
+});
+
+
+
+
+/*
 async function recreateRestaurantCards() {
     const savedRestaurantIds = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
