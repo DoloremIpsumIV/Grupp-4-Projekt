@@ -80,6 +80,16 @@ function init() {
     if (currentWindow === "" || currentWindow.includes("index")) {
         initMap("mapViewer");
 
+        let trashCan = document.querySelector("#searchResultTrash");
+
+        trashCan.addEventListener('mouseenter', function() {
+            trashCan.src = "/images/soptunnaOpen.svg";
+        });
+        
+        trashCan.addEventListener('mouseleave', function() {
+            trashCan.src = "/images/soptunna.svg";
+        });
+
         const searchButton = document.querySelector("#searchButton");
         const findBtnElem = document.querySelector("#findBtn");
         const trashElement = document.querySelector("#searchResultTrash");
@@ -147,15 +157,7 @@ function init() {
         initAllRestaurants();
     }
 
-    let trashCan = document.querySelector("#searchResultTrash");
-
-        trashCan.addEventListener('mouseenter', function() {
-            trashCan.src = "/images/soptunnaOpen.svg";
-        });
-        
-        trashCan.addEventListener('mouseleave', function() {
-            trashCan.src = "/images/soptunna.svg";
-        });
+    
 
 }
 window.addEventListener("load", init);
