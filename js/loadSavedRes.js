@@ -6,13 +6,22 @@ let currentContainer;
 let cleanedIds;
 
 async function initLoadSaved() {
-    getRestaurantIds();
-    cleanedIds.forEach(id => {
-        const position = 0;
-        idPosition.set(id, position);
-    });
+    try {
+        getRestaurantIds();
+        cleanedIds.forEach(id => {
+            const position = 0;
+            idPosition.set(id, position);
+        });
 
-    loadCards();
+        fetchStoredData();
+        loadCards();
+    } catch (error) {
+        console.log("No id's");
+    }
+
+
+
+
 
     //makeCardsDraggable();
     //loadSavedCards();
@@ -59,12 +68,15 @@ window.addEventListener("beforeunload", () => {
     localStorage.setItem("idPosition", JSON.stringify(Array.from(idPosition.entries())));
 });
 
-window.addEventListener("load", () => {
+function fetchStoredData() {
     const storedData = localStorage.getItem("idPosition");
     if (storedData) {
-        idPosition = new Map(JSON.parse(storedData));
+        if (JSON.parse(storedData).length > 0) {
+            idPosition = new Map(JSON.parse(storedData));
+        }
     }
-});
+}
+
 
 
 
