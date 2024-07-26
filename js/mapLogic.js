@@ -148,7 +148,6 @@ För att använda hitta min plats måste du ladda om sidan och godkänna på nyt
     }
     else if (currentWindow.includes("alla")) {
         let successFlag = true;
-
         navigator.geolocation.getCurrentPosition(function (position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;

@@ -147,6 +147,7 @@ async function fetchData() {
 
             await getFoodData();
             restaurant = combineRestaurantData(establishmentMap, foodMap);
+            console.log(restaurant);
             restaurant.forEach(object => {
                 createCard(object);
             });
@@ -155,7 +156,7 @@ async function fetchData() {
                 restaurantFlag = true;
                 document.querySelector("#mapBtn").scrollIntoView();
                 updateMapLoc();
-            } 
+            }
             stopLoader();
             toggleHeartImg();
         }
@@ -235,7 +236,7 @@ async function getFoodData() {
 // Function that adds CSS-class in order to show loader
 function initLoader() {
     loader ? loader.classList.add("show") : "";
-    
+
 }
 
 // Function that removes CSS-class in order to hide loader
@@ -243,8 +244,8 @@ function stopLoader() {
     loader ? loader.classList.remove("show") : "";
 }
 
+// Function that saves the id of the restaurant to local storage
 function saveRestaurant(listElement) {
-    console.log(listElement)
     const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
     console.log("Saving restaurant ID:", restaurantId);
 
@@ -252,24 +253,22 @@ function saveRestaurant(listElement) {
 
     if (!savedRestaurant.includes(restaurantId)) {
         savedRestaurant.push(restaurantId);
-
+        const position = 0;
+        fetchStoredData();
+        idPosition.set(restaurantId.substring(1), position);
+        localStorage.setItem("idPosition", JSON.stringify(Array.from(idPosition.entries())));
         localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
     }
 }
 
+// Toggles the heart img on restaurant cards
 function toggleHeartImg() {
-    if (currentWindow.includes("index")) {
+    if (currentWindow === "" || currentWindow.includes("index") || currentWindow.includes("geo") || currentWindow.includes("favoriter")) {
         const saveBtns = document.querySelectorAll(".saveBtnIndex");
+        console.log(saveBtns);
 
-        saveBtns.forEach(saveBtn => {
+        saveBtns.forEach(saveBtn => {   
             saveBtn.addEventListener("click", function () {
-                const listElement = this.parentNode.parentNode;
-                console.log(listElement)
-                const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
-                console.log(restaurantId)
-
-
-
                 if (this.src.includes("/images/emptyHeart.svg")) {
                     console.log("fullthjärta nu");
                     this.src = "/images/filledHeart.svg";
@@ -277,17 +276,9 @@ function toggleHeartImg() {
                 } else {
                     console.log("tomthjärta nu");
                     this.src = "/images/emptyHeart.svg";
-
-                    listElements = this.parentNode.parentNode;
-
-                    let listElemsArray = Array.from(listElements);
-                    let index = listElemsArray.indexOf(this);
-
-                    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-
-                    savedRestaurant.splice(index, 1);
-
-                    localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+                    console.log(this.parentNode.parentNode.firstElementChild.id.substring(2));
+                    getRestaurantIds();
+                    removeRestaurant(this.parentNode.parentNode.firstElementChild.id.substring(2));
                 }
             });
         });

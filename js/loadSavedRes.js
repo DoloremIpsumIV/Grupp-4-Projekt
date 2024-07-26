@@ -1,11 +1,10 @@
 
-const listCounter = 5; // Hur många listor som finns
-const maxList = 5; // Max antal på listorna
-let idPosition = new Map();
-let currentContainer;
-let cleanedIds;
-let movingCard;
+const listCounter = 5;      // The amount of lists that are currently present
+const maxList = 5;          // Maximum amount of lists possible
+let currentContainer;       // The current dragged container
+let movingCard;             // The container that the card is dropped on
 
+// Init function that fetches local storage and loads cards
 async function initLoadSaved() {
     try {
         getRestaurantIds();
@@ -21,18 +20,16 @@ async function initLoadSaved() {
     }
 }
 
-function getRestaurantIds() {
-    let restaurantIds = JSON.parse(localStorage.getItem("savedRestaurant"));
-    cleanedIds = restaurantIds.map(id => id.replace(/r/, ''));
-}
-
+// Updates positions and loads cards
 async function moveCard(containerId) {
     const thisCard = movingCard.firstChild.id.substring(2);
-    idPosition.set(thisCard, containerId.substring(3))
+    idPosition.set(thisCard, containerId.substring(3));
+    localStorage.setItem("idPosition", JSON.stringify(Array.from(idPosition.entries())));
 
     loadCards();
 }
 
+// Fetches cards from id and gives event listners to containers and cards
 async function loadCards() {
     for (let i = 0; i < listCounter; i++) {
         currentContainer = document.getElementById(`box${i}`);
@@ -51,28 +48,17 @@ async function loadCards() {
     });
 }
 
-window.addEventListener("beforeunload", () => {
-    localStorage.setItem("idPosition", JSON.stringify(Array.from(idPosition.entries())));
-});
-
-function fetchStoredData() {
-    const storedData = localStorage.getItem("idPosition");
-    if (storedData) {
-        if (JSON.parse(storedData).length > 0) {
-            idPosition = new Map(JSON.parse(storedData));
-        }
-    }
-}
-
-
+// Defines what card is being moved
 function dragCard(card) {
     movingCard = card;
 }
 
+// Default handler for drag over event
 function handleDragOver(event) {
-    event.preventDefault(); 
+    event.preventDefault();
 }
 
+// Moves the card to the dropped container
 function handleDrop(event) {
     event.preventDefault();
     moveCard(this.id);

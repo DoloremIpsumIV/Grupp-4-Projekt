@@ -52,6 +52,8 @@ const currentWindow = (window.location.pathname).split('/').pop(); // Const that
 
 let restuarantMarkerArray = [];     // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;              // Button elem for småland
+let idPosition = new Map();         // Map that has the positions of the restaurants on favorites page
+let cleanedIds;                     // Array with all the id's for the restaurants
 let smalandRadioBtn;                // RadioBtn element for Småland
 let olandButtonElem;                // Button elem for Öland
 let olandRadioBtn;                  // RadioBtn element for Öland
@@ -184,6 +186,45 @@ function toggleSortButtons() {
     updateMapLoc(false);
 }
 
+// Resets search by reloading web page
 function resetSearch() {
     window.location.reload();
+}
+
+// fetches the stored data from local storage
+function fetchStoredData() {
+    const storedData = localStorage.getItem("idPosition");
+    if (storedData) {
+        if (JSON.parse(storedData).length > 0) {
+            idPosition = new Map(JSON.parse(storedData));
+        }
+    }
+}
+
+// Cleans up and recieves the id's in an array from local storage
+function getRestaurantIds() {
+    let restaurantIds = JSON.parse(localStorage.getItem("savedRestaurant"));
+    cleanedIds = restaurantIds.map(id => id.replace(/r/, ''));
+}
+
+// Removes the selected restaurant based of the give id from the parameter
+function removeRestaurant(id) {
+    localStorage.clear();
+    idPosition.delete(id);
+    const index = cleanedIds.indexOf(id);
+    if (index !== -1) {
+        cleanedIds.splice(index, 1);
+    }
+
+    if (cleanedIds.length > 0) {
+        localStorage.setItem("savedRestaurant", JSON.stringify(cleanedIds));
+    } else {
+        localStorage.removeItem("savedRestaurant");
+    }
+
+    if (idPosition.size > 0) {
+        localStorage.setItem("idPosition", JSON.stringify(Array.from(idPosition.entries())));
+    } else {
+        localStorage.removeItem("idPosition");
+    }
 }
