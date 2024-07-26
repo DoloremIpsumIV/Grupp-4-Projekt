@@ -159,9 +159,8 @@ async function fetchData() {
                 restaurantFlag = true;
                 document.querySelector("#mapBtn").scrollIntoView();
                 updateMapLoc();
-            } else if (currentWindow.includes("geo") || currentWindow.includes("favoriter")) {
-                stopLoader();
-            }
+            } 
+            stopLoader();
             toggleHeartImg();
         }
         else window.alert(`Error during fetch: ${response.status}

@@ -20,22 +20,18 @@ function createCard(obj) {
         listElements.style.cursor = "pointer";
         newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id, obj);
     }
-    const container = document.getElementById("restaurantInfo");
 
-    container.appendChild(listElements);
-    container.classList.add("restaurantSize");
+    if(currentWindow === "" || currentWindow.includes("index") || currentWindow.includes("geo")){
+        const container = document.getElementById("restaurantInfo");
+        container.appendChild(listElements);
+        container.classList.add("restaurantSize");
+    }
+
+    
     if (obj.id == undefined) {
         return;
     }
-    if (currentWindow === "" || currentWindow.includes("index")) {
-        newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
-        const container = document.getElementById("restaurantInfo");
-        const listElements = document.createElement("div");
-        listElements.appendChild(displayCardFlex(obj.id));
-        listElements.classList.add("restaurantCard");
-        container.appendChild(listElements);
-        container.classList.add("restaurantSize");
-    } else if (currentWindow.includes("favoriter")) {
+    else if (currentWindow.includes("favoriter")) {
         const container = document.getElementById("savedBox");
         const listElements = document.createElement("div");
         listElements.appendChild(displayCardFlex(obj.id));
