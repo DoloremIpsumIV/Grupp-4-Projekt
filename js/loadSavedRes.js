@@ -2,8 +2,9 @@
 let listCounter = 0; // Hur många listor som finns
 let maxList = 5; // Max antal på listorna
 let listArray = [];
+let cleanedIds;
 
-function init() {
+function initLoadSaved() {
 
     document.getElementById("addNewListBox").addEventListener("click", addNewList);
 
@@ -19,12 +20,23 @@ function init() {
     loadSavedCards();
     loadSavedState();
     setupTrashCanClick();
-
+    recreateRestaurantCards();
 }
 window.addEventListener("load", init);
 
+async function recreateRestaurantCards() {
+    const savedRestaurantIds = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
+    if (savedRestaurantIds.length === 0) {
+        console.log("No saved restaurants to recreate");
+        return;
+    }
+    cleanedIds = savedRestaurantIds.map(id => id.replace(/r/, ''));
+    console.log(savedRestaurantIds); // original ids
+    console.log(cleanedIds); // cleaned ids
 
+    fetchData();
+}
 
 function handleTouchStart(event) {
     console.log("SDcvbnj")
@@ -279,49 +291,65 @@ function dropZone(e) {
     droppedListBox.appendChild(draggedRestaurant);
 
     draggedRestaurant.classList.remove("dragging");
+    whenDropped(draggedRestaurant);
     saveState();
 
 }
 
+
 // Tar bort elementet från localstorage med soptunnan
 function setupTrashCanClick() {
+    console.log("i funktion");
     const trashCans = document.querySelectorAll(".saveBtnIndex");
+
     trashCans.forEach(trashCan => {
         trashCan.addEventListener("click", function () {
-            let thisId = this.parentElement.id;
-            let savedArray = JSON.parse(localStorage.getItem("savedRestaurant"))
-            let filteredArray = savedArray.filter(string => !string.includes(thisId));
+            const listElement = this.parentNode.parentNode;
+            console.log(listElement);
 
-            localStorage.clear();
-            localStorage.setItem("savedRestaurant", JSON.stringify(filteredArray));
-            this.parentElement.parentElement.remove();
-            saveState();
+            const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
+            console.log("Removing restaurant ID:", restaurantId);
+
+            let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+            console.log("Before removing:", savedRestaurant);
+
+            if (savedRestaurant.includes(restaurantId)) {
+                savedRestaurant = savedRestaurant.filter(id => id !== restaurantId);
+                localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+                console.log("After removing:", savedRestaurant);
+
+                listElement.parentNode.removeChild(listElement);
+                console.log("Card removed from DOM");
+
+                saveState();
+            }
         });
     });
 }
 
+function whenDropped(draggedRestaurant) {
+    console.log("123");
+    console.log(draggedRestaurant);
+
+    const restaurantId = draggedRestaurant.firstElementChild.id.startsWith("#") ? draggedRestaurant.firstElementChild.id.slice(1) : draggedRestaurant.firstElementChild.id.id;
+    console.log(restaurantId);
+
+    console.log("Removing restaurant ID:", restaurantId);
+
+    let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+    console.log("Before removing:", savedRestaurant);
+
+    if (savedRestaurant.includes(restaurantId)) {
+        savedRestaurant = savedRestaurant.filter(id => id !== restaurantId);
+        localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+        console.log("After removing:", savedRestaurant);
+
+        saveState();
+    }
+}
+
 
 function loadSavedCards() {
-
-    const savedBox = document.querySelector("#savedBox");
-    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-    savedBox.innerHTML = "";
-
-    savedRestaurant.forEach(savedItem => {
-        const savedListElements = document.createElement("div");
-        savedListElements.innerHTML = savedItem;
-
-
-        const cards = savedListElements.querySelectorAll(".restaurantCard");
-        cards.forEach(card => {
-            card.addEventListener("dblclick", function () {
-                moveCardToFavorites(card);
-            });
-        });
-
-        savedBox.appendChild(savedListElements);
-    });
-
     let trashCans = document.querySelectorAll(".saveBtnIndex");
 
     for (let i = 0; i < trashCans.length; i++) {
@@ -336,15 +364,6 @@ function loadSavedCards() {
         });
     }
 
-}
-
-function moveCardToFavorites(card) {
-    let favoritesBox = document.getElementById("savedBox");
-
-    card.parentElement.removeChild(card);
-
-    favoritesBox.appendChild(card);
-    saveState();
 }
 
 function saveState() {
@@ -427,22 +446,22 @@ function loadSavedState() {
 
             input.addEventListener("blur", function (event) {
                 // Adding a slight delay to allow keydown event to complete
-                setTimeout(function() {
+                setTimeout(function () {
                     console.log(event);
-            
+
                     console.log("inputDiv");
-            
+
                     saveListName(newListBox, input, inputDiv, penIcon);
                     saveState();
                 }, 10);
             });
-            
+
             input.addEventListener("keydown", function (event) {
                 if (event.key === "Enter") {
                     console.log(event);
-            
+
                     event.preventDefault();
-                    input.blur(); 
+                    input.blur();
                 }
             });
 

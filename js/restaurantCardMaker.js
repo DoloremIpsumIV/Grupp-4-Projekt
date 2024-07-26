@@ -24,10 +24,37 @@ function createCard(obj) {
 
     container.appendChild(listElements);
     container.classList.add("restaurantSize");
+    if (obj.id == undefined) {
+        return;
+    }
+    if (currentWindow === "" || currentWindow.includes("index")) {
+        newRestaurantMarker(obj.lat, obj.lng, obj.sub_type, obj.id);
+        const container = document.getElementById("restaurantInfo");
+        const listElements = document.createElement("div");
+        listElements.appendChild(displayCardFlex(obj.id));
+        listElements.classList.add("restaurantCard");
+        container.appendChild(listElements);
+        container.classList.add("restaurantSize");
+    } else if (currentWindow.includes("favoriter")) {
+        const container = document.getElementById("savedBox");
+        const listElements = document.createElement("div");
+        listElements.appendChild(displayCardFlex(obj.id));
+        listElements.classList.add("restaurantCard");
+        container.appendChild(listElements);
+        container.classList.add("restaurantSize");
+
+        makeCardsDraggable();
+        loadSavedCards();
+        setupTrashCanClick();
+    }
 }
 
 // Function that will display a restaurant card aslong as the restaurant id exists in the restaurant map
 function displayCardFlex(restuarantId) {
+    console.log(restuarantId)
+    if (restuarantId == undefined) {
+        return;
+    }
     const restaurantObject = restaurant.get(restuarantId.toString());
     const fragment = new DocumentFragment();
 

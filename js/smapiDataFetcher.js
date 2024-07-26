@@ -94,6 +94,7 @@ function setSortingOrder(value, fetchType) {
 
 // Async function that collects restaurant data, it will handle errors by popping up a warning on the page, also can cancel async fetch requests
 async function fetchData() {
+    console.log(currentWindow);
     try {
         let response;   // SMAPI data response
         sorting = "";
@@ -119,6 +120,10 @@ async function fetchData() {
             document.querySelector("#searchedProvince").innerHTML = province.replace("&provinces=", "");
 
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=establishment&types=food&method=getFromLatLng&lat=${latitude}&lng=${longitude}&radius=${radius}${province}`, { signal });
+        } else if (currentWindow.includes("favoriter")) {
+            province = "";
+            response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=establishment&types=food&method=getAll&ids=${cleanedIds}`, { signal });
+            initLoader();
         }
 
         if (response.ok) {
@@ -154,8 +159,9 @@ async function fetchData() {
                 restaurantFlag = true;
                 document.querySelector("#mapBtn").scrollIntoView();
                 updateMapLoc();
+            } else if (currentWindow.includes("geo") || currentWindow.includes("favoriter")) {
+                stopLoader();
             }
-            stopLoader();
             toggleHeartImg();
         }
         else window.alert(`Error during fetch: ${response.status}
@@ -194,7 +200,13 @@ async function getFoodData() {
             radius = setRadius(document.querySelector("#distance").firstElementChild.value);
             priceRange = setPriceRange(document.querySelector("#priceRange").firstElementChild.value);
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}${sorting}&controller=food&method=getFromLatLng&lat=${latitude}&${id}&lng=${longitude}&radius=${radius}${restaurantType}${priceRange}`, { signal });
+        } else if (currentWindow.includes("favoriter")) {
+            province = "";
+            response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=food&method=getAll&ids=${cleanedIds}`, { signal });
+            initLoader();
         }
+
+        console.log(response)
         if (response.ok) {
             const dataResponse = await response.json();
             if (currentWindow === "" || currentWindow.includes("index")) {
@@ -236,44 +248,53 @@ function stopLoader() {
     loader.classList.remove("show");
 }
 
-function saveRestaurant(listElements) {
-    console.log(listElements);
+function saveRestaurant(listElement) {
+    console.log(listElement)
+    const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
+    console.log("Saving restaurant ID:", restaurantId);
 
     let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
-    const clonedListElement = listElements.cloneNode(true);
+    if (!savedRestaurant.includes(restaurantId)) {
+        savedRestaurant.push(restaurantId);
 
-    savedRestaurant.push(clonedListElement.outerHTML);
-    localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-
+        localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+    }
 }
 
 function toggleHeartImg() {
-    const saveBtns = document.querySelectorAll(".saveBtnIndex");
-    console.log(saveBtns)
+    if (currentWindow.includes("index")) {
+        const saveBtns = document.querySelectorAll(".saveBtnIndex");
 
-    saveBtns.forEach(saveBtn => {
-        saveBtn.addEventListener("click", function () {
+        saveBtns.forEach(saveBtn => {
+            saveBtn.addEventListener("click", function () {
+                const listElement = this.parentNode.parentNode;
+                console.log(listElement)
+                const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
+                console.log(restaurantId)
 
-            if (this.src.includes("/images/emptyHeart.svg")) {
-                console.log("fullthjärta nu");
-                this.src = "/images/filledHeart.svg";
-                saveRestaurant(this.parentNode.parentNode);
-            } else {
-                console.log("tomthjärta nu");
-                this.src = "/images/emptyHeart.svg";
 
-                listElements = this.parentNode.parentNode;
 
-                let listElemsArray = Array.from(listElements);
-                let index = listElemsArray.indexOf(this);
+                if (this.src.includes("/images/emptyHeart.svg")) {
+                    console.log("fullthjärta nu");
+                    this.src = "/images/filledHeart.svg";
+                    saveRestaurant(this.parentNode.parentNode);
+                } else {
+                    console.log("tomthjärta nu");
+                    this.src = "/images/emptyHeart.svg";
 
-                const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+                    listElements = this.parentNode.parentNode;
 
-                savedRestaurant.splice(index, 1);
+                    let listElemsArray = Array.from(listElements);
+                    let index = listElemsArray.indexOf(this);
 
-                localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-            }
+                    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+
+                    savedRestaurant.splice(index, 1);
+
+                    localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
+                }
+            });
         });
-    });
+    }
 }
