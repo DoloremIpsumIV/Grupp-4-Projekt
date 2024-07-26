@@ -1026,6 +1026,22 @@ h2#restaurantName {
 
 }
 
+@media screen and (max-width: 420px) {
+    #restaurantInfo {
+        
+        width: 338px;
+        
+    }
+
+    .restaurantCard p {
+        font-size: 10px;
+    }
+
+   
+
+}
+
+
 @media screen and (max-width: 390px) {
     #searchButton {
         width: 370px;
@@ -1972,22 +1988,19 @@ h2 {
         width: 250px;
     }
 
-    div.restaurantCard {
-        width: 200px;
-    }
 
     div.restaurantCardFlex img {
         font-size: 10px;
         color: black;
-        width: 50px;
+        width: 30px;
     }
 
     img#picture {
-        width: 50px;
+        width: 70px;
     }
 
     h2#restaurantName {
-        font-size: 12px;
+        font-size: 14px;
         margin-left: 10px;
     }
 
