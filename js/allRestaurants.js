@@ -14,8 +14,6 @@ let searchInputElem;                        // Element that takes input of user
 
 // Init function
 function initAllRestaurants() {
-    const findBtnElem = document.querySelector("#findBtn");
-    findBtnElem.addEventListener("click", getUserGeo);
 
     loader = document.querySelector("#loaderId");
     loader.firstElementChild.firstElementChild.innerText = "Laddar in alla restauranger, snälla vänta lite...";
@@ -42,7 +40,9 @@ function initAllRestaurants() {
 
     searchInputElem = document.getElementById("searchInput");
     searchInputElem.value = "";
-    searchInputElem.addEventListener("input", filterLocations);
+   searchInputElem.addEventListener("input", filterLocations);
+
+    initializePopularSearchButtons(); 
 
     initLoader();
     fetchAllRestaurants();
@@ -136,30 +136,59 @@ function filterLocations() {
     displayLocations(filteredLocations);
 }
 
-function showTab(tabId, popularSearchId) {
-    var tabs = document.querySelectorAll('.tabContent');
-    tabs.forEach(function(tab) {
-        tab.classList.remove('active');
-    });
-
-    // Döljer alla populära sökningar
-    var popularSearches = document.querySelectorAll('.popularSearch');
-    popularSearches.forEach(function(search) {
-        search.classList.remove('active');
-    });
-
-    // Visar den valda tabben
-    document.getElementById(tabId).classList.add('active');
-
-    // Visar den tillhörande populära sökningen
-    document.getElementById(popularSearchId).classList.add('active');
-    /*
+function showTab(tabId) {
+    
     let tabs = document.querySelectorAll(".tabContent");
     tabs.forEach(function(tab) {
         tab.style.display = "none";
     });
 
-   
     document.getElementById(tabId).style.display = "block";
+
+
+    let popularSearch1 = document.querySelector("#popularSearch1");
+    let popularSearch2 = document.querySelector("#popularSearch2");
+
+    if (tabId === 'locationResults') {
+        popularSearch1.style.display = "block";
+        popularSearch2.style.display = "none";
+    } else if (tabId === 'specificRestaurantResults') {
+        popularSearch1.style.display = "none";
+        popularSearch2.style.display = "block";
+    }
+    
+}
+
+function initializePopularSearchButtons() {
+    console.log("SDFGHJK")
+    let popularButtons1 = document.querySelectorAll("#shortcutButtons1 button");
+    popularButtons1.forEach(function(button) {
+        insertText(button);
+    });
+
+    let popularButtons2 = document.querySelectorAll("#shortcutButtons2 button");
+    popularButtons2.forEach(function(button) {
+        insertText(button);
+    });
+}
+
+function insertText(button) {
+    button.addEventListener('click', function() {
+        const inputElem = document.getElementById(currentSearchInputId);
+        if (inputElem) {
+            inputElem.value = button.textContent;
+            filterLocations();
+        } else {
+            console.error('Input element with ID "' + currentSearchInputId + '" not found.');
+        }
+    });
+
+    /*
+    button.addEventListener('click', function() {
+        const inputElem = document.getElementById(inputId);
+        inputElem.value = button.textContent;
+        filterLocations();
+    });
     */
 }
+
