@@ -2376,3 +2376,117 @@ h2 {
     color: white;
     border-radius: 5px;
 }
+
+.tabs {
+    margin-top: 100px;
+}
+
+.tabButtons {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.tabButtons:hover {
+    background-color: #ddd;
+}
+
+.tabContent {
+    border: 1px solid #ccc;
+    padding: 20px;
+    height: 400px;
+    width: 370px;
+    box-sizing: border-box;
+    
+}
+
+#specificRestaurantResults {
+    display: none;
+    background-color: #d29635df;
+    color: white;
+    border: solid 2px #745523;
+  
+}
+
+#restaurantTab {
+    background-color: #d29635df;
+    color: white;
+    border: solid 2px #745523;
+    border-radius: 10px 10px 0 0;
+}
+
+#locationResults {
+   margin-top: 0px;
+   background-color: #899e1de1;
+    color: white;
+    border: solid 2px #4a6700;
+}
+
+.tabContent.active {
+    display: block;
+    
+}
+
+#locationTab {
+    background-color: #899e1de1;
+    color: white;
+    border: solid 2px #4a6700;
+    border-radius: 10px 10px 0 0;
+}
+
+#popularSearch1 {
+    margin-left: 70px;
+    margin-top: 100px;
+    margin-bottom: -80px;
+    color: white;
+  
+}
+
+#shortcutButtons1 button {
+    font-size: 20px;
+    padding: 5px;
+    background-color: #b6b9c7bf;
+    border-radius: 5px;
+    color: white;
+    border: 2px #333642bf solid;
+
+}
+
+#shortcutButtons1 button:hover {
+    background-color: #7a7a82bf;
+    cursor: pointer; 
+}
+
+#popularSearch2 {
+    margin-left: 70px;
+    margin-top: 100px;
+    margin-bottom: -80px;
+    color: white;
+    display: none;
+  
+}
+
+#shortcutButtons2 button {
+    font-size: 20px;
+    padding: 5px;
+    background-color: #b6b9c7bf;
+    border-radius: 5px;
+    color: white;
+    border: 2px #333642bf solid;
+
+}
+
+#shortcutButtons2 button:hover {
+    background-color: #7a7a82bf;
+    cursor: pointer; 
+}
+
+
+
+
+
+
+
+

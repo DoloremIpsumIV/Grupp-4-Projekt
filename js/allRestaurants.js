@@ -135,3 +135,31 @@ function filterLocations() {
     );
     displayLocations(filteredLocations);
 }
+
+function showTab(tabId, popularSearchId) {
+    var tabs = document.querySelectorAll('.tabContent');
+    tabs.forEach(function(tab) {
+        tab.classList.remove('active');
+    });
+
+    // Döljer alla populära sökningar
+    var popularSearches = document.querySelectorAll('.popularSearch');
+    popularSearches.forEach(function(search) {
+        search.classList.remove('active');
+    });
+
+    // Visar den valda tabben
+    document.getElementById(tabId).classList.add('active');
+
+    // Visar den tillhörande populära sökningen
+    document.getElementById(popularSearchId).classList.add('active');
+    /*
+    let tabs = document.querySelectorAll(".tabContent");
+    tabs.forEach(function(tab) {
+        tab.style.display = "none";
+    });
+
+   
+    document.getElementById(tabId).style.display = "block";
+    */
+}
