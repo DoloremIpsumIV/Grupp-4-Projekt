@@ -52,13 +52,18 @@
         <div id="buttonContainer">
             <button id="playButton">Spela</button>
         </div>
+
+        
         <div id="selectBox">
-            <button id="closeButton2">X</button>
+            <div id="closeBox">
+            <button id="closeButton2">Gå tillbaka till start <</button>
+            </div>
             <div class="dialog-box">
-                <button id="mapBtn2">Välj placering på karta <img src="images/mapPointer.svg" alt="map pin"
+                <div id="buttonsDiv">               <button id="mapBtn2">Välj placering på karta <img src="images/mapPointer.svg" alt="map pin"
                         class="buttonImg"></button>
                 <button id="findBtn2">Hitta min plats <img src="images/findPic.svg" alt="map pointer"
                         class="buttonImg"></button>
+                        </div>
                 <div class="sortButtons">
                     <form>
                         <div id="geoMatchBtns">
@@ -72,7 +77,6 @@
                         </div>
                     </form>
                 </div>
-                <button id="GameStartBtn">Spela</button>
             </div>
         </div>
     </div>
@@ -106,15 +110,18 @@
     </div>
 
     <div id="endGamePage">
+        <div>
         <div id="textBox">
             <h2 id="result"></h2>
+            <div>
             <div id="circleImgHolder"></div>
-
-            <p>Här är några förslag på restauranger som kanske passar dig!!</p>
+            </div>
+            <p id="tips">Här är några förslag på restauranger som kanske passar dig!!</p>
         </div>
 
         <div id="restaurantInfo">
 
+        </div>
         </div>
     </div>
 

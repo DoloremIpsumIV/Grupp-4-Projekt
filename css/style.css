@@ -850,16 +850,17 @@ h2#restaurantName {
     }
 
     li {
-        float: left;
+        
+        margin-top: 25px;
     }
 
     #logoWhite {
-        float: right;
+        margin-top: -30px;
+        height: 60px;
     }
 
     #searchResult {
         width: 350px;
-        font-size: 12px;
     }
 
     #searchResultTrash {
@@ -890,9 +891,13 @@ h2#restaurantName {
         width: 130px;
     }
 
-    #logoWhite {
-        margin-right: 30px;
+    li {
+        margin-top: 2px;
+        font-size: 12px;
+        float: left;
     }
+
+   
 
 
 }
@@ -966,8 +971,8 @@ h2#restaurantName {
     }
 
     .dropDownBtn {
-        font-size: 13px;
-        width: 98px;
+        font-size: 12px;
+        width: 100px;
         margin-top: 45px;
     }
 
@@ -1018,11 +1023,16 @@ h2#restaurantName {
         height: 20px;
     }
 
-    #restaurantInfo {
-        
-        width: 338px;
-        
+    #restaurantInfo { 
+        width: 338px;   
     }
+
+    
+
+  
+
+
+
 
 }
 
@@ -1035,16 +1045,6 @@ h2#restaurantName {
 
     .restaurantCard p {
         font-size: 10px;
-    }
-
-   
-
-}
-
-
-@media screen and (max-width: 390px) {
-    #searchButton {
-        width: 370px;
     }
 
     #mapBtn {
@@ -1062,18 +1062,33 @@ h2#restaurantName {
         margin-bottom: 30px;
     }
 
+    #searchButton {
+        width: 370px;
+    }
+
+
+}
+
+
+@media screen and (max-width: 390px) {
+   
+  
+
     #filters {
         background-size: 680px 300px;
     }
 
-    #logoWhite {
-        margin-right: 45px;
-    }
 
     li {
-        font-size: 12px;
+        font-size: 11px;
         
     }
+
+    #logoWhite {
+        margin-right: 20px;
+    }
+
+   
 
 
 }
@@ -1090,8 +1105,7 @@ h2#restaurantName {
     }
 
     #logoWhite {
-        width: 100px;
-        margin-left: 23%;
+        margin-right: 40px;
     }
 
 
@@ -1199,10 +1213,7 @@ h2#restaurantName {
         padding-left: 0;
     }
 
-    #logoWhite {
-        width: 100px;
-        margin-left: 20%;
-    }
+    
 
     #footer {
         background-size: 600px 400px;
@@ -1220,12 +1231,10 @@ h2#restaurantName {
         margin-left: 250px;
     }
 
-    li a {
-        font-size: 12px;
+    #logoWhite {
+        margin-right: 50px;
     }
 }
-
-
 
 
 
@@ -1618,8 +1627,10 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    
 }
+
+
 
 #playButton {
     width: 400px;
@@ -1645,7 +1656,7 @@ h2 {
     border-radius: 5px;
     transition: 0.5s;
     margin-top: 300px;
-    margin-left: -100px;
+    margin-left: -200px;
     cursor: pointer;
 }
 
@@ -1667,12 +1678,18 @@ h2 {
     margin-left: 10px;
     transition: 0.5s;
     cursor: pointer;
+    margin-top: 300px;
 }
 
 #findBtn2:hover {
     background-color: #f59f15d3;
     color: white;
     transform: scale(1.1);
+}
+
+#buttonsDiv {
+   display: flex; 
+   flex-direction: row;
 }
 
 
@@ -1771,7 +1788,6 @@ h2 {
 #mapPlaybtn {
     width: 400px;
     height: 50px;
-
     background-color: #4a6700d7;
     border: solid 1px #899E1D;
     color: white;
@@ -1799,7 +1815,9 @@ h2 {
 
 #endGamePage {
     display: none;
+    justify-content: center;
 }
+
 
 #textBox {
     margin-left: 100px;
@@ -1811,7 +1829,13 @@ h2 {
 #circleImgHolder {
     width: 120px;
     height: 120px;
+    margin-top: 30px;
+    margin-left: 36.5%;
+}
 
+#tips {
+    color: white;
+    
 }
 
 #restaurantResults {
@@ -1828,10 +1852,6 @@ h2 {
     display: block;
     padding-left: 10px;
     text-align: center;
-}
-
-#resturantInfo {
-    margin-right: 200px;
 }
 
 #food1 {
@@ -1873,9 +1893,11 @@ h2 {
     background: none;
     border: none;
     color: white;
-    width: 100px;
+    width: 200px;
     height: 100px;
-    font-size: 50px;
+    font-size: 20px;
+    
+    
 }
 
 #closeButton2:hover {
@@ -1897,7 +1919,6 @@ h2 {
     margin-bottom: 0px;
 
 }
-
 
 
 #restartBox:active {
@@ -1926,6 +1947,136 @@ h2 {
     margin-right: 20px;
     margin-top: 2px;
 }
+
+/* Responsive design geoMatch */
+
+@media screen and (max-width: 850px) {
+
+   
+
+
+    
+
+    #firstBox {
+        width: 300px;
+        height: 300px;
+    }
+    
+    #secondBox {  
+        width: 300px; 
+        height: 300px; 
+    }
+
+    .insideBox {
+        width: 190px;
+        height: 190px;
+    }
+
+    #textBox {
+        margin-left: 30px;
+    }
+
+    #circleImgHolder {
+        margin-left: 41%;
+    }
+
+
+}
+
+@media screen and (max-width: 720px) {
+   
+    #firstBox {
+        width: 200px;
+        height: 200px;
+        margin-top: -50px;
+    }
+    
+    #secondBox {  
+        width: 200px; 
+        height: 200px; 
+        margin-top: -50px;
+        margin-left: 5px;
+    }
+
+    .insideBox {
+        width: 110px;
+        height: 110px;
+        margin: 40px;
+    }
+
+    #boxBackground {
+        height: 50vh;
+    }
+
+    #food1 {
+        margin-left: -10px;
+        font-size: 20px;
+
+    }
+
+    #food2 {
+        margin-left: 5px;
+        font-size: 20px;
+    }
+
+
+    #circleImgHolder {
+        margin-left: 37%;
+    }
+
+
+}
+
+
+@media screen and (max-width: 480px) {
+    
+    #firstBox {
+        width: 110px;
+        height: 110px;
+        margin-top: -50px;
+    }
+    
+    #secondBox {  
+        width: 110px; 
+        height: 110px; 
+        margin-top: -50px;
+        margin-left: 5px;
+    }
+
+    .insideBox {
+        width: 70px;
+        height: 70px;
+        margin: 14px;
+    }
+
+    #boxBackground {
+        height: 30vh;
+    }
+
+    #food1 {
+        margin-left: -10px;
+        font-size: 18px;
+
+    }
+
+    #food2 {
+        margin-left: 5px;
+        font-size: 18px;
+    }
+
+    #circleImgHolder {
+        margin-left: 34%;
+    }
+
+
+}
+
+@media screen and (max-width: 410px) {
+    #circleImgHolder {
+        margin-left: 28%;
+    }
+}
+
 
 
 

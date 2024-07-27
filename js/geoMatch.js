@@ -43,9 +43,15 @@ function initGeoMatch() {
     let findBtn = document.querySelector("#findBtn2");
     findBtn.addEventListener("click", getUserGeo);
 
+    GameStartBtn = document.querySelector("#mapPlaybtn");
+    GameStartBtn.addEventListener("click", (e) => startGame(e));
+    
+
+/*
     GameStartBtn = document.querySelector("#GameStartBtn");
     GameStartBtn.style.display = "none";
     GameStartBtn.addEventListener("click", (e) => startGame(e));
+    */
 }
 
 // Shows the options to use either geo location or a map to choose user position
@@ -175,3 +181,4 @@ function endGame() {
     document.querySelector("#endGamePage h2").textContent = "Det verkar som att du är mest sugen på ";
     document.querySelector("#endGamePage h2").textContent += imageNames[lastClickedImage];
 }
+
