@@ -1,14 +1,15 @@
 
-const listCounter = 5;      // The amount of lists that are currently present
+let listCounter = 1;      // The amount of lists that are currently present
 const maxList = 5;          // Maximum amount of lists possible
 let currentContainer;       // The current dragged container
 let movingCard;             // The container that the card is dropped on
 
-function init() {
+
+// Init function that fetches local storage and loads cards
+async function initLoadSaved() {
     const boxes = document.querySelectorAll('.box');
     const plusSigns = document.querySelectorAll('.plusSign');
 
-    
     boxes.forEach((box, index) => {
         if (index > 1) {
             box.style.display = 'none';
@@ -16,23 +17,26 @@ function init() {
     });
 
     plusSigns.forEach((plusSign, index) => {
-        plusSign.addEventListener('click', function() {
+        plusSign.addEventListener('click', function () {
+            listCounter++;
+            console.log(listCounter);
             const currentBoxContainer = boxes[index + 1];
             const nextBox = boxes[index + 2];
 
-            if (!currentBoxContainer) return; 
+            if (!currentBoxContainer) return;
 
+            currentBoxContainer.lastElementChild.classList.add("ActiveListBox");
             const inputContainer = currentBoxContainer.querySelector('.inputContainer');
             const createListTitle = currentBoxContainer.querySelector('.createListTitle');
             const penIcon = currentBoxContainer.querySelector('.pen');
             const closeButton = currentBoxContainer.querySelector('.closeButtons');
 
-           
+
             if (createListTitle) {
                 createListTitle.style.display = 'none';
             }
-            inputContainer.style.display = 'flex'; 
-            closeButton.style.display = 'block'; 
+            inputContainer.style.display = 'flex';
+            closeButton.style.display = 'block';
 
             plusSign.style.display = 'none';
 
@@ -54,52 +58,11 @@ function init() {
                     }
                 });
             }
+            loadCards();
         });
     });
 
     addCloseButtonListeners();
-
-}
-document.addEventListener('DOMContentLoaded', init);
-
-function saveListName(newListBox, input, inputDiv, penIcon) {
-    let value = input.value.trim();
-
-    if (value !== "" && value.length !== 0) {
-        let title = document.createElement("h2");
-        title.textContent = value;
-        newListBox.replaceChild(title, inputDiv);
-        title.addEventListener("click", function () {
-            newListBox.replaceChild(inputDiv, title);
-            input.focus();
-        });
-        saveState();
-    } else {
-        saveListName(newListBox, input, inputDiv, penIcon);
-    }
-}
-
-function addCloseButtonListeners() {
-    const closeButtons = document.querySelectorAll('.closeButtons');
-    closeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const boxToRemove = button.closest('.box');
-            if (boxToRemove) {
-                boxToRemove.remove();
-            }
-        });
-    });
-}
-
-
-
-function saveState() {
-    console.log("spara");
-}
-
-
-// Init function that fetches local storage and loads cards
-async function initLoadSaved() {
     try {
         getRestaurantIds();
         cleanedIds.forEach(id => {
@@ -114,6 +77,35 @@ async function initLoadSaved() {
     }
 }
 
+function saveListName(newListBox, input, inputDiv, penIcon) {
+    let value = input.value.trim();
+
+    if (value !== "" && value.length !== 0) {
+        let title = document.createElement("h2");
+        title.textContent = value;
+        newListBox.replaceChild(title, inputDiv);
+        title.addEventListener("click", function () {
+            newListBox.replaceChild(inputDiv, title);
+            input.focus();
+        });
+    } 
+}
+
+function addCloseButtonListeners() {
+    const closeButtons = document.querySelectorAll('.closeButtons');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            listCounter--;
+            const boxToRemove = button.closest('.box');
+            if (boxToRemove) {
+                boxToRemove.remove();
+            }
+        });
+    });
+}
+
+
+
 // Updates positions and loads cards
 async function moveCard(containerId) {
     const thisCard = movingCard.firstChild.id.substring(2);
@@ -127,12 +119,26 @@ async function moveCard(containerId) {
 async function loadCards() {
     for (let i = 0; i < listCounter; i++) {
         currentContainer = document.getElementById(`box${i}`);
-        currentContainer.innerHTML = "";
+        console.log(currentContainer);
+        
+        try {
+            let containerChildrenNodes = Array.from(currentContainer.children);
+        console.log(containerChildrenNodes);
+            containerChildrenNodes.forEach(node => {
+                if (node.tagName.toLowerCase() === 'div') {
+                  node.remove(); // This will remove the div and all its contents from the DOM
+                }
+              });
+        } catch (error) {
+
+        }
+
+        //currentContainer.innerHTML = "";
     }
-    await fetchData()
+    await fetchData();
 
     let cards = document.querySelectorAll(".restaurantCard");
-    let containers = document.querySelectorAll(".listBox");
+    let containers = document.querySelectorAll(".ActiveListBox");
     containers.forEach(container => {
         container.addEventListener("dragover", handleDragOver);
         container.addEventListener("drop", handleDrop);

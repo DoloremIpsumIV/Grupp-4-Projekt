@@ -147,7 +147,6 @@ async function fetchData() {
 
             await getFoodData();
             restaurant = combineRestaurantData(establishmentMap, foodMap);
-            console.log(restaurant);
             restaurant.forEach(object => {
                 createCard(object);
             });
@@ -200,8 +199,6 @@ async function getFoodData() {
             province = "";
             response = await fetch(`https://smapi.lnu.se/api/?api_key=${ApiKey}&controller=food&method=getAll&ids=${cleanedIds}`, { signal });
         }
-
-        console.log(response)
         if (response.ok) {
             const dataResponse = await response.json();
             if (currentWindow === "" || currentWindow.includes("index")) {
@@ -265,8 +262,6 @@ function saveRestaurant(listElement) {
 function toggleHeartImg() {
     if (currentWindow === "" || currentWindow.includes("index") || currentWindow.includes("geo") || currentWindow.includes("favoriter")) {
         const saveBtns = document.querySelectorAll(".saveBtnIndex");
-        console.log(saveBtns);
-
         saveBtns.forEach(saveBtn => {   
             saveBtn.addEventListener("click", function () {
                 if (this.src.includes("/images/emptyHeart.svg")) {
@@ -276,7 +271,6 @@ function toggleHeartImg() {
                 } else {
                     console.log("tomthjärta nu");
                     this.src = "/images/emptyHeart.svg";
-                    console.log(this.parentNode.parentNode.firstElementChild.id.substring(2));
                     getRestaurantIds();
                     removeRestaurant(this.parentNode.parentNode.firstElementChild.id.substring(2));
                 }

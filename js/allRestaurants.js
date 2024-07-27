@@ -4,14 +4,6 @@ let restaurantData;                         // Variable with all the data for al
 let searchResultElem;                       // Element that shows all results
 let searchInputElem;                        // Element that takes input of user
 
-
-
-// Att fixa: User marker copy pastad kod
-// currentwindow switch?
-// clickbara restauranger för markörerna.
-// extra sida för restaurangen?
-
-
 // Init function
 function initAllRestaurants() {
     const findBtnElem = document.querySelector("#findBtn");
