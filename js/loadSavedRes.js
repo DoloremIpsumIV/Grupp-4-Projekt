@@ -4,6 +4,100 @@ const maxList = 5;          // Maximum amount of lists possible
 let currentContainer;       // The current dragged container
 let movingCard;             // The container that the card is dropped on
 
+function init() {
+    const boxes = document.querySelectorAll('.box');
+    const plusSigns = document.querySelectorAll('.plusSign');
+
+    
+    boxes.forEach((box, index) => {
+        if (index > 1) {
+            box.style.display = 'none';
+        }
+    });
+
+    plusSigns.forEach((plusSign, index) => {
+        plusSign.addEventListener('click', function() {
+            const currentBoxContainer = boxes[index + 1];
+            const nextBox = boxes[index + 2];
+
+            if (!currentBoxContainer) return; 
+
+            const inputContainer = currentBoxContainer.querySelector('.inputContainer');
+            const createListTitle = currentBoxContainer.querySelector('.createListTitle');
+            const penIcon = currentBoxContainer.querySelector('.pen');
+            const closeButton = currentBoxContainer.querySelector('.closeButtons');
+
+           
+            if (createListTitle) {
+                createListTitle.style.display = 'none';
+            }
+            inputContainer.style.display = 'flex'; 
+            closeButton.style.display = 'block'; 
+
+            plusSign.style.display = 'none';
+
+            if (nextBox) {
+                nextBox.style.display = 'block';
+            }
+
+            const input = inputContainer.querySelector('.listInput');
+
+            if (input && penIcon) {
+                input.addEventListener('blur', function () {
+                    saveListName(currentBoxContainer, input, inputContainer, penIcon, closeButton);
+                });
+
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        saveListName(currentBoxContainer, input, inputContainer, penIcon, closeButton);
+                    }
+                });
+            }
+        });
+    });
+
+    addCloseButtonListeners();
+
+}
+document.addEventListener('DOMContentLoaded', init);
+
+function saveListName(newListBox, input, inputDiv, penIcon) {
+    let value = input.value.trim();
+
+    if (value !== "" && value.length !== 0) {
+        let title = document.createElement("h2");
+        title.textContent = value;
+        newListBox.replaceChild(title, inputDiv);
+        title.addEventListener("click", function () {
+            newListBox.replaceChild(inputDiv, title);
+            input.focus();
+        });
+        saveState();
+    } else {
+        saveListName(newListBox, input, inputDiv, penIcon);
+    }
+}
+
+function addCloseButtonListeners() {
+    const closeButtons = document.querySelectorAll('.closeButtons');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const boxToRemove = button.closest('.box');
+            if (boxToRemove) {
+                boxToRemove.remove();
+            }
+        });
+    });
+}
+
+
+
+function saveState() {
+    console.log("spara");
+}
+
+
 // Init function that fetches local storage and loads cards
 async function initLoadSaved() {
     try {
@@ -63,6 +157,43 @@ function handleDrop(event) {
     event.preventDefault();
     moveCard(this.id);
 }
+
+
+
+
+/*
+function saveListName() {
+    let inputContainer = document.querySelector(".inputContainer");
+    let input = inputContainer.querySelector(".listInput");
+    let inputValue = input.value.trim();
+    
+    if (inputValue === "") {
+        return; 
+    }
+
+    let newHeading = document.createElement("h2");
+    newHeading.textContent = inputValue;
+    newHeading.classList.add("createListTitle");
+
+    inputContainer.parentElement.insertBefore(newHeading, inputContainer);
+   
+    inputContainer.style.display = "none";
+    
+}
+
+/*
+function createNewList(listIndex) {
+    const listBox = document.getElementById(`box${listIndex}`);
+    listBox.style.display = "block";
+    const plusSign = listBox.querySelector(".plusSign");
+    if (plusSign) {
+        plusSign.style.display = "none";
+    }
+    const inputDiv = listBox.previousElementSibling;
+    inputDiv.classList.remove("hidden");
+}
+
+
 
 
 /*
