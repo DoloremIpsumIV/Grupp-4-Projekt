@@ -141,10 +141,10 @@ function showTab(tabId) {
     let popularSearch1 = document.querySelector("#popularSearch1");
     let popularSearch2 = document.querySelector("#popularSearch2");
 
-    if (tabId === 'locationResults') {
+    if (tabId === "locationResults") {
         popularSearch1.style.display = "block";
         popularSearch2.style.display = "none";
-    } else if (tabId === 'specificRestaurantResults') {
+    } else if (tabId === "specificRestaurantResults") {
         popularSearch1.style.display = "none";
         popularSearch2.style.display = "block";
     }
@@ -165,7 +165,7 @@ function initializePopularSearchButtons() {
 }
 
 function insertText(button) {
-    button.addEventListener('click', function() {
+    button.addEventListener("click", function() {
         const inputElem = document.getElementById(currentSearchInputId);
         if (inputElem) {
             inputElem.value = button.textContent;

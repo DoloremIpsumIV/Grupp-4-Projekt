@@ -48,7 +48,7 @@ const controller = new AbortController();      // Creates a controller object th
 const signal = controller.signal;              // Links the controller object with the beforeunload event listener to be able to abort it
 const foodMap = new Map();                     // A map with all the food restaurants that have the id searched for them
 const establishmentMap = new Map();            // A map with all establishments that can be retrieved with the correct id as the key
-const currentWindow = (window.location.pathname).split('/').pop(); // Const that saves the current window to avoid conflicting init
+const currentWindow = (window.location.pathname).split("/").pop(); // Const that saves the current window to avoid conflicting init
 
 let restuarantMarkerArray = [];     // Array that stores all restaurant markers so they can be removed
 let smalandButtonElem;              // Button elem for småland
@@ -84,11 +84,11 @@ function init() {
 
         let trashCan = document.querySelector("#searchResultTrash");
 
-        trashCan.addEventListener('mouseenter', function() {
+        trashCan.addEventListener("mouseenter", function() {
             trashCan.src = "/images/soptunnaOpen.svg";
         });
         
-        trashCan.addEventListener('mouseleave', function() {
+        trashCan.addEventListener("mouseleave", function() {
             trashCan.src = "/images/soptunna.svg";
         });
 
@@ -158,9 +158,6 @@ function init() {
     else if (currentWindow.includes("alla")){
         initAllRestaurants();
     }
-
-    
-
 }
 window.addEventListener("load", init);
 
@@ -201,15 +198,14 @@ function fetchStoredData() {
     }
 }
 
-// Cleans up and recieves the id's in an array from local storage
+// Cleans up and recieves the id"s in an array from local storage
 function getRestaurantIds() {
     let restaurantIds = JSON.parse(localStorage.getItem("savedRestaurant"));
-    cleanedIds = restaurantIds.map(id => id.replace(/r/, ''));
+    cleanedIds = restaurantIds.map(id => id.replace(/r/, ""));
 }
 
 // Removes the selected restaurant based of the give id from the parameter
 function removeRestaurant(id) {
-    localStorage.clear();
     idPosition.delete(id);
     const index = cleanedIds.indexOf(id);
     if (index !== -1) {

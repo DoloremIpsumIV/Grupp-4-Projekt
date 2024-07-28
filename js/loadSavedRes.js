@@ -1,68 +1,19 @@
 
-let listCounter = 1;      // The amount of lists that are currently present
-const maxList = 5;          // Maximum amount of lists possible
+let listCounter = 0;        // The amount of lists that are currently present
+const maxBoxes = 5;         // Maximum amount of lists possible
 let currentContainer;       // The current dragged container
 let movingCard;             // The container that the card is dropped on
-
+let boxContainer;           // Container that contains restaurant cards
+let addButton;              // Button to press to add new list item
 
 // Init function that fetches local storage and loads cards
-async function initLoadSaved() {
-    const boxes = document.querySelectorAll('.box');
-    const plusSigns = document.querySelectorAll('.plusSign');
+function initLoadSaved() {
+    boxContainer = document.getElementById("savedFlexbox");
+    addButton = document.getElementById("addBtn");
+    addButton.addEventListener("click", () => addBox(false));
+    updateBoxIds();
+    initBoxes();
 
-    boxes.forEach((box, index) => {
-        if (index > 1) {
-            box.style.display = 'none';
-        }
-    });
-
-    plusSigns.forEach((plusSign, index) => {
-        plusSign.addEventListener('click', function () {
-            listCounter++;
-            console.log(listCounter);
-            const currentBoxContainer = boxes[index + 1];
-            const nextBox = boxes[index + 2];
-
-            if (!currentBoxContainer) return;
-
-            currentBoxContainer.lastElementChild.classList.add("ActiveListBox");
-            const inputContainer = currentBoxContainer.querySelector('.inputContainer');
-            const createListTitle = currentBoxContainer.querySelector('.createListTitle');
-            const penIcon = currentBoxContainer.querySelector('.pen');
-            const closeButton = currentBoxContainer.querySelector('.closeButtons');
-
-
-            if (createListTitle) {
-                createListTitle.style.display = 'none';
-            }
-            inputContainer.style.display = 'flex';
-            closeButton.style.display = 'block';
-
-            plusSign.style.display = 'none';
-
-            if (nextBox) {
-                nextBox.style.display = 'block';
-            }
-
-            const input = inputContainer.querySelector('.listInput');
-
-            if (input && penIcon) {
-                input.addEventListener('blur', function () {
-                    saveListName(currentBoxContainer, input, inputContainer, penIcon, closeButton);
-                });
-
-                input.addEventListener('keydown', function (event) {
-                    if (event.key === 'Enter') {
-                        event.preventDefault();
-                        saveListName(currentBoxContainer, input, inputContainer, penIcon, closeButton);
-                    }
-                });
-            }
-            loadCards();
-        });
-    });
-
-    addCloseButtonListeners();
     try {
         getRestaurantIds();
         cleanedIds.forEach(id => {
@@ -72,39 +23,162 @@ async function initLoadSaved() {
 
         fetchStoredData();
         loadCards();
+
+        initTitleEventListeners(); // Call the new function
     } catch (error) {
         console.log("No id's");
     }
 }
 
-function saveListName(newListBox, input, inputDiv, penIcon) {
-    let value = input.value.trim();
+// Initiates the title event listners and changes their texts and id's so that they are correct
+function initTitleEventListeners() {
+    const titles = document.querySelectorAll(".BoxTitle");
+    titles.forEach(title => {
+        const savedTitle = localStorage.getItem(title.id);
+        if (savedTitle) {
+            title.textContent = savedTitle;
+        }
 
-    if (value !== "" && value.length !== 0) {
-        let title = document.createElement("h2");
-        title.textContent = value;
-        newListBox.replaceChild(title, inputDiv);
+        // Ändra så att den inte lägger massa eventlistners på samma elment hela tiden
         title.addEventListener("click", function () {
-            newListBox.replaceChild(inputDiv, title);
-            input.focus();
-        });
-    } 
-}
+            const originalText = this.textContent;
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = originalText;
+            input.style.width = "100%";
 
-function addCloseButtonListeners() {
-    const closeButtons = document.querySelectorAll('.closeButtons');
-    closeButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            listCounter--;
-            const boxToRemove = button.closest('.box');
-            if (boxToRemove) {
-                boxToRemove.remove();
-            }
+            this.textContent = "";
+            this.appendChild(input);
+
+            input.focus();
+
+            input.addEventListener("blur", () => {
+                const newText = input.value;
+                if (input.value == "") {
+                    this.textContent = `Lista ${this.id.substring(9)}`;
+                }
+                else {
+                    this.textContent = newText;
+
+                }
+                localStorage.setItem(this.id, newText);
+            });
+
+            input.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    input.blur();
+                }
+            });
         });
     });
 }
 
+// Changes the title and shows it on the page
+function showTitle() {
+    const titles = document.querySelectorAll(".BoxTitle");
+    titles.forEach(title => {
+        const savedTitle = localStorage.getItem(title.id);
+        if (savedTitle) {
+            title.textContent = savedTitle;
+        }
+    }
+    );
+}
 
+// Function that initiates all the boxes on the site as it loads
+function initBoxes() {
+    listCounter = JSON.parse(localStorage.getItem("listCounter"));
+    for (let i = 0; i < listCounter; i++) {
+        addBox(true);
+    }
+}
+
+// Function that adds a box both at the init and if a button is pressed
+function addBox(init) {
+    const boxes = document.querySelectorAll(".listBox");
+
+    if (boxes.length < maxBoxes) {
+        if (!init) {
+            listCounter++;
+        }
+
+        localStorage.setItem("listCounter", JSON.stringify(listCounter));
+
+        const newBox = document.createElement("div");
+        newBox.classList.add("listBox");
+
+        const removeButton = document.createElement("button");
+        removeButton.classList.add("removeBtn");
+        removeButton.textContent = "x";
+        removeButton.addEventListener("click", removeBox);
+
+        newBox.appendChild(removeButton);
+
+        const elementBoxDiv = document.createElement("div");
+        const newTitle = document.createElement("h2");
+        newTitle.classList.add("BoxTitle");
+        newTitle.innerText = `Lista ${listCounter + 1}`;
+
+        elementBoxDiv.prepend(newTitle);
+        elementBoxDiv.classList.add("elementBox");
+        elementBoxDiv.appendChild(newBox);
+
+        boxContainer.insertBefore(elementBoxDiv, addButton);
+
+        updateBoxIds();
+        initTitleEventListeners();
+        const h2ElementArray = Array.from(document.querySelectorAll(".BoxTitle"));
+        for (let i = 0; i < h2ElementArray.length; i++) {
+            const element = h2ElementArray[i];
+            element.innerText = `Lista ${element.nextElementSibling.id.substring(3)}`;
+            element.id = `BoxTitle-${element.nextElementSibling.id.substring(3)}`;
+        }
+        if (!init) {
+            loadCards();
+        }
+    }
+}
+
+// Function that removes a box, if there are cards on that box it removes them aswell
+function removeBox(event) {
+    listCounter--;
+    localStorage.setItem("listCounter", JSON.stringify(listCounter));
+    const box = event.target.parentElement;
+    localStorage.removeItem(`BoxTitle-${box.previousElementSibling.id.substring(9)}`)
+    boxContainer.removeChild(box.parentElement);
+
+    updateBoxIds();
+    idPosition.forEach(id => {
+        const key = getKeyByValue(idPosition, id);
+        if (box.id.substring(3) == id) {
+            removeRestaurant(key);
+        }
+        else if (box.id.substring(3) < id) {
+            if (id - 1 >= 0) {
+                idPosition.set(key, id - 1);
+                localStorage.setItem("idPosition", JSON.stringify(Array.from(idPosition.entries())));
+            }
+        }
+    });
+}
+
+// Makes sure that all boxes are ordered from 0-4 even if a box gets removed in the middle
+function updateBoxIds() {
+    const boxes = document.querySelectorAll(".listBox");
+    boxes.forEach((box, index) => {
+        box.id = `box${index}`;
+    });
+}
+
+// Function to get map id key by inserted value
+function getKeyByValue(map, searchValue) {
+    for (let [key, value] of map.entries()) {
+        if (value == searchValue) {
+            return key;
+        }
+    }
+    return null;
+}
 
 // Updates positions and loads cards
 async function moveCard(containerId) {
@@ -117,28 +191,24 @@ async function moveCard(containerId) {
 
 // Fetches cards from id and gives event listners to containers and cards
 async function loadCards() {
-    for (let i = 0; i < listCounter; i++) {
+    for (let i = 0; i < listCounter + 1; i++) {
         currentContainer = document.getElementById(`box${i}`);
-        console.log(currentContainer);
-        
+
         try {
             let containerChildrenNodes = Array.from(currentContainer.children);
-        console.log(containerChildrenNodes);
             containerChildrenNodes.forEach(node => {
-                if (node.tagName.toLowerCase() === 'div') {
-                  node.remove(); // This will remove the div and all its contents from the DOM
+                if (node.tagName.toLowerCase() === "div") {
+                    node.remove();
                 }
-              });
+            });
         } catch (error) {
-
+            console.log(error);
         }
-
-        //currentContainer.innerHTML = "";
     }
     await fetchData();
 
     let cards = document.querySelectorAll(".restaurantCard");
-    let containers = document.querySelectorAll(".ActiveListBox");
+    let containers = document.querySelectorAll(".listBox");
     containers.forEach(container => {
         container.addEventListener("dragover", handleDragOver);
         container.addEventListener("drop", handleDrop);
@@ -146,6 +216,8 @@ async function loadCards() {
     cards.forEach(card => {
         card.addEventListener("dragstart", () => dragCard(card));
     });
+    showTitle();
+
 }
 
 // Defines what card is being moved
@@ -163,792 +235,3 @@ function handleDrop(event) {
     event.preventDefault();
     moveCard(this.id);
 }
-
-
-
-
-/*
-function saveListName() {
-    let inputContainer = document.querySelector(".inputContainer");
-    let input = inputContainer.querySelector(".listInput");
-    let inputValue = input.value.trim();
-    
-    if (inputValue === "") {
-        return; 
-    }
-
-    let newHeading = document.createElement("h2");
-    newHeading.textContent = inputValue;
-    newHeading.classList.add("createListTitle");
-
-    inputContainer.parentElement.insertBefore(newHeading, inputContainer);
-   
-    inputContainer.style.display = "none";
-    
-}
-
-/*
-function createNewList(listIndex) {
-    const listBox = document.getElementById(`box${listIndex}`);
-    listBox.style.display = "block";
-    const plusSign = listBox.querySelector(".plusSign");
-    if (plusSign) {
-        plusSign.style.display = "none";
-    }
-    const inputDiv = listBox.previousElementSibling;
-    inputDiv.classList.remove("hidden");
-}
-
-
-
-
-/*
-async function recreateRestaurantCards() {
-    const savedRestaurantIds = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-
-    if (savedRestaurantIds.length === 0) {
-        console.log("No saved restaurants to recreate");
-        return;
-    }
-    cleanedIds = savedRestaurantIds.map(id => id.replace(/r/, ''));
-    console.log(savedRestaurantIds); // original ids
-    console.log(cleanedIds); // cleaned ids
-
-    fetchData();
-}
-
-
-
-
-// Lägger till och skapar lista
-function addNewList() {
-
-
-    let savedFlexbox = document.getElementById("savedFlexbox");
-
-    // Avslutar om det redan finns 5 lådor
-    if (listCounter > maxList) {
-        return;
-    }
-
-    // Skapar ny låda för den nya listan
-    let newListBox = document.createElement("div");
-    newListBox.classList.add("box");
-
-    let inputDiv = document.createElement("div");
-    let input = document.createElement("input");
-    input.type = "text";
-    input.classList.add("listInput");
-    input.placeholder = `Ny lista ${getListNumber()}`;
-    let penIcon = document.createElement("img");
-    penIcon.src = "images/penna.svg";
-    penIcon.classList.add("pen");
-
-    inputDiv.appendChild(input);
-    inputDiv.appendChild(penIcon);
-    newListBox.appendChild(inputDiv);
-
-    //För att kunna lägga till fler listor
-    let listBoxDiv = document.createElement("div");
-    listBoxDiv.classList.add("listBox");
-    newListBox.appendChild(listBoxDiv);
-
-
-    let closeButton = document.createElement("p");
-    closeButton.classList.add("closeButton");
-    closeButton.textContent = "x";
-    closeButton.addEventListener("click", function () {
-        savedFlexbox.removeChild(newListBox);
-        listCounter--;
-        removeBox();
-        updateListNames();
-        saveState();
-    });
-
-    listBoxDiv.appendChild(closeButton);
-
-
-    input.addEventListener("blur", function () {
-        saveListName(newListBox, input, inputDiv, penIcon);
-        saveState();
-    });
-
-    // 
-    input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            input.blur();
-            saveListName(newListBox, input, inputDiv, penIcon);
-            saveState();
-
-        }
-    });
-
-    // Lägger till listan före lägg till nya listor-boxen
-    savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
-
-    listCounter++;
-    saveState();
-
-    makeCardsDraggable();
-    removeBox();
-
-
-}
-
-//Uppdaterar namn när en lista tas bort så sifforna stämmer
-function updateListNames() {
-    let lists = document.querySelectorAll(".listInput");
-    lists.forEach((list, index) => {
-        list.placeholder = `Ny lista ${index + 1}`;
-    });
-}
-
-// Hämtar i nästa led tillgängliga nummer för listan
-function getListNumber() {
-    let currentNumbers = Array.from(document.querySelectorAll(".listInput")).map(input => parseInt(input.placeholder.split(" ")[2]));
-    for (let i = 1; i <= maxList; i++) {
-        if (!currentNumbers.includes(i)) {
-            return i;
-        }
-    }
-    return maxList + 1; // Om alla nummer skulle vara upptagna
-}
-
-// Läser av och gömmer addnewlistbox om det finns 5 listor lägger till när det tas bort och är under 5
-function removeBox() {
-    if (listCounter === maxList) {
-        document.getElementById("addNewListBox").style.display = "none";
-
-    } else {
-        document.getElementById("addNewListBox").style.display = "block";
-    }
-}
-
-
-// Skapar så att det man namnger listan till blir en h2
-function saveListName(newListBox, input, inputDiv, penIcon) {
-
-    let value = input.value.trim();
-
-    if (value !== "" && value.length !== 0) {
-        let title = document.createElement("h2");
-        title.textContent = value;
-        newListBox.replaceChild(title, inputDiv);
-        penIcon.style.display = "none";
-        title.addEventListener("click", function () {
-            newListBox.replaceChild(inputDiv, title);
-            penIcon.style.display = "inline";
-            input.focus();
-        });
-        saveState();
-
-    } else {
-        defaultName = `Ny lista ${getListNumber()}`;
-        input.value = defaultName;
-        saveListName(newListBox, input, inputDiv, penIcon, defaultName);
-    }
-
-}
-
-
-// Gör så att korten blir dragbara
-function makeCardsDraggable() {
-    let cards = document.querySelectorAll(".restaurantCard");
-    let listBoxes = document.querySelectorAll(".listBox");
-
-    cards.forEach(card => {
-        if (listBoxes.length > 1) {
-            card.setAttribute("draggable", true);
-            card.addEventListener("dragstart", dragStart);
-            card.addEventListener("touchstart", handleTouchStart, false);
-        } else {
-            card.removeAttribute("draggable");
-            card.removeEventListener("dragstart", dragStart);
-            card.removeEventListener("touchstart", handleTouchStart);
-        }
-    });
-}
-
-
-// dragstart och stopp
-function dragStart(e) {
-    let dragElem = this;
-    dragElem.classList.add("dragging");
-
-    const listBoxes = document.querySelectorAll(".listBox");
-    listBoxes.forEach(listBox => {
-        listBox.addEventListener("dragover", dragOver);
-        listBox.addEventListener("dragenter", dragEnter);
-        listBox.addEventListener("drop", dropZone);
-
-        listBox.addEventListener("touchmove", dragOver);
-        listBox.addEventListener("touchenter", dragEnter);
-        listBox.addEventListener("touchend", dropZone);
-    });
-}
-function dragOver(e) {
-    e.preventDefault();
-}
-
-function dragEnter(e) {
-    e.preventDefault();
-
-}
-
-function dropZone(e) {
-    e.preventDefault();
-    const droppedListBox = this;
-
-    if (droppedListBox.querySelector(".plusSign")) {
-        return;
-    }
-
-    let draggedRestaurant = document.querySelector(".dragging");
-    console.log(draggedRestaurant.className);
-    console.log(draggedRestaurant);
-    droppedListBox.appendChild(draggedRestaurant);
-
-    draggedRestaurant.classList.remove("dragging");
-    whenDropped(draggedRestaurant);
-    saveState();
-
-}
-
-
-// Tar bort elementet från localstorage med soptunnan
-function setupTrashCanClick() {
-    console.log("i funktion");
-    const trashCans = document.querySelectorAll(".saveBtnIndex");
-
-    trashCans.forEach(trashCan => {
-        trashCan.addEventListener("click", function () {
-            const listElement = this.parentNode.parentNode;
-            console.log(listElement);
-
-            const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
-            console.log("Removing restaurant ID:", restaurantId);
-
-            let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-            console.log("Before removing:", savedRestaurant);
-
-            if (savedRestaurant.includes(restaurantId)) {
-                savedRestaurant = savedRestaurant.filter(id => id !== restaurantId);
-                localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-                console.log("After removing:", savedRestaurant);
-
-                listElement.parentNode.removeChild(listElement);
-                console.log("Card removed from DOM");
-
-                saveState();
-            }
-        });
-    });
-}
-
-function whenDropped(draggedRestaurant) {
-    console.log("123");
-    console.log(draggedRestaurant);
-
-    const restaurantId = draggedRestaurant.firstElementChild.id.startsWith("#") ? draggedRestaurant.firstElementChild.id.slice(1) : draggedRestaurant.firstElementChild.id.id;
-    console.log(restaurantId);
-
-    console.log("Removing restaurant ID:", restaurantId);
-
-    let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
-    console.log("Before removing:", savedRestaurant);
-
-    if (savedRestaurant.includes(restaurantId)) {
-        savedRestaurant = savedRestaurant.filter(id => id !== restaurantId);
-        localStorage.setItem("savedRestaurant", JSON.stringify(savedRestaurant));
-        console.log("After removing:", savedRestaurant);
-
-        saveState();
-    }
-}
-
-
-function loadSavedCards() {
-    let trashCans = document.querySelectorAll(".saveBtnIndex");
-
-    for (let i = 0; i < trashCans.length; i++) {
-        trashCans[i].src = "/images/soptunna.svg";
-
-        trashCans[i].addEventListener('mouseenter', function() {
-            trashCans[i].src = "/images/soptunnaOpen.svg";
-        });
-        
-        trashCans[i].addEventListener('mouseleave', function() {
-            trashCans[i].src = "/images/soptunna.svg";
-        });
-    }
-
-}
-
-function saveState() {
-    let state = {
-        lists: [],
-        cards: []
-    };
-
-    document.querySelectorAll(".box").forEach((listBox, index) => {
-        let listName = listBox.querySelector("h2") ? listBox.querySelector("h2").textContent : listBox.querySelector("input").placeholder;
-        let cards = Array.from(listBox.querySelectorAll(".restaurantCard")).map(card => card.outerHTML);
-        state.lists.push({ listName, cards });
-    });
-
-    localStorage.setItem("appState", JSON.stringify(state));
-}
-
-// Laddar tillståndet på sidan från localStorage
-function loadSavedState() {
-
-
-    let savedState = JSON.parse(localStorage.getItem("appState"));
-
-    if (savedState) {
-        console.log(savedState);
-
-        savedState.lists.forEach(savedList => {
-            // Ignorerar de statiska listorna, "Mina favoriter" och "Skapa ny lista"
-            if (savedList.listName === "Mina favoriter" || savedList.listName === "Skapa ny lista") {
-                return;
-            }
-
-
-            let newListBox = document.createElement("div");
-            newListBox.classList.add("box");
-
-
-            let title = document.createElement("h2");
-            title.textContent = savedList.listName;
-            title.addEventListener("click", function () {
-                newListBox.replaceChild(inputDiv, title);
-                penIcon.style.display = "inline";
-                input.focus();
-            });
-
-            let inputDiv = document.createElement("div");
-            let input = document.createElement("input");
-            input.type = "text";
-            input.classList.add("listInput");
-            input.placeholder = savedList.listName;
-            let penIcon = document.createElement("img");
-            penIcon.src = "images/penna.svg";
-            penIcon.classList.add("pen");
-
-            inputDiv.appendChild(input);
-            inputDiv.appendChild(penIcon);
-            newListBox.appendChild(inputDiv);
-
-            let listBoxDiv = document.createElement("div");
-            listBoxDiv.classList.add("listBox");
-            newListBox.appendChild(listBoxDiv);
-            let closeButton = document.createElement("p");
-            closeButton.classList.add("closeButton");
-            closeButton.textContent = "x";
-            closeButton.addEventListener("click", function () {
-                newListBox.parentElement.removeChild(newListBox);
-                listCounter--;
-                updateListNames();
-                saveState();
-                removeBox();
-            });
-
-            listBoxDiv.appendChild(closeButton);
-
-            savedList.cards.forEach(cardHTML => {
-                let temporaryDiv = document.createElement("div");
-                temporaryDiv.innerHTML = cardHTML;
-                listBoxDiv.appendChild(temporaryDiv.firstChild);
-            });
-
-            input.addEventListener("blur", function (event) {
-                // Adding a slight delay to allow keydown event to complete
-                setTimeout(function () {
-                    console.log(event);
-
-                    console.log("inputDiv");
-
-                    saveListName(newListBox, input, inputDiv, penIcon);
-                    saveState();
-                }, 10);
-            });
-
-            input.addEventListener("keydown", function (event) {
-                if (event.key === "Enter") {
-                    console.log(event);
-
-                    event.preventDefault();
-                    input.blur();
-                }
-            });
-
-            let savedFlexbox = document.getElementById("savedFlexbox");
-            savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
-            listCounter++;
-        });
-
-        let trashCans = document.querySelectorAll(".saveBtnIndex");
-
-    for (let i = 0; i < trashCans.length; i++) {
-    
-        trashCans[i].addEventListener('mouseenter', function() {
-            trashCans[i].src = "/images/soptunnaOpen.svg";
-        });
-        
-        trashCans[i].addEventListener('mouseleave', function() {
-            trashCans[i].src = "/images/soptunna.svg";
-        });
-    }
-
-
-        makeCardsDraggable();
-        removeBox();
-    } else {
-        console.log("Inga sparade listor");
-    }
-
-}
-
-
-/*
-let savedState = JSON.parse(localStorage.getItem("appState"));
-
-if (savedState) {
-    savedState.lists.forEach(savedList => {
-        let newListBox = document.createElement("div");
-        newListBox.classList.add("box");
-
-        let inputDiv = document.createElement("div");
-        let input = document.createElement("input");
-        input.type = "text";
-        input.classList.add("listInput");
-        input.placeholder = savedList.listName;
-        let penIcon = document.createElement("img");
-        penIcon.src = "images/penna.svg";
-        penIcon.classList.add("pen");
-
-        inputDiv.appendChild(input);
-        inputDiv.appendChild(penIcon);
-        newListBox.appendChild(inputDiv);
-
-        let listBoxDiv = document.createElement("div");
-        listBoxDiv.classList.add("listBox");
-        newListBox.appendChild(listBoxDiv);
-
-        savedList.cards.forEach(cardHTML => {
-            let tempDiv = document.createElement("div");
-            tempDiv.innerHTML = cardHTML;
-            listBoxDiv.appendChild(tempDiv.firstChild);
-        });
-
-        let closeButton = document.createElement("p");
-        closeButton.classList.add("closeButton");
-        closeButton.textContent = "x";
-        closeButton.addEventListener("click", function () {
-            newListBox.parentElement.removeChild(newListBox);
-            listCounter--;
-            updateListNames();
-            saveState(); 
-            removeBox();
-        });
-
-        listBoxDiv.appendChild(closeButton);
-
-        input.addEventListener("blur", function () {
-            saveListName(newListBox, input, inputDiv, penIcon);
-            saveState(); // Spara tillstånd efter namnändring
-        });
-
-        input.addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                input.blur();
-                saveListName(newListBox, input, inputDiv, penIcon);
-                saveState(); 
-            }
-        });
-
-        let savedFlexbox = document.getElementById("savedFlexbox");
-        savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
-        listCounter++;
-    });
-
-    makeCardsDraggable();
-    removeBox();
-}  
-
-
-
-*/
-
-
-
-
-
-
-
-
-
-/*
-
-
-function saveListToArray(newListBox) {
-    let listObject = {
-        id: listCounter,
-        element: newListBox,
-        name: newListBox.querySelector('input').placeholder
-    };
-    listArray.push(listObject);
-    console.log(listArray);
-    saveListsToLocalStorage();
-}
-
-function saveListsToLocalStorage() {
-    let listsToSave = listArray.map(list => ({
-        id: list.id,
-        name: list.name
-    }));
-    localStorage.setItem('savedLists', JSON.stringify(listsToSave));
-    console.log("Listor sparade i localStorage:", listsToSave);
-}
-
-function loadSavedLists() {
-    
-    let savedLists = JSON.parse(localStorage.getItem('savedLists')) || [];
-    savedLists.forEach(list => {
-        let newListBox = document.createElement("div");
-        newListBox.classList.add("box");
-
-        let inputDiv = document.createElement("div");
-        let input = document.createElement("input");
-        input.type = "text";
-        input.classList.add("listInput");
-        input.placeholder = list.name;
-
-        let penIcon = document.createElement("img");
-        penIcon.src = "images/penna.svg";
-        penIcon.classList.add("pen");
-
-        inputDiv.appendChild(input);
-        inputDiv.appendChild(penIcon);
-        newListBox.appendChild(inputDiv);
-
-        let listBoxDiv = document.createElement("div");
-        listBoxDiv.classList.add("listBox");
-        newListBox.appendChild(listBoxDiv);
-
-        let closeButton = document.createElement("p");
-        closeButton.classList.add("closeButton");
-        closeButton.textContent = "x";
-        closeButton.addEventListener("click", function () {
-            document.getElementById("savedFlexbox").removeChild(newListBox);
-            listCounter--;
-            removeListFromArray(newListBox);
-            updateListNames();
-            saveListsToLocalStorage();
-        });
-
-        listBoxDiv.appendChild(closeButton);
-
-        input.addEventListener("blur", function () {
-            saveListName(newListBox, input, inputDiv, penIcon);
-        });
-
-        input.addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                input.blur();
-                saveListName(newListBox, input, inputDiv, penIcon);
-            }
-        });
-
-        document.getElementById("savedFlexbox").insertBefore(newListBox, document.getElementById("addNewListBox"));
-
-        listCounter++;
-        saveListToArray(newListBox);
-    });
-    
-}
-
-
-
-
-
-/*
-// Sparar listor i localStorage
-function saveLists() {
-    listArray = [];
-    document.querySelectorAll('.box').forEach(box => {
-        let listTitle = box.querySelector('h2') ? box.querySelector('h2').textContent : box.querySelector('input').placeholder;
-        let items = [];
-        box.querySelectorAll('.restaurantCard').forEach(card => {
-            items.push(card.outerHTML);
-        });
-        listArray.push({ title: listTitle, items: items });
-    });
-    localStorage.setItem('lists', JSON.stringify(listArray));
-}
-
-// Laddar listor från localStorage
-function loadSavedLists() {
-    let savedLists = JSON.parse(localStorage.getItem('lists')) || [];
-    let savedFlexbox = document.getElementById("savedFlexbox");
-
-    savedLists.forEach(savedList => {
-        let newListBox = document.createElement("div");
-        newListBox.classList.add("box");
-
-        let inputDiv = document.createElement("div");
-        let input = document.createElement("input");
-        input.type = "text";
-        input.classList.add("listInput");
-        input.placeholder = savedList.title;
-
-        let penIcon = document.createElement("img");
-        penIcon.src = "images/penna.svg";
-        penIcon.classList.add("pen");
-
-        inputDiv.appendChild(input);
-        inputDiv.appendChild(penIcon);
-        newListBox.appendChild(inputDiv);
-
-        let listBoxDiv = document.createElement("div");
-        listBoxDiv.classList.add("listBox");
-        newListBox.appendChild(listBoxDiv);
-
-        let closeButton = document.createElement("p");
-        closeButton.classList.add("closeButton");
-        closeButton.textContent = "x";
-        closeButton.addEventListener("click", function () {
-            savedFlexbox.removeChild(newListBox);
-            listCounter--;
-            removeBox();
-            updateListNames();
-            saveLists();
-        });
-
-        listBoxDiv.appendChild(closeButton);
-
-        savedList.items.forEach(item => {
-            let itemDiv = document.createElement("div");
-            itemDiv.innerHTML = item;
-            listBoxDiv.appendChild(itemDiv.firstChild);
-        });
-
-        savedFlexbox.insertBefore(newListBox, document.getElementById("addNewListBox"));
-
-        listCounter++;
-    });
-
-    updateListNames();
-    removeBox();
-    makeCardsDraggable();
-}
-
-
-
-
-/*
-// Sparar listorna
-function saveAllLists() {
-    let savedLists = [];
-    const listBoxes = document.querySelectorAll(".box");
-    listBoxes.forEach(listBox => {
-        let listNameElement = listBox.querySelector("h2") || listBox.querySelector("input");
-        if (listNameElement) {
-            let listName = listNameElement.textContent || listNameElement.value;
-            savedLists.push(listName);
-        }
-    });
-    localStorage.setItem("savedLists", JSON.stringify(savedLists));
-
-    
-    let savedLists = [];
-    const listBoxes = document.querySelectorAll(".box");
-
-    listBoxes.forEach(listBox => {
-        let listName = listBox.querySelector("h2").textContent;
-        savedLists.push(listName);
-    });
-
-    localStorage.setItem("savedLists", JSON.stringify(savedLists));
-    
-}
-/*
-
-
-
-// Laddar listorna
-function loadAllLists() {
-    const savedLists = JSON.parse(localStorage.getItem("savedLists")) || [];
-
-    savedLists.forEach(listName => {
-        addNewList(listName);
-    });
-}
-
-/*
-
-
-/*
-function saveListToLocalStorage() {
-    let lists = [];
-
-    console.log(lists)
-
-    let savedFlexbox = document.getElementById('savedFlexbox');
-    let listElements = savedFlexbox.querySelectorAll('.box');
-
-    listElements.forEach(element => {
-        let titleElement = element.querySelector('h2');
-        if (titleElement) {
-            lists.push(titleElement.textContent);
-        }
-    });
-
-    try {
-        localStorage.setItem('savedLists', JSON.stringify(lists));
-    } catch (e) {
-        console.error('Error saving to localStorage:', e);
-    }
-}
-
-// Ladda listorna från localStorage vid sidans laddning
-function loadFromLocalStorage() {
-    let lists = JSON.parse(localStorage.getItem('savedLists'));
-
-    if (lists) {
-        lists.forEach(list => {
-            let newListBox = document.createElement('div');
-            newListBox.classList.add('box');
-
-            let title = document.createElement('h2');
-            title.textContent = list;
-
-            newListBox.appendChild(title);
-            document.getElementById('savedFlexbox').appendChild(newListBox);
-        });
-
-        listCounter = lists.length + 1;
-    }
-}
-
-
-function updateLocalStorage() {
-    const dropElem = document.querySelector("#listBox");
-    const restaurantCards = dropElem.querySelectorAll(".restaurantCard");
-    const savedListArray = [];
-
-    for (let i = 0; i < restaurantCards.length; i++) {
-        card = restaurantCards[i];
-        savedListArray.push(card.outerHTML);
-    }
-    removeFromFavoritesList(card);
-    localStorage.setItem("savedListArray", JSON.stringify(savedListArray));
-
-}
-
-
-*/

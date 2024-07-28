@@ -112,6 +112,29 @@ hr {
 
 }
 
+#box-container {
+    display: flex;
+    gap: 10px;
+}
+
+.restaurantBoxContainer {
+    width: 100px;
+    height: 100px;
+    background-color: lightblue;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.removeBtn {
+    font-size: 30px;
+    margin-top: 0px;
+    margin-left: 320px;
+    margin-bottom: -15px;
+    cursor: pointer;
+}
+
 /* Code for loader */
 .loaderClass {
     opacity: 0;
@@ -1440,15 +1463,6 @@ h2 {
 .inputContainer {
     display: none;
     margin-bottom: -20px;
-}
-
-.closeButtons {
-    font-size: 30px;
-    margin-top: 0px;
-    margin-left: 320px;
-    margin-bottom: -15px;
-    cursor: pointer;
-    display: none;
 }
 
 .restaurantCard.dragging {
