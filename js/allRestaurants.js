@@ -28,13 +28,13 @@ function initAllRestaurants() {
         L.latLng(boundries.minLatCorner, boundries.minLngCorner));
     map.setMaxBounds(bounds);
 
-    searchResultElem = document.getElementById("searchResults");
+    searchResultElem = document.getElementById("searchResultsDivLocation");
 
-    searchInputElem = document.getElementById("searchInput");
+    searchInputElem = document.getElementById("searchInputLocation");
     searchInputElem.value = "";
-   searchInputElem.addEventListener("input", filterLocations);
+    searchInputElem.addEventListener("input", () => filterLocations(["name", "city", "province", "sub_type", "type"]));
 
-    initializePopularSearchButtons(); 
+    initializePopularSearchButtons();
 
     initLoader();
     fetchAllRestaurants();
@@ -107,20 +107,22 @@ function displayLocations(locationsMap) {
         const p = document.createElement("p");
         li.textContent = location.name;
         li.id = "#r" + location.id;
-        li.addEventListener("click", () => popup(location)); 
+        li.addEventListener("click", () => popup(location));
+        li.style.float = "initial";
+        li.style.cursor = "pointer";
         p.textContent = `${location.city}, ${location.province}`;
         li.appendChild(p);
-        searchResults.appendChild(li);
+        searchResultElem.appendChild(li);
         newRestaurantMarker(location.lat, location.lng, location.sub_type, location.id, location);
     });
 }
 
 // Function that filters the search array and resends it to the displayLocations() function to update the shown data
-function filterLocations() {
+function filterLocations(locationNames) {
     const query = searchInputElem.value.toLowerCase();
     const filteredLocations = new Map(
         Array.from(restaurantData).filter(([id, obj]) =>
-            ["name", "city", "province", "sub_type", "type"].some(key =>
+            locationNames.some(key =>
                 obj[key].toLowerCase().includes(query)
             )
         )
@@ -128,18 +130,16 @@ function filterLocations() {
     displayLocations(filteredLocations);
 }
 
+// Function that switches the shown tab on the page
 function showTab(tabId) {
-    
-    let tabs = document.querySelectorAll(".tabContent");
-    tabs.forEach(function(tab) {
+    const tabs = document.querySelectorAll(".tabContent");
+    tabs.forEach(function (tab) {
         tab.style.display = "none";
     });
-
     document.getElementById(tabId).style.display = "block";
 
-
-    let popularSearch1 = document.querySelector("#popularSearch1");
-    let popularSearch2 = document.querySelector("#popularSearch2");
+    const popularSearch1 = document.querySelector("#popularSearch1");
+    const popularSearch2 = document.querySelector("#popularSearch2");
 
     if (tabId === "locationResults") {
         popularSearch1.style.display = "block";
@@ -148,39 +148,34 @@ function showTab(tabId) {
         popularSearch1.style.display = "none";
         popularSearch2.style.display = "block";
     }
-    
+
 }
 
+// Function that adds event listeners to popular choices buttons
 function initializePopularSearchButtons() {
-    console.log("SDFGHJK")
-    let popularButtons1 = document.querySelectorAll("#shortcutButtons1 button");
-    popularButtons1.forEach(function(button) {
-        insertText(button);
+    const popularButtons1 = document.querySelectorAll("#shortcutButtons1 button");
+    popularButtons1.forEach(function (button) {
+        button.addEventListener("click", function () {
+            if (searchInputElem) {
+                searchInputElem.value = button.textContent;
+                filterLocations(["name", "city", "province", "sub_type", "type"]);
+            } else {
+                console.error('Input element with ID "' + searchInputElem + '" not found.');
+            }
+        });
     });
 
-    let popularButtons2 = document.querySelectorAll("#shortcutButtons2 button");
-    popularButtons2.forEach(function(button) {
-        insertText(button);
+    const popularButtons2 = document.querySelectorAll("#shortcutButtons2 button");
+    popularButtons2.forEach(function (button) {
+        button.addEventListener("click", function () {
+            if (searchInputElem) {
+                searchInputElem.value = button.textContent;
+                filterLocations(["name", "city", "province", "sub_type", "type"]);
+            } else {
+                console.error('Input element with ID "' + searchInputElem + '" not found.');
+            }
+        });
     });
 }
 
-function insertText(button) {
-    button.addEventListener("click", function() {
-        const inputElem = document.getElementById(currentSearchInputId);
-        if (inputElem) {
-            inputElem.value = button.textContent;
-            filterLocations();
-        } else {
-            console.error('Input element with ID "' + currentSearchInputId + '" not found.');
-        }
-    });
-
-    /*
-    button.addEventListener('click', function() {
-        const inputElem = document.getElementById(inputId);
-        inputElem.value = button.textContent;
-        filterLocations();
-    });
-    */
-}
 
