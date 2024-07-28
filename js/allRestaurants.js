@@ -6,7 +6,6 @@ let searchInputElem;                        // Element that takes input of user
 
 // Init function
 function initAllRestaurants() {
-
     loader = document.querySelector("#loaderId");
     loader.firstElementChild.firstElementChild.innerText = "Laddar in alla restauranger, snälla vänta lite...";
     map = L.map("largeMap").setView([56.87767, 14.80906], 8);

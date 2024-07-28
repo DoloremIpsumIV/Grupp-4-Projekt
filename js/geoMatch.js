@@ -11,7 +11,7 @@ let imagesUsed = [
 ]; //Bilderna som ska användas
 
 let imageNames = {
-    "A_LA_CARTE.svg": "Lyx mat",
+    "A_LA_CARTE.svg": "A la carte",
     "asian.svg": "Asiatisk",
     "burgers.svg": "Burgare",
     "HOT_DOGS.svg": "Varmkorvar",
@@ -47,11 +47,11 @@ function initGeoMatch() {
     GameStartBtn.addEventListener("click", (e) => startGame(e));
     
 
-/*
+
     GameStartBtn = document.querySelector("#GameStartBtn");
     GameStartBtn.style.display = "none";
     GameStartBtn.addEventListener("click", (e) => startGame(e));
-    */
+    
 }
 
 // Shows the options to use either geo location or a map to choose user position

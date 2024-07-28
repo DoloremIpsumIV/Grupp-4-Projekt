@@ -29,7 +29,7 @@ function setRestaurantType(value) {
             return types[0] + types[1];
         case "Snabb":
             return types[0] + types[3];
-        case "Lyx mat":
+        case "A la carte":
             return types[0] + types[4];
         case "Burgare":
             return subTypes[0] + subTypes[3];

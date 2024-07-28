@@ -134,7 +134,8 @@ För att använda hitta min plats måste du ladda om sidan och godkänna på nyt
         navigator.geolocation.getCurrentPosition(function (position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
-            startGame()
+            GameStartBtn.style.display = "initial";
+            overlay.style.display = "none";
         }, function (error) {
             if (error == "[object GeolocationPositionError]") {
                 window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 
