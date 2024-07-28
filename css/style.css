@@ -263,25 +263,6 @@ hr {
     background-color: #4a670086;
 }
 
-#GameStartBtn {
-    width: 537px;
-    height: 35px;
-    position: absolute;
-    margin-left: -100px;
-    margin-top: 122px;
-    background-color: #4a6700d7;
-    border: solid 1px #899E1D;
-    color: white;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
-
-#GameStartBtn:hover {
-    background-color: #4a670086;
-}
 
 .star {
     width: 30px;
@@ -289,6 +270,8 @@ hr {
     position: relative;
     top: 6px;
     margin-right: 2px;
+    margin-left: -15px;
+   
 }
 
 .highlight {
@@ -420,16 +403,6 @@ hr {
     transition: transform 0.1s ease;
 }
 
-.sortRadioBtnToggle:checked {
-    background-color: #242a4a36;
-}
-
-.sortRadioBtnToggle:checked::before {
-    content: "\2713";
-    font-size: 18px;
-}
-
-
 #restaurantInfo p {
     text-align: center;
     font-size: 20px;
@@ -504,11 +477,6 @@ div.restaurantCardFlex img {
     color: black;
     width: 40px;
     margin-right: 2%;
-}
-
-.star {
-    margin-left: -10px;
-    margin-right: -20px;
 }
 
 h2#restaurantName {
@@ -1400,6 +1368,7 @@ h3 {
 .plusSign {
     font-size: 120px;
     cursor: pointer;
+    color: white;
 }
 
 .box {
@@ -1453,6 +1422,7 @@ h2 {
     color: white;
     font-size: 13px;
     margin-top: -20px;
+    margin-bottom: 30px;
     text-align: center;
 }
 
@@ -1474,6 +1444,21 @@ h2 {
     z-index: 1000;
     width: auto;
     height: auto;
+}
+
+.removeBtn {
+    font-size: 40px;
+    margin-top: -10px;
+    margin-left: 320px;
+    margin-bottom: -15px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+input {
+    height: 30px;
+    font-size: 20px;
 }
 
 /*
@@ -2377,11 +2362,11 @@ h2 {
 
 #allDiv {
     display: flex;
+    margin-top: -20px;
 }
 
 #searchResultsDiv {
     background-color: rgba(255, 255, 255, 0.158);
-    margin-top: 20px;
     padding: 10px;
     height: 500px;
     overflow: scroll;
@@ -2389,73 +2374,49 @@ h2 {
     border-radius: 5px;
 }
 
-.tabs {
-    margin-top: 100px;
+#block {
+    margin-top: 50px;
 }
 
-.tabButtons {
-    background-color: #f1f1f1;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    display: inline-block;
-}
-
-.tabButtons:hover {
-    background-color: #ddd;
-}
-
-.tabContent {
-    border: 1px solid #ccc;
+#resultBox {
+    margin-top: 20px;
+    background-color: #737894a1;
     padding: 20px;
-    height: 400px;
     width: 370px;
-    box-sizing: border-box;
-
-}
-
-#specificRestaurantResults {
-    display: none;
-    background-color: #d29635df;
-    color: white;
-    border: solid 2px #745523;
-
-}
-
-#restaurantTab {
-    background-color: #d29635df;
-    color: white;
-    border: solid 2px #745523;
-    border-radius: 10px 10px 0 0;
-}
-
-#locationResults {
+    margin-left: -20px;
+    height: 500px;
     overflow: scroll;
-    margin-top: 0px;
-    background-color: #899e1de1;
+    border: 2px solid white; 
+    margin-right: 20px;
+}
+
+#searchInputLocation {
+    margin-bottom: 30px;
+}
+
+label {
     color: white;
-    border: solid 2px #4a6700;
 }
 
-.tabContent.active {
-    display: block;
 
-}
-
-#locationTab {
-    background-color: #899e1de1;
+#searchResultsLocation ul li {
     color: white;
-    border: solid 2px #4a6700;
-    border-radius: 10px 10px 0 0;
+    border: 2px solid white;
 }
+
 
 #popularSearch1 {
     margin-left: 70px;
-    margin-top: 100px;
+    margin-top: 50px;
     margin-bottom: -80px;
     color: white;
 
 }
+#shortcutButtons1 {
+   width: 700px;
+
+}
+
 
 #shortcutButtons1 button {
     font-size: 20px;
@@ -2472,26 +2433,3 @@ h2 {
     cursor: pointer;
 }
 
-#popularSearch2 {
-    margin-left: 70px;
-    margin-top: 100px;
-    margin-bottom: -80px;
-    color: white;
-    display: none;
-
-}
-
-#shortcutButtons2 button {
-    font-size: 20px;
-    padding: 5px;
-    background-color: #b6b9c7bf;
-    border-radius: 5px;
-    color: white;
-    border: 2px #333642bf solid;
-
-}
-
-#shortcutButtons2 button:hover {
-    background-color: #7a7a82bf;
-    cursor: pointer;
-}
