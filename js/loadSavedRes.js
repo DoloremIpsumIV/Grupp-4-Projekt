@@ -111,6 +111,7 @@ function addBox(init) {
         removeButton.classList.add("removeBtn");
         removeButton.textContent = "x";
         removeButton.addEventListener("click", removeBox);
+        removeButton.addEventListener("touchstart", removeBox);
 
         newBox.appendChild(removeButton);
 
@@ -212,9 +213,17 @@ async function loadCards() {
     containers.forEach(container => {
         container.addEventListener("dragover", handleDragOver);
         container.addEventListener("drop", handleDrop);
+        container.addEventListener("touchmove", handleTouchMove);
+        container.addEventListener("touchend", handleTouchEnd);
     });
     cards.forEach(card => {
+
         card.addEventListener("dragstart", () => dragCard(card));
+        card.addEventListener("touchstart", (event) => handleTouchStart(event, card));
+        card.addEventListener("touchmove", handleTouchMove);
+        card.addEventListener("touchend", () => {
+            setTimeout((event) => handleTouchEnd, 10);
+        });
     });
     showTitle();
 
@@ -234,4 +243,39 @@ function handleDragOver(event) {
 function handleDrop(event) {
     event.preventDefault();
     moveCard(this.id);
+}
+
+// Handle touch start event
+function handleTouchStart(event, card) {
+    event.preventDefault();
+    movingCard = card;
+    const touch = event.touches[0];
+    const rect = movingCard.getBoundingClientRect();
+    touchOffsetX = touch.clientX - rect.left;
+    touchOffsetY = touch.clientY - rect.top;
+}
+
+// Handle touch move event
+function handleTouchMove(event) {
+    event.preventDefault();
+    if (!movingCard) return;
+    const touch = event.touches[0];
+    movingCard.style.position = "absolute";
+    movingCard.style.left = (touch.clientX - touchOffsetX) + "px";
+    movingCard.style.top = (touch.clientY - touchOffsetY) + "px";
+}
+
+// Handle touch end event
+function handleTouchEnd(event) {
+    event.preventDefault();
+    if (!movingCard) return;
+    movingCard.style.position = "";
+    movingCard.style.left = "";
+    movingCard.style.top = "";
+
+    const touch = event.changedTouches[0];
+    const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (dropTarget && dropTarget.classList.contains("listBox")) {
+        moveCard(dropTarget.id);
+    }
 }

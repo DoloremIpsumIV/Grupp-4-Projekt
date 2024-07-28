@@ -455,7 +455,7 @@ hr {
 }
 
 .restaurantSize {
-    height: 90vh !important;
+    height: 45vh !important;
 }
 
 #forknknife {
@@ -504,8 +504,6 @@ div.restaurantCardFlex img {
     color: black;
     width: 40px;
     margin-right: 2%;
-    margin-top: -50px;
-
 }
 
 .star {

@@ -244,9 +244,7 @@ function stopLoader() {
 // Function that saves the id of the restaurant to local storage
 function saveRestaurant(listElement) {
     const restaurantId = listElement.firstElementChild.id.startsWith("#") ? listElement.firstElementChild.id.slice(1) : listElement.firstElementChild.id.id;
-    console.log("Saving restaurant ID:", restaurantId);
-
-    let savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
+    const savedRestaurant = JSON.parse(localStorage.getItem("savedRestaurant")) || [];
 
     if (!savedRestaurant.includes(restaurantId)) {
         savedRestaurant.push(restaurantId);
@@ -262,7 +260,7 @@ function saveRestaurant(listElement) {
 function toggleHeartImg() {
     if (currentWindow === "" || currentWindow.includes("index") || currentWindow.includes("geo") || currentWindow.includes("favoriter")) {
         const saveBtns = document.querySelectorAll(".saveBtnIndex");
-        saveBtns.forEach(saveBtn => {   
+        saveBtns.forEach(saveBtn => {
             saveBtn.addEventListener("click", function () {
                 if (this.src.includes("/images/emptyHeart.svg")) {
                     this.src = "/images/filledHeart.svg";
@@ -276,6 +274,15 @@ function toggleHeartImg() {
                     }
                 }
             });
+            if (currentWindow.includes("favoriter")) {
+                saveBtn.addEventListener("touchstart", function () {
+                    getRestaurantIds();
+                    removeRestaurant(this.parentNode.parentNode.firstElementChild.id.substring(2));
+                    if (currentWindow.includes("favoriter")) {
+                        loadCards();
+                    }
+                });
+            }
         });
     }
 }
