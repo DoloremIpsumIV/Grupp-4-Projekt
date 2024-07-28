@@ -41,6 +41,7 @@ function initGeoMatch() {
     mapBtn.addEventListener("click", openMapDialog);
 
     let findBtn = document.querySelector("#findBtn2");
+    findBtn.addEventListener("click", initLoader);
     findBtn.addEventListener("click", getUserGeo);
 
     GameStartBtn = document.querySelector("#mapPlaybtn");

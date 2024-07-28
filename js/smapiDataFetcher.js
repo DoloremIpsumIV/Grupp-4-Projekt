@@ -265,14 +265,15 @@ function toggleHeartImg() {
         saveBtns.forEach(saveBtn => {   
             saveBtn.addEventListener("click", function () {
                 if (this.src.includes("/images/emptyHeart.svg")) {
-                    console.log("fullthjärta nu");
                     this.src = "/images/filledHeart.svg";
                     saveRestaurant(this.parentNode.parentNode);
                 } else {
-                    console.log("tomthjärta nu");
                     this.src = "/images/emptyHeart.svg";
                     getRestaurantIds();
                     removeRestaurant(this.parentNode.parentNode.firstElementChild.id.substring(2));
+                    if (currentWindow.includes("favoriter")) {
+                        loadCards();
+                    }
                 }
             });
         });

@@ -30,7 +30,7 @@ function createCard(obj) {
     if (currentWindow.includes("geo")) {
         listElements.appendChild(displayCardFlex(obj.id));
     }
-     if (currentWindow.includes("favoriter")) {
+    if (currentWindow.includes("favoriter")) {
         currentContainer = document.getElementById(`box${idPosition.get(obj.id)}`);
         listElements.appendChild(displayCardFlex(obj.id));
 
@@ -55,11 +55,16 @@ function displayCardFlex(restuarantId) {
     fetchStoredData();
     if (idPosition.get(restaurantObject.id) >= 0) {
         saveBtn.src = "/images/filledHeart.svg";
+        if (currentWindow.includes("favoriter")) {
+            saveBtn.src = "/images/soptunna.svg";
+            saveBtn.classList.add("TrashCan");
+        }
     }
     else {
         saveBtn.src = "/images/emptyHeart.svg";
     }
     saveBtn.classList.add("saveBtnIndex");
+    saveBtn.style.cursor = "pointer";
     divElement.classList.add("restaurantCardFlex");
     divElement.id = "#r" + restaurantObject.id;
     secondDivElement.classList.add("restaurantCardFlex");

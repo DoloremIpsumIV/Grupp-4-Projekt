@@ -34,7 +34,8 @@
 
 
     <h1>Alla restauranger</h1>
-    <h3 id="instructions">Sök bland alla restauranger som finns på getFood. Ett enkelt sätt att hitta restauranger utan att behöva dela platsinformation.</h3>
+    <h3 id="instructions">Sök bland alla restauranger som finns på getFood. Ett enkelt sätt att hitta restauranger utan
+        att behöva dela platsinformation.</h3>
 
 
     <div id="loaderId" class="loaderClass">
@@ -47,62 +48,51 @@
 
     <main>
 
-       <div id="popularSearch1">
-       <p>Populära sökningar:</p>
-       <div id="shortcutButtons1">
-       <button>Växjö</button>
-       <button>Småland</button>
-       <button>Öland</button>
-       <button>Kalmar</button>
-       <button>Jönköping</button>
-       </div>
-       </div>
-
-       <div id="popularSearch2">
-        <p>Populära sökningar:</p>
-        <div id="shortcutButtons2">
-        <button>Max</button>
-        <button>Växjö</button>
-        <button>Öland</button>
-        <button>Kalmar</button>
-        <button>Jönköping</button>
-        </div>
+        <div id="popularSearch1">
+            <p>Populära sökningar:</p>
+            <div id="shortcutButtons1">
+                <button>Växjö</button>
+                <button>Småland</button>
+                <button>Öland</button>
+                <button>Kalmar</button>
+                <button>Jönköping</button>
+                <button>Pizza</button>
+            </div>
         </div>
 
 
         <div id="allDiv">
-        <div id="largeMap"></div>
+            <div id="largeMap"></div>
 
-        <div id="tabBlock">
-         <!-- Tabbar -->
-         <div class="tabs">
-            <button id="locationTab"  class="tabButtons" onclick="showTab('locationResults')">Sök efter plats</button>
-            <button id="restaurantTab" class="tabButtons" onclick="showTab('specificRestaurantResults')">Sök efter restaurang</button>
-        </div>
+            <div id="tabBlock">
+                <!-- Tabbar -->
+                <div class="tabs">
+                    <button id="locationTab" class="tabButtons">Sök efter platser eller restauranger</button>
+                </div>
 
-        <!-- Tab content -->
-        
-        <div id="resultBox">
-        <div id="locationResults" class="tabContent">
-            <label for="searchInputLocation">Sök efter plats:</label>
-            <input type="text" id="searchInputLocation" placeholder="Enter location name...">
-            <div id="searchResultsDivLocation">
-                <ul id="searchResultsLocation"></ul>
+                <!-- Tab content -->
+
+                <div id="resultBox">
+                    <div id="locationResults" class="tabContent">
+                        <label for="searchInputLocation">Sök här:</label>
+                        <input type="text" id="searchInputLocation" placeholder="Ex: Max, växjö, pizza">
+                        <div id="searchResultsDivLocation">
+                            <ul id="searchResultsLocation"></ul>
+                        </div>
+                    </div>
+
+                    <div id="specificRestaurantResults" class="tabContent">
+                        <label for="searchInputRestaurant">Sök efter restaurang:</label>
+                        <input type="text" id="searchInputRestaurant" placeholder="Skriv in restaurang...">
+                        <div id="searchResultsDivRestaurant">
+                            <ul id="searchResultsRestaurant"></ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div id="specificRestaurantResults" class="tabContent">
-            <label for="searchInputRestaurant">Sök efter restaurang:</label>
-            <input type="text" id="searchInputRestaurant" placeholder="Skriv in restaurang...">
-            <div id="searchResultsDivRestaurant">
-                <ul id="searchResultsRestaurant"></ul>
-            </div>
-        </div>
-        </div>
-        </div>
 
 
-        <!----
+            <!----
         <div id="locationResults">
             <label for="searchInput">Search for a location:</label>
             <input type="text" id="searchInput" placeholder="Enter location name...">

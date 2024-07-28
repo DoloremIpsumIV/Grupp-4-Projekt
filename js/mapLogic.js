@@ -73,7 +73,7 @@ function popup(e){
        .setLatLng([e.lat, e.lng])
        .setContent(`${e.name}<br>` +
         `Stad: ${e.city}<br>` +
-        `Länk: <a href="${e.website}"> ${e.website} </a><br>` +
+        `Webbsida: <a href="${e.website}"> ${e.website} </a><br>` +
         `Telefon nummer: ${e.phone_number}`.toString())
        .openOn(map);
        map.setView([e.lat, e.lng], zoom = 15);
@@ -91,7 +91,7 @@ function scrollToRestaurant(id) {
         setTimeout(() => restaurantHighlightTimer(clickedRestaurant), 800);
     }
     else {
-        y = document.querySelector("#searchResultsDiv").getBoundingClientRect().top + window.scrollY - 50;
+        y = 200;
     }
     window.scrollTo({ top: y, behavior: "instant" });
 }
@@ -136,6 +136,8 @@ För att använda hitta min plats måste du ladda om sidan och godkänna på nyt
             longitude = position.coords.longitude;
             GameStartBtn.style.display = "initial";
             overlay.style.display = "none";
+            stopLoader();
+            console.log("press");
         }, function (error) {
             if (error == "[object GeolocationPositionError]") {
                 window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 

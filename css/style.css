@@ -613,6 +613,10 @@ h2#restaurantName {
     padding-top: 20px;
 }
 
+.TrashCan:hover {
+    content: url('/images/soptunnaOpen.svg');
+}
+
 #searchResultTrash {
     height: 30px;
     margin-top: 10px;
