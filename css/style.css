@@ -1814,7 +1814,7 @@ h2 {
     font-size: 35px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: transform 0.3s ease;
-    margin-top: -400px;
+    margin-bottom: 400px;
 }
 
 #mapBtn2 {
