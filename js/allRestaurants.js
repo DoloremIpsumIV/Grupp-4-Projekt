@@ -37,6 +37,14 @@ function initAllRestaurants() {
 
     initLoader();
     fetchAllRestaurants();
+
+    let arrow = document.querySelector("#arrowUp");
+    let resultBoxElem = document.getElementById("resultBox");
+    arrow.addEventListener("click", () => {
+        console.log("SDFGH")
+        resultBoxElem.scrollTo({top: 0, behavior: 'smooth'});
+    });
+    
 }
 
 // Function that fetches all restaurants form establishments, then combines it with the getRestaurant() fetch to display all markers with newRestaurantMarker()
@@ -101,9 +109,11 @@ function displayLocations(locationsMap) {
         restuarantMarkerArray[i].remove();
     }
     restuarantMarkerArray = [];
+
     locationsMap.forEach(location => {
         const li = document.createElement("li");
         const p = document.createElement("p");
+        
         li.textContent = location.name;
         li.id = "#r" + location.id;
         li.addEventListener("click", () => popup(location));

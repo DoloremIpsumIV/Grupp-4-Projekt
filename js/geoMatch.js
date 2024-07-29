@@ -29,6 +29,9 @@ let GameStartBtn;                // Button to start the game
 
 // Function that initiates on window load
 function initGeoMatch() {
+    restartGameBtn = document.querySelector("#restartBox");
+    restartGameBtn.addEventListener("click", restartGame);
+
     loader = document.querySelector("#loaderId");
 
     smalandRadioBtn = document.querySelector("#smalandRadioBtn");
@@ -45,23 +48,23 @@ function initGeoMatch() {
     findBtn.addEventListener("click", getUserGeo);
 
     GameStartBtn = document.querySelector("#mapPlaybtn");
-    GameStartBtn.addEventListener("click", (e) => startGame(e)); 
-}
-
-// Shows the options to use either geo location or a map to choose user position
-function gameSettings() {
-    restartGameBtn = document.querySelector("#restartBox");
-    restartGameBtn.addEventListener("click", restartGame);
-    playBtn.style.display = "none";
-
-    let selectBox = document.querySelector("#selectBox");
-    selectBox.style.display = "flex";
+    GameStartBtn.addEventListener("click", (e) => startGame(e));
 
     let closeButton2 = document.querySelector("#closeButton2");
     closeButton2.addEventListener("click", function () {
         selectBox.style.display = "none";
         playBtn.style.display = "block";
     });
+
+}
+
+// Shows the options to use either geo location or a map to choose user position
+function gameSettings() {
+    playBtn.style.display = "none";
+
+    let selectBox = document.querySelector("#selectBox");
+    selectBox.style.display = "flex";
+    console.log("settings");
 }
 
 function restartGame() {
@@ -74,7 +77,7 @@ function startGame() {
     playBtn.style.display = "none";
     selectBox.style.display = "none";
 
-    
+
     restartGameBtn.style.display = "flex";
 
     let gameBackground = document.querySelector("#boxBackground");

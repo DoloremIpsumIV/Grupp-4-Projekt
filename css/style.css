@@ -257,6 +257,7 @@ hr {
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 #searchButton:hover {
@@ -271,7 +272,7 @@ hr {
     top: 6px;
     margin-right: 2px;
     margin-left: -15px;
-   
+
 }
 
 .highlight {
@@ -329,6 +330,7 @@ hr {
     border: solid 2px #4a6700;
     border-radius: 5px;
     transition: 0.5s;
+    cursor: pointer;
 
 }
 
@@ -353,6 +355,7 @@ hr {
     border-radius: 5px;
     margin-left: 10px;
     transition: 0.5s;
+    cursor: pointer;
 }
 
 #findBtn:hover {
@@ -453,6 +456,7 @@ hr {
     margin-top: 20px;
     justify-content: center;
     margin-left: 1px;
+    color: #000;
 }
 
 .restaurantCardFlex {
@@ -635,6 +639,124 @@ h2#restaurantName {
 }
 
 
+/* CSS Alla restauranger */
+
+#largeMap {
+    width: 55%;
+}
+
+#allDiv {
+    display: flex;
+    margin-top: -20px;
+}
+
+#searchResultsDiv {
+    background-color: rgba(255, 255, 255, 0.158);
+    padding: 10px;
+    height: 500px;
+    overflow: scroll;
+    color: white;
+    border-radius: 5px;
+}
+
+#block {
+    margin-top: 50px;
+}
+
+#block p {
+    color: white;
+}
+
+
+#resultBox {
+    margin-top: 20px;
+    background-color: #737894a1;
+    padding: 20px;
+    width: 370px;
+    margin-left: -20px;
+    height: 500px;
+    overflow: scroll;
+    border: 2px solid white;
+    margin-right: 20px;
+}
+
+#searchInputLocation {
+    margin-bottom: 30px;
+}
+
+
+
+#searchResultsLocation ul li {
+    color: white;
+    border: 2px solid white;
+}
+
+
+#popularSearch1 {
+    margin-left: 70px;
+    margin-top: 50px;
+    margin-bottom: -80px;
+    color: white;
+}
+
+#shortcutButtons1 {
+    width: 700px;
+
+}
+
+
+#shortcutButtons1 button {
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    border: 2px #333642bf solid;
+
+}
+
+#shortcutButtons1 button:hover {
+    background-color: #7a7a82bf;
+    cursor: pointer;
+}
+
+.cityBtn {
+    background-color: rgb(181, 96, 178);
+}
+
+.typeBtn {
+    background-color: #97b44d;
+}
+
+.restBtn {
+    background-color: rgb(229, 184, 99);
+}
+
+#searchResultsDivLocation p {
+    color: white;
+    margin-bottom: 40px;
+}
+
+#arrowUp {
+    font-size: 30px;
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+    background: none;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+    float: right;
+    margin-right: 20px;
+}
+
+#arrowUp:hover {
+    background-color: #353845;
+}
+
+
+
+
+
 /* Responsiv design index */
 
 @media screen and (max-width: 840px) {
@@ -677,15 +799,19 @@ h2#restaurantName {
         margin-left: 550px;
     }
 
-
-
     ul {
         font-size: 14px;
         margin-top: -30px;
     }
 
+    #shortcutButtons1 {
+        width: 450px;
+    }
 
+    #shortcutButtons1 button {
+        font-size: 14px;
 
+    }
 }
 
 @media screen and (max-width: 750px) {
@@ -730,6 +856,29 @@ h2#restaurantName {
         margin-left: 20px;
     }
 }
+
+@media screen and (max-width: 700px) {
+    #allDiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #block div p {
+        margin-top: 50px;
+
+    }
+
+    #resultBox {
+        order: 1;
+        margin-top: 10px;
+    }
+
+    #largeMap {
+        order: 2;
+    }
+}
+
 
 @media screen and (max-width: 650px) {
     #closeButton {
@@ -1815,7 +1964,7 @@ h2 {
     font-size: 35px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: transform 0.3s ease;
-    margin-top: -400px;
+    margin-bottom: 400px;
 }
 
 #mapBtn2 {
@@ -1880,6 +2029,7 @@ h2 {
     z-index: 999;
     display: none;
     justify-content: center;
+    display: flex;
 }
 
 #selectBox2 {
@@ -2200,6 +2350,35 @@ h2 {
 
 }
 
+@media screen and (max-width: 560px) {
+    #selectBox {
+
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #buttonsDiv,
+    #closeBox {
+        margin: 5px;
+        flex: 1 1 100%;
+    }
+
+    #buttonsDiv button,
+    #closeBox button {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 5px 0;
+    }
+
+    #geoMatchBtns {
+        margin-left: 0px;
+        margin-right: 60px;
+        margin-top: 100px;
+
+    }
+
+
+}
 
 @media screen and (max-width: 480px) {
 
@@ -2241,6 +2420,15 @@ h2 {
         margin-left: 34%;
     }
 
+    #playButton {
+        width: 200px;
+    }
+
+    #mapPlaybtn {
+        width: 200px;
+    }
+
+
 
 }
 
@@ -2271,11 +2459,21 @@ h2 {
     }
 }
 
-@media screen and (max-width: 510px) {
+@media screen and (max-width: 520px) {
     html body div#headerContainer.stickyHeader a img#logoWhite {
         display: block;
-        width: 100px;
+        width: 80px;
     }
+
+    html body header div#headerContainer.stickyHeader ul#nav {
+        font-size: 10px;
+        margin-right: 50px;
+    }
+
+    #shortcutButtons1 {
+        width: 250px;
+    }
+
 }
 
 @media screen and (max-width: 500px) {
@@ -2305,6 +2503,15 @@ h2 {
     #listBox div {
         margin-right: 10px;
     }
+}
+
+@media screen and (max-width: 415px) {
+
+    html body main div#allDiv div#block div#resultBox {
+        width: 200px;
+        margin-left: 45px;
+    }
+
 }
 
 @media screen and (max-width: 410px) {
@@ -2346,89 +2553,3 @@ h2 {
         margin-left: 40px;
     }
 }
-
-
-
-
-
-
-
-/* CSS Alla restauranger */
-
-#largeMap {
-    width: 55%;
-}
-
-#allDiv {
-    display: flex;
-    margin-top: -20px;
-}
-
-#searchResultsDiv {
-    background-color: rgba(255, 255, 255, 0.158);
-    padding: 10px;
-    height: 500px;
-    overflow: scroll;
-    color: white;
-    border-radius: 5px;
-}
-
-#block {
-    margin-top: 50px;
-}
-
-#resultBox {
-    margin-top: 20px;
-    background-color: #737894a1;
-    padding: 20px;
-    width: 370px;
-    margin-left: -20px;
-    height: 500px;
-    overflow: scroll;
-    border: 2px solid white; 
-    margin-right: 20px;
-}
-
-#searchInputLocation {
-    margin-bottom: 30px;
-}
-
-label {
-    color: white;
-}
-
-
-#searchResultsLocation ul li {
-    color: white;
-    border: 2px solid white;
-}
-
-
-#popularSearch1 {
-    margin-left: 70px;
-    margin-top: 50px;
-    margin-bottom: -80px;
-    color: white;
-
-}
-#shortcutButtons1 {
-   width: 700px;
-
-}
-
-
-#shortcutButtons1 button {
-    font-size: 20px;
-    padding: 5px;
-    background-color: #b6b9c7bf;
-    border-radius: 5px;
-    color: white;
-    border: 2px #333642bf solid;
-
-}
-
-#shortcutButtons1 button:hover {
-    background-color: #7a7a82bf;
-    cursor: pointer;
-}
-
