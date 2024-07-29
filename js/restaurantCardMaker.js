@@ -58,7 +58,6 @@ function displayCardFlex(restuarantId) {
         if (currentWindow.includes("favoriter")) {
             saveBtn.src = "/images/soptunna.svg";
             saveBtn.classList.add("TrashCan");
-            saveBtn.style.zIndex = "1000";
         }
     }
     else {

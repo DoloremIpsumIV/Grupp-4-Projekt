@@ -1804,6 +1804,7 @@ h2 {
 
 
 #playButton {
+    cursor: pointer;
     width: 400px;
     height: 80px;
     position: absolute;
@@ -1957,6 +1958,7 @@ h2 {
 }
 
 #mapPlaybtn {
+    cursor: pointer;
     width: 400px;
     height: 50px;
     background-color: #4a6700d7;
@@ -1966,7 +1968,7 @@ h2 {
     font-size: 35px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: transform 0.3s ease;
-    margin-top: 370px;
+    margin-top: 75vh;
 
 }
 

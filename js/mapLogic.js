@@ -134,9 +134,9 @@ För att använda hitta min plats måste du ladda om sidan och godkänna på nyt
         navigator.geolocation.getCurrentPosition(function (position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
-            GameStartBtn.style.display = "initial";
             overlay.style.display = "none";
             stopLoader();
+            startGame();
         }, function (error) {
             if (error == "[object GeolocationPositionError]") {
                 window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 
@@ -201,8 +201,6 @@ function updateMapLoc(success) {
         }
     }
 }
-
-//                          |-------------------- Logic for the popup map, i.e map dialogue box --------------------|
 
 // Opens the small popup map
 function openMapDialog() {
@@ -297,14 +295,7 @@ function openMapDialog() {
                 [boundries.maxLatCorner, boundries.maxLngCorner]
             );
 
-            if (smalandRadioBtn.checked) {
-                latitude = smaland.lat;
-                longitude = smaland.lng;
-            }
-            else {
-                latitude = oland.lat;
-                longitude = oland.lng;
-            }
+            
             miniMap = L.map("map", {
                 center: [latitude, longitude],
                 zoom: 13,
@@ -321,6 +312,16 @@ function openMapDialog() {
             });
             miniMap.on("click", newUserMarker);
         }
+        if (smalandRadioBtn.checked) {
+            latitude = smaland.lat;
+            longitude = smaland.lng;
+            miniMap.setView([latitude, longitude], smaland.zoom);
+        }
+        else {
+            latitude = oland.lat;
+            longitude = oland.lng;
+            miniMap.setView([latitude, longitude], oland.zoom);
+        }
 
         const ownPositionMarker = L.icon({
             iconUrl: "/mapIconsSVG/mapOwnPosition.svg",
@@ -334,7 +335,6 @@ function openMapDialog() {
 
         const closeButton = document.querySelector("#closeButton");
         closeButton.addEventListener("click", function () {
-            GameStartBtn.style.display = "initial";
             overlay.style.display = "none";
         });
     }

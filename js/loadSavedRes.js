@@ -46,12 +46,12 @@ function initTitleEventListeners() {
             input.type = "text";
             input.value = originalText;
             input.style.width = "100%";
+            input.maxLength = "20";
 
             this.textContent = "";
             this.appendChild(input);
 
             input.focus();
-
             input.addEventListener("blur", () => {
                 const newText = input.value;
                 if (input.value == "") {
@@ -59,7 +59,6 @@ function initTitleEventListeners() {
                 }
                 else {
                     this.textContent = newText;
-
                 }
                 localStorage.setItem(this.id, newText);
             });
@@ -71,6 +70,8 @@ function initTitleEventListeners() {
             });
         });
     });
+    showTitle();
+
 }
 
 // Changes the title and shows it on the page
@@ -88,6 +89,10 @@ function showTitle() {
 // Function that initiates all the boxes on the site as it loads
 function initBoxes() {
     listCounter = JSON.parse(localStorage.getItem("listCounter"));
+    if (listCounter === 4) {
+        addButton.style.opacity = '0.5';
+        addButton.style.cursor = 'not-allowed';
+    }
     for (let i = 0; i < listCounter; i++) {
         addBox(true);
     }
@@ -96,10 +101,13 @@ function initBoxes() {
 // Function that adds a box both at the init and if a button is pressed
 function addBox(init) {
     const boxes = document.querySelectorAll(".listBox");
-
     if (boxes.length < maxBoxes) {
         if (!init) {
             listCounter++;
+            if (listCounter === 4) {
+                addButton.style.opacity = '0.5';
+                addButton.style.cursor = 'not-allowed';
+            }
         }
 
         localStorage.setItem("listCounter", JSON.stringify(listCounter));
@@ -134,6 +142,7 @@ function addBox(init) {
             element.innerText = `Lista ${element.nextElementSibling.id.substring(3)}`;
             element.id = `BoxTitle-${element.nextElementSibling.id.substring(3)}`;
         }
+        showTitle()
         if (!init) {
             loadCards();
         }
@@ -143,6 +152,10 @@ function addBox(init) {
 // Function that removes a box, if there are cards on that box it removes them aswell
 function removeBox(event) {
     listCounter--;
+    if (listCounter < 4) {
+        addButton.style.opacity = "1";
+        addButton.style.cursor = "pointer";
+    }
     localStorage.setItem("listCounter", JSON.stringify(listCounter));
     const box = event.target.parentElement;
     localStorage.removeItem(`BoxTitle-${box.previousElementSibling.id.substring(9)}`)
@@ -194,7 +207,6 @@ async function moveCard(containerId) {
 async function loadCards() {
     for (let i = 0; i < listCounter + 1; i++) {
         currentContainer = document.getElementById(`box${i}`);
-
         try {
             let containerChildrenNodes = Array.from(currentContainer.children);
             containerChildrenNodes.forEach(node => {
@@ -217,7 +229,6 @@ async function loadCards() {
         container.addEventListener("touchend", handleTouchEnd);
     });
     cards.forEach(card => {
-
         card.addEventListener("dragstart", () => dragCard(card));
         card.addEventListener("touchstart", (event) => handleTouchStart(event, card));
         card.addEventListener("touchmove", handleTouchMove);
@@ -226,7 +237,6 @@ async function loadCards() {
         });
     });
     showTitle();
-
 }
 
 // Defines what card is being moved
@@ -245,7 +255,7 @@ function handleDrop(event) {
     moveCard(this.id);
 }
 
-// Handle touch start event
+// Handles touch start event on restaurant cards
 function handleTouchStart(event, card) {
     event.preventDefault();
     movingCard = card;
@@ -253,19 +263,25 @@ function handleTouchStart(event, card) {
     const rect = movingCard.getBoundingClientRect();
     touchOffsetX = touch.clientX - rect.left;
     touchOffsetY = touch.clientY - rect.top;
+    const restaurantCards = document.querySelectorAll(".restaurantCard");
+    restaurantCards.forEach(restaurantCard => {
+        restaurantCard.style.pointerEvents = "none";
+    });
 }
 
-// Handle touch move event
+// Handles move event on restaurant cards
 function handleTouchMove(event) {
     event.preventDefault();
     if (!movingCard) return;
     const touch = event.touches[0];
-    movingCard.style.position = "absolute";
+    movingCard.style.position = "fixed";
+    movingCard.style.width = "370px"
+    movingCard.style.zIndex = "202";
     movingCard.style.left = (touch.clientX - touchOffsetX) + "px";
     movingCard.style.top = (touch.clientY - touchOffsetY) + "px";
 }
 
-// Handle touch end event
+// Handles the touch end event on restaurant cards
 function handleTouchEnd(event) {
     event.preventDefault();
     if (!movingCard) return;
