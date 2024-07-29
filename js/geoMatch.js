@@ -47,11 +47,11 @@ function initGeoMatch() {
     GameStartBtn = document.querySelector("#mapPlaybtn");
     GameStartBtn.addEventListener("click", (e) => startGame(e));
     
-
-
-    GameStartBtn = document.querySelector("#GameStartBtn");
-    GameStartBtn.style.display = "none";
-    GameStartBtn.addEventListener("click", (e) => startGame(e));
+    let closeButton2 = document.querySelector("#closeButton2");
+    closeButton2.addEventListener("click", function () {
+        selectBox.style.display = "none";
+        playBtn.style.display = "block";
+    });
     
 }
 
@@ -64,11 +64,7 @@ function gameSettings() {
     let selectBox = document.querySelector("#selectBox");
     selectBox.style.display = "flex";
 
-    let closeButton2 = document.querySelector("#closeButton2");
-    closeButton2.addEventListener("click", function () {
-        selectBox.style.display = "none";
-        playBtn.style.display = "block";
-    });
+   
 }
 
 function restartGame() {
