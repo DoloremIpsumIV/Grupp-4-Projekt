@@ -257,6 +257,7 @@ hr {
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 #searchButton:hover {
@@ -329,6 +330,7 @@ hr {
     border: solid 2px #4a6700;
     border-radius: 5px;
     transition: 0.5s;
+    cursor: pointer;
 
 }
 
@@ -353,6 +355,7 @@ hr {
     border-radius: 5px;
     margin-left: 10px;
     transition: 0.5s;
+    cursor: pointer;
 }
 
 #findBtn:hover {
@@ -453,6 +456,7 @@ hr {
     margin-top: 20px;
     justify-content: center;
     margin-left: 1px;
+    color: #000;
 }
 
 .restaurantCardFlex {
@@ -2375,6 +2379,11 @@ h2 {
     margin-top: 50px;
 }
 
+#block p {
+   color: white;
+}
+
+
 #resultBox {
     margin-top: 20px;
     background-color: #737894a1;
@@ -2391,9 +2400,6 @@ h2 {
     margin-bottom: 30px;
 }
 
-label {
-    color: white;
-}
 
 
 #searchResultsLocation ul li {
@@ -2418,7 +2424,6 @@ label {
 #shortcutButtons1 button {
     font-size: 20px;
     padding: 5px;
-    background-color: #b6b9c7bf;
     border-radius: 5px;
     color: white;
     border: 2px #333642bf solid;
@@ -2429,4 +2434,39 @@ label {
     background-color: #7a7a82bf;
     cursor: pointer;
 }
+
+.cityBtn {
+    background-color: rgb(181, 96, 178);
+}
+
+.typeBtn {
+    background-color: #97b44d;
+}
+
+.restBtn {
+    background-color:rgb(229, 184, 99);
+}
+
+#searchResultsDivLocation p {
+    color: white;
+    margin-bottom: 40px;
+}
+
+#arrowUp {
+   font-size: 30px;
+   width: 40px;
+   height: 40px;
+   margin-top: 10px;
+   background: none;
+   border: 2px solid white;
+   border-radius: 5px;
+   color: white;
+   float: right;
+   margin-right: 20px;
+}
+
+#arrowUp:hover {
+   background-color: #353845; 
+}
+ 
 

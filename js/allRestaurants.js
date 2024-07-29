@@ -101,9 +101,18 @@ function displayLocations(locationsMap) {
         restuarantMarkerArray[i].remove();
     }
     restuarantMarkerArray = [];
+
+    const arrow = document.createElement("button")
+    arrow.textContent = "↑";
+    arrow.id = "arrowUp";
+    arrow.addEventListener("click", () => {
+        searchResultElem.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
     locationsMap.forEach(location => {
         const li = document.createElement("li");
         const p = document.createElement("p");
+        
         li.textContent = location.name;
         li.id = "#r" + location.id;
         li.addEventListener("click", () => popup(location));
