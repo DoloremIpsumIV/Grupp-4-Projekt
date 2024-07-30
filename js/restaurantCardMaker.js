@@ -14,7 +14,6 @@ function combineRestaurantData(map1, map2) {
 function createCard(obj) {
     const listElements = document.createElement("div");
     listElements.classList.add("restaurantCard");
-    listElements.draggable = true;
     if (currentWindow === "" || currentWindow.includes("index")) {
         listElements.appendChild(displayCardFlex(obj.id));
         listElements.addEventListener("click", () => popup(obj));
@@ -31,6 +30,7 @@ function createCard(obj) {
         listElements.appendChild(displayCardFlex(obj.id));
     }
     if (currentWindow.includes("favoriter")) {
+        listElements.draggable = true;
         currentContainer = document.getElementById(`box${idPosition.get(obj.id)}`);
         listElements.appendChild(displayCardFlex(obj.id));
 
@@ -163,11 +163,17 @@ function displayCardFlex(restuarantId) {
                     paragraphElement.appendChild(crossAndCheck);
                     secondDivElement.prepend(paragraphElement);
                     break;
+
                 case "city":
                     paragraphElement.style.margin = "initial";
                 case "address":
                     key === "address" ? paragraphElement.innerHTML = `${value}, ` : paragraphElement.innerHTML = `${value}`;
                     paragraphElement.style.display = "inline";
+                    secondDivElement.appendChild(paragraphElement);
+                    break;
+
+                case "sub_type":
+                    paragraphElement.innerText = `${value.replace(/_/g, " ").toLowerCase().charAt(0).toUpperCase() + value.replace(/_/g, " ").toLowerCase().slice(1)}`;
                     secondDivElement.appendChild(paragraphElement);
                     break;
 
