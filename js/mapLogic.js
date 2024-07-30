@@ -139,11 +139,13 @@ För att använda hitta min plats måste du ladda om sidan och godkänna på nyt
             startGame();
         }, function (error) {
             if (error == "[object GeolocationPositionError]") {
+                stopLoader();
                 window.alert(`Om du inte godkänner att sidan använder din platsinformation kommer inte denna funktionen att fungera! Välj då istället plats via kartan 
     
     För att använda hitta min plats måste du ladda om sidan och godkänna på nytt`);
             }
             else {
+                stopLoader();
                 window.alert(`Fel vid hämtning av geo position: ${error}`);
             }
         });
