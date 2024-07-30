@@ -41,7 +41,6 @@ function initAllRestaurants() {
     let arrow = document.querySelector("#arrowUp");
     let resultBoxElem = document.getElementById("resultBox");
     arrow.addEventListener("click", () => {
-        console.log("SDFGH")
         resultBoxElem.scrollTo({ top: 0, behavior: 'smooth' });
     });
 

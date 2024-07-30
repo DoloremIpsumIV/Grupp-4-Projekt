@@ -97,7 +97,6 @@ function initBoxes() {
     for (let i = 0; i < listCounter; i++) {
         addBox(true);
     }
-    console.log(listCounter)
 }
 
 // Function that adds a box both at the init and if a button is pressed

@@ -64,7 +64,6 @@ function gameSettings() {
 
     let selectBox = document.querySelector("#selectBox");
     selectBox.style.display = "flex";
-    console.log("settings");
 }
 
 function restartGame() {
