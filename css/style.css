@@ -305,6 +305,12 @@ hr {
     background-color: gray;
 }
 
+#searchLabel {
+    color: white;
+    margin-top: 80px;
+    margin-left: 20px;
+}
+
 #typeOfRestaurant,
 #distance,
 #priceRange {
