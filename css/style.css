@@ -533,12 +533,8 @@ h2#restaurantName {
     display: none;
 }
 
-/* TA BORT SEN */
-.crossAndCheck {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    top: 5px;
+.studentDiscount{
+
 }
 
 #closeButton {

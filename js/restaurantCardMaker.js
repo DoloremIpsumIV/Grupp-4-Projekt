@@ -150,17 +150,16 @@ function displayCardFlex(restuarantId) {
                     break;
 
                 case "student_discount":
-                    const crossAndCheck = document.createElement("img");
+                    const studentDiscountImage = document.createElement("img");
                     if (value == "N") {
-                        crossAndCheck.src = "/images/Cross.png";
+                        studentDiscountImage.src = "/images/noStudentDiscount.svg";
                     }
                     else {
-                        crossAndCheck.src = "/images/Check.png";
+                        studentDiscountImage.src = "/images/studentDiscount.svg";
                     }
-                    crossAndCheck.classList = "crossAndCheck";
-
-                    paragraphElement.innerHTML = `${key}: `;
-                    paragraphElement.appendChild(crossAndCheck);
+                    studentDiscountImage.classList.add("studentDiscount");
+                    studentDiscountImage.style.width = "initial";
+                    paragraphElement.appendChild(studentDiscountImage);
                     secondDivElement.prepend(paragraphElement);
                     break;
 
