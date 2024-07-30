@@ -84,11 +84,11 @@ function init() {
 
         let trashCan = document.querySelector("#searchResultTrash");
 
-        trashCan.addEventListener("mouseenter", function() {
+        trashCan.addEventListener("mouseenter", function () {
             trashCan.src = "/images/soptunnaOpen.svg";
         });
-        
-        trashCan.addEventListener("mouseleave", function() {
+
+        trashCan.addEventListener("mouseleave", function () {
             trashCan.src = "/images/soptunna.svg";
         });
 
@@ -155,7 +155,7 @@ function init() {
         loader = document.querySelector("#loaderId");
         initLoadSaved();
     }
-    else if (currentWindow.includes("alla")){
+    else if (currentWindow.includes("alla")) {
         initAllRestaurants();
     }
 }

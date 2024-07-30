@@ -37,7 +37,7 @@ function newUserMarker(e) {
                     zIndexOffset: 1000
                 })
             }).addTo(miniMap);
-            
+
         }
         latitude = e.latlng.lat;
         longitude = e.latlng.lng;
@@ -67,16 +67,16 @@ function popupText(location) {
     return text;
 }
 
-function popup(e){
-   var popup = L.popup({offset: [0, -30]});
-   popup
-       .setLatLng([e.lat, e.lng])
-       .setContent(`${e.name}<br>` +
-        `Stad: ${e.city}<br>` +
-        `Webbsida: <a href="${e.website}"> ${e.website} </a><br>` +
-        `Telefon nummer: ${e.phone_number}`.toString())
-       .openOn(map);
-       map.setView([e.lat, e.lng], zoom = 15);
+function popup(e) {
+    var popup = L.popup({ offset: [0, -30] });
+    popup
+        .setLatLng([e.lat, e.lng])
+        .setContent(`${e.name}<br>` +
+            `Stad: ${e.city}<br>` +
+            `Webbsida: <a href="${e.website}"> ${e.website} </a><br>` +
+            `Telefon nummer: ${e.phone_number}`.toString())
+        .openOn(map);
+    map.setView([e.lat, e.lng], zoom = 15);
 }
 
 // Function that scrolls to the corresponding restaurant when a marker is clicked
@@ -297,7 +297,7 @@ function openMapDialog() {
                 [boundries.maxLatCorner, boundries.maxLngCorner]
             );
 
-            
+
             miniMap = L.map("map", {
                 center: [latitude, longitude],
                 zoom: 13,

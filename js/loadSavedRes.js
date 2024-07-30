@@ -68,7 +68,7 @@ function initTitleEventListeners() {
                     input.blur();
                 }
             });
-   
+
         });
     });
     showTitle();

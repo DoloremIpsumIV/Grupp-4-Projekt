@@ -4,14 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
+    <meta name="description" content="Använd GetFoods filtreringssystem för att hitta det närmsta, billigaste eller högst betygsatta lunchstället!">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="images/logoBlack.png">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/js/script.js"></script>
     <script src="/js/mapLogic.js"></script>
     <script src="/js/allRestaurants.js"></script>
@@ -52,16 +49,16 @@
             <p id="popSearch">Populära sökningar:</p>
             <div id="shortcutButtons1">
                 <button class="cityBtn">Växjö</button>
-                <button class="cityBtn" >Småland</button>
-                <button class="cityBtn" >Öland</button>
+                <button class="cityBtn">Småland</button>
+                <button class="cityBtn">Öland</button>
                 <button class="cityBtn">Kalmar</button>
                 <button class="cityBtn">Jönköping</button>
                 <button class="cityBtn">Västervik</button>
                 <button class="cityBtn">Ljungby</button>
                 <button class="typeBtn">Burgers</button>
-                <button class="typeBtn" >Mediterranean</button>
+                <button class="typeBtn">Mediterranean</button>
                 <button class="typeBtn">Asian</button>
-                <button class="typeBtn" >Latin</button>
+                <button class="typeBtn">Latin</button>
                 <button class="typeBtn">Pastries</button>
                 <button class="typeBtn">Pizza</button>
                 <button class="restBtn">Max</button>
@@ -76,19 +73,20 @@
 
             <div id="block">
                 <div>
-                    <p>Sök efter platser eller restauranger<p>
+                    <p>Sök efter platser eller restauranger
+                    <p>
                 </div>
 
                 <div id="resultBox">
-                    <div >
+                    <div>
                         <label for="searchInputLocation">Sök här:</label>
                         <input type="text" id="searchInputLocation" placeholder="Ex: Max, Växjö, pizza">
                         <div id="searchResultsDivLocation">
                             <ul id="searchResultsLocation"></ul>
                         </div>
                     </div>
-            </div>
-        <button id="arrowUp">^</button>
+                </div>
+                <button id="arrowUp">^</button>
     </main>
 
     <footer id="footer">
