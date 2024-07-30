@@ -224,7 +224,7 @@ function openMapDialog() {
         const overlay = document.querySelector("#overlay");
 
         mapBox.style.display = "block";
-        mapBox.style.height = "80%";
+        mapBox.style.height = "60%";
         mapBox.style.width = "60%";
 
         overlay.style.display = "block";
