@@ -256,7 +256,6 @@ hr {
     border: solid #2d324fe1 2px;
     border-radius: 2px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-weight: 6px;
     position: relative;
     display: block;
 }
@@ -1200,7 +1199,7 @@ h2#restaurantName {
     }
 
     #map {
-        height: 20hv;
+        height: 200px;
     }
 
     .tooltip {
