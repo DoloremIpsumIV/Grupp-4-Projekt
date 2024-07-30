@@ -90,13 +90,14 @@ function showTitle() {
 // Function that initiates all the boxes on the site as it loads
 function initBoxes() {
     listCounter = JSON.parse(localStorage.getItem("listCounter"));
-    if (listCounter === 4) {
+    if (listCounter >= 5) {
         addButton.style.opacity = '0.5';
         addButton.style.cursor = 'not-allowed';
     }
     for (let i = 0; i < listCounter; i++) {
         addBox(true);
     }
+    console.log(listCounter)
 }
 
 // Function that adds a box both at the init and if a button is pressed
