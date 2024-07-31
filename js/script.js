@@ -17,13 +17,13 @@ const boundries = {               // Const with min and max boundries for the ma
     minLatCorner: 58.122646,
     minLngCorner: 13.061037
 }
-const smalandBoundries = {
+const smalandBoundries = {        // Const with min and max boundries for Småland
     maxLatCorner: 58.135979,
     maxLngCorner: 13.272047,
     minLatCorner: 56.392624,
     minLngCorner: 16.826773
-}
-const olandBoundries = {
+}   
+const olandBoundries = {          // Const with min and max boundries for Öland
     maxLatCorner: 57.234476,
     maxLngCorner: 15.944010,
     minLatCorner: 56.136368,
@@ -980,7 +980,6 @@ function openMapDialog() {
 
         overlay.style.display = "block";
 
-        // Creates a mini popup map for the chosen lat and lng
         if (miniMap === undefined) {
             miniMap = L.map("map", {
                 center: [smaland.lat, smaland.lng],
@@ -1590,7 +1589,7 @@ const imagesUsed = [
     "MEDITERRANEAN.svg",
     "PASTRIES.svg",
     "pizza.svg"
-]; //Bilderna som ska användas
+]; // List of images used
 
 const imageNames = {
     "A_LA_CARTE.svg": "A la carte",
@@ -1601,7 +1600,8 @@ const imageNames = {
     "MEDITERRANEAN.svg": "Medelhavs",
     "PASTRIES.svg": "Bakverk",
     "pizza.svg": "Pizzeria"
-};
+}; // List of names for the images
+
 const imageFolder = "mapIconsSVG"; // Folder with all icon images
 let availableImages;               // Saves all remaining images 
 let lastClickedImage = "";         // Saves the last clicked image
@@ -1758,10 +1758,3 @@ function endGame() {
     document.querySelector("#endGamePage h2").textContent = "Det verkar som att du är mest sugen på ";
     document.querySelector("#endGamePage h2").textContent += imageNames[lastClickedImage];
 }
-
-
-
-
-
-
-
