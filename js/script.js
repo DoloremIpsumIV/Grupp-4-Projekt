@@ -1188,7 +1188,7 @@ function showTitle() {
 // Function that initiates all the boxes on the site as it loads
 function initBoxes() {
     listCounter = JSON.parse(localStorage.getItem("listCounter"));
-    if (listCounter >= 5) {
+    if (listCounter >= 4) {
         addButton.style.opacity = '0.5';
         addButton.style.cursor = 'not-allowed';
     }
