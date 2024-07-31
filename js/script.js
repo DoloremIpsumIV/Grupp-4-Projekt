@@ -1104,13 +1104,16 @@ function closeMapDialog() {
 // ---------- Favoriter code following ----------
 
 let listCounter = 0;        // The amount of lists that are currently present
-const maxBoxes = 5;         // Maximum amount of lists possible
 let currentContainer;       // The current dragged container
 let movingCard;             // The container that the card is dropped on
 let boxContainer;           // Container that contains restaurant cards
 let addButton;              // Button to press to add new list item
-let scrollSpeed = 20; // Speed fo the scroll
-let screenEdgeMargin = 70; // Margin before it scrolls
+let scrollSpeed = 20;       // Speed for the scroll
+let screenEdgeMargin = 70;  // Margin before it scrolls
+let startX, startY = null;  // Start positions handling touch events so you can't click on cards
+
+const maxBoxes = 5;         // Maximum amount of lists possible
+const DRAG_THRESHOLD = 10;  // Minimum distance to consider it a drag on restaurant cards
 
 // Init function that fetches local storage and loads cards
 function initLoadSaved() {
@@ -1323,7 +1326,6 @@ async function loadCards() {
     containers.forEach(container => {
         container.addEventListener("dragover", handleDragOver);
         container.addEventListener("drop", handleDrop);
-        container.addEventListener("touchmove", handleTouchMove);
         container.addEventListener("touchend", handleTouchEnd);
     });
     cards.forEach(card => {
@@ -1349,8 +1351,7 @@ function handleDragOver(event) {
     const mouseY = event.clientY;
 
     const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
-
+    const windowWidth = window.innerWidth
     if (mouseY < screenEdgeMargin) {
         window.scrollBy(0, -scrollSpeed);
     } else if (mouseY > windowHeight - screenEdgeMargin) {
@@ -1388,7 +1389,7 @@ function handleTouchStart(event, card) {
 function handleTouchMove(event) {
     event.preventDefault();
     if (!movingCard) return;
-    
+
     const touch = event.touches[0];
     movingCard.style.position = "fixed";
     movingCard.style.width = "370px";
@@ -1397,8 +1398,7 @@ function handleTouchMove(event) {
     movingCard.style.top = (touch.clientY - touchOffsetY) + "px";
 
     const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
-
+    const windowWidth = window.innerWidth
     if (touch.clientY < screenEdgeMargin) {
         window.scrollBy(0, -scrollSpeed);
     } else if (touch.clientY > windowHeight - screenEdgeMargin) {
@@ -1410,22 +1410,29 @@ function handleTouchMove(event) {
     } else if (touch.clientX > windowWidth - screenEdgeMargin) {
         window.scrollBy(scrollSpeed, 0);
     }
-
 }
 
 // Handles the touch end event on restaurant cards
 function handleTouchEnd(event) {
     event.preventDefault();
     if (!movingCard) return;
+    const touch = event.changedTouches[0];
+    const endX = touch.clientX;
+    const endY = touch.clientY;
+    const deltaX = endX - startX;
+    const deltaY = endY - startY;
+
+    if (Math.abs(deltaX) > DRAG_THRESHOLD || Math.abs(deltaY) > DRAG_THRESHOLD) {
+        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (dropTarget && dropTarget.classList.contains("listBox")) {
+            moveCard(dropTarget.id);
+        }
+    }
+
     movingCard.style.position = "";
     movingCard.style.left = "";
     movingCard.style.top = "";
-
-    const touch = event.changedTouches[0];
-    const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (dropTarget && dropTarget.classList.contains("listBox")) {
-        moveCard(dropTarget.id);
-    }
+    movingCard = null;
 }
 // ---------- AllaRestauranger code following ----------
 
