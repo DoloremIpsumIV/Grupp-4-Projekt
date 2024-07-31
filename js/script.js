@@ -1567,26 +1567,6 @@ function filterLocations(locationNames) {
     displayLocations(filteredLocations);
 }
 
-// Function that switches the shown tab on the page
-function showTab(tabId) {
-    const tabs = document.querySelectorAll(".tabContent");
-    tabs.forEach(function (tab) {
-        tab.style.display = "none";
-    });
-    document.getElementById(tabId).style.display = "block";
-
-    const popularSearch1 = document.querySelector("#popularSearch1");
-    const popularSearch2 = document.querySelector("#popularSearch2");
-
-    if (tabId === "locationResults") {
-        popularSearch1.style.display = "block";
-        popularSearch2.style.display = "none";
-    } else if (tabId === "specificRestaurantResults") {
-        popularSearch1.style.display = "none";
-        popularSearch2.style.display = "block";
-    }
-
-}
 
 // Function that adds event listeners to popular choices buttons
 function initializePopularSearchButtons() {
