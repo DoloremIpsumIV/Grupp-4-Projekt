@@ -2250,7 +2250,7 @@ input {
     #box2,
     #box3,
     #box4 {
-        padding-right: 10px;
+        padding-right: 20px;
     }
 }
 
@@ -2313,10 +2313,11 @@ input {
     #box3,
     #box4 {
         width: 300px;
+        margin-left: 10px;
     }
 
     .removeBtn {
-        margin-left: 260px;
+        margin-left: 240px;
     }
 
 }
