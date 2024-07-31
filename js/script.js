@@ -1416,14 +1416,12 @@ function handleTouchMove(event) {
 function handleTouchEnd(event) {
     event.preventDefault();
     if (!movingCard) return;
-
     const touch = event.changedTouches[0];
     const endX = touch.clientX;
     const endY = touch.clientY;
     const deltaX = endX - startX;
     const deltaY = endY - startY;
 
-    // Check if the movement was significant enough to be considered a drag
     if (Math.abs(deltaX) > DRAG_THRESHOLD || Math.abs(deltaY) > DRAG_THRESHOLD) {
         const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
         if (dropTarget && dropTarget.classList.contains("listBox")) {
@@ -1431,7 +1429,6 @@ function handleTouchEnd(event) {
         }
     }
 
-    // Reset moving card position and state
     movingCard.style.position = "";
     movingCard.style.left = "";
     movingCard.style.top = "";
