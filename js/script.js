@@ -1427,6 +1427,9 @@ function handleTouchEnd(event) {
         if (dropTarget && dropTarget.classList.contains("listBox")) {
             moveCard(dropTarget.id);
         }
+        else{
+            moveCard(movingCard.parentElement.id);
+        }
     }
 
     movingCard.style.position = "";
