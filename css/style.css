@@ -2202,6 +2202,7 @@ input {
 
     #mapPlaybtn {
         width: 200px;
+        font-size: 18px;
     }
 
 
@@ -2241,6 +2242,14 @@ input {
         display: block;
         width: 150px;
         margin-bottom: -80px;
+    }
+
+    #box0,
+    #box1,
+    #box2,
+    #box3,
+    #box4 {
+        padding-right: 10px;
     }
 }
 
