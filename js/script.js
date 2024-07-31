@@ -22,7 +22,7 @@ const smalandBoundries = {        // Const with min and max boundries for Småla
     maxLngCorner: 13.272047,
     minLatCorner: 56.392624,
     minLngCorner: 16.826773
-}   
+}
 const olandBoundries = {          // Const with min and max boundries for Öland
     maxLatCorner: 57.234476,
     maxLngCorner: 15.944010,
@@ -1404,7 +1404,7 @@ function handleTouchMove(event) {
     } else if (touch.clientY > windowHeight - screenEdgeMargin) {
         window.scrollBy(0, scrollSpeed);
     }
-    
+
     if (touch.clientX < screenEdgeMargin) {
         window.scrollBy(-scrollSpeed, 0);
     } else if (touch.clientX > windowWidth - screenEdgeMargin) {
@@ -1427,8 +1427,12 @@ function handleTouchEnd(event) {
         if (dropTarget && dropTarget.classList.contains("listBox")) {
             moveCard(dropTarget.id);
         }
-        else{
-            moveCard(movingCard.parentElement.id);
+        else {
+            try {
+                moveCard(movingCard.parentElement.id);
+            } catch (error) {
+                console.log("Element is removed");
+            }
         }
     }
 
