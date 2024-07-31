@@ -1109,6 +1109,8 @@ let currentContainer;       // The current dragged container
 let movingCard;             // The container that the card is dropped on
 let boxContainer;           // Container that contains restaurant cards
 let addButton;              // Button to press to add new list item
+let scrollSpeed = 20; // Speed fo the scroll
+let screenEdgeMargin = 70; // Margin before it scrolls
 
 // Init function that fetches local storage and loads cards
 function initLoadSaved() {
@@ -1343,6 +1345,23 @@ function dragCard(card) {
 // Default handler for drag over event
 function handleDragOver(event) {
     event.preventDefault();
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    if (mouseY < screenEdgeMargin) {
+        window.scrollBy(0, -scrollSpeed);
+    } else if (mouseY > windowHeight - screenEdgeMargin) {
+        window.scrollBy(0, scrollSpeed);
+    }
+
+    if (mouseX < screenEdgeMargin) {
+        window.scrollBy(-scrollSpeed, 0);
+    } else if (mouseX > windowWidth - screenEdgeMargin) {
+        window.scrollBy(scrollSpeed, 0);
+    }
 }
 
 // Moves the card to the dropped container
@@ -1369,12 +1388,29 @@ function handleTouchStart(event, card) {
 function handleTouchMove(event) {
     event.preventDefault();
     if (!movingCard) return;
+    
     const touch = event.touches[0];
     movingCard.style.position = "fixed";
-    movingCard.style.width = "370px"
+    movingCard.style.width = "370px";
     movingCard.style.zIndex = "202";
     movingCard.style.left = (touch.clientX - touchOffsetX) + "px";
     movingCard.style.top = (touch.clientY - touchOffsetY) + "px";
+
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    if (touch.clientY < screenEdgeMargin) {
+        window.scrollBy(0, -scrollSpeed);
+    } else if (touch.clientY > windowHeight - screenEdgeMargin) {
+        window.scrollBy(0, scrollSpeed);
+    }
+    
+    if (touch.clientX < screenEdgeMargin) {
+        window.scrollBy(-scrollSpeed, 0);
+    } else if (touch.clientX > windowWidth - screenEdgeMargin) {
+        window.scrollBy(scrollSpeed, 0);
+    }
+
 }
 
 // Handles the touch end event on restaurant cards
